@@ -1,0 +1,75 @@
+server:
+  port: #SERVICE-PORT#
+  servlet:
+    context-path: /#APPLICATION-NAME#
+
+spring:
+  application:
+    name: #APPLICATION-NAME#
+  jmx:
+    default-domain: #APPLICATION-NAME#
+
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  main:
+    allow-bean-definition-overriding: true
+  #  profiles:
+  #    active: #CONFIG-PROFILE#
+
+  #  logging:
+  #    pattern:
+  #      console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+  #    level:
+  #      org.springframework: WARN
+  #      org.hibernate: WARN
+
+  datasource:
+    password: #DATASOURCE-PASSWORD#
+    url: "#DATASOURCE-URL#"
+    username: #DATASOURCE-USERNAME#
+  jpa:
+    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: GMT+6
+          lob:
+            non_contextual_creation: true
+        default_schema: #DEFAULT-DATABASE-SCHEMA#
+        show_sql: false
+  sleuth:
+    sampler:
+      probability: 1
+    zipkin:
+      base-url: #ZIPKIN-BASEURL#
+
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    appname: "${spring.application.name}"
+    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 1
+    ip-address: #SERVICE-IP-ADDRESS#
+    non-secure-port: #SERVICE-PORT#
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: "#SERVICEURL-DEFAULTZONE#"
+
+msg:
+  no_data_found: "No data found"
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: non-prod-signature
+
+ribbon:
+  eureka:
+    enabled: true
