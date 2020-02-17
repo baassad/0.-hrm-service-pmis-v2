@@ -19,10 +19,10 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseEntity {
 
-    @Id
+    /*@Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(nullable = false)
+    @Column(nullable = false)*/
     private String oid;
 
     //@Column(name = "created_by", nullable = false, updatable = false)
@@ -38,15 +38,13 @@ public class BaseEntity {
     /*@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on", nullable = false, updatable = false)
     @CreatedDate*/
-    //private Date createdOn;
-    private String createdOn;
+    private Date createdOn;
 
     /*@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_on", nullable = true)
     @LastModifiedDate
     @JsonIgnore*/
-    //private Date updatedOn;
-    private String updatedOn;
+    private Date updatedOn;
 
     //@Column(name = "config", columnDefinition = "TEXT")
     private String config;

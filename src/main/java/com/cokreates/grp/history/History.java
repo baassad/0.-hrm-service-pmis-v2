@@ -11,6 +11,6 @@ import java.util.Map;
 public class History extends BaseEntity {
 
     private String modificationType, nodeName, comment;
-    private Map<String,String> oldValue;
+    private Map<String, String> oldValue;
     private Map<String, String> newValue;
 }

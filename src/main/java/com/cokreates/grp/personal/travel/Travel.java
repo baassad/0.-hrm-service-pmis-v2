@@ -4,6 +4,8 @@ import com.cokreates.core.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Travel extends BaseEntity {
@@ -11,8 +13,8 @@ public class Travel extends BaseEntity {
     private String nameEn;
     private String nameBn;
     private String purpose;
-    private String from;
-    private String to;
+    private Date from;
+    private Date to;
     private String type;
     //tempData obj
 }
