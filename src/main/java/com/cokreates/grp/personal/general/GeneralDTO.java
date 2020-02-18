@@ -1,14 +1,10 @@
 package com.cokreates.grp.personal.general;
 
-import com.cokreates.core.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.cokreates.core.MasterDTO;
 
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-public class General extends BaseEntity {
+public class GeneralDTO extends MasterDTO {
 
     private String nameEn;
     private String nameBn;
@@ -30,5 +26,4 @@ public class General extends BaseEntity {
     private String fromFreedomfighterFamily;
     private String fighterDetail;
     private String phone;
-
 }

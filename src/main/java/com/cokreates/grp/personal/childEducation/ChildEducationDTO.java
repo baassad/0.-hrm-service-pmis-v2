@@ -1,12 +1,8 @@
 package com.cokreates.grp.personal.childEducation;
 
-import com.cokreates.core.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.cokreates.core.MasterDTO;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-public class ChildEducation extends BaseEntity {
+public class ChildEducationDTO extends MasterDTO {
 
     private String institutionName;
     private String classes;
@@ -14,5 +10,4 @@ public class ChildEducation extends BaseEntity {
     private String year;
     private String result;
     private String comment;
-    //tempData obj
 }
