@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+
 public interface CklRestController<T extends MasterDTO> {
 
     public ResponseModel<T> getSelected( RequestModel<T> dto);
@@ -15,6 +16,7 @@ public interface CklRestController<T extends MasterDTO> {
     public ResponseModel<T> update(RequestModel<T> dto);
     public ResponseModel<T> delete(RequestModel<T> dto);
     public ResponseModel<T> get(RequestModel<T> dto);
+    public ResponseModel<T> getAll(RequestModel<T> dto);
 
     public boolean hasPermission(String actionTag);
 

@@ -1,11 +1,12 @@
 package com.cokreates.grp.personal.familyInfo;
 
+import com.cokreates.core.MasterDTO;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class FamilyInfoDTO {
+public class FamilyInfoDTO extends MasterDTO {
 
     private String nameEn;
     private String  nameBn;

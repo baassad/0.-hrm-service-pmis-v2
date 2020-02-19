@@ -24,5 +24,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public List<Dto> getList();
 
+    public Dto convertToDto(Entity entity);
+
 
 }
