@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
+public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
 
     public Entity preCreate(Dto dto){
         return  null;
@@ -74,6 +74,11 @@ public class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> impl
 
     @Override
     public List<Dto> getList() {
+        return null;
+    }
+
+    @Override
+    public Dto convertToDto(Entity entity) {
         return null;
     }
 }
