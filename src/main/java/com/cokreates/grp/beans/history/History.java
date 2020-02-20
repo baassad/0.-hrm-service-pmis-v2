@@ -1,4 +1,4 @@
-package com.cokreates.grp.history;
+package com.cokreates.grp.beans.history;
 
 import com.cokreates.core.BaseEntity;
 import lombok.Data;
