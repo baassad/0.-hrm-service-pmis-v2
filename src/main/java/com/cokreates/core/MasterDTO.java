@@ -1,5 +1,6 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.util.request.RequestBodyDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 @Data
 
-public class MasterDTO {
+public class MasterDTO implements RequestBodyDTO {
 
     private String oid;
 

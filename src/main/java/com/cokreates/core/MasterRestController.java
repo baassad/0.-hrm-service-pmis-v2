@@ -1,6 +1,9 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.util.components.ResultBuildingComponent;
+import com.cokreates.grp.util.request.OidSetRequestBody;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,26 +17,30 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     protected CklServiceInterface<D,E> cklServiceInterface;
 
+    @Autowired
+    protected ResultBuildingComponent<D> resultBuildingComponent;
+
     public MasterRestController(CklServiceInterface<D,E> serviceInterface){
         this.cklServiceInterface = serviceInterface;
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> getSelected(RequestModel<OidSetRequestBody> dto) {
+
+        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE)
-    public ResponseModel<D> create(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> create(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.create());
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE_ALL)
     public ResponseModel<D> createAll(RequestModel<D> dto) {
-        return null;
+        return resultBuildingComponent.retrieveResult(requestDTO.)
     }
 
     @Override
