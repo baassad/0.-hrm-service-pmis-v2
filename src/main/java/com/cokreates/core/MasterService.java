@@ -1,11 +1,24 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.daas.DataServiceRequest;
+import com.cokreates.grp.daas.DataServiceRequestBody;
+import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.webclient.DataServiceClient;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
+
+    DataServiceClient<Dto> dataServiceClient;
+
+    RequestBuildingComponent<Dto> requestBuildingComponent;
+
+    protected MasterService(DataServiceClient<Dto> dataServiceClient,RequestBuildingComponent<Dto> requestBuildingComponent) {
+        this.dataServiceClient = dataServiceClient;
+        this.requestBuildingComponent = requestBuildingComponent;
+    }
 
     public Entity preCreate(Dto dto){
         return  null;
@@ -64,6 +77,10 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto get(String oid) {
+
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+
+
         return null;
     }
 

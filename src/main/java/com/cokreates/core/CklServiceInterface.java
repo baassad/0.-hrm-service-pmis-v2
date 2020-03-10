@@ -21,7 +21,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public Dto get(String oid);
 
-    public List<Dto> getSelected(Set<String> oids);
+    public List<Dto> getSelected(List<String> oids);
 
     public List<Dto> getList();
 

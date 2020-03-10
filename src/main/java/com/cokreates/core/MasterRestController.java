@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @Slf4j
@@ -26,57 +28,63 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(RequestModel<OidSetRequestBody> dto) {
+    public ResponseModel<D> getSelected(RequestModel<String> dto) {
 
-        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().));
+        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE)
     public ResponseModel<D> create(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.create());
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.create(requestDTO.getBody().getData().get(0)))));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE_ALL)
-    public ResponseModel<D> createAll(RequestModel<D> dto) {
-        return resultBuildingComponent.retrieveResult(requestDTO.)
+    public ResponseModel<D> createAll(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.createAll(requestDTO.getBody().getData()).stream()
+                .map(o -> cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE)
-    public ResponseModel<D> update(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> update(RequestModel<D> requestDTO) {
+
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
+
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
-    public ResponseModel<D> updateAll(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> updateAll(RequestModel<D> requestDTO) {
+
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.updateAll(requestDTO.getBody().getData())
+                .stream().map(o->cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_DELETE)
-    public ResponseModel<D> deleteAll(List<String> oids) {
-        return null;
+    public ResponseModel<D> delete(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.delete(requestDTO.getBody().getData().get(0).getOid())));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST)
-    public ResponseModel<D> getAll(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_DELETE_ALL)
-    public ResponseModel<D> delete(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> deleteAll(RequestModel<String> requestDTO) {
+
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.deleteAll(requestDTO.getBody().getData()));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET)
-    public ResponseModel<D> get(RequestModel<D> dto) {
-        return null;
+    public ResponseModel<D> get(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.get(requestDTO.getBody().getData().get(0).getOid())));
     }
 
     @Override

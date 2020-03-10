@@ -3,7 +3,9 @@ package com.cokreates.grp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients(basePackages="com.cokreates")
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 

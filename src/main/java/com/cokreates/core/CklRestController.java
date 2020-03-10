@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 
-public interface CklRestController<T extends MasterDTO> {
+public interface CklRestController<T> {
 
-    public ResponseModel<T> getSelected( RequestModel<T> dto);
+    public ResponseModel<T> getSelected( RequestModel<String> dto);
     public ResponseModel<T> createAll( RequestModel<T> dto);
     public ResponseModel<T> updateAll( RequestModel<T> dto);
-    public ResponseModel<T> deleteAll( List<String> oids);
+    public ResponseModel<T> deleteAll( RequestModel<String> oids);
 
     public ResponseModel<T> create(RequestModel<T> dto);
     public ResponseModel<T> update(RequestModel<T> dto);
