@@ -2,10 +2,12 @@ package com.cokreates.core;
 
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
+import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -78,10 +80,15 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto get(String oid) {
 
-        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        List<String> nodePath = new ArrayList<>();
+        nodePath.add("personal");
+        nodePath.add("general");
 
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null,oid);
 
-        return null;
+        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
+
+        return response.getResponseBody().getTemp();
     }
 
     @Override

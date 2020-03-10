@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class RequestBuildingComponent<Dto extends MasterDTO> {
 
-    DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String oid){
+     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String oid){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
 
@@ -21,6 +21,6 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         request.setBody(requestBody);
 
         return request;
-    }
+     }
 
 }
