@@ -12,5 +12,7 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private String employeeOid;
 
+    private String nodeOid;
+
     private List<String> nodePath;
 }

@@ -4,7 +4,6 @@ import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 import java.util.Date;
 
 @Data

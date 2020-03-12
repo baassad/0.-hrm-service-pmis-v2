@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/general")
 public class GeneralRestController extends MasterRestController<GeneralDTO,General> {
 
-    @Autowired
-    public GeneralRestController(CklServiceInterface<GeneralDTO,General> serviceInterface){
+    public GeneralRestController(GeneralService serviceInterface){
         super(serviceInterface);
     }
 }

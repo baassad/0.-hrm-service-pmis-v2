@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Date;
 import java.util.UUID;
 

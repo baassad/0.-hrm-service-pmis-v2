@@ -10,11 +10,12 @@ import java.util.List;
 @Component
 public class RequestBuildingComponent<Dto extends MasterDTO> {
 
-     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String oid){
+     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, String nodeOid){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
 
-        requestBody.setEmployeeOid(oid);
+        requestBody.setEmployeeOid(employeeOid);
+        requestBody.setNodeOid(nodeOid);
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
 

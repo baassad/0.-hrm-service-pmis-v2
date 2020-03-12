@@ -1,10 +1,5 @@
 package com.cokreates.core;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
-
-
 public interface CklRestController<T> {
 
     public ResponseModel<T> getSelected( RequestModel<String> dto);

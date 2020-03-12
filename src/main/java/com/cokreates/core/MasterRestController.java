@@ -1,7 +1,6 @@
 package com.cokreates.core;
 
 import com.cokreates.grp.util.components.ResultBuildingComponent;
-import com.cokreates.grp.util.request.OidSetRequestBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @CrossOrigin

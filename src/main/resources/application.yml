@@ -1,75 +1,67 @@
-server:
-  port: #SERVICE-PORT#
-  servlet:
-    context-path: /#APPLICATION-NAME#
-
+# =============================================================================================
+# = DATA SOURCE
+# =============================================================================================
 spring:
+#  jpa:
+#    hibernate.ddl-auto: validate
+#    properties:
+#      hibernate:
+#        jdbc:
+#          lob:
+#            non_contextual_creation: true
+#        default_schema: hrm
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/grp
+#    username: grp
+#    password: grp
   application:
-    name: #APPLICATION-NAME#
-  jmx:
-    default-domain: #APPLICATION-NAME#
-
-
-  jackson:
-    serialization:
-      FAIL_ON_EMPTY_BEANS: false
+    name: hrm-service-pim-lo
+    #    global_url: "http://grp.gov.bd/global/api/"
+    global_url: "http://45.79.102.237:8011/"
+    #    zuul_url: "http://45.79.102.237:8011/"
+    zuul_url: "http://localhost:8001/"
+    cmn_app_name: ""
+    hrm_app_name: ""
+    global: true
+    search_from_global: false
   main:
     allow-bean-definition-overriding: true
-  #  profiles:
-  #    active: #CONFIG-PROFILE#
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  banner.location: classpath:banner.txt
 
-  #  logging:
-  #    pattern:
-  #      console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
-  #    level:
-  #      org.springframework: WARN
-  #      org.hibernate: WARN
-
-  datasource:
-    password: #DATASOURCE-PASSWORD#
-    url: "#DATASOURCE-URL#"
-    username: #DATASOURCE-USERNAME#
-  jpa:
-    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: GMT+6
-          lob:
-            non_contextual_creation: true
-        default_schema: #DEFAULT-DATABASE-SCHEMA#
-        show_sql: false
-  sleuth:
-    sampler:
-      probability: 1
-    zipkin:
-      base-url: #ZIPKIN-BASEURL#
+#  zipkin:
+#    base-url: http://45.79.102.237:9411/
+#  sleuth:
+#    sampler:
+#      probability: 1
 
 
+# =============================================================================================
+# = SERVICE
+# =============================================================================================
+service:
+  properties:
+    short-code: hrm-service-pim
+    version: v1.0
+server:
+  port : 9001
 
-eureka:
-  instance:
-    prefer-ip-address: true
-    appname: "${spring.application.name}"
-    leaseExpirationDurationInSeconds: 2
-    leaseRenewalIntervalInSeconds: 1
-    ip-address: #SERVICE-IP-ADDRESS#
-    non-secure-port: #SERVICE-PORT#
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: "#SERVICEURL-DEFAULTZONE#"
 
-msg:
-  no_data_found: "No data found"
-
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-value: non-prod-signature
-
-ribbon:
-  eureka:
-    enabled: true
+# =============================================================================================
+# = EUREKA
+# =============================================================================================
+#eureka:
+# instance:
+#   prefer-ip-address: true
+#   ipAddress: 45.33.38.145
+#   appname: "${spring.application.name}"
+#   leaseExpirationDurationInSeconds: 2
+#   leaseRenewalIntervalInSeconds: 1
+# client:
+#   registerWithEureka: true
+#   fetchRegistry: true
+#   serviceUrl:
+#     defaultZone: "${DISCOVERY_URL:http://45.79.102.237:8010}/eureka/"

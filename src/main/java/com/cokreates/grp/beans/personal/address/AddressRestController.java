@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddressRestController extends MasterRestController<AddressDTO,Address> {
 
     @Autowired
-    public AddressRestController(CklServiceInterface<AddressDTO,Address> addressInterface){
+    public AddressRestController(AddressService addressInterface){
         super(addressInterface);
     }
 }
