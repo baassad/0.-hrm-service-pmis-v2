@@ -3,12 +3,9 @@ package com.cokreates.core;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
-import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,14 +15,16 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 //    DataServiceClient dataServiceClient;
 
 //    @Autowired
-//    DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient;
+    DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient;
 
     RequestBuildingComponent<Dto> requestBuildingComponent;
 
     private List<String> nodePath;
 
-    protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent) {
+    protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent,
+                            DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient) {
         this.requestBuildingComponent = requestBuildingComponent;
+        this.dataServiceRestTemplateClient = dataServiceRestTemplateClient;
     }
 
     public List<String> getNodePath() {
@@ -97,10 +96,9 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null);
 
-//        DataServiceResponse<Dto> response = dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
+        return dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 
-        return null;
     }
 
     @Override

@@ -11,35 +11,26 @@ import java.util.Date;
 @Data
 public class DataRequestHeaderModel {
 
-    @NotBlank
     private String requestId;
 
-    @NotBlank
     private String requestSource;
 
-    @NotBlank
     private String requestSourceService;
 
-    @NotBlank
     private String requestClient;
 
-    @NotBlank
     private String requestType;
 
-    @NotNull
     private Date requestTime;
 
-    @NotBlank
     private String requestVersion;
 
-    @NotNull
+
     private Integer requestTimeoutInSeconds;
 
-    @NotNull
-    @Min(0)
+
     private Integer requestRetryCount;
 
-    @Min(0)
     private Integer hopCount;
 
     private String traceId;

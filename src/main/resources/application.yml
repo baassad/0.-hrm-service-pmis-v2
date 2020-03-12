@@ -65,3 +65,6 @@ server:
 #   fetchRegistry: true
 #   serviceUrl:
 #     defaultZone: "${DISCOVERY_URL:http://45.79.102.237:8010}/eureka/"
+eureka:
+  client:
+    enabled: false

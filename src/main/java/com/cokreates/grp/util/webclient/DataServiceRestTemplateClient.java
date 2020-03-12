@@ -8,6 +8,7 @@ import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,14 +26,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
 // TODO: Take BaseService Logic to Component with Overridden methods as interface calls
-@Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Service
 public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEntity> {
 
     @Autowired
@@ -84,18 +87,25 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 //        return COMMON_OFFICE_TO_URL_MAP.get(getName()) + VERSION_INFO;
 //    }
 
-    public void getDataFromParticularNode(List<String> url, DataServiceRequest<D> requestBody) {
-        List<D> list = null;
+    public D getDataFromParticularNode(List<String> url, DataServiceRequest<D> requestBody) {
         try {
 //            String GLOBAL_URL = ZUUL_BASE_URL + CMN_ORGANOGRAM_URL;
 //            if (ZUUL_BASE_URL.contains("localhost")) {
 //                GLOBAL_URL = ZUUL_BASE_URL;
 //            }
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/approval-history-by-status", HttpMethod.POST, new HttpEntity(getDtoClass(), headers), String.class);
+            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            JsonNode content = jsonNode.get("body").get("data");
-            System.out.println(content);
+
+            JsonNode mainJson = jsonNode.get("body").get("main");
+            JsonNode tempJson = jsonNode.get("body").get("temp");
+            System.out.println(mainJson);
+            System.out.println(tempJson);
+            D main = objectMapper.treeToValue(mainJson, getDtoClass());
+            D temp = objectMapper.treeToValue(tempJson, getDtoClass());
+            System.out.println(main);
+            System.out.println(temp);
+            return main;
 //            list = objectMapper.readValue(
 //                    content.toString(),
 //                    objectMapper.getTypeFactory().constructCollectionType(
@@ -108,19 +118,17 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            JsonNode content = jsonNode.get("body").get("data");
-            throw new ServiceExceptionHolder.ResourceNotFoundException(
-                    content.get(0).asText());
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().contains("ConnectException")) {
 //                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
             }
         }
-        if (list.isEmpty()) {
+        return null;
+//        if (list.isEmpty()) {
 //            throw new ServiceExceptionHolder.ResourceNotFoundException(
 //                    "No " + getEntityClass().getSimpleName() + " found with id: " + dto.getBody().getOid() + " at : " + ZUUL_BASE_URL + CMN_ORGANOGRAM_URL);
-        }
+//        }
 
 //        return convertForParse(list.get(0));
     }
@@ -304,6 +312,13 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     @SuppressWarnings("unchecked")
     public Class<D> getDtoClass() {
-        return (Class<D>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+        Type type = genericSuperclass.getActualTypeArguments()[0];
+        if (type instanceof Class) {
+            return (Class<D>) type;
+        } else if (type instanceof ParameterizedType) {
+            return (Class<D>) ((ParameterizedType)type).getRawType();
+        }
+        return null;
     }
 }

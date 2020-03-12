@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -81,8 +83,9 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET)
-    public ResponseModel<D> get(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.get(requestDTO.getBody().getData().get(0).getOid())));
+    public ResponseModel<D>
+    get(@Valid @RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNode(requestDTO.getBody().getData().get(0).getOid())));
     }
 
     @Override
