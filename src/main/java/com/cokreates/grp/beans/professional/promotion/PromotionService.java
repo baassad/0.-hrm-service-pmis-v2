@@ -5,7 +5,7 @@ import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 
 public class PromotionService extends MasterService<PromotionDTO, Promotion> {
-    public PromotionService(DataServiceClient<PromotionDTO> dataServiceClient, RequestBuildingComponent<PromotionDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public PromotionService(RequestBuildingComponent<PromotionDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

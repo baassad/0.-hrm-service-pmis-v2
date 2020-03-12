@@ -12,8 +12,8 @@ import java.util.Arrays;
 @Slf4j
 public class GeneralService extends MasterService<GeneralDTO,General> {
 
-    public GeneralService(DataServiceClient<GeneralDTO> dataServiceClient, RequestBuildingComponent<GeneralDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public GeneralService(RequestBuildingComponent<GeneralDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
         this.setNodePath(Arrays.asList("Personal", "General"));
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class InjuriesSicknessService extends MasterService<InjuriesSicknessDTO,InjuriesSickness> {
-    public InjuriesSicknessService(DataServiceClient<InjuriesSicknessDTO> dataServiceClient, RequestBuildingComponent<InjuriesSicknessDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public InjuriesSicknessService(RequestBuildingComponent<InjuriesSicknessDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

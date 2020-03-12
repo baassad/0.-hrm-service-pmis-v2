@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class HealthService extends MasterService<HealthDTO,Health> {
-    public HealthService(DataServiceClient<HealthDTO> dataServiceClient, RequestBuildingComponent<HealthDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public HealthService(RequestBuildingComponent<HealthDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 
 }

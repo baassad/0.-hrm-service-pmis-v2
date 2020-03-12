@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ChildEducationService extends MasterService<ChildEducationDTO,ChildEducation> {
 
-    public ChildEducationService(DataServiceClient<ChildEducationDTO> dataServiceClient, RequestBuildingComponent<ChildEducationDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public ChildEducationService(RequestBuildingComponent<ChildEducationDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

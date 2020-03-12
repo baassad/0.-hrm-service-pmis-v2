@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BankService extends MasterService<BankDTO, Bank> {
 
-    public BankService(DataServiceClient<BankDTO> dataServiceClient, RequestBuildingComponent<BankDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public BankService(RequestBuildingComponent<BankDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

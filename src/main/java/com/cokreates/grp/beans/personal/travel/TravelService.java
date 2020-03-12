@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TravelService extends MasterService<TravelDTO,Travel> {
 
-    public TravelService(DataServiceClient<TravelDTO> dataServiceClient, RequestBuildingComponent<TravelDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public TravelService(RequestBuildingComponent<TravelDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

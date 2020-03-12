@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmergencyContactService extends MasterService<EmergencyContactDTO,EmergencyContact> {
 
-    public EmergencyContactService(DataServiceClient<EmergencyContactDTO> dataServiceClient, RequestBuildingComponent<EmergencyContactDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public EmergencyContactService(RequestBuildingComponent<EmergencyContactDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

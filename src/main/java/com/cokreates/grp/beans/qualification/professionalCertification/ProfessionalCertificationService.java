@@ -5,7 +5,7 @@ import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 
 public class ProfessionalCertificationService extends MasterService<ProfessionalCertificationDTO, ProfessionalCertification> {
-    public ProfessionalCertificationService(DataServiceClient<ProfessionalCertificationDTO> dataServiceClient, RequestBuildingComponent<ProfessionalCertificationDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public ProfessionalCertificationService(RequestBuildingComponent<ProfessionalCertificationDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }

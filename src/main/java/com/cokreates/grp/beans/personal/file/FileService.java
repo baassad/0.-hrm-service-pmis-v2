@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FileService extends MasterService<FileDTO,File> {
 
-    public FileService(DataServiceClient<FileDTO> dataServiceClient, RequestBuildingComponent<FileDTO> requestBuildingComponent){
-        super(dataServiceClient,requestBuildingComponent);
+    public FileService(RequestBuildingComponent<FileDTO> requestBuildingComponent){
+        super(requestBuildingComponent);
     }
 }
