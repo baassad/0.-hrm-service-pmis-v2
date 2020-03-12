@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/award")
 public class AwardRestController extends MasterRestController<AwardDTO,Award> {
 
-    public AwardRestController(CklServiceInterface<AwardDTO,Award> serviceInterface){
+    public AwardRestController(AwardService serviceInterface){
         super(serviceInterface);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/child-education")
 public class ChildEducationRestController extends MasterRestController<ChildEducationDTO,ChildEducation> {
     @Autowired
-    public ChildEducationRestController(CklServiceInterface<ChildEducationDTO,ChildEducation> childEducationServiceInterface){
+    public ChildEducationRestController(ChildEducationService childEducationServiceInterface){
 
         super(childEducationServiceInterface);
     }

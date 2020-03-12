@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfessionalGeneralRestController extends MasterRestController<ProfessionalGeneralDTO,ProfessionalGeneral> {
 
     @Autowired
-    public ProfessionalGeneralRestController(CklServiceInterface<ProfessionalGeneralDTO,ProfessionalGeneral> serviceInterface){
+    public ProfessionalGeneralRestController(ProfessionalGeneralService serviceInterface){
         super(serviceInterface);
     }
 

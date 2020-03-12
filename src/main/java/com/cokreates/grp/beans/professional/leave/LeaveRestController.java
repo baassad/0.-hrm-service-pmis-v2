@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LeaveRestController extends MasterRestController<LeaveDTO,Leave> {
 
     @Autowired
-    public LeaveRestController(CklServiceInterface<LeaveDTO,Leave> serviceInterface){
+    public LeaveRestController(LeaveService serviceInterface){
         super(serviceInterface);
     }
 

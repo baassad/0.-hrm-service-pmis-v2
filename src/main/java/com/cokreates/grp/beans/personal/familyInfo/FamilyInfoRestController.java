@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FamilyInfoRestController extends MasterRestController<FamilyInfoDTO,FamilyInfo> {
 
     @Autowired
-    public FamilyInfoRestController(CklServiceInterface<FamilyInfoDTO,FamilyInfo> cklServiceInterface){
+    public FamilyInfoRestController(FamilyInfoService cklServiceInterface){
         super(cklServiceInterface);
     }
 }

@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/disciplinary-action")
 public class DisciplinaryActionRestController extends MasterRestController<DisciplinaryActionDTO,DisciplinaryAction> {
 
-    @Autowired
-    public DisciplinaryActionRestController(CklServiceInterface<DisciplinaryActionDTO,DisciplinaryAction> serviceInterface){
+    public DisciplinaryActionRestController(DisciplinaryActionService serviceInterface){
         super(serviceInterface);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/travel")
 public class TravelRestController extends MasterRestController<TravelDTO,Travel> {
     @Autowired
-    public TravelRestController(CklServiceInterface<TravelDTO,Travel> serviceInterface){
+    public TravelRestController(TravelService serviceInterface){
         super(serviceInterface);
     }
 }

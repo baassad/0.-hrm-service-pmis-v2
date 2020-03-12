@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServiceHistoryRestController extends MasterRestController<ServiceHistoryDTO,ServiceHistory> {
 
     @Autowired
-    public ServiceHistoryRestController(CklServiceInterface<ServiceHistoryDTO,ServiceHistory> serviceInterface){
+    public ServiceHistoryRestController(ServiceHistoryService serviceInterface){
         super(serviceInterface);
     }
 }

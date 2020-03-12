@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublicationRestController extends MasterRestController<PublicationDTO,Publication> {
 
     @Autowired
-    public PublicationRestController(CklServiceInterface<PublicationDTO,Publication> serviceInterface){
+    public PublicationRestController(PublicationService serviceInterface){
         super(serviceInterface);
     }
 }

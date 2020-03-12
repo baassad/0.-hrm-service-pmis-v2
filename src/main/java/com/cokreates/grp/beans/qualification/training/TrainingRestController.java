@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TrainingRestController extends MasterRestController<TrainingDTO,Training> {
 
     @Autowired
-    public TrainingRestController(CklServiceInterface<TrainingDTO,Training> serviceInterface){
+    public TrainingRestController(TrainingService serviceInterface){
         super(serviceInterface);
     }
 }

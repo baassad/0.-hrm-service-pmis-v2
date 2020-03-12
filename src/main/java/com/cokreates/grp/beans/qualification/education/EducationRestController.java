@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EducationRestController extends MasterRestController<EducationDTO,Education> {
 
     @Autowired
-    public EducationRestController(CklServiceInterface<EducationDTO,Education> serviceInterface){
+    public EducationRestController(EducationService serviceInterface){
         super(serviceInterface);
     }
 }

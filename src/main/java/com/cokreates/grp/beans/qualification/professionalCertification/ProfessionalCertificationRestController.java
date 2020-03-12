@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfessionalCertificationRestController extends MasterRestController<ProfessionalCertificationDTO,ProfessionalCertification> {
 
     @Autowired
-    public ProfessionalCertificationRestController(CklServiceInterface<ProfessionalCertificationDTO,ProfessionalCertification> serviceInterface){
+    public ProfessionalCertificationRestController(ProfessionalCertificationService serviceInterface){
         super(serviceInterface);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmergencyContactRestController extends MasterRestController<EmergencyContactDTO,EmergencyContact> {
 
     @Autowired
-    public EmergencyContactRestController(CklServiceInterface<EmergencyContactDTO,EmergencyContact> emergencyContactServiceInterface){
+    public EmergencyContactRestController(EmergencyContactService emergencyContactServiceInterface){
         super(emergencyContactServiceInterface);
     }
 

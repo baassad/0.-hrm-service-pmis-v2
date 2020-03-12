@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FileRestController extends MasterRestController<FileDTO,File> {
 
     @Autowired
-    public FileRestController(CklServiceInterface<FileDTO,File> serviceInterface){
+    public FileRestController(FileService serviceInterface){
         super(serviceInterface);
     }
 }

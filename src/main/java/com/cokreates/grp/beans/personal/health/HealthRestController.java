@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthRestController extends MasterRestController<HealthDTO,Health> {
 
     @Autowired
-    public HealthRestController(CklServiceInterface<HealthDTO,Health> serviceInterface){
+    public HealthRestController(HealthService serviceInterface){
         super(serviceInterface);
     }
 

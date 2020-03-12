@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/injuries-sickness")
-public class InjuriesSicknessRestController extends MasterRestController<HealthDTO,Health> {
+public class InjuriesSicknessRestController extends MasterRestController<InjuriesSicknessDTO,InjuriesSickness> {
 
     @Autowired
-    public InjuriesSicknessRestController(CklServiceInterface<HealthDTO,Health> serviceInterface){
+    public InjuriesSicknessRestController(InjuriesSicknessService serviceInterface){
         super(serviceInterface);
     }
 

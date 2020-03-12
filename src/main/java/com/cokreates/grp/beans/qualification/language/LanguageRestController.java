@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/language")
 public class LanguageRestController extends MasterRestController<LanguageDTO,Language> {
     @Autowired
-    public LanguageRestController(CklServiceInterface<LanguageDTO,Language> cklServiceInterface){
+    public LanguageRestController(LanguageService cklServiceInterface){
         super(cklServiceInterface);
     }
 }

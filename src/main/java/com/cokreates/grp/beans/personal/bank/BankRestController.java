@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankRestController extends MasterRestController<BankDTO,Bank> {
 
     @Autowired
-    public BankRestController(CklServiceInterface<BankDTO,Bank> bankInterface){
+    public BankRestController(BankService bankInterface){
 
         super(bankInterface);
     }

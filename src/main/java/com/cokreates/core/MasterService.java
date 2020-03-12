@@ -4,6 +4,7 @@ import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
+import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,8 +14,11 @@ import java.util.List;
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
 
-    @Autowired
-    DataServiceClient dataServiceClient;
+//    @Autowired
+//    DataServiceClient dataServiceClient;
+
+//    @Autowired
+//    DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient;
 
     RequestBuildingComponent<Dto> requestBuildingComponent;
 
@@ -90,31 +94,36 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto getNode(String employeeOid) {
 
+
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null);
 
-        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
+//        DataServiceResponse<Dto> response = dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
+//        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 
-        return response.getResponseBody().getTemp();
+        return null;
     }
 
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
+        return null;
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid);
 
-        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
-
-        return response.getResponseBody().getTemp();
+//        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid);
+//
+//        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
+//
+//        return response.getResponseBody().getTemp();
     }
 
     @Override
     public Dto get(String employeeOid) {
+        return null;
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null,employeeOid, null);
-
-        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
-
-        return response.getResponseBody().getTemp();
+//        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null,employeeOid, null);
+//
+//        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
+//
+//        return response.getResponseBody().getTemp();
     }
 
     @Override

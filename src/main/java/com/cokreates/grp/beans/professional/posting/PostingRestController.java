@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostingRestController extends MasterRestController<PostingDTO,Posting> {
 
     @Autowired
-    public PostingRestController(CklServiceInterface<PostingDTO,Posting> serviceInterface){
+    public PostingRestController(PostingService serviceInterface){
         super(serviceInterface);
     }
 }

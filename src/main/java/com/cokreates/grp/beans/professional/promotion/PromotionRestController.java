@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/promotion")
 public class PromotionRestController extends MasterRestController<PromotionDTO,Promotion> {
     @Autowired
-    public PromotionRestController(CklServiceInterface<PromotionDTO,Promotion> serviceInterface){
+    public PromotionRestController(PromotionService serviceInterface){
         super(serviceInterface);
     }
 }
