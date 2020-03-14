@@ -1,12 +1,12 @@
 package com.cokreates.core;
 
+import java.util.List;
+
 import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
