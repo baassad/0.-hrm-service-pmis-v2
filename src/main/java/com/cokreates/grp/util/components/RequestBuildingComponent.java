@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RequestBuildingComponent<Dto extends MasterDTO> {
 
-     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, String nodeOid){
+    public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, String nodeOid, Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
 
@@ -20,10 +20,11 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNodeOid(nodeOid);
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
+        requestBody.setDtoClass(dtoClass);
 
         request.setBody(requestBody);
 
         return request;
-     }
+    }
 
 }

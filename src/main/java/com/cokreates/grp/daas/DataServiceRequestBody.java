@@ -15,4 +15,6 @@ public class DataServiceRequestBody<T extends MasterDTO> {
     private String nodeOid;
 
     private List<String> nodePath;
+
+    private Class<T> dtoClass;
 }

@@ -27,6 +27,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         this.dataServiceRestTemplateClient = dataServiceRestTemplateClient;
     }
 
+    public Class<Dto> getDtoClass() {return null;}
+
     public List<String> getNodePath() {
         return this.nodePath;
     }
@@ -94,7 +96,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Dto getNode(String employeeOid) {
 
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null);
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null, this.getDtoClass());
 
         return dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
@@ -104,7 +106,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid);
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid, this.getDtoClass());
 
         return dataServiceRestTemplateClient.getDataFromList(nodePath, request);
 

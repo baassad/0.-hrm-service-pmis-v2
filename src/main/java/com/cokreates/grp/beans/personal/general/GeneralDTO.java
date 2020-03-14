@@ -1,9 +1,11 @@
 package com.cokreates.grp.beans.personal.general;
 
 import com.cokreates.core.MasterDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
+@JsonIgnoreProperties(value = "initValue")
 public class GeneralDTO extends MasterDTO {
 
     private String nameEn;

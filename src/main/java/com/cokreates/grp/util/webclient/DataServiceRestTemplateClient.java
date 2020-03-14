@@ -3,6 +3,7 @@ package com.cokreates.grp.util.webclient;
 
 import com.cokreates.core.BaseEntity;
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
@@ -71,11 +72,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode tempJson = jsonNode.get("body").get("temp");
             System.out.println(mainJson);
             System.out.println(tempJson);
-            D main = objectMapper.treeToValue(mainJson, getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, getDtoClass());
-            System.out.println(main);
-            System.out.println(temp);
-            return main;
+//            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+//            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+            GeneralDTO main = objectMapper.readValue(objectMapper.writeValueAsString(mainJson), GeneralDTO.class);
+            GeneralDTO temp = objectMapper.readValue(objectMapper.writeValueAsString(tempJson), GeneralDTO.class);
+            System.out.println("helloo " + main);
+            System.out.println(" hello " + temp);
+            MasterDTO masterDTO = new MasterDTO();
+            masterDTO.setMain(main);
+            masterDTO.setTemp(temp);
+            return (D) masterDTO;
 //            list = objectMapper.readValue(
 //                    content.toString(),
 //                    objectMapper.getTypeFactory().constructCollectionType(
