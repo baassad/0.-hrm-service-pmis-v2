@@ -55,6 +55,16 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Entity create(Dto dto) {
         return null;
     }
+    
+    @Override
+    public Dto append(Dto dto) {
+    	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,dto, dto.getOid(), this.getDtoClass());
+        
+        String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
+        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        
+        return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
+    }
 
 
     @Override

@@ -26,5 +26,21 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
         return request;
     }
+    
+    public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, Class dtoClass){
+    	String nodeOid = System.currentTimeMillis()+"";
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setEmployeeOid(employeeOid);
+        requestBody.setNodeOid(nodeOid);
+        requestBody.setNode(node);
+        requestBody.setNodePath(nodePath);
+        requestBody.setDtoClass(dtoClass);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
 
 }

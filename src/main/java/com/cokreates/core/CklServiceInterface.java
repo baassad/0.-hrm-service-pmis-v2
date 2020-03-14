@@ -5,6 +5,8 @@ import java.util.List;
 public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEntity>{
 
     public Entity create(Dto dto);
+    
+    public Dto append(Dto dto);
 
     public List<Entity> createAll (List<Dto> dtos);
 

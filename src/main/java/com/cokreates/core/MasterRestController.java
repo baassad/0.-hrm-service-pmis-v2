@@ -45,6 +45,12 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.createAll(requestDTO.getBody().getData()).stream()
                 .map(o -> cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
     }
+    
+    @Override
+    @PostMapping(Constant.ENDPOINT_APPEND)
+    public ResponseModel<D> append(@RequestBody RequestModel<D> requestDTO) {
+    	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.append(requestDTO.getBody().getData().get(0))));
+    }
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE)

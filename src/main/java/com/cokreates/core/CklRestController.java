@@ -8,6 +8,7 @@ public interface CklRestController<T> {
     public ResponseModel<T> deleteAll( RequestModel<String> oids);
 
     public ResponseModel<T> create(RequestModel<T> dto);
+    public ResponseModel<T> append(RequestModel<T> dto);
     public ResponseModel<T> update(RequestModel<T> dto);
     public ResponseModel<T> delete(RequestModel<T> dto);
     public ResponseModel<T> get(RequestModel<T> dto);
