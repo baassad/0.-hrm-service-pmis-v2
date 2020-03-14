@@ -89,6 +89,13 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @Override
+    @PostMapping(Constant.ENDPOINT_GET_FROM_LIST)
+    public ResponseModel<D>
+    getFromList(@Valid @RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNodeFromList(requestDTO.getBody().getData().get(0).getOid(), requestDTO.getBody().getData().get(0).getNodeOid())));
+    }
+
+    @Override
     public boolean hasPermission(String actionTag) {
         return false;
     }

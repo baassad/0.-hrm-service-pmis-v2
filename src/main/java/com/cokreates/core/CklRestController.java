@@ -11,6 +11,7 @@ public interface CklRestController<T> {
     public ResponseModel<T> update(RequestModel<T> dto);
     public ResponseModel<T> delete(RequestModel<T> dto);
     public ResponseModel<T> get(RequestModel<T> dto);
+    public ResponseModel<T> getFromList(RequestModel<T> dto);
     public ResponseModel<T> getAll(RequestModel<T> dto);
 
     public boolean hasPermission(String actionTag);

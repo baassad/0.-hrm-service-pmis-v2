@@ -10,6 +10,7 @@ public class Constant {
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_UPDATE_ALL = "/update-all";
     public static final String ENDPOINT_GET = "/get";
+    public static final String ENDPOINT_GET_FROM_LIST = "/get-from-list";
     public static final String ENDPOINT_GET_LIST = "/get-list";
     public static final String ENDPOINT_GET_LIST_BY_OID_SET = "/get-list-by-oid-set";
     public static final String ENDPOINT_DELETE = "/delete";

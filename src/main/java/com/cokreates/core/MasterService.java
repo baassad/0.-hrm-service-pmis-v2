@@ -103,11 +103,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
-        return null;
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid);
+
+        return dataServiceRestTemplateClient.getDataFromList(nodePath, request);
 
 
-//        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid);
-//
 //        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
 //
 //        return response.getResponseBody().getTemp();

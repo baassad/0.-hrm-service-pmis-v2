@@ -61,38 +61,8 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     @Autowired
     HttpServletRequest request;
 
-
-//    public E getByOid(String oid) {
-//        ServiceRequestDTO<OidHolderRequestBodyDTO> requestDTO = generateOidHolderRequestDTO(oid);
-//        String apiEndpoint = GET_BY_OID_PATH;
-//        String apiEndUrl = getApiPrefix() + apiEndpoint;
-//        return findByOidAndIsDeleted(apiEndUrl, requestDTO, getDtoClass());
-//    }
-//
-//    public List<E> getListByIdSet(Set<String> oids) {
-//        ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO = generateGetListByOidSetRequestBodyDTO(oids);
-//        String apiEndpoint = GET_LIST_BY_ID_SET_PATH;
-//        String apiEndUrl = getApiPrefix() + apiEndpoint;
-//        return findByOidSetAndIsDeleted(apiEndUrl, requestDTO, getDtoClass());
-//    }
-//
-//    public List<E> getList() {
-//        ServiceRequestDTO<EmptyBodyDTO> requestDTO = generateEmptyBodyRequestDTO();
-//        String apiEndpoint = GET_LIST_PATH;
-//        String apiEndUrl = getApiPrefix() + apiEndpoint;
-//        return findByIsDeleted(apiEndUrl, requestDTO, getDtoClass());
-//    }
-//
-//    public String getApiPrefix() {
-//        return COMMON_OFFICE_TO_URL_MAP.get(getName()) + VERSION_INFO;
-//    }
-
     public D getDataFromParticularNode(List<String> url, DataServiceRequest<D> requestBody) {
         try {
-//            String GLOBAL_URL = ZUUL_BASE_URL + CMN_ORGANOGRAM_URL;
-//            if (ZUUL_BASE_URL.contains("localhost")) {
-//                GLOBAL_URL = ZUUL_BASE_URL;
-//            }
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
@@ -125,185 +95,44 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             }
         }
         return null;
-//        if (list.isEmpty()) {
-//            throw new ServiceExceptionHolder.ResourceNotFoundException(
-//                    "No " + getEntityClass().getSimpleName() + " found with id: " + dto.getBody().getOid() + " at : " + ZUUL_BASE_URL + CMN_ORGANOGRAM_URL);
-//        }
-
-//        return convertForParse(list.get(0));
     }
 
-//    public List<E> findByOidSetAndIsDeleted(String url, @Valid ServiceRequestDTO<GetListByOidSetRequestBodyDTO> dto, Class dtoClass) {
-//        List<D> list = new ArrayList<>();
-//        if (dto.getBody().getOids().isEmpty()) return new ArrayList<>();
-//        try {
-//            String GLOBAL_URL = ZUUL_BASE_URL + CMN_ORGANOGRAM_URL;
-//            if (ZUUL_BASE_URL.contains("localhost")) {
-//                GLOBAL_URL = ZUUL_BASE_URL;
-//            }
-//            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-//            ResponseEntity<String> response = restTemplate.exchange(GLOBAL_URL + url, HttpMethod.POST, new HttpEntity(dto, headers), String.class);
-//            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-//            JsonNode content = jsonNode.get("body").get("data");
-//            list = objectMapper.readValue(
-//                    content.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(
-//                            List.class, dtoClass));
-//        } catch (HttpStatusCodeException ex) {
-//            ex.printStackTrace();
-//            JsonNode jsonNode = null;
-//            try {
-//                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            JsonNode content = jsonNode.get("body").get("data");
-//            throw new ServiceExceptionHolder.ResourceNotFoundException(
-//                    content.get(0).asText());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-//            }
-//        }
-//        return convertListForParse(list);
-//    }
-//
-//    public List<E> findByIsDeleted(String url, @Valid ServiceRequestDTO<EmptyBodyDTO> dto, Class dtoClass) {
-//        List<D> list = null;
-//        try {
-//            String GLOBAL_URL = ZUUL_BASE_URL + CMN_ORGANOGRAM_URL;
-////            if (ZUUL_BASE_URL.contains("localhost")) {
-////                GLOBAL_URL = ZUUL_BASE_URL;
-////            }
-//            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-//            ResponseEntity<String> response = restTemplate.exchange(GLOBAL_URL + url, HttpMethod.POST, new HttpEntity(dto, headers), String.class);
-//            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-//            JsonNode content = jsonNode.get("body").get("data");
-//            list = objectMapper.readValue(
-//                    content.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(
-//                            List.class, dtoClass));
-//        } catch (HttpStatusCodeException ex) {
-//            ex.printStackTrace();
-//            JsonNode jsonNode = null;
-//            try {
-//                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            JsonNode content = jsonNode.get("body").get("data");
-//            throw new ServiceExceptionHolder.ResourceNotFoundException(
-//                    content.get(0).asText());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-//            }
-//        }
-//        return convertListForParse(list);
-//    }
-//
-//    public List<E> findByMiscellaneous(String url, @Valid ServiceRequestDTO<MultipleOidHolderRequestBodyDTO> dto, Class dtoClass) {
-//        List<D> list = null;
-//        try {
-//            String GLOBAL_URL = ZUUL_BASE_URL + CMN_ORGANOGRAM_URL;
-//            if (ZUUL_BASE_URL.contains("localhost")) {
-//                GLOBAL_URL = ZUUL_BASE_URL;
-//            }
-//            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-//            ResponseEntity<String> response = restTemplate.exchange(GLOBAL_URL + url, HttpMethod.POST, new HttpEntity(dto, headers), String.class);
-//            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-//            JsonNode content = jsonNode.get("body").get("data");
-//            list = objectMapper.readValue(
-//                    content.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(
-//                            List.class, dtoClass));
-//        } catch (HttpStatusCodeException ex) {
-//            ex.printStackTrace();
-//            JsonNode jsonNode = null;
-//            try {
-//                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            JsonNode content = jsonNode.get("body").get("data");
-//            throw new ServiceExceptionHolder.ResourceNotFoundException(
-//                    content.get(0).asText());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-//            }
-//        }
-//        return convertListForParse(list);
-//    }
+    public D getDataFromList(List<String> url, DataServiceRequest<D> requestBody) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            System.out.println("hello " + requestBody);
+            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/list-node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
-//    protected E convertForParse(D d) {
-//        return modelMapper.map(d, getEntityClass());
-//    }
-//
-//    protected List<E> convertListForParse(List<D> d) {
-//        return d.stream().map(new Function<D, E>() {
-//            @Override
-//            public E apply(D d1) {
-//                return CommonOrganogramBaseService.this.convertForParse(d1);
-//            }
-//        }).collect(Collectors.toList());
-//    }
-//
-//    public String getName() {
-//        return getEntityClass().getSimpleName();
-//    }
-//
-//    public ServiceRequestDTO<OidHolderRequestBodyDTO> generateOidHolderRequestDTO(String oid) {
-//        ServiceRequestDTO<OidHolderRequestBodyDTO> requestDTO = new ServiceRequestDTO<>();
-//
-//        OidHolderRequestBodyDTO bodyDTO = new OidHolderRequestBodyDTO();
-//        bodyDTO.setOid(oid);
-//
-//        requestDTO.setHeader(getHeader());
-//        requestDTO.setMeta(new HashMap<>());
-//        requestDTO.setBody(bodyDTO);
-//        return requestDTO;
-//    }
-//
-//    public ServiceRequestDTO<GetListByOidSetRequestBodyDTO> generateGetListByOidSetRequestBodyDTO(Set<String> oids) {
-//        ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO = new ServiceRequestDTO<>();
-//
-//        GetListByOidSetRequestBodyDTO bodyDTO = new GetListByOidSetRequestBodyDTO();
-//        bodyDTO.setOids(oids);
-//
-//        requestDTO.setHeader(getHeader());
-//        requestDTO.setMeta(new HashMap<>());
-//        requestDTO.setBody(bodyDTO);
-//        return requestDTO;
-//    }
-//
-//    public ServiceRequestDTO<EmptyBodyDTO> generateEmptyBodyRequestDTO() {
-//        ServiceRequestDTO<EmptyBodyDTO> requestDTO = new ServiceRequestDTO<>();
-//
-//        requestDTO.setHeader(getHeader());
-//        requestDTO.setMeta(new HashMap<>());
-//        requestDTO.setBody(new EmptyBodyDTO());
-//        return requestDTO;
-//    }
-
-//    public ServiceRequestHeaderDTO getHeader() {
-//        ServiceRequestHeaderDTO headerDTO = new ServiceRequestHeaderDTO();
-//
-//        headerDTO.setRequestClient("grp");
-//        headerDTO.setRequestId("random-uuid");
-//        headerDTO.setRequestRetryCount(3);
-//        headerDTO.setRequestSource("portal");
-//        headerDTO.setRequestSourceService("portal");
-//        headerDTO.setRequestTime(new Date());
-//        headerDTO.setRequestTimeoutInSeconds(30);
-//        headerDTO.setRequestType("random");
-//        headerDTO.setRequestVersion("v1");
-//
-//        return headerDTO;
-//    }
+            JsonNode mainJson = jsonNode.get("body").get("main");
+            JsonNode tempJson = jsonNode.get("body").get("temp");
+            System.out.println(mainJson);
+            System.out.println(tempJson);
+            D main = objectMapper.treeToValue(mainJson, getDtoClass());
+            D temp = objectMapper.treeToValue(tempJson, getDtoClass());
+            System.out.println(main);
+            System.out.println(temp);
+            return main;
+//            list = objectMapper.readValue(
+//                    content.toString(),
+//                    objectMapper.getTypeFactory().constructCollectionType(
+//                            List.class, dtoClass));
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+        return null;
+    }
 
     @SuppressWarnings("unchecked")
     public Class<E> getEntityClass() {

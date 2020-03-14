@@ -8,6 +8,8 @@ public class MasterDTO implements RequestBodyDTO {
 
     private String oid;
 
+    private String nodeOid;
+
     private String config;
 
     private MasterDTO main;
