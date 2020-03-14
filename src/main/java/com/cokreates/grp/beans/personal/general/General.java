@@ -20,7 +20,7 @@ public class General extends BaseEntity {
     private String gender;
     private String religion;
     private String nationality;
-    private String nid;
+    private Integer nid;
     private String drivingLicencseNo;
     private String district;
     private String birthPlace;

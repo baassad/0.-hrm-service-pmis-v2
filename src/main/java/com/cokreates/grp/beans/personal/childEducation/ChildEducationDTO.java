@@ -1,8 +1,8 @@
 package com.cokreates.grp.beans.personal.childEducation;
 
-import java.util.Date;
-
 import com.cokreates.core.MasterDTO;
+
+import java.util.Date;
 
 public class ChildEducationDTO extends MasterDTO {
 

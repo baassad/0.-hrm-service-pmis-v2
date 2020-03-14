@@ -1,8 +1,7 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.beans.common.Comment;
 import com.cokreates.grp.util.request.RequestBodyDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class MasterDTO<T extends  MasterDTO> implements RequestBodyDTO {
+public class MasterDTO implements RequestBodyDTO {
 
     private String oid;
 
@@ -18,11 +17,17 @@ public class MasterDTO<T extends  MasterDTO> implements RequestBodyDTO {
 
     private String config;
 
-    private T main;
+    private Object main;
 
-    private T temp;
+    private Object temp;
 
-    private T node;
+    private Object node;
+
+    private String approvalHistoryOid;
+
+    private String approvalStatus;
+
+    private Comment comment;
 
     private String createdBy;
     private String updatedBy;

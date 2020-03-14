@@ -1,5 +1,6 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
@@ -30,13 +31,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @Override
-    @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(RequestModel<String> dto) {
-
-        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
-    }
-
-    @Override
     @PostMapping(Constant.ENDPOINT_CREATE)
     public ResponseModel<D> create(RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.create(requestDTO.getBody().getData().get(0)))));
@@ -47,6 +41,19 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     public ResponseModel<D> createAll(RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.createAll(requestDTO.getBody().getData()).stream()
                 .map(o -> cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_UPDATE)
+    public ResponseModel<D>
+    update( @RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
+
+    }
+
+    @PostMapping(Constant.ENDPOINT_UPDATE_APPROVAL_HISTORY)
+    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.updateApprovalHistory(requestDTO.getBody().getData().get(0)))));
     }
 
 
@@ -65,12 +72,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @Override
-    @PostMapping(Constant.ENDPOINT_GET_LIST)
-    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
-    }
-
-    @Override
     @PostMapping(Constant.ENDPOINT_DELETE_ALL)
     public ResponseModel<D> deleteAll(RequestModel<String> requestDTO) {
 
@@ -86,21 +87,23 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @Override
-    @PostMapping(Constant.ENDPOINT_UPDATE)
-    public ResponseModel<D>
-    update(@Valid @RequestBody RequestModel<D> requestDTO) {
-
-//        System.out.println(requestDTO.getBody().getData().get(0).getOid());
-//        System.out.println(requestDTO.getBody().getData().get(0).getNode());
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
-
-    }
-
-    @Override
     @PostMapping(Constant.ENDPOINT_GET_FROM_LIST)
     public ResponseModel<D>
     getFromList(@Valid @RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNodeFromList(requestDTO.getBody().getData().get(0).getOid(), requestDTO.getBody().getData().get(0).getNodeOid())));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
+    public ResponseModel<D> getSelected(RequestModel<String> dto) {
+
+        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_GET_LIST)
+    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
     }
 
     @Override

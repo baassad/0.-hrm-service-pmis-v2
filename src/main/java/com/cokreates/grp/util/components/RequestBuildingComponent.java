@@ -21,6 +21,20 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
         requestBody.setDtoClass(dtoClass);
+        requestBody.setDtoClass(dtoClass);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
+    public DataServiceRequest<Dto> getRequestForApprovalHistoryUpdate(Dto requestDTO){
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setApprovalHistoryOid(requestDTO.getApprovalHistoryOid());
+        requestBody.setComment(requestDTO.getComment());
+        requestBody.setApprovalStatus(requestDTO.getApprovalStatus());
 
         request.setBody(requestBody);
 

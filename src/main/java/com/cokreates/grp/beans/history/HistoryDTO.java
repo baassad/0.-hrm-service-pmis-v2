@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class HistoryDTO extends MasterDTO {
 
-    private String modificationType, nodeName, comment;
+    private String modificationType, nodeName;
     private Map<String, String> oldValue;
     private Map<String, String> newValue;
 

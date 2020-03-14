@@ -1,15 +1,14 @@
 package com.cokreates.core;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
-
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
@@ -30,7 +29,6 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         this.dataServiceRestTemplateClient = dataServiceRestTemplateClient;
     }
 
-    @Override
     public Class<Dto> getDtoClass() {return null;}
 
     public List<String> getNodePath() {
@@ -83,18 +81,33 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         String element = gson.toJson(node);
         HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
-        LinkedTreeMap mainMap = gsonMap.get("main");
+        LinkedTreeMap mainMap = gsonMap.get("node");
         String mainString = gson.toJson(mainMap);
-        Dto main = gson.fromJson(mainString, this.getDtoClass());
-
-        System.out.println("fj " + main.getCreatedBy());
+        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
 
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, node.getOid(), null, this.getDtoClass());
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
 
-        System.out.println("hello " + node);
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
 
-//        return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
+        return null;
+    }
+
+    @Override
+    public Entity updateApprovalHistory(Dto node) {
+
+        Gson gson = new Gson();
+        String element = gson.toJson(node);
+        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+        LinkedTreeMap commentMap = gsonMap.get("comment");
+        String commentMapString = gson.toJson(commentMap);
+        Dto comment = (Dto)gson.fromJson(commentMapString, this.getDtoClass());
+
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
+
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
 
         return null;
     }
@@ -120,8 +133,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null, this.getDtoClass());
 
-         dataServiceRestTemplateClient.getSingleObject(nodePath, request);
-         return null;
+         return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 
     }
@@ -131,8 +143,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid, this.getDtoClass());
 
-        return null;
-//        return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
+        return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
 
 
 //        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);

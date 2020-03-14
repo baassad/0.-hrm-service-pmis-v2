@@ -1,10 +1,9 @@
 package com.cokreates.grp.beans.personal.general;
 
-import java.util.Date;
-
 import com.cokreates.core.MasterDTO;
-
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class GeneralDTO extends MasterDTO {
@@ -19,7 +18,7 @@ public class GeneralDTO extends MasterDTO {
     private String gender;
     private String religion;
     private String nationality;
-    private String nid;
+    private Integer nid;
     private String drivingLicencseNo;
     private String district;
     private String birthPlace;
