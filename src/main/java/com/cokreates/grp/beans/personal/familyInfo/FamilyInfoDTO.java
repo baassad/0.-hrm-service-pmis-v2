@@ -1,10 +1,14 @@
 package com.cokreates.grp.beans.personal.familyInfo;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.personal.address.AddressDTO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class FamilyInfoDTO extends MasterDTO {
 

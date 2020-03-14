@@ -1,9 +1,14 @@
 package com.cokreates.grp.beans.personal.health;
 
-import com.cokreates.core.MasterDTO;
-
 import java.util.Date;
 
+import com.cokreates.core.MasterDTO;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class InjuriesSicknessDTO extends MasterDTO {
 
     private String description;

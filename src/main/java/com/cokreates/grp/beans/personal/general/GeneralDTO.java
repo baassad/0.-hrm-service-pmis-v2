@@ -5,7 +5,9 @@ import java.util.Date;
 import com.cokreates.core.MasterDTO;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class GeneralDTO extends MasterDTO {
 

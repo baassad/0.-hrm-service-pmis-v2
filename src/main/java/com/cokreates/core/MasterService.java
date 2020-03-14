@@ -2,6 +2,8 @@ package com.cokreates.core;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
@@ -20,6 +22,9 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     RequestBuildingComponent<Dto> requestBuildingComponent;
 
     private List<String> nodePath;
+    
+    @Value("${spring.application.gdata_end_point_url}")
+    private String gdata;
 
     protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent,
                             DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient) {
@@ -94,23 +99,26 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto getNode(String employeeOid) {
-
-
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, null, this.getDtoClass());
 
-        return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
+        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
+        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        
+        return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
+        //return dataServiceRestTemplateClient.getSingleObject(nodePath, request, gDataEndPointUrl);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 
     }
 
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
-
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid, this.getDtoClass());
-
-        return dataServiceRestTemplateClient.getSingleObject(nodePath, request);
-
-
+        
+        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_LIST_NODE;
+        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        
+        return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
+        //return dataServiceRestTemplateClient.getListSingleObject(nodePath, request, gDataEndPointUrl);
 //        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);
 //
 //        return response.getResponseBody().getTemp();
