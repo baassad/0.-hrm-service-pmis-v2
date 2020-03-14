@@ -12,4 +12,13 @@ public class DisciplinaryActionDTO extends MasterDTO {
 
     private String type, details, currentSituation, decision;
     private Date dateOfJudgement;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

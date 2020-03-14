@@ -13,4 +13,13 @@ public class AwardDTO extends MasterDTO {
     private String titleOfAward;
     private String awardReceivalPlace;
     private Date awardReceivedDate;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

@@ -14,5 +14,12 @@ public class LeaveDTO extends MasterDTO {
     private String type, reason;
     private Date from, to;
 
-
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

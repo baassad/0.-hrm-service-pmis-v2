@@ -15,4 +15,13 @@ public class JobHistoryDTO extends MasterDTO {
     private String type;
     private Date from;
     private Date to;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }
