@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
-public class MasterDTO implements RequestBodyDTO {
+public class MasterDTO<T extends  MasterDTO> implements RequestBodyDTO {
 
     private String oid;
 
@@ -16,7 +18,16 @@ public class MasterDTO implements RequestBodyDTO {
 
     private String config;
 
-    private MasterDTO main;
+    private T main;
 
-    private MasterDTO temp;
+    private T temp;
+
+    private T node;
+
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String dataStatus;
 }

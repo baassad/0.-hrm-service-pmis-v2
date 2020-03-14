@@ -62,29 +62,10 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     @Autowired
     HttpServletRequest request;
 
-    public D getSingleObject(List<String> url, DataServiceRequest<D> requestBody) {
+    public void getSingleObject(List<String> url, DataServiceRequest<D> requestBody) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body").get("main");
-            JsonNode tempJson = jsonNode.get("body").get("temp");
-            //System.out.println(mainJson);
-            //System.out.println(tempJson);
-            
-            MasterDTO masterDTO = new MasterDTO();
-            
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            //System.out.println("helloo " + main);
-            //System.out.println(" hello " + temp);
-            
-            
-            
-            masterDTO.setMain(main);
-            masterDTO.setTemp(temp);
-            return (D) masterDTO;
+            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/update/v1/node-in-doc-for-request", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -99,6 +80,5 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 //                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
             }
         }
-        return null;
     }
 }

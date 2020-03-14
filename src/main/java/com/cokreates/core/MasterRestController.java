@@ -1,6 +1,8 @@
 package com.cokreates.core;
 
 import com.cokreates.grp.util.components.ResultBuildingComponent;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -46,13 +49,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
                 .map(o -> cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
     }
 
-    @Override
-    @PostMapping(Constant.ENDPOINT_UPDATE)
-    public ResponseModel<D> update(RequestModel<D> requestDTO) {
-
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
-
-    }
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
@@ -85,7 +81,19 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @PostMapping(Constant.ENDPOINT_GET)
     public ResponseModel<D>
     get(@Valid @RequestBody RequestModel<D> requestDTO) {
+        System.out.println("hello " + requestDTO);
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNode(requestDTO.getBody().getData().get(0).getOid())));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_UPDATE)
+    public ResponseModel<D>
+    update(@Valid @RequestBody RequestModel<D> requestDTO) {
+
+//        System.out.println(requestDTO.getBody().getData().get(0).getOid());
+//        System.out.println(requestDTO.getBody().getData().get(0).getNode());
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
+
     }
 
     @Override
