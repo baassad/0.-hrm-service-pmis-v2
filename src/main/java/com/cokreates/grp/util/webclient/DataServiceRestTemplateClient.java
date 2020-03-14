@@ -62,7 +62,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     @Autowired
     HttpServletRequest request;
 
-    public D getDataFromParticularNode(List<String> url, DataServiceRequest<D> requestBody) {
+    public D getSingleObject(List<String> url, DataServiceRequest<D> requestBody) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
@@ -98,60 +98,6 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             if (e.getMessage().contains("ConnectException")) {
 //                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
             }
-        }
-        return null;
-    }
-
-    public D getDataFromList(List<String> url, DataServiceRequest<D> requestBody) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            System.out.println("hello " + requestBody);
-            ResponseEntity<String> response = restTemplate.exchange("http://43.224.110.22:80/hrm/get/v1/list-node-in-emp-doc", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body").get("main");
-            JsonNode tempJson = jsonNode.get("body").get("temp");
-            //System.out.println(mainJson);
-            //System.out.println(tempJson);
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            //System.out.println(main);
-            //System.out.println(temp);
-            return main;
-//            list = objectMapper.readValue(
-//                    content.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(
-//                            List.class, dtoClass));
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Class<E> getEntityClass() {
-        return (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    @SuppressWarnings("unchecked")
-    public Class<D> getDtoClass() {
-        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        Type type = genericSuperclass.getActualTypeArguments()[0];
-        if (type instanceof Class) {
-            return (Class<D>) type;
-        } else if (type instanceof ParameterizedType) {
-            return (Class<D>) ((ParameterizedType)type).getRawType();
         }
         return null;
     }
