@@ -70,22 +70,21 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             JsonNode mainJson = jsonNode.get("body").get("main");
             JsonNode tempJson = jsonNode.get("body").get("temp");
-            System.out.println(mainJson);
-            System.out.println(tempJson);
-//            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-//            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            GeneralDTO main = objectMapper.readValue(objectMapper.writeValueAsString(mainJson), GeneralDTO.class);
-            GeneralDTO temp = objectMapper.readValue(objectMapper.writeValueAsString(tempJson), GeneralDTO.class);
-            System.out.println("helloo " + main);
-            System.out.println(" hello " + temp);
+            //System.out.println(mainJson);
+            //System.out.println(tempJson);
+            
             MasterDTO masterDTO = new MasterDTO();
+            
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+            //System.out.println("helloo " + main);
+            //System.out.println(" hello " + temp);
+            
+            
+            
             masterDTO.setMain(main);
             masterDTO.setTemp(temp);
             return (D) masterDTO;
-//            list = objectMapper.readValue(
-//                    content.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(
-//                            List.class, dtoClass));
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -112,12 +111,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             JsonNode mainJson = jsonNode.get("body").get("main");
             JsonNode tempJson = jsonNode.get("body").get("temp");
-            System.out.println(mainJson);
-            System.out.println(tempJson);
-            D main = objectMapper.treeToValue(mainJson, getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, getDtoClass());
-            System.out.println(main);
-            System.out.println(temp);
+            //System.out.println(mainJson);
+            //System.out.println(tempJson);
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+            //System.out.println(main);
+            //System.out.println(temp);
             return main;
 //            list = objectMapper.readValue(
 //                    content.toString(),
