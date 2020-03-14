@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.personal.address;
 
+import java.util.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,4 +21,13 @@ public class AddressDTO extends MasterDTO {
     private String phone;
     private String email;
     private String addressType;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

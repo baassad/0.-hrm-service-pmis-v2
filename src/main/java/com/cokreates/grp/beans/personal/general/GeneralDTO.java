@@ -1,11 +1,12 @@
 package com.cokreates.grp.beans.personal.general;
 
-import com.cokreates.core.MasterDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.Date;
 
-@JsonIgnoreProperties(value = "initValue")
+import com.cokreates.core.MasterDTO;
+
+import lombok.Data;
+
+@Data
 public class GeneralDTO extends MasterDTO {
 
     private String nameEn;
@@ -28,4 +29,13 @@ public class GeneralDTO extends MasterDTO {
     private String fromFreedomfighterFamily;
     private String fighterDetail;
     private String phone;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

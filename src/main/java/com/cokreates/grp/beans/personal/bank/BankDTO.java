@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.personal.bank;
 
+import java.util.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,4 +17,13 @@ public class BankDTO extends MasterDTO {
     private String typeOfAccount;
     private String nameOfAccount;
     private String currentCondition;
+    
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }
