@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cokreates.core.MasterRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -103,21 +104,48 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             
+            gDataUrl = gDataUrl + Constant.GDATA_NODE_REQUEST;//approval-history-for-request
+
+
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+    }
+
+
+    public void updateApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+
             if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
-            	
+
             } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
-            	
+
             } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
-            	
+
             } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
             }
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            
+
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;

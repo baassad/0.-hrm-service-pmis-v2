@@ -15,5 +15,7 @@ public class MasterDTO implements RequestBodyDTO {
 
     private String config;
 
-    private MasterDTO temp;
+    private Object temp;
+
+    private Object node;
 }

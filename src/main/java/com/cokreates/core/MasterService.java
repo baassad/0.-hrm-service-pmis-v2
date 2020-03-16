@@ -13,6 +13,8 @@ import com.google.gson.internal.LinkedTreeMap;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.cokreates.core.Constant.GDATA_NODE_REQUEST;
+
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
 
@@ -118,7 +120,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
 
-        dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
+        dataServiceRestTemplateClient.updateApprovalHistory(nodePath, request, gDataEndPointUrl);
 
         return null;
     }
