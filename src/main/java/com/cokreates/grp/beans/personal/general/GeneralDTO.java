@@ -30,4 +30,13 @@ public class GeneralDTO extends MasterDTO {
     private String fromFreedomfighterFamily;
     private String fighterDetail;
     private String phone;
+
+    private String oid;
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String config;
+    private String dataStatus;
 }

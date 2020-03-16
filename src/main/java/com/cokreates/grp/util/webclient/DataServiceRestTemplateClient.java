@@ -90,6 +90,9 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         return null;
     }
 
+
+
+
     //TODO: no use, method can be remove
     public D getSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
