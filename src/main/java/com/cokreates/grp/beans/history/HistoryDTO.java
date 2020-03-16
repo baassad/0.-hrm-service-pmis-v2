@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class HistoryDTO extends MasterDTO {
 
-    private String modificationType, nodeName;
+    private String modificationType, nodeName, comment;
     private Map<String, String> oldValue;
     private Map<String, String> newValue;
 
