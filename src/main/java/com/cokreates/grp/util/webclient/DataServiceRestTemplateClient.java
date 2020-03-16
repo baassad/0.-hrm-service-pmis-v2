@@ -65,13 +65,10 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode mainJson = jsonNode.get("body").get("main");
             JsonNode tempJson = jsonNode.get("body").get("temp");
 
-            MasterDTO masterDTO = new MasterDTO();
-
             D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            masterDTO.setMain(main);
-            masterDTO.setTemp(temp);
-            return (D) masterDTO;
+            main.setTemp(temp);
+            return main;
 
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
@@ -131,16 +128,13 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             //System.out.println(mainJson);
             //System.out.println(tempJson);
 
-            MasterDTO masterDTO = new MasterDTO();
-
             D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
             //System.out.println("helloo " + main);
             //System.out.println(" hello " + temp);
 
-            masterDTO.setMain(main);
-            masterDTO.setTemp(temp);
-            return (D) masterDTO;
+            main.setTemp(temp);
+            return main;
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -168,17 +162,14 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode tempJson = jsonNode.get("body").get("temp");
             //System.out.println(mainJson);
             //System.out.println(tempJson);
-            
-            MasterDTO masterDTO = new MasterDTO();
-            
+
             D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
             //System.out.println("helloo " + main);
             //System.out.println(" hello " + temp);
 
-            masterDTO.setMain(main);
-            masterDTO.setTemp(temp);
-            return (D) masterDTO;
+            main.setTemp(temp);
+            return main;
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
