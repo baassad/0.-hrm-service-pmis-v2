@@ -123,6 +123,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         return null;
     }
 
+
     @Override
     public List<Entity> updateAll(List<Dto> dtos) {
         return null;
@@ -149,6 +150,19 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         //return dataServiceRestTemplateClient.getSingleObject(nodePath, request, gDataEndPointUrl);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
 
+    }
+
+
+    @Override
+    public Entity getApprovalHistory(MasterRequestDTO node) {
+
+        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
+
+//        dataServiceRestTemplateClient.getApprovalStatus(nodePath, request, gDataEndPointUrl);
+
+        return null;
     }
 
     @Override
