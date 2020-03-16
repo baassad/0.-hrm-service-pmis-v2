@@ -105,26 +105,22 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
 
-        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
+        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+
+
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
 
         return null;
     }
 
     @Override
-    public Entity updateApprovalHistory(Dto node) {
+    public Entity updateApprovalHistory(MasterRequestDTO node) {
 
-        Gson gson = new Gson();
-        String element = gson.toJson(node);
-        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
-
-        LinkedTreeMap commentMap = gsonMap.get("comment");
-        String commentMapString = gson.toJson(commentMap);
-        Dto comment = (Dto)gson.fromJson(commentMapString, this.getDtoClass());
-
+        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
 
-        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
 
         return null;
     }

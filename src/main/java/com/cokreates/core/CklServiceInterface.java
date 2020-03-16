@@ -15,7 +15,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 //    public Entity update(String employeeOid, Dto dto);
     public Entity update(Dto dto);
 
-    public Entity updateApprovalHistory(Dto dto);
+    public Entity updateApprovalHistory(MasterRequestDTO dto);
 
     public List<Entity> updateAll(List<Dto> dtos);
 

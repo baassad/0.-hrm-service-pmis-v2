@@ -91,7 +91,33 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     }
 
 
-
+    public void updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
+                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-request", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
+                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-review", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
+                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-approve", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
+                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-reject", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            }
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+    }
 
     //TODO: no use, method can be remove
     public D getSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {

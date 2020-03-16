@@ -58,7 +58,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @PostMapping(Constant.ENDPOINT_UPDATE_APPROVAL_HISTORY)
-    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<D> requestDTO) {
+    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<MasterRequestDTO> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.updateApprovalHistory(requestDTO.getBody().getData().get(0)))));
     }
 
