@@ -88,7 +88,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @PostMapping(Constant.ENDPOINT_GET)
     public ResponseModel<D>
     get(@Valid @RequestBody RequestModel<D> requestDTO) {
-        System.out.println("hello " + requestDTO);
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNode(requestDTO.getBody().getData().get(0).getOid())));
     }
 
