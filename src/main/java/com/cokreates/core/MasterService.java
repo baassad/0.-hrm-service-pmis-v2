@@ -112,16 +112,17 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     @Override
-    public Entity updateApprovalHistory(MasterRequestDTO node) {
+    public Entity updateApprovalHistory(MasterApprovalDTO node) {
 
         String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
+        DataServiceRequest<MasterApprovalDTO> request = requestBuildingComponent.getRequestForApprovalHistory(node);
 
-        dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
+        dataServiceRestTemplateClient.updateApprovalHistory(nodePath, request, gDataEndPointUrl);
 
         return null;
     }
+
 
     @Override
     public List<Entity> updateAll(List<Dto> dtos) {
@@ -148,6 +149,18 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
         //return dataServiceRestTemplateClient.getSingleObject(nodePath, request, gDataEndPointUrl);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
+
+    }
+
+
+    @Override
+    public List<MasterApprovalDTO> getApprovalHistory(MasterApprovalDTO node) {
+
+        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+
+        DataServiceRequest<MasterApprovalDTO> request = requestBuildingComponent.getRequestForApprovalHistory(node);
+
+        return dataServiceRestTemplateClient.getApprovalHistory(nodePath, request, gDataEndPointUrl);
 
     }
 
@@ -183,7 +196,21 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public List<Dto> getList() {
+
         return null;
+
+    }
+
+    @Override
+    public List<Dto> getList(Dto dto) {
+
+        return null;
+
+//        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+//
+//        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, dto.getOid(), null, this.getDtoClass());
+//
+//        return dataServiceRestTemplateClient.getList(nodePath, request, gDataEndPointUrl);
     }
 
     @Override

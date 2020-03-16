@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class MasterRequestDTO extends MasterDTO implements RequestBodyDTO {
+public class MasterApprovalDTO extends MasterDTO implements RequestBodyDTO {
 
     private String approvalHistoryOid;
 

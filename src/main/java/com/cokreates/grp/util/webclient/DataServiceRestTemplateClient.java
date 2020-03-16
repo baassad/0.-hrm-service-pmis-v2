@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cokreates.core.MasterApprovalDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -98,23 +99,88 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         return null;
     }
 
+    public List<D> getRestTemplateResponseList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body").get("main");
+            JsonNode tempJson = jsonNode.get("body").get("temp");
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+
+            if (null != requestBody.getBody().getEmployeeOid()) {
+				main.setOid(requestBody.getBody().getEmployeeOid());
+			}
+            if (null != requestBody.getBody().getNodeOid()) {
+				main.setNodeOid(requestBody.getBody().getNodeOid());
+			}
+            main.setTemp(temp);
+            return null;
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+        return null;
+    }
+
+    public List<MasterApprovalDTO> getApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            gDataUrl = gDataUrl + Constant.GDATA_GET + Constant.VERSION_1;//approval-history-for-request
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+
+            if (requestBody.getBody().getApprovalStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS;//approval-history-for-request
+
+            } else if (requestBody.getBody().getApprovalStatus() != null) {
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_STATUS;//approval-history-for-review
+
+            } else {
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE;//approval-history-for-approve
+
+            }
+
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+        return null;
+    }
 
     public void updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             
-            if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
-            	
-            } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
-            	
-            } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
-            	
-            } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
-            }
+            gDataUrl = gDataUrl + Constant.GDATA_NODE_REQUEST;//approval-history-for-request
+
+
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             
@@ -133,6 +199,43 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             }
         }
     }
+
+
+    public void updateApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+
+            if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
+
+            } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
+
+            } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
+
+            } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
+            }
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+    }
+
 
     //TODO: no use, method can be remove
     public D getSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
