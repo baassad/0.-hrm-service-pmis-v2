@@ -71,6 +71,13 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+            
+            if (null != requestBody.getBody().getEmployeeOid()) {
+				main.setOid(requestBody.getBody().getEmployeeOid());
+			}
+            if (null != requestBody.getBody().getNodeOid()) {
+				main.setNodeOid(requestBody.getBody().getNodeOid());
+			}
             main.setTemp(temp);
             return main;
 
@@ -144,7 +151,13 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
             //System.out.println("helloo " + main);
             //System.out.println(" hello " + temp);
-
+            if (null != requestBody.getBody().getEmployeeOid()) {
+				main.setOid(requestBody.getBody().getEmployeeOid());
+			}
+            if (null != requestBody.getBody().getNodeOid()) {
+				main.setNodeOid(requestBody.getBody().getNodeOid());
+			}
+            
             main.setTemp(temp);
             return main;
         } catch (HttpStatusCodeException ex) {
@@ -180,6 +193,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
             //System.out.println("helloo " + main);
             //System.out.println(" hello " + temp);
+            if (null != requestBody.getBody().getEmployeeOid()) {
+				main.setOid(requestBody.getBody().getEmployeeOid());
+			}
+            if (null != requestBody.getBody().getNodeOid()) {
+				main.setNodeOid(requestBody.getBody().getNodeOid());
+			}
 
             main.setTemp(temp);
             return main;

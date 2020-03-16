@@ -1,6 +1,5 @@
 package com.cokreates.core;
 
-import com.cokreates.grp.beans.common.Comment;
 import com.cokreates.grp.util.request.RequestBodyDTO;
 
 import lombok.Data;
