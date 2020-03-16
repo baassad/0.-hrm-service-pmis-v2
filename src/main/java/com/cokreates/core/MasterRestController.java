@@ -58,13 +58,13 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
 
     @PostMapping(Constant.ENDPOINT_GET_APPROVAL_HISTORY)
-    public ResponseModel<D> getApprovalHistory(@RequestBody RequestModel<MasterRequestDTO> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.getApprovalHistory(requestDTO.getBody().getData().get(0)))));
+    public ResponseModel<MasterApprovalDTO> getApprovalHistory(@RequestBody RequestModel<MasterApprovalDTO> requestDTO) {
+        return resultBuildingComponent.retrieveApprovalResult(requestDTO.getHeader(), cklServiceInterface.getApprovalHistory(requestDTO.getBody().getData().get(0)));
     }
 
 
     @PostMapping(Constant.ENDPOINT_UPDATE_APPROVAL_HISTORY)
-    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<MasterRequestDTO> requestDTO) {
+    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<MasterApprovalDTO> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.updateApprovalHistory(requestDTO.getBody().getData().get(0)))));
     }
 
@@ -114,7 +114,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST)
     public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),(cklServiceInterface.getList(requestDTO.getBody().getData().get(0))));
     }
 
     @Override
