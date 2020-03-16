@@ -15,12 +15,10 @@ public class HistoryDTO extends MasterDTO {
     private Map<String, String> oldValue;
     private Map<String, String> newValue;
 
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

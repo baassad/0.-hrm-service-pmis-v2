@@ -18,12 +18,10 @@ public class TrainingDTO extends MasterDTO {
     private String stratedFrom;
     private String endedOn;
     
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

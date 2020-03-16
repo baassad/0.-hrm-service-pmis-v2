@@ -23,12 +23,10 @@ public class FamilyInfoDTO extends MasterDTO {
     private String isGovtEmployee;
     private String dateOfBirth;
     
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

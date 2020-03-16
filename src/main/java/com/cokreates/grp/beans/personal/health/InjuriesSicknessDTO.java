@@ -17,12 +17,10 @@ public class InjuriesSicknessDTO extends MasterDTO {
     private Date to;
     private String comment;
 
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

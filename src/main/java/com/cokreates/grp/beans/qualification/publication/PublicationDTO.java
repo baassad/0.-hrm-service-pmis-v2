@@ -11,13 +11,11 @@ public class PublicationDTO extends MasterDTO {
 
     private String publicationType, publicationName, description;
     private String publicationDate;
-    
-    private String oid;
+
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

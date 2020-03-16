@@ -20,12 +20,10 @@ public class EducationDTO extends MasterDTO {
     private String startingDate;
     private String endingDate;
     
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }

@@ -1,20 +1,19 @@
 package com.cokreates.core;
 
-import com.cokreates.grp.beans.personal.general.GeneralDTO;
-import com.cokreates.grp.util.components.ResultBuildingComponent;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.Gson;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import com.cokreates.grp.util.components.ResultBuildingComponent;
+
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
 @Slf4j

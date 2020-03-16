@@ -21,12 +21,14 @@ public class AddressDTO extends MasterDTO {
     private String email;
     private String addressType;
     
-    private String oid;
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
     private String createdOn;
     private String updatedOn;
-    private String config;
     private String dataStatus;
 }
+
+//"road", "config", "createdOn", "nodeOid", "oid", "village", "postCode", 
+//"district", "updatedBy", "temp", "country", "updatedOn", "postOffice", "createdBy", 
+//"house", "division", "phone", "email", "thana", "addressType", "rowStatus", "dataStatus"
