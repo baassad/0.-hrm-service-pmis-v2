@@ -9,6 +9,7 @@ public class Constant {
     public static final String ENDPOINT_APPEND= "/append";
     public static final String ENDPOINT_SEARCH = "/search";
     public static final String ENDPOINT_UPDATE = "/update";
+    public static final String ENDPOINT_GET_APPROVAL_HISTORY = "/get-approval-history";
     public static final String ENDPOINT_UPDATE_APPROVAL_HISTORY = "/update-approval-history";
     public static final String ENDPOINT_UPDATE_ALL = "/update-all";
     public static final String ENDPOINT_GET = "/get";
