@@ -1,11 +1,10 @@
 package com.cokreates.grp.beans.personal.general;
 
-import java.util.Date;
-
 import com.cokreates.core.MasterDTO;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -21,7 +20,7 @@ public class GeneralDTO extends MasterDTO {
     private String gender;
     private String religion;
     private String nationality;
-    private String nid;
+    private Integer nid;
     private String drivingLicencseNo;
     private String district;
     private String birthPlace;
@@ -31,13 +30,4 @@ public class GeneralDTO extends MasterDTO {
     private String fromFreedomfighterFamily;
     private String fighterDetail;
     private String phone;
-    
-    private String oid;
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private Date createdOn;
-    private Date updatedOn;
-    private String config;
-    private String dataStatus;
 }

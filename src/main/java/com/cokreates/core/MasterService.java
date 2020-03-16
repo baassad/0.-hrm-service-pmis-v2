@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
-
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
@@ -22,7 +26,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     RequestBuildingComponent<Dto> requestBuildingComponent;
 
     private List<String> nodePath;
-    
+
     @Value("${spring.application.gdata_end_point_url}")
     private String gdata;
 
@@ -55,14 +59,14 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Entity create(Dto dto) {
         return null;
     }
-    
+
     @Override
     public Dto append(Dto dto) {
     	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,dto, dto.getOid(), this.getDtoClass());
-        
+
         String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
-        
+
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
     }
 
@@ -88,7 +92,40 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     @Override
-    public Entity update(Dto dto) {
+    public Entity update(Dto node) {
+
+        Gson gson = new Gson();
+        String element = gson.toJson(node);
+        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+        LinkedTreeMap mainMap = gsonMap.get("node");
+        String mainString = gson.toJson(mainMap);
+        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
+
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
+
+        return null;
+    }
+
+    @Override
+    public Entity updateApprovalHistory(Dto node) {
+
+        Gson gson = new Gson();
+        String element = gson.toJson(node);
+        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+        LinkedTreeMap commentMap = gsonMap.get("comment");
+        String commentMapString = gson.toJson(commentMap);
+        Dto comment = (Dto)gson.fromJson(commentMapString, this.getDtoClass());
+
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForApprovalHistoryUpdate(node);
+
+        dataServiceRestTemplateClient.updateSingleObject(nodePath, request);
+
         return null;
     }
 
@@ -113,7 +150,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
-        
+
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
         //return dataServiceRestTemplateClient.getSingleObject(nodePath, request, gDataEndPointUrl);
 //        dataServiceRestTemplateClient.getDataFromParticularNode(nodePath, request);
@@ -123,10 +160,10 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid, nodeOid, this.getDtoClass());
-        
+
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_LIST_NODE;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
-        
+
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
         //return dataServiceRestTemplateClient.getListSingleObject(nodePath, request, gDataEndPointUrl);
 //        DataServiceResponse<Dto> response = dataServiceClient.getDataFromParticularNode(request);

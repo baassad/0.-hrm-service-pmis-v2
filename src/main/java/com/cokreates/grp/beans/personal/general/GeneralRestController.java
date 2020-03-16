@@ -12,5 +12,5 @@ public class GeneralRestController extends MasterRestController<GeneralDTO,Gener
     public GeneralRestController(GeneralService serviceInterface){
         super(serviceInterface);
     }
-    
+
 }

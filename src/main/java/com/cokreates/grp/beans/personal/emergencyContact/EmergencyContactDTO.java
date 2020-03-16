@@ -1,11 +1,11 @@
 package com.cokreates.grp.beans.personal.emergencyContact;
 
 
-import java.util.Date;
-
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
