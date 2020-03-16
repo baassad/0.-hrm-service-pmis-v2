@@ -1,6 +1,9 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -24,13 +28,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     public MasterRestController(CklServiceInterface<D,E> serviceInterface){
         this.cklServiceInterface = serviceInterface;
-    }
-
-    @Override
-    @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(RequestModel<String> dto) {
-
-        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
     }
 
     @Override
@@ -54,11 +51,17 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE)
-    public ResponseModel<D> update(RequestModel<D> requestDTO) {
-
+    public ResponseModel<D>
+    update( @RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.update(requestDTO.getBody().getData().get(0)))));
 
     }
+
+    @PostMapping(Constant.ENDPOINT_UPDATE_APPROVAL_HISTORY)
+    public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<MasterRequestDTO> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.updateApprovalHistory(requestDTO.getBody().getData().get(0)))));
+    }
+
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
@@ -75,12 +78,6 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     }
 
     @Override
-    @PostMapping(Constant.ENDPOINT_GET_LIST)
-    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
-    }
-
-    @Override
     @PostMapping(Constant.ENDPOINT_DELETE_ALL)
     public ResponseModel<D> deleteAll(RequestModel<String> requestDTO) {
 
@@ -91,6 +88,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @PostMapping(Constant.ENDPOINT_GET)
     public ResponseModel<D>
     get(@Valid @RequestBody RequestModel<D> requestDTO) {
+        System.out.println("hello " + requestDTO);
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNode(requestDTO.getBody().getData().get(0).getOid())));
     }
 
@@ -99,6 +97,19 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     public ResponseModel<D>
     getFromList(@Valid @RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.getNodeFromList(requestDTO.getBody().getData().get(0).getOid(), requestDTO.getBody().getData().get(0).getNodeOid())));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
+    public ResponseModel<D> getSelected(RequestModel<String> dto) {
+
+        return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
+    }
+
+    @Override
+    @PostMapping(Constant.ENDPOINT_GET_LIST)
+    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.getList());
     }
 
     @Override

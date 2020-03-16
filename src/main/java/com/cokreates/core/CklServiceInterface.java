@@ -12,7 +12,10 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public boolean isValid(List<Dto> dto);
 
+//    public Entity update(String employeeOid, Dto dto);
     public Entity update(Dto dto);
+
+    public Entity updateApprovalHistory(MasterRequestDTO dto);
 
     public List<Entity> updateAll(List<Dto> dtos);
 
@@ -29,6 +32,8 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
     public List<Dto> getSelected(List<String> oids);
 
     public List<Dto> getList();
+
+    public Class<Dto> getDtoClass();
 
     public Dto convertToDto(Entity entity);
 

@@ -1,10 +1,10 @@
 package com.cokreates.grp.beans.qualification.language;
 
-import java.util.Date;
-
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

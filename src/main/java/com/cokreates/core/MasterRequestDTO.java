@@ -2,21 +2,16 @@ package com.cokreates.core;
 
 import com.cokreates.grp.beans.common.Comment;
 import com.cokreates.grp.util.request.RequestBodyDTO;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class MasterDTO implements RequestBodyDTO {
+public class MasterRequestDTO extends MasterDTO implements RequestBodyDTO {
 
-    private String oid;
+    private String approvalHistoryOid;
 
-    private String nodeOid;
+    private Comment comment;
 
-    private String config;
-
-    private MasterDTO main;
-
-    private MasterDTO temp;
+    private String approvalStatus;
 }

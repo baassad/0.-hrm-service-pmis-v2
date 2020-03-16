@@ -1,6 +1,7 @@
 package com.cokreates.grp.util.components;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.core.MasterRequestDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,20 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
         requestBody.setDtoClass(dtoClass);
+        requestBody.setDtoClass(dtoClass);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
+    public DataServiceRequest<Dto> getRequestForApprovalHistoryUpdate(MasterRequestDTO requestDTO){
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setApprovalHistoryOid(requestDTO.getApprovalHistoryOid());
+        requestBody.setComment(requestDTO.getComment());
+        requestBody.setApprovalStatus(requestDTO.getApprovalStatus());
 
         request.setBody(requestBody);
 

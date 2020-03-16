@@ -10,7 +10,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class ProfessionalCertificationDTO extends MasterDTO {
 
-    private String title, institution, duration, country, comment;
+    private String title, institution, duration, country,comment;
     private Date receivalDate, expiryDate;
 
     private String oid;
