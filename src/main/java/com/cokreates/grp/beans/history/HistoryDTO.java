@@ -1,6 +1,5 @@
 package com.cokreates.grp.beans.history;
 
-import java.util.Date;
 import java.util.Map;
 
 import com.cokreates.core.MasterDTO;
@@ -20,8 +19,8 @@ public class HistoryDTO extends MasterDTO {
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
-    private Date createdOn;
-    private Date updatedOn;
+    private String createdOn;
+    private String updatedOn;
     private String config;
     private String dataStatus;
 }

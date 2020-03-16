@@ -20,8 +20,8 @@ public class FileDTO extends MasterDTO {
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
-    private Date createdOn;
-    private Date updatedOn;
+    private String createdOn;
+    private String updatedOn;
     private String config;
     private String dataStatus;
 }

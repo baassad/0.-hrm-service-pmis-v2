@@ -4,8 +4,6 @@ import com.cokreates.core.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class General extends BaseEntity {
@@ -16,7 +14,7 @@ public class General extends BaseEntity {
     private String bloodGroup;
     private String signature;
     private String photo;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String gender;
     private String religion;
     private String nationality;

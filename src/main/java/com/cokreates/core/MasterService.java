@@ -1,5 +1,6 @@
 package com.cokreates.core;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +10,8 @@ import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
@@ -65,7 +64,6 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,dto, dto.getOid(), this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
-        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
 
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
     }

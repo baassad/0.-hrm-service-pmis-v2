@@ -30,13 +30,17 @@ public class Constant {
     public static final String GDATA_LIST_NODE 					= "list-node-in-emp-doc";
     public static final String GDATA_NODE_REQUEST 				= "node-in-doc-for-request";
     public static final String GDATA_LIST_NODE_REQUEST 			= "list-node-in-doc-for-request";
-    public static final String GDATA_APPROVAL_HISTORY_REVIEW 	= "approval-history-for-review";
     public static final String GDATA_NODE_REJECT 				= "node-in-doc-for-reject";
     public static final String GDATA_LIST_NODE_REJECT 			= "list-node-in-doc-for-reject";
     public static final String GDATA_APPROVE 					= "node-in-doc-for-approve";
     public static final String GDATA_LIST_NODE_APPROVE 			= "list-node-in-doc-for-approve";
     public static final String GDATA_APPROVAL_HISTORY_STATUS 	= "approval-history-by-status";
     public static final String GDATA_APPROVAL_HISTORY_EMP_STATUS= "approval-history-by-employee-and-status";
+    
+    public static final String GDATA_APPROVAL_HISTORY_REQUEST	= "approval-history-for-request";
+    public static final String GDATA_APPROVAL_HISTORY_REVIEW 	= "approval-history-for-review";
+    public static final String GDATA_APPROVAL_HISTORY_APPROVE	= "approval-history-for-approve";
+    public static final String GDATA_APPROVAL_HISTORY_REJECT	= "approval-history-for-reject";
     
     //http://localhost:5000/hrm/create/v1/emp
     

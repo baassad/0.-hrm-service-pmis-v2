@@ -17,6 +17,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cokreates.core.BaseEntity;
+import com.cokreates.core.Constant;
 import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
@@ -24,9 +25,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 // TODO: Take BaseService Logic to Component with Overridden methods as interface calls
+@Slf4j
 @AllArgsConstructor
 @Service
 public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEntity> {
@@ -59,6 +62,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public D getRestTemplateResponse(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -91,15 +95,22 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public void updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            
             if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
-                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-request", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
+            	
             } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
-                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-review", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
+            	
             } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
-                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-approve", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
+            	
             } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
-                ResponseEntity<String> response = restTemplate.exchange(gDataUrl + "approval-history-for-reject", HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
             }
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -120,6 +131,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public D getSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -155,6 +167,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public D getListSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 

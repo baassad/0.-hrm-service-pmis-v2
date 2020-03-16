@@ -1,10 +1,9 @@
 package com.cokreates.grp.beans.qualification.language;
 
 import com.cokreates.core.MasterDTO;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -16,8 +15,8 @@ public class LanguageDTO extends MasterDTO {
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
-    private Date createdOn;
-    private Date updatedOn;
+    private String createdOn;
+    private String updatedOn;
     private String config;
     private String dataStatus;
 }
