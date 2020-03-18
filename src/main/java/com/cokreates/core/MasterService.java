@@ -1,8 +1,10 @@
 package com.cokreates.core;
 
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.*;
 
+import org.modelmapper.spi.PropertyInfo;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.cokreates.grp.daas.DataServiceRequest;
@@ -96,10 +98,43 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         String element = gson.toJson(node);
         HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
-        LinkedTreeMap mainMap = gsonMap.get("node");
+        LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
+
+//        //iterate through TreeMap values iterator
+//        for (Map.Entry<String,Object> entry : mainMap.entrySet()) {
+//            Object value = entry.getValue();
+//            String key = entry.getKey();
+//            System.out.println(key + " " + value);
+//        }
+
         String mainString = gson.toJson(mainMap);
+//        mainString = mainString.replaceAll(null,"\"\"");
         Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
 
+        try {
+            for (Field field : main.getClass().getDeclaredFields()) {
+                field.setAccessible(true); // You might want to set modifier to public first.
+                Object value = field.get(main);
+                if (value == null) {
+                    mainMap.put(field.getName(), "");
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+       mainString = gson.toJson(mainMap);
+//        mainString = mainString.replaceAll(null,"\"\"");
+         main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+//        mainString = gson.toJson(main);
+//
+//        mainString.replaceAll("null" ,"\"\"");
+//
+//        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+//
+        System.out.println(" main ");
+        System.out.println(main);
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
 
