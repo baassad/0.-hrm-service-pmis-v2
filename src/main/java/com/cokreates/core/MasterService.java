@@ -100,19 +100,21 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
 
-//        //iterate through TreeMap values iterator
-//        for (Map.Entry<String,Object> entry : mainMap.entrySet()) {
-//            Object value = entry.getValue();
-//            String key = entry.getKey();
-//            System.out.println(key + " " + value);
-//        }
-
         String mainString = gson.toJson(mainMap);
-//        mainString = mainString.replaceAll(null,"\"\"");
         Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
 
         try {
             for (Field field : main.getClass().getDeclaredFields()) {
+                field.setAccessible(true); // You might want to set modifier to public first.
+                Object value = field.get(main);
+                if (value == null) {
+                    mainMap.put(field.getName(), "");
+                }
+            }
+
+            MasterDTO masterDTO = new MasterDTO();
+
+            for (Field field : masterDTO.getClass().getDeclaredFields()) {
                 field.setAccessible(true); // You might want to set modifier to public first.
                 Object value = field.get(main);
                 if (value == null) {
@@ -124,17 +126,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         }
 
        mainString = gson.toJson(mainMap);
-//        mainString = mainString.replaceAll(null,"\"\"");
-         main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-
-//        mainString = gson.toJson(main);
-//
-//        mainString.replaceAll("null" ,"\"\"");
-//
-//        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-//
-        System.out.println(" main ");
-        System.out.println(main);
+        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
 
