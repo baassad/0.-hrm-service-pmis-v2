@@ -1,5 +1,6 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.beans.common.Change;
 import com.cokreates.grp.beans.common.Comment;
 import com.cokreates.grp.util.request.RequestBodyDTO;
 import lombok.Data;
@@ -13,5 +14,11 @@ public class MasterApprovalDTO extends MasterDTO implements RequestBodyDTO {
 
     private Comment comment;
 
-    private String approvalStatus;
+    private String status;
+
+    private String employeeOid;
+
+    private String changeType;
+
+    private Change change;
 }
