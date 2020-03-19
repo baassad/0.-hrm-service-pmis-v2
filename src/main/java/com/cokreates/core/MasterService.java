@@ -184,7 +184,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public List<MasterApprovalDTO> getApprovalHistory(MasterApprovalDTO node) {
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1;
 
         DataServiceRequest<MasterApprovalDTO> request = requestBuildingComponent.getRequestForApprovalHistory(node);
 

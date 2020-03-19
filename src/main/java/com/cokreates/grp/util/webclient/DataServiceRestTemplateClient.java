@@ -167,7 +167,6 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public List<MasterApprovalDTO> getApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            gDataUrl = gDataUrl + Constant.GDATA_GET + Constant.VERSION_1;//approval-history-for-request
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
 
             if (requestBody.getBody().getApprovalStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
