@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.personal.health;
+package com.cokreates.grp.beans.personal.sicknesses;
 
 import com.cokreates.core.MasterRestController;
 import org.springframework.beans.factory.annotation.Autowired;

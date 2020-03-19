@@ -64,11 +64,10 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto append(Dto dto) {
-
-        Dto requestDto = this.parseBeforeUpdate(dto);
-
-
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,requestDto, dto.getOid(), this.getDtoClass());
+    	
+    	Dto main = this.parseBeforeUpdate(dto);
+        
+    	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, dto.getOid(), this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
 

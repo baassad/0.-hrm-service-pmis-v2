@@ -1,10 +1,9 @@
 package com.cokreates.grp.beans.personal.health;
 
 import com.cokreates.core.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -14,7 +13,7 @@ public class Health extends BaseEntity {
     private String identifyingMark;
     private String speciallyAbled;
 
-    private List<InjuriesSickness> injuriesSicknesses;
+    //private List<InjuriesSickness> injuriesSicknesses;
 
     //tempData obj
 }

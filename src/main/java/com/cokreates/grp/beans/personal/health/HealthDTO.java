@@ -1,7 +1,5 @@
 package com.cokreates.grp.beans.personal.health;
 
-import java.util.List;
-
 import com.cokreates.core.MasterDTO;
 
 import lombok.Data;
@@ -15,7 +13,6 @@ public class HealthDTO extends MasterDTO {
     private String height;
     private String identifyingMark;
     private String speciallyAbled;
-    private List<InjuriesSicknessDTO> injuriesSicknesses;
 
     private String createdBy;
     private String updatedBy;

@@ -13,7 +13,7 @@ public class EducationDTO extends MasterDTO {
     private String subject;
     private String institution;
     private String isForeignInstitution;
-    private String  major;
+    private String major;
     private String result;
     private String achieved;
     private String scale;

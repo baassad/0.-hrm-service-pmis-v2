@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.personal.health;
+package com.cokreates.grp.beans.personal.sicknesses;
 
 import java.util.Date;
 
