@@ -32,10 +32,10 @@
 			<version>2.8.5</version>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -101,6 +101,15 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
+
+		<!--    DEPLOYMENT      -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--    DEPLOYMENT      -->
+
 <!--		&lt;!&ndash;to be removed later&ndash;&gt;-->
 <!--		<dependency>-->
 <!--			<groupId>org.postgresql</groupId>-->
