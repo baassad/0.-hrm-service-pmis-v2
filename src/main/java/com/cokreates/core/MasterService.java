@@ -64,7 +64,11 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto append(Dto dto) {
-    	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,dto, dto.getOid(), this.getDtoClass());
+
+        Dto requestDto = this.parseBeforeUpdate(dto);
+
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,requestDto, dto.getOid(), this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
 
@@ -95,39 +99,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Entity update(Dto node) {
 
-        Gson gson = new Gson();
-        String element = gson.toJson(node);
-        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
-        LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
-
-        String mainString = gson.toJson(mainMap);
-        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-
-        try {
-            for (Field field : main.getClass().getDeclaredFields()) {
-                field.setAccessible(true); // You might want to set modifier to public first.
-                Object value = field.get(main);
-                if (value == null) {
-                    mainMap.put(field.getName(), "");
-                }
-            }
-
-            MasterDTO masterDTO = new MasterDTO();
-
-            for (Field field : masterDTO.getClass().getDeclaredFields()) {
-                field.setAccessible(true); // You might want to set modifier to public first.
-                Object value = field.get(main);
-                if (value == null) {
-                    mainMap.put(field.getName(), "");
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-       mainString = gson.toJson(mainMap);
-        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+        Dto main = this.parseBeforeUpdate(node);
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, node.getOid(), null, this.getDtoClass());
 
@@ -251,4 +224,43 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Dto convertToDto(Entity entity) {
         return null;
     }
+
+    public Dto parseBeforeUpdate(Dto dto) {
+        Gson gson = new Gson();
+        String element = gson.toJson(dto);
+        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+        LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
+
+        String mainString = gson.toJson(mainMap);
+        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+        try {
+            for (Field field : main.getClass().getDeclaredFields()) {
+                field.setAccessible(true); // You might want to set modifier to public first.
+                Object value = field.get(main);
+                if (value == null) {
+                    mainMap.put(field.getName(), "");
+                }
+            }
+
+            MasterDTO masterDTO = new MasterDTO();
+
+            for (Field field : masterDTO.getClass().getDeclaredFields()) {
+                field.setAccessible(true); // You might want to set modifier to public first.
+                Object value = field.get(main);
+                if (value == null) {
+                    mainMap.put(field.getName(), "");
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        mainString = gson.toJson(mainMap);
+        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+        return main;
+    }
+
 }
