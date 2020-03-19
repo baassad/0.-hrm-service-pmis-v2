@@ -168,13 +168,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public List<MasterApprovalDTO> getApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            gDataUrl = gDataUrl + Constant.GDATA_GET + Constant.VERSION_1;//approval-history-for-request
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
 
-            if (requestBody.getBody().getApprovalStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
+            if (requestBody.getBody().getStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
                 gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS;//approval-history-for-request
 
-            } else if (requestBody.getBody().getApprovalStatus() != null) {
+            } else if (requestBody.getBody().getStatus() != null) {
                 gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_STATUS;//approval-history-for-review
 
             } else {
@@ -183,6 +182,26 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             }
 
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode listJson = jsonNode.get("body");
+
+            System.out.println("jejdd ");
+            System.out.println(listJson);
+
+            listJson = jsonNode.get("body").get("data");
+
+            System.out.println("jejdd 2 ");
+            System.out.println(listJson);
+
+            List<MasterApprovalDTO> approvalDTOS = new ArrayList<>();
+
+            approvalDTOS = objectMapper.readValue(
+                    listJson.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, MasterApprovalDTO.class));
+            return approvalDTOS;
 
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
@@ -232,16 +251,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
 
-            if (requestBody.getBody().getApprovalStatus().equals("REQUESTED")) {
+            if (requestBody.getBody().getStatus().equals("REQUESTED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
 
-            } else if (requestBody.getBody().getApprovalStatus().equals("REVIEWED")) {
+            } else if (requestBody.getBody().getStatus().equals("REVIEWED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
 
-            } else if (requestBody.getBody().getApprovalStatus().equals("APPROVED")) {
+            } else if (requestBody.getBody().getStatus().equals("APPROVED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
 
-            } else if (requestBody.getBody().getApprovalStatus().equals("REJECTED")) {
+            } else if (requestBody.getBody().getStatus().equals("REJECTED")) {
             	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
             }
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);

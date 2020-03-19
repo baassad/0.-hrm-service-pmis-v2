@@ -15,7 +15,7 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private String approvalHistoryOid;
 
-    private String approvalStatus;
+    private String status;
 
     private Comment comment;
 
