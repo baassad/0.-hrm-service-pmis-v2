@@ -33,7 +33,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public List<Dto> getSelected(List<String> oids);
 
-    public List<Dto> getList();
+    public List<Dto> getList(String employeeOid);
 
     public List<Dto> getList(Dto dto);
 

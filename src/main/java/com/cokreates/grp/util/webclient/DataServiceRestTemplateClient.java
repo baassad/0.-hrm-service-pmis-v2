@@ -2,6 +2,8 @@ package com.cokreates.grp.util.webclient;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,17 +111,41 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode mainJson = jsonNode.get("body").get("main");
             JsonNode tempJson = jsonNode.get("body").get("temp");
 
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
+            List<D> mainList = new ArrayList<>();
+            List<D> tempList = new ArrayList<>();
 
-            if (null != requestBody.getBody().getEmployeeOid()) {
-				main.setOid(requestBody.getBody().getEmployeeOid());
-			}
-            if (null != requestBody.getBody().getNodeOid()) {
-				main.setNodeOid(requestBody.getBody().getNodeOid());
-			}
-            main.setTemp(temp);
-            return null;
+
+
+            mainList = objectMapper.readValue(
+                    mainJson.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, requestBody.getBody().getDtoClass()));
+
+
+
+            tempList = objectMapper.readValue(
+                    tempJson.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, requestBody.getBody().getDtoClass()));
+
+            HashMap<String, Integer> mainMap = new HashMap<>();
+
+            int mainListSize = mainList.size();
+            int tempListSize = tempList.size();
+
+            for (int i =0 ;i <mainListSize ; i++) {
+                mainMap.put(mainList.get(i).getOid(), i);
+            }
+
+            for (int i =0 ;i <tempListSize ; i++) {
+                D temp = tempList.get(i);
+                int mainListIndex = mainMap.get(temp.getOid());
+                D main = mainList.get(mainListIndex);
+                main.setTemp(temp);
+                mainList.set(i, main);
+            }
+
+            return mainList;
 
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();

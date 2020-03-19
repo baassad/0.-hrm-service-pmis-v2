@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.*;
 
+import com.cokreates.grp.daas.DataServiceResponse;
 import org.modelmapper.spi.PropertyInfo;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -222,9 +223,15 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     @Override
-    public List<Dto> getList() {
+    public List<Dto> getList(String employeeOid) {
 
-        return null;
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null,employeeOid, this.getDtoClass());
+
+        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
+        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+
+        return dataServiceRestTemplateClient.getRestTemplateResponseList(nodePath, request, gDataEndPointUrl);
 
     }
 

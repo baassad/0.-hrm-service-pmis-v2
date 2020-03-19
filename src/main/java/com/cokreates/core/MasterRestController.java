@@ -31,13 +31,13 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE)
-    public ResponseModel<D> create(RequestModel<D> requestDTO) {
+    public ResponseModel<D> create(@Valid @RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(cklServiceInterface.convertToDto(cklServiceInterface.create(requestDTO.getBody().getData().get(0)))));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE_ALL)
-    public ResponseModel<D> createAll(RequestModel<D> requestDTO) {
+    public ResponseModel<D> createAll(@Valid @RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.createAll(requestDTO.getBody().getData()).stream()
                 .map(o -> cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
     }
@@ -71,7 +71,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
-    public ResponseModel<D> updateAll(RequestModel<D> requestDTO) {
+    public ResponseModel<D> updateAll(@RequestBody RequestModel<D> requestDTO) {
 
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.updateAll(requestDTO.getBody().getData())
                 .stream().map(o->cklServiceInterface.convertToDto(o)).collect(Collectors.toList()));
@@ -79,13 +79,13 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_DELETE)
-    public ResponseModel<D> delete(RequestModel<D> requestDTO) {
+    public ResponseModel<D> delete(@RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(cklServiceInterface.delete(requestDTO.getBody().getData().get(0).getOid())));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_DELETE_ALL)
-    public ResponseModel<D> deleteAll(RequestModel<String> requestDTO) {
+    public ResponseModel<D> deleteAll(@RequestBody RequestModel<String> requestDTO) {
 
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),cklServiceInterface.deleteAll(requestDTO.getBody().getData()));
     }
@@ -106,15 +106,15 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(RequestModel<String> dto) {
+    public ResponseModel<D> getSelected(@RequestBody RequestModel<String> dto) {
 
         return resultBuildingComponent.retrieveResult(dto.getHeader(),cklServiceInterface.getSelected(dto.getBody().getData()));
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST)
-    public ResponseModel<D> getAll(RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),(cklServiceInterface.getList(requestDTO.getBody().getData().get(0))));
+    public ResponseModel<D> getAll(@RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),(cklServiceInterface.getList(requestDTO.getBody().getData().get(0).getOid())));
     }
 
     @Override
