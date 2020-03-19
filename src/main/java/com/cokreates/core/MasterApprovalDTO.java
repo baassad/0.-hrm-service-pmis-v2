@@ -16,9 +16,14 @@ public class MasterApprovalDTO extends MasterDTO implements RequestBodyDTO {
 
     private String status;
 
-    private String employeeOid;
+    private String employee_oid;
 
-    private String changeType;
+    private String change_type;
 
     private Change change;
+
+    private String created_by;
+    private String updated_by;
+    private String created_on;
+    private String updated_on;
 }
