@@ -24,8 +24,8 @@ spring:
     hrm_app_name: ""
     global: true
     search_from_global: false
-    gdata_end_point_url: "http://43.224.110.22:80/hrm/"
-#    gdata_end_point_url: "http://localhost:4000/hrm/"
+#    gdata_end_point_url: "http://43.224.110.22:80/hrm/"
+    gdata_end_point_url: "http://localhost:5000/hrm/"
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -49,7 +49,7 @@ service:
     short-code: hrm-service-pim
     version: v1.0
 server:
-  port : 9000
+  port : 9001
 
 
 # =============================================================================================
