@@ -1,7 +1,6 @@
 package com.cokreates.grp.daas;
 
 import com.cokreates.core.MasterDTO;
-import com.cokreates.grp.beans.common.Comment;
 import lombok.Data;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private String status;
 
-    private Comment comment;
+    private Object comment;
 
     private String nodeOid;
 

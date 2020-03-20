@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cokreates.core.MasterApprovalDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -165,21 +164,21 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         return null;
     }
 
-    public List<MasterApprovalDTO> getApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
+    public List<D> getApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
 
-            if (requestBody.getBody().getStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
-                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS;//approval-history-for-request
-
-            } else if (requestBody.getBody().getStatus() != null) {
-                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_STATUS;//approval-history-for-review
-
-            } else {
-                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE;//approval-history-for-approve
-
-            }
+//            if (requestBody.getBody().getStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
+//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS;//approval-history-for-request
+//
+//            } else if (requestBody.getBody().getStatus() != null) {
+//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_STATUS;//approval-history-for-review
+//
+//            } else {
+//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE;//approval-history-for-approve
+//
+//            }
 
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
@@ -187,20 +186,14 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             JsonNode listJson = jsonNode.get("body");
 
-            System.out.println("jejdd ");
-            System.out.println(listJson);
-
             listJson = jsonNode.get("body").get("data");
 
-            System.out.println("jejdd 2 ");
-            System.out.println(listJson);
-
-            List<MasterApprovalDTO> approvalDTOS = new ArrayList<>();
+            List<D> approvalDTOS = new ArrayList<>();
 
             approvalDTOS = objectMapper.readValue(
                     listJson.toString(),
                     objectMapper.getTypeFactory().constructCollectionType(
-                            List.class, MasterApprovalDTO.class));
+                            List.class, requestBody.getBody().getDtoClass()));
             return approvalDTOS;
 
         } catch (HttpStatusCodeException ex) {
@@ -247,7 +240,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     }
 
 
-    public void updateApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
+    public void updateApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
 
