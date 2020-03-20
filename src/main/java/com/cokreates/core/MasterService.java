@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.*;
 
+import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
 import lombok.Data;
 import org.modelmapper.spi.PropertyInfo;
@@ -144,6 +145,23 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
 
+
+    @Override
+    public List<MasterApprovalDTO> getApprovalHistoryByActor(MasterApprovalDTO node) {
+
+        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;;
+
+        DataServiceRequest<MasterApprovalDTO> request = requestBuildingComponent.getRequestForApprovalHistory(node);
+
+//        request.setBody(parseBeforeApprovalUpdate(request.getBody()));
+
+        DataServiceRequestBody dataServiceRequestBody = parseBeforeApprovalUpdate(request.getBody());
+
+        return dataServiceRestTemplateClient.getApprovalHistoryByActor(nodePath, request, gDataEndPointUrl);
+
+    }
+
+
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
@@ -216,7 +234,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             for (Field field : main.getClass().getDeclaredFields()) {
                 field.setAccessible(true); // You might want to set modifier to public first.
                 Object value = field.get(main);
-                if (value == null) {
+                if (value == null && field.getGenericType() == String.class) {
                     mainMap.put(field.getName(), "");
                 }
             }
@@ -226,7 +244,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             for (Field field : masterDTO.getClass().getDeclaredFields()) {
                 field.setAccessible(true); // You might want to set modifier to public first.
                 Object value = field.get(main);
-                if (value == null) {
+                if (value == null && field.getType() == String.class) {
                     mainMap.put(field.getName(), "");
                 }
             }
@@ -236,6 +254,33 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         mainString = gson.toJson(mainMap);
         main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+        return main;
+    }
+
+    public DataServiceRequestBody parseBeforeApprovalUpdate(DataServiceRequestBody dto) {
+        Gson gson = new Gson();
+
+        String mainString = gson.toJson(dto);
+        LinkedTreeMap<String, Object> gsonMap = gson.fromJson(mainString, LinkedTreeMap.class);
+
+        DataServiceRequestBody main = (DataServiceRequestBody)gson.fromJson(mainString, DataServiceRequestBody.class);
+
+        try {
+            for (Field field : main.getClass().getDeclaredFields()) {
+                field.setAccessible(true); // You might want to set modifier to public first.
+                Object value = field.get(main);
+                if (value == null&& field.getType() == String.class) {
+                    gsonMap.put(field.getName(), "");
+                };
+            }
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        mainString = gson.toJson(gsonMap);
+        main = (DataServiceRequestBody)gson.fromJson(mainString, DataServiceRequestBody.class);
 
         return main;
     }

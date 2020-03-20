@@ -33,7 +33,7 @@ public class Constant {
     public static final String GDATA_NODE_REQUEST 				= "node-in-doc-for-request";
     public static final String GDATA_NODE_REJECT 				= "node-in-doc-for-reject";
     public static final String GDATA_APPROVE 					= "node-in-doc-for-approve";
-    
+
     public static final String GDATA_LIST_NODE_REQUEST 			= "list-node-in-doc-for-request";
     public static final String GDATA_LIST_NODE_APPROVE 			= "list-node-in-doc-for-approve";
     public static final String GDATA_LIST_NODE_REJECT 			= "list-node-in-doc-for-reject";
@@ -46,6 +46,7 @@ public class Constant {
     public static final String GDATA_APPROVAL_HISTORY 	= "get-approval-history";
     public static final String GDATA_APPROVAL_HISTORY_BY_STATUS 	= "approval-history-by-status";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE	= "approval-history-by-employee";
+    public static final String GDATA_APPROVAL_HISTORY_BY_ACTOR	= "approval-history-by-actor";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS	= "approval-history-by-employee-and-status";
     
     //http://localhost:5000/hrm/create/v1/emp
