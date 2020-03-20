@@ -17,6 +17,8 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public List<MasterApprovalDTO> getApprovalHistory(MasterApprovalDTO dto);
 
+    public List<MasterApprovalDTO> getApprovalHistoryByActor(MasterApprovalDTO dto);
+
     public Entity updateApprovalHistory(MasterApprovalDTO dto);
 
     public List<Entity> updateAll(List<Dto> dtos);

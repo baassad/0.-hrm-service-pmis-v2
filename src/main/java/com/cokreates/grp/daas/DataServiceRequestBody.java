@@ -13,6 +13,12 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private String employeeOid;
 
+    private String reviewerOid;
+
+    private String requesterOid;
+
+    private String approverOid;
+
     private String approvalHistoryOid;
 
     private String status;

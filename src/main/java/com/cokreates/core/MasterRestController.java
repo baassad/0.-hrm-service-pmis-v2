@@ -62,6 +62,11 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
         return resultBuildingComponent.retrieveApprovalResult(requestDTO.getHeader(), cklServiceInterface.getApprovalHistory(requestDTO.getBody().getData().get(0)));
     }
 
+    @PostMapping(Constant.ENDPOINT_GET_APPROVAL_HISTORY_BY_ACTOR)
+    public ResponseModel<MasterApprovalDTO> getApprovalHistoryByActor(@RequestBody RequestModel<MasterApprovalDTO> requestDTO) {
+        return resultBuildingComponent.retrieveApprovalResult(requestDTO.getHeader(), cklServiceInterface.getApprovalHistoryByActor(requestDTO.getBody().getData().get(0)));
+    }
+
 
     @PostMapping(Constant.ENDPOINT_UPDATE_APPROVAL_HISTORY)
     public ResponseModel<D> updateApprovalHistory(@RequestBody RequestModel<MasterApprovalDTO> requestDTO) {

@@ -72,6 +72,9 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode mainJson = jsonNode.get("body").get("main");
             JsonNode tempJson = jsonNode.get("body").get("temp");
 
+            System.out.println("helo ");
+            System.out.println(mainJson);
+
             D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
             D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
             /*
@@ -165,6 +168,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         return null;
     }
 
+
     public List<MasterApprovalDTO> getApprovalHistory(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
@@ -187,13 +191,44 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             JsonNode listJson = jsonNode.get("body");
 
-            System.out.println("jejdd ");
-            System.out.println(listJson);
-
             listJson = jsonNode.get("body").get("data");
 
-            System.out.println("jejdd 2 ");
-            System.out.println(listJson);
+            List<MasterApprovalDTO> approvalDTOS = new ArrayList<>();
+
+            approvalDTOS = objectMapper.readValue(
+                    listJson.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, MasterApprovalDTO.class));
+            return approvalDTOS;
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
+        }
+        return null;
+    }
+
+
+    public List<MasterApprovalDTO> getApprovalHistoryByActor(List<String> nodePath, DataServiceRequest<MasterApprovalDTO> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode listJson = jsonNode.get("body").get("data");
 
             List<MasterApprovalDTO> approvalDTOS = new ArrayList<>();
 

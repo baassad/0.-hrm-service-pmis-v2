@@ -37,6 +37,10 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setComment(requestDTO.getComment());
         requestBody.setStatus(requestDTO.getStatus());
         requestBody.setEmployeeOid(requestDTO.getOid());
+        requestBody.setRequesterOid(requestDTO.getRequesterOid());
+        requestBody.setReviewerOid(requestDTO.getReviewerOid());
+        requestBody.setApproverOid(requestDTO.getApproverOid());
+
 
         request.setBody(requestBody);
 
