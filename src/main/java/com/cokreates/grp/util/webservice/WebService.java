@@ -34,21 +34,4 @@ public class WebService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public <T> List<T> postForList(String restUrl, Class<T> c, Object dto) {
-        ResponseEntity<String> response;
-        JsonNode jsonNode;
-        try {
-            response = restTemplate.exchange(restUrl, HttpMethod.POST,
-                    new HttpEntity(dto, httpHeaders()), String.class);
-            jsonNode = objectMapper.readTree(response.getBody());
-            jsonNode = jsonNode.get("body").get("data");
-            return objectMapper.readValue(jsonNode.toString(),
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, c));
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }

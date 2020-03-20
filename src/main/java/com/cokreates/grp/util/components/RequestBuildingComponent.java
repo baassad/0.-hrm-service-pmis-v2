@@ -1,7 +1,6 @@
 package com.cokreates.grp.util.components;
 
 import com.cokreates.core.MasterDTO;
-import com.cokreates.core.MasterApprovalDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 public class RequestBuildingComponent<Dto extends MasterDTO> {
 
-    public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, String nodeOid, Class dtoClass){
+    public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,
+                                                     Dto node,
+                                                     String employeeOid,
+                                                     String nodeOid,
+                                                     String approvalHistoryOid,
+                                                     Object comment,
+                                                     String status,
+                                                     Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
 
@@ -21,7 +27,11 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNodeOid(nodeOid);
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
-        requestBody.setDtoClass(dtoClass);
+
+        requestBody.setApprovalHistoryOid(approvalHistoryOid);
+        requestBody.setComment(comment);
+        requestBody.setStatus(status);
+
         requestBody.setDtoClass(dtoClass);
 
         request.setBody(requestBody);
@@ -29,19 +39,19 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         return request;
     }
 
-    public DataServiceRequest<MasterApprovalDTO> getRequestForApprovalHistory(MasterApprovalDTO requestDTO){
-        DataServiceRequest<MasterApprovalDTO> request = new DataServiceRequest<>();
-        DataServiceRequestBody<MasterApprovalDTO> requestBody = new DataServiceRequestBody<>();
-
-        requestBody.setApprovalHistoryOid(requestDTO.getApprovalHistoryOid());
-        requestBody.setComment(requestDTO.getComment());
-        requestBody.setStatus(requestDTO.getStatus());
-        requestBody.setEmployeeOid(requestDTO.getOid());
-
-        request.setBody(requestBody);
-
-        return request;
-    }
+//    public DataServiceRequest<MasterApprovalDTO> getRequestForApprovalHistory(MasterApprovalDTO requestDTO){
+//        DataServiceRequest<MasterApprovalDTO> request = new DataServiceRequest<>();
+//        DataServiceRequestBody<MasterApprovalDTO> requestBody = new DataServiceRequestBody<>();
+//
+//        requestBody.setApprovalHistoryOid(requestDTO.getApprovalHistoryOid());
+//        requestBody.setComment(requestDTO.getComment());
+//        requestBody.setStatus(requestDTO.getStatus());
+//        requestBody.setEmployeeOid(requestDTO.getOid());
+//
+//        request.setBody(requestBody);
+//
+//        return request;
+//    }
     
     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
