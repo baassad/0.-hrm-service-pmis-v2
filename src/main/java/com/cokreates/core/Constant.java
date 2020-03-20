@@ -9,7 +9,8 @@ public class Constant {
     public static final String ENDPOINT_APPEND= "/append";
     public static final String ENDPOINT_SEARCH = "/search";
     public static final String ENDPOINT_UPDATE = "/update";
-    public static final String ENDPOINT_APPROVAL_HISTORY = "/approval-history";
+    public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
+    public static final String ENDPOINT_GET_APPROVAL_HISTORY_BY_ACTOR 	= "/get-approval-history-by-actor";
     public static final String ENDPOINT_UPDATE_APPROVAL_HISTORY = "/update-approval-history";
     public static final String ENDPOINT_UPDATE_ALL = "/update-all";
     public static final String ENDPOINT_GET = "/get";
@@ -37,13 +38,14 @@ public class Constant {
     public static final String GDATA_LIST_NODE_REQUEST 			= "list-node-in-doc-for-request";
     public static final String GDATA_LIST_NODE_APPROVE 			= "list-node-in-doc-for-approve";
     public static final String GDATA_LIST_NODE_REJECT 			= "list-node-in-doc-for-reject";
-    
+
+    public static final String GDATA_APPROVAL_HISTORY = "approval-history";
+
     public static final String GDATA_APPROVAL_HISTORY_REQUEST	= "approval-history-for-request";
     public static final String GDATA_APPROVAL_HISTORY_REVIEW 	= "approval-history-for-review";
     public static final String GDATA_APPROVAL_HISTORY_APPROVE	= "approval-history-for-approve";
     public static final String GDATA_APPROVAL_HISTORY_REJECT	= "approval-history-for-reject";
 
-    public static final String GDATA_APPROVAL_HISTORY 	= "get-approval-history";
     public static final String GDATA_APPROVAL_HISTORY_BY_STATUS 	= "approval-history-by-status";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE	= "approval-history-by-employee";
     public static final String GDATA_APPROVAL_HISTORY_BY_ACTOR	= "approval-history-by-actor";

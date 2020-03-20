@@ -107,7 +107,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         Dto main = this.parseBeforeUpdate(node);
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
-                null, null, null, null, this.getDtoClass());
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
 
@@ -135,7 +136,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto getNode(String employeeOid) {
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
-                null, null, null, null, this.getDtoClass());
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
@@ -145,27 +147,11 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
 
-
-    @Override
-    public List<MasterApprovalDTO> getApprovalHistoryByActor(MasterApprovalDTO node) {
-
-        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;;
-
-        DataServiceRequest<MasterApprovalDTO> request = requestBuildingComponent.getRequestForApprovalHistory(node);
-
-//        request.setBody(parseBeforeApprovalUpdate(request.getBody()));
-
-        DataServiceRequestBody dataServiceRequestBody = parseBeforeApprovalUpdate(request.getBody());
-
-        return dataServiceRestTemplateClient.getApprovalHistoryByActor(nodePath, request, gDataEndPointUrl);
-
-    }
-
-
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
-                nodeOid, null, null, null, this.getDtoClass());
+                nodeOid, null, null, null,
+                null, null, null, this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_LIST_NODE;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
@@ -194,7 +180,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
-                null, null, null, null, this.getDtoClass());
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
         log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);

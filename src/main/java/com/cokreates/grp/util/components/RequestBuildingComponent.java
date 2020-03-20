@@ -19,6 +19,9 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
                                                      String approvalHistoryOid,
                                                      Object comment,
                                                      String status,
+                                                     String requesterOid,
+                                                     String reviewerOid,
+                                                     String approverOid,
                                                      Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
@@ -31,6 +34,10 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setApprovalHistoryOid(approvalHistoryOid);
         requestBody.setComment(comment);
         requestBody.setStatus(status);
+
+        requestBody.setRequesterOid(requesterOid);
+        requestBody.setReviewerOid(reviewerOid);
+        requestBody.setApproverOid(approverOid);
 
         requestBody.setDtoClass(dtoClass);
 
