@@ -1,7 +1,6 @@
 package com.cokreates.grp.beans.qualification.publication;
 
 import com.cokreates.core.MasterDTO;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

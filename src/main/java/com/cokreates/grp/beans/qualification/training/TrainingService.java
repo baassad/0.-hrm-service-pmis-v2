@@ -20,4 +20,7 @@ public class TrainingService extends MasterService<TrainingDTO, Training> {
     public Class getDtoClass() {
         return TrainingDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Training.class;}
 }

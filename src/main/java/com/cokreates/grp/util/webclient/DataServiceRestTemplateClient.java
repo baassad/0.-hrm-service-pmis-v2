@@ -1,14 +1,16 @@
 package com.cokreates.grp.util.webclient;
 
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.cokreates.core.BaseEntity;
+import com.cokreates.core.Constant;
+import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponseBody;
+import com.cokreates.grp.util.components.HeaderUtilComponent;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,16 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import com.cokreates.core.BaseEntity;
-import com.cokreates.core.Constant;
-import com.cokreates.core.MasterDTO;
-import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.util.components.HeaderUtilComponent;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 // TODO: Take BaseService Logic to Component with Overridden methods as interface calls
@@ -208,17 +205,6 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
 
-//            if (requestBody.getBody().getStatus() != null && requestBody.getBody().getEmployeeOid() !=null) {
-//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS;//approval-history-for-request
-//
-//            } else if (requestBody.getBody().getStatus() != null) {
-//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_STATUS;//approval-history-for-review
-//
-//            } else {
-//                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_BY_EMPLOYEE;//approval-history-for-approve
-//
-//            }
-
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
@@ -275,7 +261,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         }
     }
 
-    public void updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+    public D updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             
@@ -284,7 +270,15 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+
+            return main;
+
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -299,10 +293,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 //                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
             }
         }
+
+        return null;
     }
 
 
-    public void updateApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+    public D updateApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
 
@@ -321,6 +317,13 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+            return main;
+
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
             JsonNode jsonNode = null;
@@ -335,6 +338,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 //                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
             }
         }
+        return null;
     }
 
 

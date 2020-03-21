@@ -23,4 +23,7 @@ public class ChildEducationService extends MasterService<ChildEducationDTO,Child
     public Class getDtoClass() {
         return ChildEducationDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return ChildEducation.class;}
 }

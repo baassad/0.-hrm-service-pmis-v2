@@ -20,4 +20,7 @@ public class JobHistoryService extends MasterService<JobHistoryDTO, JobHistory> 
     public Class getDtoClass() {
         return JobHistoryDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return JobHistory.class;}
 }

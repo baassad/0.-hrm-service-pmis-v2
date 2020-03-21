@@ -1,7 +1,6 @@
 package com.cokreates.grp.beans.personal.health;
 
 import com.cokreates.core.BaseEntity;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

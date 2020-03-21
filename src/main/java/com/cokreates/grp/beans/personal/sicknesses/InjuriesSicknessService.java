@@ -1,14 +1,12 @@
 package com.cokreates.grp.beans.personal.sicknesses;
 
-import java.util.Arrays;
-
-import org.springframework.stereotype.Service;
-
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 @Slf4j
@@ -24,4 +22,7 @@ public class InjuriesSicknessService extends MasterService<InjuriesSicknessDTO,I
     public Class getDtoClass() {
         return InjuriesSicknessDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return InjuriesSickness.class;}
 }

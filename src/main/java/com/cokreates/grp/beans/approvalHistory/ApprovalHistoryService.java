@@ -3,7 +3,6 @@ package com.cokreates.grp.beans.approvalHistory;
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.request.ActorRequestBodyDTO;
 import com.cokreates.grp.util.request.ApprovalHistoryRequestBodyDTO;
@@ -11,7 +10,6 @@ import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,9 +41,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
                 null, node.getOid(), node.getComment(), node.getStatus(),
                 null, null, null, this.getDtoClass());
 
-        getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl);
-
-        return null;
+        return convertToEntity(getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl));
     }
 
 
@@ -70,4 +66,8 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
     public Class getDtoClass() {
         return ApprovalHistoryDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return ApprovalHistory.class;}
+
 }

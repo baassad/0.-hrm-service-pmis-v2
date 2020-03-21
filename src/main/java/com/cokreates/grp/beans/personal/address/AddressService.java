@@ -23,4 +23,7 @@ public class AddressService extends MasterService<AddressDTO,Address> {
     public Class getDtoClass() {
         return AddressDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Address.class;}
 }

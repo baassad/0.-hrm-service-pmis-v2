@@ -1,22 +1,20 @@
 package com.cokreates.core;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.*;
-
-import com.cokreates.grp.daas.DataServiceRequestBody;
-import com.cokreates.grp.daas.DataServiceResponse;
-import lombok.Data;
-import org.modelmapper.spi.PropertyInfo;
-import org.springframework.beans.factory.annotation.Value;
-
 import com.cokreates.grp.daas.DataServiceRequest;
+import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @Data
@@ -25,7 +23,10 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 //    @Autowired
 //    DataServiceClient dataServiceClient;
 
-//    @Autowired
+    @Autowired
+    private ModelMapper modelMapper;
+
+
     DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient;
 
     RequestBuildingComponent<Dto> requestBuildingComponent;
@@ -44,6 +45,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     public Class<Dto> getDtoClass() {return null;}
+
+    public Class<Entity> getEntityClass() {return null;}
 
     public List<String> getNodePath() {
         return this.nodePath;
@@ -119,7 +122,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1;
 
 
-            dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
+            return convertToEntity(dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl));
 
         }else if(this.getType().equalsIgnoreCase("List")){
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
@@ -220,7 +223,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto convertToDto(Entity entity) {
-        return null;
+        return modelMapper.map(entity, getDtoClass());
+    }
+
+    @Override
+    public Entity convertToEntity(Dto dto) {
+        return modelMapper.map(dto, getEntityClass());
     }
 
     public Dto parseBeforeUpdate(Dto dto) {

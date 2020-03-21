@@ -1,19 +1,16 @@
 package com.cokreates.core;
 
-import java.util.Collections;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
+import com.cokreates.grp.util.components.ResultBuildingComponent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.cokreates.grp.util.components.ResultBuildingComponent;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @Slf4j

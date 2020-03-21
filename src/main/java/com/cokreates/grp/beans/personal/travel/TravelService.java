@@ -23,4 +23,7 @@ public class TravelService extends MasterService<TravelDTO,Travel> {
     public Class getDtoClass() {
         return TravelDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Travel.class;}
 }

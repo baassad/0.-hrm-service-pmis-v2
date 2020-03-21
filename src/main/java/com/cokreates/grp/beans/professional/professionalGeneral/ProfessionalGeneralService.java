@@ -19,4 +19,7 @@ public class ProfessionalGeneralService extends MasterService<ProfessionalGenera
     public Class getDtoClass() {
         return ProfessionalGeneralDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return ProfessionalGeneral.class;}
 }

@@ -20,4 +20,7 @@ public class PromotionService extends MasterService<PromotionDTO, Promotion> {
     public Class getDtoClass() {
         return PromotionDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Promotion.class;}
 }

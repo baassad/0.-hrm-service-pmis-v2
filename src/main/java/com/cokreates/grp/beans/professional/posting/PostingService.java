@@ -20,4 +20,7 @@ public class PostingService extends MasterService<PostingDTO, Posting> {
     public Class getDtoClass() {
         return PostingDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Posting.class;}
 }

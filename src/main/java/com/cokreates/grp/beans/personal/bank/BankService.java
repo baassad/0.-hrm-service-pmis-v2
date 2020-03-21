@@ -23,4 +23,7 @@ public class BankService extends MasterService<BankDTO, Bank> {
     public Class getDtoClass() {
         return BankDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Bank.class;}
 }

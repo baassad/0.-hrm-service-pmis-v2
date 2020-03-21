@@ -23,4 +23,7 @@ public class EmergencyContactService extends MasterService<EmergencyContactDTO,E
     public Class getDtoClass() {
         return EmergencyContactDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return EmergencyContact.class;}
 }

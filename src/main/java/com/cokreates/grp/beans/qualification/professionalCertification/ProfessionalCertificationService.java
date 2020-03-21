@@ -20,4 +20,7 @@ public class ProfessionalCertificationService extends MasterService<Professional
     public Class getDtoClass() {
         return ProfessionalCertificationDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return ProfessionalCertification.class;}
 }

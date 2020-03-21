@@ -23,4 +23,7 @@ public class FileService extends MasterService<FileDTO,File> {
     public Class getDtoClass() {
         return FileDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return File.class;}
 }

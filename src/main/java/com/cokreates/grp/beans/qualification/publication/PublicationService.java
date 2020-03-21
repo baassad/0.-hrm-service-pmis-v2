@@ -20,4 +20,7 @@ public class PublicationService extends MasterService<PublicationDTO, Publicatio
     public Class getDtoClass() {
         return PublicationDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Publication.class;}
 }

@@ -20,4 +20,7 @@ public class LeaveService extends MasterService<LeaveDTO, Leave> {
     public Class getDtoClass() {
         return LeaveDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Leave.class;}
 }

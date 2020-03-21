@@ -20,4 +20,7 @@ public class ServiceHistoryService extends MasterService<ServiceHistoryDTO, Serv
     public Class getDtoClass() {
         return ServiceHistoryDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return ServiceHistory.class;}
 }

@@ -23,4 +23,7 @@ public class HealthService extends MasterService<HealthDTO,Health> {
         return HealthDTO.class;
     }
 
+    @Override
+    public Class getEntityClass() {return Health.class;}
+
 }

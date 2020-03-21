@@ -1,6 +1,7 @@
 package com.cokreates.grp.beans.personal.general;
 
 import com.cokreates.core.Constant;
+import com.cokreates.core.MasterRestController;
 import com.cokreates.core.RequestModel;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.cokreates.core.MasterRestController;
 
 import javax.validation.Valid;
 import java.util.Collections;

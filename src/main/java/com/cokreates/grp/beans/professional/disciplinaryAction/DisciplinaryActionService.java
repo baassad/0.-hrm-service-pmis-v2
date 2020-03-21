@@ -20,4 +20,7 @@ public class DisciplinaryActionService extends MasterService<DisciplinaryActionD
     public Class getDtoClass() {
         return DisciplinaryActionDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return DisciplinaryAction.class;}
 }

@@ -35,7 +35,11 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public Class<Dto> getDtoClass();
 
+    public Class<Entity> getEntityClass();
+
     public Dto convertToDto(Entity entity);
+
+    public Entity convertToEntity(Dto dto);
 
 
 }

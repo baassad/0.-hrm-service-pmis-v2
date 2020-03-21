@@ -23,4 +23,7 @@ public class GeneralService extends MasterService<GeneralDTO,General> {
     public Class getDtoClass() {
         return GeneralDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return General.class;}
 }

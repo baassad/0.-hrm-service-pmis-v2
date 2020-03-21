@@ -1,7 +1,6 @@
 package com.cokreates.grp.beans.personal.address;
 
 import com.cokreates.core.MasterDTO;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

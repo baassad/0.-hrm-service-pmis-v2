@@ -20,4 +20,7 @@ public class LanguageService extends MasterService<LanguageDTO, Language> {
     public Class getDtoClass() {
         return LanguageDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Language.class;}
 }

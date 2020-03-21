@@ -23,4 +23,7 @@ public class FamilyInfoService extends MasterService<FamilyInfoDTO,FamilyInfo> {
          return FamilyInfoDTO.class;
      }
 
+     @Override
+     public Class getEntityClass() {return FamilyInfo.class;}
+
 }

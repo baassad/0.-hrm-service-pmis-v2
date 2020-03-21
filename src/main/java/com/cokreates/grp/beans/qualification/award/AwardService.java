@@ -20,4 +20,7 @@ public class AwardService extends MasterService<AwardDTO, Award> {
     public Class getDtoClass() {
         return AwardDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {return Award.class;}
 }
