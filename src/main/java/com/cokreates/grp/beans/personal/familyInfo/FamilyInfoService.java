@@ -15,6 +15,7 @@ public class FamilyInfoService extends MasterService<FamilyInfoDTO,FamilyInfo> {
                               DataServiceRestTemplateClient< FamilyInfoDTO, FamilyInfo> dataServiceRestTemplateClient){
           super(requestBuildingComponent, dataServiceRestTemplateClient);
           this.setNodePath(Arrays.asList("personal", "familyInfo"));
+          this.setType("List");
      }
      
      @Override

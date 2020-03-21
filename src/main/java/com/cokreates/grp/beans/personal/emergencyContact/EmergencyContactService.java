@@ -16,6 +16,7 @@ public class EmergencyContactService extends MasterService<EmergencyContactDTO,E
                                    DataServiceRestTemplateClient< EmergencyContactDTO, EmergencyContact> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "emergencyContact"));
+        this.setType("Node");
     }
     
     @Override

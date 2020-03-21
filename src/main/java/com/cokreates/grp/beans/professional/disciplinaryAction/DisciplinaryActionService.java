@@ -13,6 +13,7 @@ public class DisciplinaryActionService extends MasterService<DisciplinaryActionD
                                      DataServiceRestTemplateClient< DisciplinaryActionDTO, DisciplinaryAction> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("professional", "disciplinaryAction"));
+        this.setType("List");
     }
     
     @Override

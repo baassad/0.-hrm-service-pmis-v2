@@ -10,6 +10,8 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private T node;
 
+    private T general;
+
     private String employeeOid;
 
     private String reviewerOid;

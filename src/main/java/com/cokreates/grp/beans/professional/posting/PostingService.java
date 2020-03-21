@@ -13,6 +13,7 @@ public class PostingService extends MasterService<PostingDTO, Posting> {
                           DataServiceRestTemplateClient< PostingDTO, Posting> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("professional", "posting"));
+        this.setType("List");
     }
     
     @Override

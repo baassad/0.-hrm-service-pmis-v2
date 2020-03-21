@@ -13,6 +13,7 @@ public class EducationService extends MasterService<EducationDTO, Education> {
                             DataServiceRestTemplateClient< EducationDTO, Education> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification", "education"));
+        this.setType("List");
     }
     
     @Override

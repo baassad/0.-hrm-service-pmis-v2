@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients(basePackages="com.cokreates")
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

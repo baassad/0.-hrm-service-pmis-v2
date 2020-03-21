@@ -13,6 +13,7 @@ public class JobHistoryService extends MasterService<JobHistoryDTO, JobHistory> 
                              DataServiceRestTemplateClient<JobHistoryDTO, JobHistory> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("professional", "jobHistory"));
+        this.setType("List");
     }
     
     @Override

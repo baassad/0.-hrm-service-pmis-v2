@@ -16,6 +16,7 @@ public class GeneralService extends MasterService<GeneralDTO,General> {
                           DataServiceRestTemplateClient< GeneralDTO, General> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "general"));
+        this.setType("Node");
     }
 
     @Override

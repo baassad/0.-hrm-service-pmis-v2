@@ -32,7 +32,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE)
     public ResponseModel<D> create(@Valid @RequestBody RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.convertToDto(service.create(requestDTO.getBody().getData().get(0)))));
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.create(requestDTO.getBody().getData().get(0))));
     }
 
     @Override
@@ -51,8 +51,8 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE)
     public ResponseModel<D>
-    update( @RequestBody RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.convertToDto(service.update(requestDTO.getBody().getData().get(0)))));
+    update(@Valid @RequestBody RequestModel<D> requestDTO) {
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.convertToDto(service.update(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid()))));
     }
 
     @Override

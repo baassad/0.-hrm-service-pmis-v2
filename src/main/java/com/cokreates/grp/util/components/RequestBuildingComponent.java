@@ -46,6 +46,17 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         return request;
     }
 
+    public DataServiceRequest<Dto> getRequestToCreateEmployee(Dto node){
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setGeneral(node);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
 //    public DataServiceRequest<MasterApprovalDTO> getRequestForApprovalHistory(MasterApprovalDTO requestDTO){
 //        DataServiceRequest<MasterApprovalDTO> request = new DataServiceRequest<>();
 //        DataServiceRequestBody<MasterApprovalDTO> requestBody = new DataServiceRequestBody<>();

@@ -13,6 +13,7 @@ public class LanguageService extends MasterService<LanguageDTO, Language> {
                            DataServiceRestTemplateClient< LanguageDTO, Language> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification", "language"));
+        this.setType("List");
     }
     
     @Override

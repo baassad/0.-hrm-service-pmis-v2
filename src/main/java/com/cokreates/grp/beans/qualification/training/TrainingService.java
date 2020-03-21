@@ -13,6 +13,7 @@ public class TrainingService extends MasterService<TrainingDTO, Training> {
                            DataServiceRestTemplateClient< TrainingDTO, Training> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification","trainingAndProfessionalCertification", "training"));
+        this.setType("List");
     }
     
     @Override

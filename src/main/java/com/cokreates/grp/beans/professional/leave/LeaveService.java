@@ -13,6 +13,7 @@ public class LeaveService extends MasterService<LeaveDTO, Leave> {
                         DataServiceRestTemplateClient< LeaveDTO, Leave> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("professional", "leave"));
+        this.setType("List");
     }
     
     @Override

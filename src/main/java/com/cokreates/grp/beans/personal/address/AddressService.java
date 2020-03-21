@@ -16,6 +16,7 @@ public class AddressService extends MasterService<AddressDTO,Address> {
                           DataServiceRestTemplateClient< AddressDTO, Address> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "address"));
+        this.setType("List");
     }
     
     @Override

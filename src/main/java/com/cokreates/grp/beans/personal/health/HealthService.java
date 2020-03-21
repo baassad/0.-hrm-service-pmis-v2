@@ -15,6 +15,7 @@ public class HealthService extends MasterService<HealthDTO,Health> {
                          DataServiceRestTemplateClient< HealthDTO, Health> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "health"));
+        this.setType("Node");
     }
     
     @Override

@@ -14,6 +14,7 @@ public class ProfessionalQualificationService extends MasterService<Professional
                                             DataServiceRestTemplateClient< ProfessionalQualificationDTO, ProfessionalQualification> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification","professionalQualification"));
+        this.setType("List");
     }
     
     @Override

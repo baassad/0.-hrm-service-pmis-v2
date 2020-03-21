@@ -13,6 +13,7 @@ public class PublicationService extends MasterService<PublicationDTO, Publicatio
                               DataServiceRestTemplateClient< PublicationDTO, Publication> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification", "publication"));
+        this.setType("List");
     }
     
     @Override

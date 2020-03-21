@@ -13,6 +13,7 @@ public class AwardService extends MasterService<AwardDTO, Award> {
                         DataServiceRestTemplateClient< AwardDTO, Award> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("qualification", "award"));
+        this.setType("List");
     }
     
     @Override

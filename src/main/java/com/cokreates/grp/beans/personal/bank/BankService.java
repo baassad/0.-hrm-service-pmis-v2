@@ -16,6 +16,7 @@ public class BankService extends MasterService<BankDTO, Bank> {
                        DataServiceRestTemplateClient<BankDTO, Bank> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "bank"));
+        this.setType("List");
     }
     
     @Override

@@ -17,6 +17,7 @@ public class InjuriesSicknessService extends MasterService<InjuriesSicknessDTO,I
                                    DataServiceRestTemplateClient< InjuriesSicknessDTO, InjuriesSickness> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "injuriesSickness"));
+        this.setType("List");
     }
     
     @Override

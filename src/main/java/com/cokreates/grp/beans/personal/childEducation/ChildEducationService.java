@@ -16,6 +16,7 @@ public class ChildEducationService extends MasterService<ChildEducationDTO,Child
                                  DataServiceRestTemplateClient<ChildEducationDTO, ChildEducation> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "childEducation"));
+        this.setType("List");
     }
     
     @Override

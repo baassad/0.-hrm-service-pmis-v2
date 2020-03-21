@@ -16,6 +16,7 @@ public class TravelService extends MasterService<TravelDTO,Travel> {
                          DataServiceRestTemplateClient< TravelDTO, Travel> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "travel"));
+        this.setType("List");
     }
     
     @Override

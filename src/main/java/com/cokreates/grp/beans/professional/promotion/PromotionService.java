@@ -13,6 +13,7 @@ public class PromotionService extends MasterService<PromotionDTO, Promotion> {
                             DataServiceRestTemplateClient< PromotionDTO, Promotion> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("professional", "promotion"));
+        this.setType("List");
     }
     
     @Override

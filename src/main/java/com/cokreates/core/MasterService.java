@@ -32,6 +32,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     private List<String> nodePath;
 
+    private String type;
+
     @Value("${spring.application.gdata_end_point_url}")
     private String gdata;
 
@@ -63,8 +65,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     @Override
-    public Entity create(Dto dto) {
-        return null;
+    public Dto create(Dto dto) {
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestToCreateEmployee(dto);
+
+        String gDataEndPointUrl = gdata + Constant.GDATA_CREATE + Constant.VERSION_1 + Constant.ENDPOINT_EMPLOYEE;
+
+        return dataServiceRestTemplateClient.getRestTemplateResponseForCreation(request,gDataEndPointUrl);
     }
 
     @Override
@@ -101,19 +107,29 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     @Override
-    public Entity update(Dto node) {
+    public Entity update(Dto node,String employeeOid) {
+
+        if(this.getType().equalsIgnoreCase("Node")) {
+            Dto main = this.parseBeforeUpdate(node);
+
+            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
+                    null, null, null, null,
+                    null, null, null, this.getDtoClass());
+
+            String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1;
 
 
-        Dto main = this.parseBeforeUpdate(node);
+            dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
-                null, null, null, null,
-                null, null, null, this.getDtoClass());
+        }else if(this.getType().equalsIgnoreCase("List")){
+            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
+                    null,null,null,null,null,null,null,this.getDtoClass());
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_UPDATE+Constant.VERSION_1;
+            String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
 
-        dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl);
+            dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl);
+        }
 
         return null;
     }

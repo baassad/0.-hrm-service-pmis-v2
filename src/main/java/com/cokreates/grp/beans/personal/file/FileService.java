@@ -16,6 +16,7 @@ public class FileService extends MasterService<FileDTO,File> {
                        DataServiceRestTemplateClient< FileDTO, File> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         this.setNodePath(Arrays.asList("personal", "file"));
+        this.setType("List");
     }
     
     @Override

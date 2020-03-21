@@ -19,6 +19,8 @@ public class Constant {
     public static final String ENDPOINT_GET_LIST_BY_OID_SET = "/get-list-by-oid-set";
     public static final String ENDPOINT_DELETE = "/delete";
     public static final String ENDPOINT_DELETE_ALL = "/delete-all";
+    public static final String ENDPOINT_EMPLOYEE = "emp";
+    public static final String ENDPOINT_CREATE_EMPLOYEE = "/create-employee";
 
     public static final String VERSION_1 = "v1/";
     
