@@ -59,16 +59,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     @Autowired
     HttpServletRequest request;
 
-    public D getRestTemplateResponseForCreation(DataServiceRequest<D> requestBody,String gDataEndPointUrl){
+    public D getRestTemplateResponseForCreation(DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+            log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
             JsonNode mainJson = jsonNode.get("body");
 
-            DataServiceResponseBody<D> main = (DataServiceResponseBody<D>) objectMapper.treeToValue(mainJson,DataServiceResponseBody.class);
+            DataServiceResponseBody<D> main = (DataServiceResponseBody<D>) objectMapper.treeToValue(mainJson, DataServiceResponseBody.class);
 
             if (main.getRowcount().size() <= 0) {
                 return null;
@@ -98,7 +98,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public D getRestTemplateResponse(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+            log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -138,7 +138,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public List<D> getRestTemplateResponseList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+            log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
             ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -149,12 +149,10 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             List<D> tempList = new ArrayList<>();
 
 
-
             mainList = objectMapper.readValue(
                     mainJson.toString(),
                     objectMapper.getTypeFactory().constructCollectionType(
                             List.class, requestBody.getBody().getDtoClass()));
-
 
 
             tempList = objectMapper.readValue(
@@ -167,11 +165,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             int mainListSize = mainList.size();
             int tempListSize = tempList.size();
 
-            for (int i =0 ;i <mainListSize ; i++) {
+            for (int i = 0; i < mainListSize; i++) {
                 mainMap.put(mainList.get(i).getOid(), i);
             }
 
-            for (int i =0 ;i <tempListSize ; i++) {
+            for (int i = 0; i < tempListSize; i++) {
                 D temp = tempList.get(i);
                 int mainListIndex = mainMap.get(temp.getOid());
                 D main = mainList.get(mainListIndex);
@@ -201,9 +199,9 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public List<D> getApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
 
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -236,12 +234,22 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
-    public void updateInList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+    public D updateInList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
 
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+            System.out.println(mainJson);
+            System.out.println(requestBody.getBody().getDtoClass());
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+
+            return main;
 
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();
@@ -263,12 +271,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
     public D updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            
+
             gDataUrl = gDataUrl + Constant.GDATA_NODE_REQUEST;//approval-history-for-request
 
 
-            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -290,30 +298,29 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             }
         } catch (Exception e) {
             e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
 
     }
-
 
     public D updateApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
 
             if (requestBody.getBody().getStatus().equals("REQUESTED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REQUEST;//approval-history-for-request
 
             } else if (requestBody.getBody().getStatus().equals("REVIEWED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REVIEW;//approval-history-for-review
 
             } else if (requestBody.getBody().getStatus().equals("APPROVED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_APPROVE;//approval-history-for-approve
 
             } else if (requestBody.getBody().getStatus().equals("REJECTED")) {
-            	gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
+                gDataUrl = gDataUrl + Constant.GDATA_APPROVAL_HISTORY_REJECT;//approval-history-for-reject
             }
-            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
             JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
@@ -339,95 +346,4 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
-
-    //TODO: no use, method can be remove
-    public D getSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body").get("main");
-            JsonNode tempJson = jsonNode.get("body").get("temp");
-            //System.out.println(mainJson);
-            //System.out.println(tempJson);
-
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            //System.out.println("helloo " + main);
-            //System.out.println(" hello " + temp);
-            
-            /*
-            if (null != requestBody.getBody().getEmployeeOid()) {
-				main.setOid(requestBody.getBody().getEmployeeOid());
-			}
-            if (null != requestBody.getBody().getNodeOid()) {
-				main.setNodeOid(requestBody.getBody().getNodeOid());
-			}
-			*/
-            
-            main.setTemp(temp);
-            return main;
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-        }
-
-    }
-    //TODO: no use, method can be remove
-    public D getListSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body").get("main");
-            JsonNode tempJson = jsonNode.get("body").get("temp");
-            //System.out.println(mainJson);
-            //System.out.println(tempJson);
-
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-            D temp = objectMapper.treeToValue(tempJson, requestBody.getBody().getDtoClass());
-            //System.out.println("helloo " + main);
-            //System.out.println(" hello " + temp);
-            
-            /*
-            if (null != requestBody.getBody().getEmployeeOid()) {
-				main.setOid(requestBody.getBody().getEmployeeOid());
-			}
-            if (null != requestBody.getBody().getNodeOid()) {
-				main.setNodeOid(requestBody.getBody().getNodeOid());
-			}
-			*/
-
-            main.setTemp(temp);
-            return main;
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-        }
-
-    }
 }

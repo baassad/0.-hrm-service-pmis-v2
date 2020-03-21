@@ -48,7 +48,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE)
     public ResponseModel<D>
-    update(@Valid @RequestBody RequestModel<D> requestDTO) {
+    update(@RequestBody RequestModel<D> requestDTO) {
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.convertToDto(service.update(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid()))));
     }
 

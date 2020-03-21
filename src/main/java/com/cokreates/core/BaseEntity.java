@@ -24,6 +24,8 @@ public class BaseEntity {
     @Column(nullable = false)*/
     private String oid;
 
+    private String nodeOid;
+
     //@Column(name = "created_by", nullable = false, updatable = false)
     private String createdBy;
 
