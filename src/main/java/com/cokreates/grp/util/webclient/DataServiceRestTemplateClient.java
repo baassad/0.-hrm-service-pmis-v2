@@ -196,6 +196,38 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
+    public D update(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
+
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+
+            return main;
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+        }
+
+    }
+
     public List<D> getApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
@@ -216,75 +248,6 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                     objectMapper.getTypeFactory().constructCollectionType(
                             List.class, requestBody.getBody().getDtoClass()));
             return approvalDTOS;
-
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-        }
-
-    }
-
-    public D updateInList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
-
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body");
-            System.out.println(mainJson);
-            System.out.println(requestBody.getBody().getDtoClass());
-
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-
-            return main;
-
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-        }
-
-    }
-
-    public D updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-
-            gDataUrl = gDataUrl + Constant.GDATA_NODE_REQUEST;//approval-history-for-request
-
-
-            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body");
-
-            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
-
-            return main;
 
         } catch (HttpStatusCodeException ex) {
             ex.printStackTrace();

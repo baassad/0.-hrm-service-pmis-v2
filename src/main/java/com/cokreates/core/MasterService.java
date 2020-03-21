@@ -81,14 +81,23 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto append(Dto dto) {
+
+        Gson gson = new Gson();
+        String element = gson.toJson(dto);
+        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+        LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
+
+        String mainString = gson.toJson(mainMap);
+        Dto updateNode = (Dto)gson.fromJson(mainString, this.getDtoClass());
     	
-    	Dto main = this.parseBeforeUpdate(dto);
+    	Dto main = this.parseBeforeUpdate(updateNode);
         
     	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, dto.getOid(), this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
 
-        return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
+        return dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
     }
 
 
@@ -116,19 +125,29 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Entity update(Dto node,String employeeOid) {
 
         if(this.getType().equalsIgnoreCase("Node")) {
-            Dto main = this.parseBeforeUpdate(node);
+
+            Gson gson = new Gson();
+            String element = gson.toJson(node);
+            HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
+
+            LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
+
+            String mainString = gson.toJson(mainMap);
+            Dto updateNode = (Dto)gson.fromJson(mainString, this.getDtoClass());
+
+            Dto main = this.parseBeforeUpdate(updateNode);
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
                     null, null, null, null,
                     null, null, null, this.getDtoClass());
 
-            String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1;
+            String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
 
 
-            return convertToEntity(dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl));
+            return convertToEntity(dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
 
         }else if(this.getType().equalsIgnoreCase("List")){
-            node = this.parseAntuRequestBeforeUpdate(node);
+            node = this.parseBeforeUpdate(node);
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
                     node.getOid(),null,null,null,
                     null,null,null,this.getDtoClass());
@@ -136,7 +155,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
 
-            return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
+            return convertToEntity(dataServiceRestTemplateClient.update(this.nodePath, request, gDataEndPointUrl));
         }
 
         return null;
@@ -227,44 +246,6 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public Dto parseBeforeUpdate(Dto dto) {
         Gson gson = new Gson();
         String element = gson.toJson(dto);
-        HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
-
-        LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
-
-        String mainString = gson.toJson(mainMap);
-        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-
-        try {
-            for (Field field : main.getClass().getDeclaredFields()) {
-                field.setAccessible(true); // You might want to set modifier to public first.
-                Object value = field.get(main);
-                if (value == null && field.getGenericType() == String.class) {
-                    mainMap.put(field.getName(), "");
-                }
-            }
-
-            MasterDTO masterDTO = new MasterDTO();
-
-            for (Field field : masterDTO.getClass().getDeclaredFields()) {
-                field.setAccessible(true); // You might want to set modifier to public first.
-                Object value = field.get(main);
-                if (value == null && field.getType() == String.class) {
-                    mainMap.put(field.getName(), "");
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        mainString = gson.toJson(mainMap);
-        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-
-        return main;
-    }
-
-    public Dto parseAntuRequestBeforeUpdate(Dto dto) {
-        Gson gson = new Gson();
-        String element = gson.toJson(dto);
 
         LinkedTreeMap<String, Object> mainMap = gson.fromJson(element, LinkedTreeMap.class);
 
@@ -295,33 +276,6 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         mainString = gson.toJson(mainMap);
         main = (Dto)gson.fromJson(mainString, this.getDtoClass());
-
-        return main;
-    }
-
-    public DataServiceRequestBody parseBeforeApprovalUpdate(DataServiceRequestBody dto) {
-        Gson gson = new Gson();
-
-        String mainString = gson.toJson(dto);
-        LinkedTreeMap<String, Object> gsonMap = gson.fromJson(mainString, LinkedTreeMap.class);
-
-        DataServiceRequestBody main = (DataServiceRequestBody)gson.fromJson(mainString, DataServiceRequestBody.class);
-
-        try {
-            for (Field field : main.getClass().getDeclaredFields()) {
-                field.setAccessible(true); // You might want to set modifier to public first.
-                Object value = field.get(main);
-                if (value == null&& field.getType() == String.class) {
-                    gsonMap.put(field.getName(), "");
-                };
-            }
-
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        mainString = gson.toJson(gsonMap);
-        main = (DataServiceRequestBody)gson.fromJson(mainString, DataServiceRequestBody.class);
 
         return main;
     }
