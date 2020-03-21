@@ -7,6 +7,7 @@ import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponseBody;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
+import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -81,18 +82,15 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
-
-
 
     }
 
@@ -125,16 +123,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
 
     public List<D> getRestTemplateResponseList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
@@ -188,16 +186,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
 
     public List<D> getApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
@@ -226,16 +224,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
 
     public void updateInList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
@@ -250,15 +248,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
+
     }
 
     public D updateSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
@@ -284,17 +283,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
 
-        return null;
     }
 
 
@@ -329,16 +327,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
 
 
@@ -376,16 +374,16 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
     //TODO: no use, method can be remove
     public D getListSingleObject(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
@@ -421,15 +419,15 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (e.getMessage().contains("ConnectException")) {
-//                throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-            }
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
         }
-        return null;
+
     }
 }

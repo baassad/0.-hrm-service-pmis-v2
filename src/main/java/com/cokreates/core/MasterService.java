@@ -125,6 +125,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             return convertToEntity(dataServiceRestTemplateClient.updateSingleObject(nodePath, request, gDataEndPointUrl));
 
         }else if(this.getType().equalsIgnoreCase("List")){
+            node = this.parseBeforeUpdate(node);
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
                     null,null,null,null,null,null,null,this.getDtoClass());
 
