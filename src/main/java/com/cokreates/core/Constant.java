@@ -30,6 +30,7 @@ public class Constant {
     public static final String GDATA_APPEND 	= "append/";
     public static final String GDATA_REMOVE		= "remove/";
     
+    public static final String GDATA_EMP 						= "emp";
     public static final String GDATA_NODE 						= "node-in-emp-doc";
     public static final String GDATA_LIST_NODE 					= "list-node-in-emp-doc";
     

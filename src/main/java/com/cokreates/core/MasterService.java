@@ -72,11 +72,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto create(Dto dto) {
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestToCreateEmployee(dto);
-
-        String gDataEndPointUrl = gdata + Constant.GDATA_CREATE + Constant.VERSION_1 + Constant.ENDPOINT_EMPLOYEE;
-
-        return dataServiceRestTemplateClient.getRestTemplateResponseForCreation(request,gDataEndPointUrl);
+        return null;
+//        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestToCreateEmployee(dto);
+//
+//        String gDataEndPointUrl = gdata + Constant.GDATA_CREATE + Constant.VERSION_1 + Constant.ENDPOINT_EMPLOYEE;
+//
+//        return dataServiceRestTemplateClient.getRestTemplateResponseForCreation(request,gDataEndPointUrl);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.cokreates.grp.util.components;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import lombok.AllArgsConstructor;
@@ -46,11 +47,12 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         return request;
     }
 
-    public DataServiceRequest<Dto> getRequestToCreateEmployee(Dto node){
+    public DataServiceRequest<Dto> getRequestToCreateEmployee(GeneralDTO node, Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
         DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
 
         requestBody.setGeneral(node);
+        requestBody.setDtoClass(dtoClass);
 
         request.setBody(requestBody);
 

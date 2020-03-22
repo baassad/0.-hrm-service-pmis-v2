@@ -1,6 +1,7 @@
 package com.cokreates.grp.daas;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class DataServiceRequestBody<T extends MasterDTO> {
 
     private T node;
 
-    private T general;
+    private Object general;
 
     private String employeeOid;
 

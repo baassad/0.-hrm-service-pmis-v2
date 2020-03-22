@@ -94,6 +94,36 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
+    public D getRestTemplateResponseForEmployee(DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+
+            D main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+
+            return main;
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+        }
+
+    }
+
     //Can provide data not Node or Node in list
     public D getRestTemplateResponse(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {

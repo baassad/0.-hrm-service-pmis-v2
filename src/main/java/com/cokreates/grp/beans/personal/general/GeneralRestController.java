@@ -25,9 +25,9 @@ public class GeneralRestController extends MasterRestController<GeneralDTO,Gener
     @Autowired
     private ResultBuildingComponent resultBuildingComponent;
 
-    @PostMapping(Constant.ENDPOINT_CREATE_EMPLOYEE)
-    public ResponseModel<GeneralDTO> createEmployee(@Valid @RequestBody RequestModel<GeneralDTO> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.create(requestDTO.getBody().getData().get(0))));
-    }
+//    @PostMapping(Constant.ENDPOINT_CREATE_EMPLOYEE)
+//    public ResponseModel<GeneralDTO> createEmployee(@Valid @RequestBody RequestModel<GeneralDTO> requestDTO) {
+//        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(service.create(requestDTO.getBody().getData().get(0))));
+//    }
 
 }
