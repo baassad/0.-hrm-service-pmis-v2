@@ -3,18 +3,26 @@ package com.cokreates.grp.beans.approvalHistory;
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.daas.DataServiceRequest;
+import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.dummyService.EmployeeOfficeService;
 import com.cokreates.grp.util.request.ActorRequestBodyDTO;
 import com.cokreates.grp.util.request.ApprovalHistoryRequestBodyDTO;
+import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
 public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,ApprovalHistory> {
+
+    @Autowired
+    EmployeeOfficeService employeeOfficeService;
 
     public ApprovalHistoryService(RequestBuildingComponent<ApprovalHistoryDTO> requestBuildingComponent,
                                   DataServiceRestTemplateClient< ApprovalHistoryDTO, ApprovalHistory> dataServiceRestTemplateClient){
@@ -29,7 +37,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
                 null, null, null, node.getStatus(),
                 null, null, null, this.getDtoClass());
 
-        return getDataServiceRestTemplateClient().getApprovalHistory(getNodePath(), request, gDataEndPointUrl);
+        return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
 
     }
 
@@ -47,17 +55,28 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     public List<ApprovalHistoryDTO> getApprovalHistoryByActor(ActorRequestBodyDTO node) {
 
-        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;;
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_PERMITTED_OFFICE;;
 
         DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, node.getOid(), null, null,
                 node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), this.getDtoClass());
 
-//        request.setBody(parseBeforeApprovalUpdate(request.getBody()));
+        Set<String> officeOidList = getDataServiceRestTemplateClient().getListStringData(getNodePath(), request, gDataEndPointUrl);
 
-//        DataServiceRequestBody dataServiceRequestBody = parseBeforeApprovalUpdate(request.getBody());
+        Set<String> employeeOidList = employeeOfficeService.getEmployeeByOffice(officeOidList);
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setEmployeeOidList(employeeOidList);
 
-        return getDataServiceRestTemplateClient().getApprovalHistory(getNodePath(), request, gDataEndPointUrl);
+        gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;;
+
+        request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), null, null,
+                node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), this.getDtoClass());
+
+        DataServiceRequestBody dataServiceRequestBody = request.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
 
     }
 

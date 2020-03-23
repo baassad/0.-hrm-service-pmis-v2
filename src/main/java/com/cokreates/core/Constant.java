@@ -32,6 +32,7 @@ public class Constant {
     
     public static final String GDATA_EMP 						= "emp";
     public static final String GDATA_NODE 						= "node-in-emp-doc";
+    public static final String GDATA_PERMITTED_OFFICE		    = "permitted-office";
     public static final String GDATA_LIST_NODE 					= "list-node-in-emp-doc";
     
     public static final String GDATA_NODE_REQUEST 				= "node-in-doc-for-request";

@@ -24,9 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 // TODO: Take BaseService Logic to Component with Overridden methods as interface calls
@@ -58,41 +56,6 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     @Autowired
     HttpServletRequest request;
-
-    public D getRestTemplateResponseForCreation(DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
-        try {
-            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
-            log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
-            ResponseEntity<String> response = restTemplate.exchange(gDataEndPointUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-
-            JsonNode mainJson = jsonNode.get("body");
-
-            DataServiceResponseBody<D> main = (DataServiceResponseBody<D>) objectMapper.treeToValue(mainJson, DataServiceResponseBody.class);
-
-            if (main.getRowcount().size() <= 0) {
-                return null;
-            }
-
-
-            return main.getMain();
-
-        } catch (HttpStatusCodeException ex) {
-            ex.printStackTrace();
-            JsonNode jsonNode = null;
-            try {
-                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
-        }
-
-    }
 
     public D getRestTemplateResponseForEmployee(DataServiceRequest<D> requestBody, String gDataEndPointUrl) {
         try {
@@ -258,7 +221,45 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
-    public List<D> getApprovalHistory(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+    public Set<String> getListStringData(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
+
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode listJson = jsonNode.get("body");
+
+            listJson = jsonNode.get("body").get("data");
+
+            Set<String> approvalDTOS = new HashSet<>();
+
+            approvalDTOS = objectMapper.readValue(
+                    listJson.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            Set.class, String.class));
+            return approvalDTOS;
+
+        } catch (HttpStatusCodeException ex) {
+            ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+        }
+
+    }
+
+    public List<D> getListData(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             log.debug("==== gDataEndPointUrl ==== " + gDataUrl);

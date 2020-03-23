@@ -2,6 +2,7 @@ package com.cokreates.grp.daas;
 
 import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class DataServiceRequestBody<T extends MasterDTO> {
     private List<String> nodePath;
 
     private Class<T> dtoClass;
+
+    private MiscellaneousRequestProperty miscellaneousRequestProperty;
 
 
 }
