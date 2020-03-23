@@ -164,10 +164,12 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             for (int i = 0; i < tempListSize; i++) {
                 D temp = tempList.get(i);
-                int mainListIndex = mainMap.get(temp.getOid());
-                D main = mainList.get(mainListIndex);
-                main.setTemp(temp);
-                mainList.set(mainListIndex, main);
+                if (mainMap.containsKey(temp.getOid())) {
+                    int mainListIndex = mainMap.get(temp.getOid());
+                    D main = mainList.get(mainListIndex);
+                    main.setTemp(temp);
+                    mainList.set(mainListIndex, main);
+                }
             }
 
             return mainList;
