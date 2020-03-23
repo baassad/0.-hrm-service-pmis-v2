@@ -9,8 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class JobHistoryDTO extends MasterDTO {
 
-    private String post;
-    private String type;
+	private String post, type, officeName, officeAddress;
     private String from;
     private String to;
     

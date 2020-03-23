@@ -12,6 +12,7 @@ public class HealthDTO extends MasterDTO {
     private String height;
     private String identifyingMark;
     private String speciallyAbled;
+    private String weight;
 
     private String createdBy;
     private String updatedBy;

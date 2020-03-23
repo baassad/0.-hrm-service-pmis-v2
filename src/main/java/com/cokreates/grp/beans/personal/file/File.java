@@ -14,5 +14,5 @@ public class File extends BaseEntity {
     private String type;
     private Date issueDate;
     private Date expiryDate;
-    //tempData obj
+    private String fileAttachName,fileName;
 }

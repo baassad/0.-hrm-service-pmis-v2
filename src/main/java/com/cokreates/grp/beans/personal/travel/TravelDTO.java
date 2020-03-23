@@ -14,6 +14,7 @@ public class TravelDTO extends MasterDTO {
     private String from;
     private String to;
     private String type;
+    private String govtOrderNo, govtOrderDate;
     
     private String createdBy;
     private String updatedBy;

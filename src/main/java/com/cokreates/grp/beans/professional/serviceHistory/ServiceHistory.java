@@ -11,4 +11,6 @@ import java.util.Date;
 public class ServiceHistory extends BaseEntity {
     private String post, type;
     private Date from, to;
+    
+    private String govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
 }

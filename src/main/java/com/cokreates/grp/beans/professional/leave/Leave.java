@@ -10,6 +10,6 @@ import java.util.Date;
 @Data
 public class Leave extends BaseEntity {
 
-    private String type, reason;
+    private String type, reason,duration;
     private Date from, to;
 }

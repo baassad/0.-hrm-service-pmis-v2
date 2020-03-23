@@ -12,7 +12,5 @@ public class Health extends BaseEntity {
     private String identifyingMark;
     private String speciallyAbled;
 
-    //private List<InjuriesSickness> injuriesSicknesses;
-
-    //tempData obj
+    private String weight;
 }

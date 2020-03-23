@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class Award extends BaseEntity {
 
-    private String titleOfAward, awardReceivalPlace;
+    private String titleOfAward, awardReceivalPlace, country;
     private Date awardReceivedDate;
     //tempData obj
 }

@@ -16,5 +16,5 @@ public class Travel extends BaseEntity {
     private Date from;
     private Date to;
     private String type;
-    //tempData obj
+    private String govtOrderNo, govtOrderDate;
 }

@@ -15,6 +15,7 @@ public class InjuriesSicknessDTO extends MasterDTO {
     private Date from;
     private Date to;
     private String comment;
+    private String phisicallyImpairment,stability;
 
     private String createdBy;
     private String updatedBy;

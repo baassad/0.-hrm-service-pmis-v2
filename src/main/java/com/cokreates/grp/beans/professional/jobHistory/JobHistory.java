@@ -10,6 +10,6 @@ import java.util.Date;
 @Data
 public class JobHistory extends BaseEntity {
 
-    private String post, type;
+    private String post, type, officeName, officeAddress;
     private Date from, to;
 }

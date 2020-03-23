@@ -15,4 +15,5 @@ public class InjuriesSickness extends BaseEntity {
     private Date from;
     private Date to;
     private String comment;
+    private String phisicallyImpairment,stability;
 }

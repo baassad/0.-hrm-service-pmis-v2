@@ -18,6 +18,7 @@ public class EducationDTO extends MasterDTO {
     private String scale;
     private String startingDate;
     private String endingDate;
+    private String country;
     
     private String createdBy;
     private String updatedBy;

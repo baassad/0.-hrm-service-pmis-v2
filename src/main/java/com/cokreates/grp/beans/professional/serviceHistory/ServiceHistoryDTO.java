@@ -13,6 +13,8 @@ public class ServiceHistoryDTO extends MasterDTO {
     private String from;
     private String to;
     
+    private String govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
+    
     private String createdBy;
     private String updatedBy;
     private String rowStatus;

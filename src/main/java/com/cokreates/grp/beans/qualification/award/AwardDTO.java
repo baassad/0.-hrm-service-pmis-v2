@@ -11,6 +11,7 @@ public class AwardDTO extends MasterDTO {
     private String titleOfAward;
     private String awardReceivalPlace;
     private String awardReceivedDate;
+    private String country;
     
     private String createdBy;
     private String updatedBy;

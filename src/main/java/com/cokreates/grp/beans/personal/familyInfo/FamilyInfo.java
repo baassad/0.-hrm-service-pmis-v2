@@ -11,7 +11,7 @@ import java.util.Date;
 public class FamilyInfo extends BaseEntity {
 
     private String nameEn, nameBn, nationality, profession, relation, photo, maritalStatus, hasDisability,
-            nid, birthCertificate, Passport, isGovtEmployee;
+            nid, birthCertificate, Passport, isGovtEmployee,gender,address,organization,designation,location;
     private Date dateOfBirth;
     //tempData obj
 }

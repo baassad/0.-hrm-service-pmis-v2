@@ -14,6 +14,7 @@ public class PostingDTO extends MasterDTO {
     private String payLastDrawn;
     private String from;
     private String to;
+    private String district, city;
 
     private String createdBy;
     private String updatedBy;

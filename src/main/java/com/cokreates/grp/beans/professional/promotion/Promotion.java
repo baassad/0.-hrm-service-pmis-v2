@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class Promotion extends BaseEntity {
 
-    private String preDesignation, postDesignation, GONo, natureOfPromotion, payScaleToWhichPromoted;
+    private String preDesignation, postDesignation, GONo, natureOfPromotion, payScaleToWhichPromoted, rank;
     private Date dateOfPromotion, dateOfGO;
     //tempData obj
 }

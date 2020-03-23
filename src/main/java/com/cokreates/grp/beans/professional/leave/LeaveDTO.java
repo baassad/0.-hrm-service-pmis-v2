@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 public class LeaveDTO extends MasterDTO {
 
 
-    private String type, reason;
+    private String type, reason, duration;
     private String from, to;
 
     private String createdBy;
