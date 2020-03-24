@@ -10,6 +10,6 @@ import java.util.Date;
 @Data
 public class Posting extends BaseEntity {
 
-    private String post, organization, location, paySacle, payLastDrawn, district, city;
+    private String post, organization, location, payScale, payLastDrawn, district, city;
     private Date from, to;
 }

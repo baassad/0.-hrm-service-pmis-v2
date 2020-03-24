@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class DisciplinaryActionDTO extends MasterDTO {
 
-	private String type, details, currentSituation, decision, courtType, observation;
+	private String type, details, currentSituation, decision, courtType, observation, dateOfJudgement;
     
     private String createdBy;
     private String updatedBy;

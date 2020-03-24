@@ -10,7 +10,7 @@ public class PostingDTO extends MasterDTO {
     private String post;
     private String organization;
     private String location;
-    private String paySacle;
+    private String payScale;
     private String payLastDrawn;
     private String from;
     private String to;
