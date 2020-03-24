@@ -1,6 +1,5 @@
 package com.cokreates.grp.beans.common;
 
-import com.cokreates.grp.beans.personal.address.AddressDTO;
 import com.cokreates.grp.beans.personal.bank.BankDTO;
 import com.cokreates.grp.beans.personal.childEducation.ChildEducationDTO;
 import com.cokreates.grp.beans.personal.emergencyContact.EmergencyContactDTO;
@@ -18,7 +17,7 @@ public class PersonalDTO {
     List<BankDTO> bank;
     List<FileDTO> file;
     List<TravelDTO> travel;
-    List<AddressDTO> address;
+    List<com.cokreates.grp.beans.personal.address.PresentAddressDTO> address;
     List<EducationDTO> education;
     List<FamilyInfoDTO> familyInfo;
     List<ChildEducationDTO> childEducation;

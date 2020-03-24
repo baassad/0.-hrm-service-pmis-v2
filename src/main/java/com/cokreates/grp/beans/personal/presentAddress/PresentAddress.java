@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.personal.address;
+package com.cokreates.grp.beans.personal.presentAddress;
 
 import com.cokreates.core.BaseEntity;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Address extends BaseEntity {
+public class PresentAddress extends BaseEntity {
 
     private String road;
     private String house;

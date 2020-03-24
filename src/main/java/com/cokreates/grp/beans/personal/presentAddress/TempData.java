@@ -1,10 +1,10 @@
-package com.cokreates.grp.beans.personal.address;
+package com.cokreates.grp.beans.personal.presentAddress;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TempData extends Address {
+public class TempData extends PresentAddress {
 
 }
