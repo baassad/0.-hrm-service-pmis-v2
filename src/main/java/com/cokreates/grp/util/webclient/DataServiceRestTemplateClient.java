@@ -170,14 +170,15 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                     D main = mainList.get(mainListIndex);
                     main.setTemp(temp);
                     mainList.set(mainListIndex, main);
-                } else {
-                    Gson gson = new Gson();
-                    String mainString = gson.toJson(new MasterDTO());
-                    D main = (D)gson.fromJson(mainString, requestBody.getBody().getDtoClass());
-                    main.setOid(temp.getOid());
-                    main.setTemp(temp);
-                    mainList.add(main);
                 }
+//                else {
+//                    Gson gson = new Gson();
+//                    String mainString = gson.toJson(new MasterDTO());
+//                    D main = (D)gson.fromJson(mainString, requestBody.getBody().getDtoClass());
+//                    main.setOid(temp.getOid());
+//                    main.setTemp(temp);
+//                    mainList.add(main);
+//                }
             }
 
             return mainList;
