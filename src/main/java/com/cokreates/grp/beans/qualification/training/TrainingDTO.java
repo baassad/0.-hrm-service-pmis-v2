@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 public class TrainingDTO extends MasterDTO {
 
     private String subjectName;
-    private String subjectType;
+    private String[] subjectType;
     private String institution;
     private String country;
     private String grade;

@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 public class Training extends BaseEntity {
 
-    private String subjectName, subjectType, institution, country, grade, position, fundingSource;
+    private String subjectName, institution, country, grade, position, fundingSource;
     private Date stratedFrom, endedOn;
+    private String[] subjectType;
 }
