@@ -19,7 +19,3 @@ public class BirthPlaceAddressDTO extends MasterDTO {
     private String email;
 
 }
-
-//"road", "config", "createdOn", "nodeOid", "oid", "village", "postCode", 
-//"district", "updatedBy", "temp", "country", "updatedOn", "postOffice", "createdBy", 
-//"house", "division", "phone", "email", "thana", "addressType", "rowStatus", "dataStatus"

@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 public class PresentAddress extends BaseEntity {
 
     private String road;
-    private String house;
     private String village;
     private String postOffice;
     private String postCode;

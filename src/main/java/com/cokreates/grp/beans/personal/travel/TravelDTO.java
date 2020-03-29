@@ -8,12 +8,11 @@ import lombok.EqualsAndHashCode;
 @Data
 public class TravelDTO extends MasterDTO {
 
-    private String nameEn;
-    private String nameBn;
+	private String countryNameEn;
+    private String countryNameBn;
     private String purpose;
     private String from;
     private String to;
-    private String type;
     private String govtOrderNo, govtOrderDate;
 
 }

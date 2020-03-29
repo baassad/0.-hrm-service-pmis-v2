@@ -18,5 +18,4 @@ public class BirthPlaceAddress extends BaseEntity {
     private String country;
     private String phone;
     private String email;
-    //tempData obj
 }

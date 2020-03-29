@@ -10,10 +10,9 @@ public class ForeignAddress extends BaseEntity {
 
     private String houseRoadBlockSector;
     private String stateProvinceRegion;
-    private String postCode;
+    private String zipPostalCode;
     private String city;
     private String country;
     private String phone;
     private String email;
-    //tempData obj
 }

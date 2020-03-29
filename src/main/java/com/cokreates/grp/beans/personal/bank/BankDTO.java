@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BankDTO extends MasterDTO {
 
-    private String nameEn;
     private String nameBn;
     private String branch;
     private String accountNumber;

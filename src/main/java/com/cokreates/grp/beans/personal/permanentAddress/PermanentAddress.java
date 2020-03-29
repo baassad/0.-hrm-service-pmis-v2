@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 public class PermanentAddress extends BaseEntity {
 
     private String road;
-    private String house;
     private String village;
     private String postOffice;
     private String postCode;
@@ -19,5 +18,4 @@ public class PermanentAddress extends BaseEntity {
     private String country;
     private String phone;
     private String email;
-    //tempData obj
 }

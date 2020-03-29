@@ -10,11 +10,10 @@ import java.util.Date;
 @Data
 public class Travel extends BaseEntity {
 
-    private String nameEn;
-    private String nameBn;
+    private String countryNameEn;
+    private String countryNameBn;
     private String purpose;
     private Date from;
     private Date to;
-    private String type;
     private String govtOrderNo, govtOrderDate;
 }

@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PresentAddressDTO extends MasterDTO {
     private String road;
-    private String house;
     private String village;
     private String postOffice;
     private String postCode;
@@ -21,7 +20,3 @@ public class PresentAddressDTO extends MasterDTO {
     private String addressType;
 
 }
-
-//"road", "config", "createdOn", "nodeOid", "oid", "village", "postCode", 
-//"district", "updatedBy", "temp", "country", "updatedOn", "postOffice", "createdBy", 
-//"house", "division", "phone", "email", "thana", "addressType", "rowStatus", "dataStatus"

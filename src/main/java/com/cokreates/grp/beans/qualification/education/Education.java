@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class Education extends BaseEntity {
 
-    private String degree, subject, institution, isForeignInstitution, major, result, achieved, scale, country;
+    private String degree, subject, institution, isForeignInstitution, result, achieved, scale, country;
     private Date startingDate, endingDate;
     //tempData obj
 }
