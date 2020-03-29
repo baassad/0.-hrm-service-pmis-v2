@@ -172,7 +172,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                     mainList.set(mainListIndex, main);
                 }
 //                else {
-//                    Gson gson = new Gson();
+//                    Gson gson = new new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 //                    String mainString = gson.toJson(new MasterDTO());
 //                    D main = (D)gson.fromJson(mainString, requestBody.getBody().getDtoClass());
 //                    main.setOid(temp.getOid());

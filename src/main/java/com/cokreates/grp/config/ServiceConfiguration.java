@@ -37,7 +37,8 @@ public class ServiceConfiguration {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         objectMapper.setDateFormat(df);
         return objectMapper;
     }

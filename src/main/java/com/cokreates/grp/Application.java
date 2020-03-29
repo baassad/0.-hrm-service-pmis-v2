@@ -19,10 +19,6 @@ public class Application extends SpringBootServletInitializer {
 	@PostConstruct
 	public void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT+6:00"));
-		long millis=System.currentTimeMillis();  
-        Date date=new Date(millis);  
-        
-		System.out.println("========== Start-time:" + date +" ==========");
 	}
 
 	public static void main(String[] args) {

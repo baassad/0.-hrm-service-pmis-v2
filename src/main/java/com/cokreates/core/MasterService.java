@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,7 +87,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto append(Dto dto) {
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         String element = gson.toJson(dto);
         HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
@@ -132,7 +133,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
         if(this.getType().equalsIgnoreCase("Node")) {
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             String element = gson.toJson(node);
             HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
@@ -252,7 +253,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     public Dto parseBeforeUpdate(Dto dto) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         String element = gson.toJson(dto);
 
         LinkedTreeMap<String, Object> mainMap = gson.fromJson(element, LinkedTreeMap.class);

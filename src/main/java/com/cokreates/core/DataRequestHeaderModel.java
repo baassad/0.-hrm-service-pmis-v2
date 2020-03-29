@@ -1,6 +1,7 @@
 package com.cokreates.core;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class DataRequestHeaderModel {
 
     private String requestType;
 
-    private Date requestTime;
+    private Timestamp requestTime;
 
     private String requestVersion;
 

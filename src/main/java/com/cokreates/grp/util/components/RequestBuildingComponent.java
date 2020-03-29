@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Component
@@ -36,9 +37,9 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         if (node != null) {
             node.setConfig("");
             node.setCreatedBy("System");
-            node.setCreatedOn(new Date(System.currentTimeMillis()));
             node.setUpdatedBy("System");
-            node.setUpdatedOn(new Date(System.currentTimeMillis()));
+            node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+            node.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
             node.setDataStatus("Active");
             node.setRowStatus("Active");
         }
