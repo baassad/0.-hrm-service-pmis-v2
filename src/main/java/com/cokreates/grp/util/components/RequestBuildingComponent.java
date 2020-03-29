@@ -34,13 +34,15 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
 
-        node.setConfig("");
-        node.setCreatedBy("System");
-        node.setCreatedOn(new Date());
-        node.setUpdatedBy("System");
-        node.setUpdatedOn(new Date());
-        node.setDataStatus("Active");
-        node.setRowStatus("Active");
+        if (node != null) {
+            node.setConfig("");
+            node.setCreatedBy("System");
+            node.setCreatedOn(new Date());
+            node.setUpdatedBy("System");
+            node.setUpdatedOn(new Date());
+            node.setDataStatus("Active");
+            node.setRowStatus("Active");
+        }
 
         requestBody.setApprovalHistoryOid(approvalHistoryOid);
         requestBody.setComment(comment);
