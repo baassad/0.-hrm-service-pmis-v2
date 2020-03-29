@@ -1,6 +1,5 @@
 package com.cokreates.grp.util.components;
 
-import com.cokreates.core.BaseEntity;
 import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
@@ -8,7 +7,7 @@ import com.cokreates.grp.daas.DataServiceRequestBody;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -33,13 +32,13 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNodeOid(nodeOid);
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
-
+        
         if (node != null) {
             node.setConfig("");
             node.setCreatedBy("System");
-            node.setCreatedOn(new Date());
+            node.setCreatedOn(new Date(System.currentTimeMillis()));
             node.setUpdatedBy("System");
-            node.setUpdatedOn(new Date());
+            node.setUpdatedOn(new Date(System.currentTimeMillis()));
             node.setDataStatus("Active");
             node.setRowStatus("Active");
         }

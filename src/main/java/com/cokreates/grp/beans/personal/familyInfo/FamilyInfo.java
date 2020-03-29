@@ -1,10 +1,11 @@
 package com.cokreates.grp.beans.personal.familyInfo;
 
+import java.sql.Date;
+
 import com.cokreates.core.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

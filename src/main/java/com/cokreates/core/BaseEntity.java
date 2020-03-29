@@ -1,10 +1,10 @@
 package com.cokreates.core;
 
+import java.sql.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-
-import java.util.Date;
 
 //import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 //

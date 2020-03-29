@@ -1,8 +1,8 @@
 package com.cokreates.core;
 
-import lombok.Data;
+import java.sql.Date;
 
-import java.util.Date;
+import lombok.Data;
 
 
 @Data

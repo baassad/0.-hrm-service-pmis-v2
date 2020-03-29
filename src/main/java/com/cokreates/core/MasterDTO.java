@@ -1,10 +1,11 @@
 package com.cokreates.core;
 
+import java.sql.Date;
+
 import com.cokreates.grp.util.request.RequestBodyDTO;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor

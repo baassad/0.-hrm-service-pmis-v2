@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.UUID;
 
 @Component
@@ -21,7 +21,7 @@ public class HeaderUtilComponent {
         DataResponseHeaderModel responseHeaderDTO = new DataResponseHeaderModel();
 
         responseHeaderDTO.setRequestReceivedTime(requestHeaderDTO.getRequestTime());
-        responseHeaderDTO.setResponseTime(new Date());
+        responseHeaderDTO.setResponseTime(new Date(System.currentTimeMillis()));
         responseHeaderDTO.setHopCount(
                 requestHeaderDTO.getHopCount() == null ? 1 : requestHeaderDTO.getHopCount() + 1
         );
@@ -40,9 +40,11 @@ public class HeaderUtilComponent {
 
     public DataResponseHeaderModel getResponseHeaderDTO(ExceptionHandlers.ApiErrorResponse apiErrorResponse) {
         DataResponseHeaderModel responseHeaderDTO = new DataResponseHeaderModel();
+        
+        long millis = System.currentTimeMillis();  
 
-        responseHeaderDTO.setRequestReceivedTime(new Date());
-        responseHeaderDTO.setResponseTime(new Date());
+        responseHeaderDTO.setRequestReceivedTime(new Date(millis));
+        responseHeaderDTO.setResponseTime(new Date(millis));
         responseHeaderDTO.setHopCount(1);
         responseHeaderDTO.setResponseProcessingTimeInMs(Math.toIntExact(
                 responseHeaderDTO.getResponseTime().getTime() - responseHeaderDTO.getRequestReceivedTime().getTime()
@@ -62,7 +64,7 @@ public class HeaderUtilComponent {
         requestHeaderDTO.setRequestSourceService("portal");
         requestHeaderDTO.setRequestClient("grp");
         requestHeaderDTO.setRequestType("random");
-        requestHeaderDTO.setRequestTime(new Date());
+        requestHeaderDTO.setRequestTime(new Date(System.currentTimeMillis()));
         requestHeaderDTO.setRequestVersion("v1");
         requestHeaderDTO.setRequestTimeoutInSeconds(30);
         requestHeaderDTO.setRequestRetryCount(3);

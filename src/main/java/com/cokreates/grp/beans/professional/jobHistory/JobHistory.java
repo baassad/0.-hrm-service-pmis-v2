@@ -4,7 +4,7 @@ import com.cokreates.core.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.sql.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
