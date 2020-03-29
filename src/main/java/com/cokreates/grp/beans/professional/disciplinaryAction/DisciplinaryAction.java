@@ -12,4 +12,6 @@ public class DisciplinaryAction extends BaseEntity {
 
     private String type, details, currentSituation, decision, courtType, observation;
     private Date dateOfJudgement;
+
+
 }

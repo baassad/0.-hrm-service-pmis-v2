@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 public class PromotionDTO extends MasterDTO {
 
-    private String preDesignation, postDesignation, gono, natureOfPromotion, payScaleToWhichPromoted, rank;
+    private String preDesignation, postDesignation, goNo, natureOfPromotion, payScaleToWhichPromoted, rank;
     private Date dateOfPromotion, dateOfGO;
+
 }

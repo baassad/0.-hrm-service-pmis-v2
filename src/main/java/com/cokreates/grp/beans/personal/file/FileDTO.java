@@ -16,11 +16,5 @@ public class FileDTO extends MasterDTO {
     private Date expiryDate;
     
     private String fileAttachName,fileName;
-    
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
+
 }

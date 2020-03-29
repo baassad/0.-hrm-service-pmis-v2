@@ -232,6 +232,41 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
     }
 
+    public D updateInList(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
+
+        D main = null;
+
+        try {
+            headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+            log.debug("==== gDataEndPointUrl ==== "+gDataUrl);
+            ResponseEntity<String> response = restTemplate.exchange(gDataUrl , HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            JsonNode mainJson = jsonNode.get("body");
+
+            main = objectMapper.treeToValue(mainJson, requestBody.getBody().getDtoClass());
+
+            return main;
+        } catch (HttpStatusCodeException ex) {
+                        ex.printStackTrace();
+                        JsonNode jsonNode = null;
+                       try {
+                                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+                           } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+        } catch (Exception e) {
+                        e.printStackTrace();
+                        if (e.getMessage().contains("ConnectException")) {
+                                //throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+                        }
+        }
+
+        return main;
+
+    }
+
     public Set<String> getListStringData(List<String> nodePath, DataServiceRequest<D> requestBody, String gDataUrl) {
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));

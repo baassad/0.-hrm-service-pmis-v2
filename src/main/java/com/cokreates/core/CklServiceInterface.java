@@ -39,7 +39,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public Dto convertToDto(Entity entity);
 
-    public Entity convertToEntity(Dto dto);
+    public Entity convertToEntity(Dto dto) throws IllegalAccessException, InstantiationException;
 
 
 }

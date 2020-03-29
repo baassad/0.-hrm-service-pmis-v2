@@ -12,11 +12,5 @@ public class JobHistoryDTO extends MasterDTO {
 	private String post, type, officeName, officeAddress;
     private String from;
     private String to;
-    
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
+
 }

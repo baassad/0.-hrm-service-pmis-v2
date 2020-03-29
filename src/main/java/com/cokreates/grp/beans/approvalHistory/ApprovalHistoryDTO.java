@@ -24,11 +24,6 @@ public class ApprovalHistoryDTO extends MasterDTO {
 //    private String change_type;
     private String changeType;
 
-    private String createdBy;
-    private String updatedBy;
-    private String createdOn;
-    private String updatedOn;
-    private String isDeleted;
 
 //    private String created_by;
 //    private String updated_by;

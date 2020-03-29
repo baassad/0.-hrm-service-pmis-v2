@@ -16,10 +16,4 @@ public class PostingDTO extends MasterDTO {
     private String to;
     private String district, city;
 
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
 }

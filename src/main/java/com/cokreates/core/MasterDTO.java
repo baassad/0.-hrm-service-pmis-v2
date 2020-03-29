@@ -4,6 +4,8 @@ import com.cokreates.grp.util.request.RequestBodyDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 public class MasterDTO implements RequestBodyDTO {
@@ -19,4 +21,11 @@ public class MasterDTO implements RequestBodyDTO {
     private Object temp;
 
     private Object node;
+
+    private String createdBy;
+    private String updatedBy;
+    private String rowStatus;
+    private Date createdOn;
+    private Date updatedOn;
+    private String dataStatus;
 }

@@ -14,11 +14,5 @@ public class ChildEducationDTO extends MasterDTO {
     private String year;
     private String result;
     private String comment;
-    
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
+
 }

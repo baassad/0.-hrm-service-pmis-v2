@@ -10,10 +10,4 @@ public class ProfessionalQualificationDTO extends MasterDTO {
 
     private String qualification;
 
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
 }

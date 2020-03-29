@@ -12,10 +12,4 @@ public class ProfessionalGeneralDTO extends MasterDTO {
 			govtId, enothiId, location, cadreDate, confirmationGODate, gazettedDate, joiningDate, prlDate,
 			presentSalary, status;
 
-	private String createdBy;
-	private String updatedBy;
-	private String rowStatus;
-	private String createdOn;
-	private String updatedOn;
-	private String dataStatus;
 }

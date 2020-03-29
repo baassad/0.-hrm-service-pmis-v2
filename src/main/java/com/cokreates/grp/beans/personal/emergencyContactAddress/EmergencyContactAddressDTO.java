@@ -17,13 +17,7 @@ public class EmergencyContactAddressDTO extends MasterDTO {
     private String country;
     private String phone;
     private String email;
-    
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
+
 }
 
 //"road", "config", "createdOn", "nodeOid", "oid", "village", "postCode", 

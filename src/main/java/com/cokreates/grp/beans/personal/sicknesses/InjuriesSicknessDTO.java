@@ -17,10 +17,4 @@ public class InjuriesSicknessDTO extends MasterDTO {
     private String comment;
     private String phisicallyImpairment,stability;
 
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
 }

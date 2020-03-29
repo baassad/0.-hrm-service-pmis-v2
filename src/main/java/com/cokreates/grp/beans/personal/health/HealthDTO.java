@@ -14,10 +14,4 @@ public class HealthDTO extends MasterDTO {
     private String speciallyAbled;
     private String weight;
 
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
 }

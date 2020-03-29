@@ -28,10 +28,5 @@ public class GeneralDTO extends MasterDTO {
     private String fighterDetail;
     private String phone;
 
-    private String createdBy;
-    private String updatedBy;
-    private String rowStatus;
-    private String createdOn;
-    private String updatedOn;
-    private String dataStatus;
+
 }

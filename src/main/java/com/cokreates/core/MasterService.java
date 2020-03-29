@@ -11,11 +11,14 @@ import com.google.gson.internal.LinkedTreeMap;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,9 +50,13 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         this.dataServiceRestTemplateClient = dataServiceRestTemplateClient;
     }
 
-    public Class<Dto> getDtoClass() {return null;}
+    public Class<Dto> getDtoClass() {
+        return (Class<Dto>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
 
-    public Class<Entity> getEntityClass() {return null;}
+    public Class<Entity> getEntityClass() {
+        return (Class<Entity>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+    }
 
     public List<String> getNodePath() {
         return this.nodePath;
@@ -125,6 +132,8 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Entity update(Dto node,String employeeOid) {
 
+        Entity entity = null;
+
         if(this.getType().equalsIgnoreCase("Node")) {
 
             Gson gson = new Gson();
@@ -145,21 +154,21 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
 
 
-            return convertToEntity(dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
+            entity =  convertToEntity(dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
 
         }else if(this.getType().equalsIgnoreCase("List")){
-            node = this.parseBeforeUpdate(node);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
                     node.getOid(),null,null,null,
                     null,null,null,this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
-
-            return convertToEntity(dataServiceRestTemplateClient.update(this.nodePath, request, gDataEndPointUrl));
+            entity = convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
+            //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
         }
 
-        return null;
+        return entity;
     }
 
     @Override
@@ -198,7 +207,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
                 null, null, null, this.getDtoClass());
 
         String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_LIST_NODE;
-        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
 
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
     }
@@ -236,11 +245,13 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto convertToDto(Entity entity) {
+
         return modelMapper.map(entity, getDtoClass());
     }
 
     @Override
     public Entity convertToEntity(Dto dto) {
+
         return modelMapper.map(dto, getEntityClass());
     }
 

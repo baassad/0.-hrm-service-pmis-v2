@@ -1,5 +1,6 @@
 package com.cokreates.grp.util.components;
 
+import com.cokreates.core.BaseEntity;
 import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
@@ -7,6 +8,7 @@ import com.cokreates.grp.daas.DataServiceRequestBody;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -32,6 +34,14 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
 
+        node.setConfig("");
+        node.setCreatedBy("System");
+        node.setCreatedOn(new Date());
+        node.setUpdatedBy("System");
+        node.setUpdatedOn(new Date());
+        node.setDataStatus("Active");
+        node.setRowStatus("Active");
+
         requestBody.setApprovalHistoryOid(approvalHistoryOid);
         requestBody.setComment(comment);
         requestBody.setStatus(status);
@@ -46,6 +56,8 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
         return request;
     }
+
+
 
     public DataServiceRequest<Dto> getRequestToCreateEmployee(GeneralDTO node, Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();
