@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 public class ApprovalHistoryDTO extends MasterDTO {
 
-    private String status, nodeName;
+    private String status, nodeName, isDeleted;
     private Comment comment;
     private Change change;
     private Map<String, String> oldValue;

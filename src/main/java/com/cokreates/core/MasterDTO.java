@@ -1,6 +1,7 @@
 package com.cokreates.core;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.cokreates.grp.util.request.RequestBodyDTO;
 
@@ -26,7 +27,7 @@ public class MasterDTO implements RequestBodyDTO {
     private String createdBy;
     private String updatedBy;
     private String rowStatus;
-    private Date createdOn;
-    private Date updatedOn;
+    private Timestamp createdOn;
+    private Timestamp updatedOn;
     private String dataStatus;
 }

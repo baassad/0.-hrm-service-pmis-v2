@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 public class ApprovalHistory extends BaseEntity {
 
-    private String changeType, status, nodeName, employeeOid;
+    private String changeType, status, nodeName, employeeOid, isDeleted;
     private Comment comment;
     private Change change;
     private Map<String, String> oldValue;
