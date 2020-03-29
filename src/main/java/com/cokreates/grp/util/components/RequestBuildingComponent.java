@@ -1,15 +1,16 @@
 package com.cokreates.grp.util.components;
 
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor

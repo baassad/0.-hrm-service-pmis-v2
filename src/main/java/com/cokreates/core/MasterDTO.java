@@ -1,6 +1,5 @@
 package com.cokreates.core;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import com.cokreates.grp.util.request.RequestBodyDTO;
