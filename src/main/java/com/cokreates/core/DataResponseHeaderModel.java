@@ -1,13 +1,14 @@
 package com.cokreates.core;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
 @Data
 public class DataResponseHeaderModel {
 
-    private Date requestReceivedTime, responseTime;
+    private Timestamp requestReceivedTime, responseTime;
 
     private int hopCount;
 

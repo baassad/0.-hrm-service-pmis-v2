@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Component
@@ -21,7 +22,7 @@ public class HeaderUtilComponent {
         DataResponseHeaderModel responseHeaderDTO = new DataResponseHeaderModel();
 
         responseHeaderDTO.setRequestReceivedTime(requestHeaderDTO.getRequestTime());
-        responseHeaderDTO.setResponseTime(new Date(System.currentTimeMillis()));
+        responseHeaderDTO.setResponseTime(new Timestamp(System.currentTimeMillis()));
         responseHeaderDTO.setHopCount(
                 requestHeaderDTO.getHopCount() == null ? 1 : requestHeaderDTO.getHopCount() + 1
         );
@@ -43,8 +44,8 @@ public class HeaderUtilComponent {
         
         long millis = System.currentTimeMillis();  
 
-        responseHeaderDTO.setRequestReceivedTime(new Date(millis));
-        responseHeaderDTO.setResponseTime(new Date(millis));
+        responseHeaderDTO.setRequestReceivedTime(new Timestamp(millis));
+        responseHeaderDTO.setResponseTime(new Timestamp(millis));
         responseHeaderDTO.setHopCount(1);
         responseHeaderDTO.setResponseProcessingTimeInMs(Math.toIntExact(
                 responseHeaderDTO.getResponseTime().getTime() - responseHeaderDTO.getRequestReceivedTime().getTime()
@@ -64,7 +65,7 @@ public class HeaderUtilComponent {
         requestHeaderDTO.setRequestSourceService("portal");
         requestHeaderDTO.setRequestClient("grp");
         requestHeaderDTO.setRequestType("random");
-        requestHeaderDTO.setRequestTime(new Date(System.currentTimeMillis()));
+        requestHeaderDTO.setRequestTime(new Timestamp(System.currentTimeMillis()));
         requestHeaderDTO.setRequestVersion("v1");
         requestHeaderDTO.setRequestTimeoutInSeconds(30);
         requestHeaderDTO.setRequestRetryCount(3);
