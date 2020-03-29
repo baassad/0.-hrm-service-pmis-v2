@@ -19,5 +19,4 @@ public class PresentAddress extends BaseEntity {
     private String phone;
     private String email;
     private String addressType;
-    //tempData obj
 }

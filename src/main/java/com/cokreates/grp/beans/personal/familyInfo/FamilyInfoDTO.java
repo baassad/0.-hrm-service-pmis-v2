@@ -1,6 +1,9 @@
 package com.cokreates.grp.beans.personal.familyInfo;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +23,7 @@ public class FamilyInfoDTO extends MasterDTO {
     private String birthCertificate;
     private String passport;
     private String isGovtEmployee;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String gender,address,organization,designation,location;
 
 }

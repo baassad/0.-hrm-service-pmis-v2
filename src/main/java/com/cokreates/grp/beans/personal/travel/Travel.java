@@ -13,7 +13,6 @@ public class Travel extends BaseEntity {
     private String countryNameEn;
     private String countryNameBn;
     private String purpose;
-    private Date from;
-    private Date to;
-    private String govtOrderNo, govtOrderDate;
+    private Date from, to, govtOrderDate;
+    private String govtOrderNo;
 }

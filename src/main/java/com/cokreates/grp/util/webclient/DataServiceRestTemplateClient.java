@@ -1,18 +1,15 @@
 package com.cokreates.grp.util.webclient;
 
 
-import com.cokreates.core.BaseEntity;
-import com.cokreates.core.Constant;
-import com.cokreates.core.MasterDTO;
-import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.daas.DataServiceResponseBody;
-import com.cokreates.grp.util.components.HeaderUtilComponent;
-import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -23,9 +20,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.*;
+import com.cokreates.core.BaseEntity;
+import com.cokreates.core.Constant;
+import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.daas.DataServiceRequest;
+import com.cokreates.grp.util.components.HeaderUtilComponent;
+import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 // TODO: Take BaseService Logic to Component with Overridden methods as interface calls

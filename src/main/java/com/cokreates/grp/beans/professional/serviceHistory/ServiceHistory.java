@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.professional.serviceHistory;
 
+import java.sql.Date;
+
 import com.cokreates.core.BaseEntity;
 
 import lombok.Data;
@@ -9,5 +11,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ServiceHistory extends BaseEntity {
     
-    private String govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
+    private Date govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
 }

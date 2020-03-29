@@ -1,6 +1,9 @@
 package com.cokreates.grp.beans.qualification.education;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,15 +11,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class EducationDTO extends MasterDTO {
 
-    private String degree;
-    private String subject;
-    private String institution;
-    private String isForeignInstitution;
-    private String result;
-    private String achieved;
-    private String scale;
-    private String startingDate;
-    private String endingDate;
-    private String country;
+	private String degree, subject, institution, isForeignInstitution, result, achieved, scale, country;
+    private Date startingDate, endingDate;
 
 }

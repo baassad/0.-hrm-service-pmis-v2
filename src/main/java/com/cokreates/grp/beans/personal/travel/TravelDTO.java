@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.personal.travel;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,8 +13,7 @@ public class TravelDTO extends MasterDTO {
 	private String countryNameEn;
     private String countryNameBn;
     private String purpose;
-    private String from;
-    private String to;
-    private String govtOrderNo, govtOrderDate;
+    private Date from, to, govtOrderDate;
+    private String govtOrderNo;
 
 }

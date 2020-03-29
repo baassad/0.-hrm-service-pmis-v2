@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.professional.leave;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +12,6 @@ public class LeaveDTO extends MasterDTO {
 
 
     private String type, reason, duration;
-    private String from, to;
+    private Date from, to;
 
 }

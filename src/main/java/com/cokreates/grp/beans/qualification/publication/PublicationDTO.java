@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.qualification.publication;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,6 +11,6 @@ import lombok.EqualsAndHashCode;
 public class PublicationDTO extends MasterDTO {
 
     private String publicationType, publicationName, description;
-    private String publicationDate;
+    private Date publicationDate;
 
 }

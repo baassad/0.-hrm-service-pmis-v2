@@ -12,5 +12,4 @@ public class Promotion extends BaseEntity {
 
     private String gono, natureOfPromotion, payScaleToWhichPromoted, rank;
     private Date dateOfPromotion, dateOfGO;
-    //tempData obj
 }

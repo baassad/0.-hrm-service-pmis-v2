@@ -1,6 +1,9 @@
 package com.cokreates.grp.beans.qualification.award;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,9 +11,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class AwardDTO extends MasterDTO {
 
-    private String titleOfAward;
-    private String awardReceivalPlace;
-    private String awardReceivedDate;
-    private String country;
+    private String titleOfAward, awardReceivalPlace, country;
+    private Date awardReceivedDate;
 
 }

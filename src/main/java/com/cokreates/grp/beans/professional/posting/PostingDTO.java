@@ -1,5 +1,7 @@
 package com.cokreates.grp.beans.professional.posting;
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,8 +14,7 @@ public class PostingDTO extends MasterDTO {
     private String location;
     private String payScale;
     private String payLastDrawn;
-    private String from;
-    private String to;
+    private Date from, to;
     private String district, city;
 
 }

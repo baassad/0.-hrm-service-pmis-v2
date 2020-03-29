@@ -1,6 +1,8 @@
 package com.cokreates.grp.beans.professional.jobHistory;
 
 
+import java.sql.Date;
+
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +12,6 @@ import lombok.EqualsAndHashCode;
 public class JobHistoryDTO extends MasterDTO {
 
 	private String post, type, officeName, officeAddress;
-    private String from;
-    private String to;
+	private Date from, to;
 
 }

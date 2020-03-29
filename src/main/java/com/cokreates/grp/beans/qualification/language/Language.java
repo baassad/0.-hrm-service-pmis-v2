@@ -9,5 +9,4 @@ import lombok.EqualsAndHashCode;
 public class Language extends BaseEntity {
 
     private String languageName, isNativeLanguage, readingSkill, writingSkill, speakingSkill, listeningSkill;
-    //tempData obj
 }
