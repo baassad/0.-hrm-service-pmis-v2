@@ -1,6 +1,9 @@
 package com.cokreates.grp.beans.personal.general;
 
+import java.sql.Date;
+
 import com.cokreates.core.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,7 +15,7 @@ public class General extends BaseEntity {
     private String nameBn;
     private String maritalStatus;
     private String bloodGroup;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String gender;
     private String religion;
     private String nationality;
