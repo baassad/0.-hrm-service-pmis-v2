@@ -197,7 +197,34 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     }
 
     @Override
-    public Dto delete(String oid) {
+    public Dto delete(Dto dto) {
+
+        if(this.getType().equalsIgnoreCase("Node")) {
+
+            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, dto.getOid(),
+                    null, null, null, null,
+                    null, null, null, this.getDtoClass());
+
+            String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
+
+
+            return (dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
+
+        }else if(this.getType().equalsIgnoreCase("List")){
+
+            MasterDTO node = new MasterDTO();
+            node.setOid(dto.getNodeOid());
+
+            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, (Dto) node, dto.getOid(),
+                    null,null,null,null,
+                    null,null,null,this.getDtoClass());
+
+            String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
+
+            return (dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
+            //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
+        }
+
         return null;
     }
 

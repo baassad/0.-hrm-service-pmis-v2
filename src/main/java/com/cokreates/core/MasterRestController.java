@@ -63,7 +63,7 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
     @Override
     @PostMapping(Constant.ENDPOINT_DELETE)
     public ResponseModel<D> delete(@RequestBody RequestModel<D> requestDTO) {
-        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(service.delete(requestDTO.getBody().getData().get(0).getOid())));
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(service.delete(requestDTO.getBody().getData().get(0))));
     }
 
     @Override
