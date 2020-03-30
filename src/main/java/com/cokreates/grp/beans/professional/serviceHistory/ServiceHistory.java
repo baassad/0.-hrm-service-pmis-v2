@@ -11,5 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ServiceHistory extends BaseEntity {
     
-    private Date govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
+    private Date govtServiceDate, gazettedDate, encadrementDate, seniorityDate;
+    private String cadre;
 }
