@@ -178,6 +178,8 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         } else if (this.getType().equalsIgnoreCase("List")) {
 
+            node = this.parseBeforeUpdate(node);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, node, employeeOid,
                     node.getOid(), null, null, null,
                     null, null, null, this.getDtoClass());
