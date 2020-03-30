@@ -10,6 +10,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ServiceHistoryDTO extends MasterDTO {
 
-    private Date govtServiceDate, gazettedDate, encadrementDate, seniorityDate, cadre;
-
+	private Date govtServiceDate, gazettedDate, encadrementDate, seniorityDate;
+    private String cadre;
 }
