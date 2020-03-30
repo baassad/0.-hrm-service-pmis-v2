@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
@@ -87,6 +88,29 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 //
 //        return request;
 //    }
+
+    public DataServiceRequest<Dto> getRequestForGettingEmployeeDetails(String employeeOid){
+        DataServiceRequest<Dto> request = new DataServiceRequest<>();
+        DataServiceRequestBody<Dto> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setEmployeeOid(employeeOid);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
+    public DataServiceRequest<EmployeeOfficeDTO> getRequestForEmployeeOffice(EmployeeOfficeDTO node, String employeeOid){
+        DataServiceRequest<EmployeeOfficeDTO> request = new DataServiceRequest<>();
+        DataServiceRequestBody<EmployeeOfficeDTO> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setEmployeeOid(employeeOid);
+        requestBody.setNode(node);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
     
     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,Dto node,String employeeOid, Class dtoClass){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();

@@ -5,8 +5,9 @@ public class Constant {
 	public static final String STATUS_ACTIVE = "active";
     public static final String STATUS_DELETE = "delete";
     public static final String ENDPOINT_CREATE = "/create";
+    public static final String ENDPOINT_CREATE_EMPLOYEE_OFFICE = "/create-employee-office";
     public static final String ENDPOINT_CREATE_ALL = "/create-all";
-    public static final String ENDPOINT_APPEND= "/append";
+    public static final String ENDPOINT_APPEND = "/append";
     public static final String ENDPOINT_SEARCH = "/search";
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
@@ -21,6 +22,8 @@ public class Constant {
     public static final String ENDPOINT_DELETE_ALL = "/delete-all";
     public static final String ENDPOINT_EMPLOYEE = "emp";
     public static final String ENDPOINT_CREATE_EMPLOYEE = "/create-employee";
+    public static final String ENDPOINT_GET_DETAILS = "/v1/get-details";
+    public static final String EMPLOYEE_DETAILS = "employee-details";
 
     public static final String VERSION_1 = "v1/";
     
