@@ -10,20 +10,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cokreates.core.BaseEntity;
-import com.cokreates.core.Constant;
-import com.cokreates.core.EmployeeInformationDTO;
-import com.cokreates.core.MasterDTO;
-import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.daas.DataServiceResponseBody;
-import com.cokreates.grp.util.components.HeaderUtilComponent;
-import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -95,14 +81,14 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             JsonNode jsonNode = null;
             try {
                 jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
@@ -140,11 +126,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                 throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
@@ -211,11 +197,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                 throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
@@ -269,18 +255,18 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
 
             return main;
         } catch (HttpStatusCodeException ex) {
-                        ex.printStackTrace();
-                        JsonNode jsonNode = null;
-                       try {
-                                jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
-                           } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+        	ex.printStackTrace();
+            JsonNode jsonNode = null;
+            try {
+            	jsonNode = objectMapper.readTree(ex.getResponseBodyAsString());
+            } catch (IOException e) {
+            	e.printStackTrace();
+            }
         } catch (Exception e) {
-                        e.printStackTrace();
-                        if (e.getMessage().contains("ConnectException")) {
-                                //throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
-                        }
+            e.printStackTrace();
+            if (e.getMessage().contains("ConnectException")) {
+            	//throw new ServiceExceptionHolder.ResourceNotFoundException("common organogram api " +  url + " does not work at " + ZUUL_BASE_URL);
+            }
         }
 
         return main;
@@ -316,11 +302,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                 throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
@@ -354,11 +340,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                 throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
@@ -399,11 +385,11 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
                 throw new ServiceExceptionHolder.ResourceNotFoundException(ex.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+                throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+            throw new ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException(e.getMessage());
         }
 
     }
