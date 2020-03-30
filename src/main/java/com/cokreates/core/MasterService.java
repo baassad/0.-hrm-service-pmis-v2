@@ -2,9 +2,12 @@ package com.cokreates.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 
 import lombok.Data;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
-public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEntity> implements CklServiceInterface<Dto,Entity>{
+public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEntity> implements CklServiceInterface<Dto, Entity> {
 
 //    @Autowired
 //    DataServiceClient dataServiceClient;
@@ -59,18 +60,20 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         return this.nodePath;
     }
 
-    public String getGData() { return this.gdata; }
+    public String getGData() {
+        return this.gdata;
+    }
 
     public void setNodePath(List<String> nodePath) {
         this.nodePath = nodePath;
     }
 
-    public Entity preCreate(Dto dto){
-        return  null;
+    public Entity preCreate(Dto dto) {
+        return null;
 
     }
 
-    public Entity postCreate(Entity entity){
+    public Entity postCreate(Entity entity) {
         return null;
     }
 
@@ -87,20 +90,30 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     @Override
     public Dto append(Dto dto) {
 
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        // Creates the json object which will manage the information received
+        GsonBuilder builder = new GsonBuilder();
+
+// Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+
+        Gson gson = builder.create();
         String element = gson.toJson(dto);
         HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
         LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
 
         String mainString = gson.toJson(mainMap);
-        Dto updateNode = (Dto)gson.fromJson(mainString, this.getDtoClass());
-    	
-    	Dto main = this.parseBeforeUpdate(updateNode);
-        
-    	DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,main, dto.getOid(), this.getDtoClass());
+        Dto updateNode = (Dto) gson.fromJson(mainString, this.getDtoClass());
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_APPEND+Constant.VERSION_1+Constant.GDATA_LIST_NODE_REQUEST;
+        Dto main = this.parseBeforeUpdate(updateNode);
+
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, dto.getOid(), this.getDtoClass());
+
+        String gDataEndPointUrl = gdata + Constant.GDATA_APPEND + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
         return dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
     }
@@ -116,31 +129,41 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         return false;
     }
 
-    public Entity preUpdate(Dto dto){
-        return  null;
+    public Entity preUpdate(Dto dto) {
+        return null;
 
     }
 
-    public Entity postUpdate(Entity entity){
+    public Entity postUpdate(Entity entity) {
 
         return null;
     }
 
     @Override
-    public Entity update(Dto node,String employeeOid) {
+    public Entity update(Dto node, String employeeOid) {
 
         Entity entity = null;
 
-        if(this.getType().equalsIgnoreCase("Node")) {
+        if (this.getType().equalsIgnoreCase("Node")) {
 
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            // Creates the json object which will manage the information received
+            GsonBuilder builder = new GsonBuilder();
+
+// Register an adapter to manage the date types as long values
+            builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+                public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                    return new Date(json.getAsJsonPrimitive().getAsLong());
+                }
+            });
+
+            Gson gson = builder.create();
             String element = gson.toJson(node);
             HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
 
             LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
 
             String mainString = gson.toJson(mainMap);
-            Dto updateNode = (Dto)gson.fromJson(mainString, this.getDtoClass());
+            Dto updateNode = (Dto) gson.fromJson(mainString, this.getDtoClass());
 
             Dto main = this.parseBeforeUpdate(updateNode);
 
@@ -151,13 +174,13 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
 
 
-            entity =  convertToEntity(dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
+            entity = convertToEntity(dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
 
-        }else if(this.getType().equalsIgnoreCase("List")){
+        } else if (this.getType().equalsIgnoreCase("List")) {
 
-            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,node,employeeOid,
-                    node.getOid(),null,null,null,
-                    null,null,null,this.getDtoClass());
+            DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, node, employeeOid,
+                    node.getOid(), null, null, null,
+                    null, null, null, this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
@@ -185,12 +208,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto getNode(String employeeOid) {
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, employeeOid,
                 null, null, null, null,
                 null, null, null, this.getDtoClass());
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
-        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        String gDataEndPointUrl = gdata + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_NODE;
+        log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
 
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
 
@@ -199,11 +222,11 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
 
     @Override
     public Dto getNodeFromList(String employeeOid, String nodeOid) {
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, employeeOid,
                 nodeOid, null, null, null,
                 null, null, null, this.getDtoClass());
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_LIST_NODE;
+        String gDataEndPointUrl = gdata + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_LIST_NODE;
         log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
 
         return dataServiceRestTemplateClient.getRestTemplateResponse(nodePath, request, gDataEndPointUrl);
@@ -223,12 +246,12 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     public List<Dto> getList(String employeeOid) {
 
 
-        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath,null, employeeOid,
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, employeeOid,
                 null, null, null, null,
                 null, null, null, this.getDtoClass());
 
-        String gDataEndPointUrl = gdata+Constant.GDATA_GET+Constant.VERSION_1+Constant.GDATA_NODE;
-        log.debug("==== gDataEndPointUrl ==== "+gDataEndPointUrl);
+        String gDataEndPointUrl = gdata + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_NODE;
+        log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
 
         return dataServiceRestTemplateClient.getRestTemplateResponseList(nodePath, request, gDataEndPointUrl);
 
@@ -253,13 +276,13 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
     }
 
     public Dto parseBeforeUpdate(Dto dto) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Gson gson = new Gson();
         String element = gson.toJson(dto);
 
         LinkedTreeMap<String, Object> mainMap = gson.fromJson(element, LinkedTreeMap.class);
 
         String mainString = gson.toJson(mainMap);
-        Dto main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+        Dto main = (Dto) gson.fromJson(mainString, this.getDtoClass());
 
         try {
             for (Field field : main.getClass().getDeclaredFields()) {
@@ -284,7 +307,7 @@ public abstract class MasterService<Dto extends MasterDTO,Entity extends BaseEnt
         }
 
         mainString = gson.toJson(mainMap);
-        main = (Dto)gson.fromJson(mainString, this.getDtoClass());
+        main = (Dto) gson.fromJson(mainString, this.getDtoClass());
 
         return main;
     }
