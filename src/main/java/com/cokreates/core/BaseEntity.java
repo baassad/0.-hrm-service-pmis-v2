@@ -1,6 +1,7 @@
 package com.cokreates.core;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -39,13 +40,13 @@ public class BaseEntity {
     /*@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on", nullable = false, updatable = false)
     @CreatedDate*/
-    private Date createdOn;
+    private Timestamp createdOn;
 
     /*@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_on", nullable = true)
     @LastModifiedDate
     @JsonIgnore*/
-    private Date updatedOn;
+    private Timestamp updatedOn;
 
     //@Column(name = "config", columnDefinition = "TEXT")
     private String config;

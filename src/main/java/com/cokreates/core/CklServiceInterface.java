@@ -17,7 +17,7 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
 
     public List<Entity> updateAll(List<Dto> dtos);
 
-    public Dto delete(String oid);
+    public Dto delete(Dto dto);
 
     public List<Dto> deleteAll(List<String> oids);
 

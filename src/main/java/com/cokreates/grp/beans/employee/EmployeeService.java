@@ -6,6 +6,7 @@ import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
 import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
@@ -32,12 +33,16 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     @Autowired
     ClassConversionComponent conversionComponent;
 
+    @Autowired
+    GeneralService generalService;
+
     public EmployeeService(RequestBuildingComponent<EmployeeDTO> requestBuildingComponent,
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
     }
 
     public EmployeeDTO create(GeneralDTO dto) {
+        dto = generalService.parseBeforeUpdate(dto);
         DataServiceRequest<EmployeeDTO> request = getRequestBuildingComponent().getRequestToCreateEmployee(dto, getDtoClass());
 
         String gDataEndPointUrl = getGData() + Constant.GDATA_CREATE + Constant.VERSION_1 + Constant.ENDPOINT_EMPLOYEE;
