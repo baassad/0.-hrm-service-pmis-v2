@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.common;
+package com.cokreates.grp.beans.employeeOffice;
 
 import com.cokreates.core.MasterDTO;
 import lombok.Data;

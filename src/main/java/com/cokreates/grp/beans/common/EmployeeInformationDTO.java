@@ -1,4 +1,4 @@
-package com.cokreates.core;
+package com.cokreates.grp.beans.common;
 
 import lombok.Data;
 

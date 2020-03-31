@@ -35,7 +35,6 @@ public class Constant {
     
     public static final String GDATA_EMP 						= "emp";
     public static final String GDATA_NODE 						= "node-in-emp-doc";
-    public static final String GDATA_PERMITTED_OFFICE		    = "permitted-office";
     public static final String GDATA_LIST_NODE 					= "list-node-in-emp-doc";
     
     public static final String GDATA_NODE_REQUEST 				= "node-in-doc-for-request";
@@ -52,6 +51,8 @@ public class Constant {
     public static final String GDATA_APPROVAL_HISTORY_REVIEW 	= "approval-history-for-review";
     public static final String GDATA_APPROVAL_HISTORY_APPROVE	= "approval-history-for-approve";
     public static final String GDATA_APPROVAL_HISTORY_REJECT	= "approval-history-for-reject";
+
+    public static final String GDATA_OFFICE_BY_EMPLOYEE		    = "office-by-employee";
 
     public static final String GDATA_APPROVAL_HISTORY_BY_STATUS 	= "approval-history-by-status";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE	= "approval-history-by-employee";

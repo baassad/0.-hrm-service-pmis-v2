@@ -1,7 +1,8 @@
 package com.cokreates.grp.util.components;
 
 import com.cokreates.core.*;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,39 +61,6 @@ public class ResultBuildingComponent<Dto extends MasterDTO> {
         responseModel.setBody(responseBodyModel);
 
         return responseModel;
-
-    }
-
-
-//    public ResponseModel<MasterApprovalDTO> retrieveApprovalResult(DataRequestHeaderModel requestHeaderModel, List<MasterApprovalDTO> dtos
-//                                             ){
-//
-//        ResponseModel<MasterApprovalDTO> responseModel = new ResponseModel<>();
-//
-//        responseModel.setHeader(headerUtilComponent.getResponseHeaderDTO(requestHeaderModel));
-//        responseModel.setMeta(new HashMap<>());
-//
-//        ResponseBodyModel<MasterApprovalDTO> responseBodyModel = new ResponseBodyModel<>();
-//        responseBodyModel.setData(dtos);
-//        responseModel.setBody(responseBodyModel);
-//
-//        return responseModel;
-//
-//    }
-
-    public ResponseModel<Dto> retrieveResult(DataRequestHeaderModel requestHeaderModel, Map<String,Object> map, List<Dto> dtos){
-
-        ResponseModel<Dto> responseModel = new ResponseModel<>();
-
-        responseModel.setHeader(headerUtilComponent.getResponseHeaderDTO(requestHeaderModel));
-        responseModel.setMeta(map);
-
-        ResponseBodyModel<Dto> responseBodyModel = new ResponseBodyModel<>();
-        responseBodyModel.setData(dtos);
-        responseModel.setBody(responseBodyModel);
-
-        return responseModel;
-
 
     }
 }

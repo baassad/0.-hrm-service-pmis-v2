@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.cokreates.core.MasterDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
@@ -74,20 +74,6 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
         return request;
     }
-
-//    public DataServiceRequest<MasterApprovalDTO> getRequestForApprovalHistory(MasterApprovalDTO requestDTO){
-//        DataServiceRequest<MasterApprovalDTO> request = new DataServiceRequest<>();
-//        DataServiceRequestBody<MasterApprovalDTO> requestBody = new DataServiceRequestBody<>();
-//
-//        requestBody.setApprovalHistoryOid(requestDTO.getApprovalHistoryOid());
-//        requestBody.setComment(requestDTO.getComment());
-//        requestBody.setStatus(requestDTO.getStatus());
-//        requestBody.setEmployeeOid(requestDTO.getOid());
-//
-//        request.setBody(requestBody);
-//
-//        return request;
-//    }
 
     public DataServiceRequest<Dto> getRequestForGettingEmployeeDetails(String employeeOid){
         DataServiceRequest<Dto> request = new DataServiceRequest<>();

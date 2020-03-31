@@ -1,8 +1,8 @@
 package com.cokreates.grp.util.components;
 
-import com.cokreates.core.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

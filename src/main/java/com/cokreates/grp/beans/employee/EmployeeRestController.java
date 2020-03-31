@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cokreates.core.Constant;
-import com.cokreates.core.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.core.MasterRestController;
 import com.cokreates.core.RequestModel;
 import com.cokreates.core.ResponseModel;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
 
