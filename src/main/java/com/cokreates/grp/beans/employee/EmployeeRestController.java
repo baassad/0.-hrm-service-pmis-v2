@@ -45,4 +45,14 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(), Collections.singletonList(employeeService.appendEmployeeOfficeDTO(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
     }
 
+    @PostMapping(Constant.ENDPOINT_EMPLOYEE_OFFICE)
+    public ResponseModel<EmployeeOfficeDTO> getEmployeeOfficeListForEmployeeAndOfficeUnitPostOid(@Valid @RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
+        String officeUnitPostOid =  requestDTO.getBody().getData().get(0).getOfficeUnitPostOid();
+        if(officeUnitPostOid != null) {
+            return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(), employeeService.getEmployeeOfficeList(requestDTO.getBody().getEmployeeOid(),officeUnitPostOid));
+        }else {
+            return  null;
+        }
+    }
+
 }

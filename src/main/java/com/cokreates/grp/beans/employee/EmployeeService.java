@@ -11,6 +11,7 @@ import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
+import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.request.ActorRequestBodyDTO;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,6 +62,30 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
 
         return getDataServiceRestTemplateClient().getRestTemplateResponseForEmployee(request, gDataEndPointUrl);
+
+    }
+
+    public  List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid,String officeUnitPostOid){
+
+        DataServiceRequest<EmployeeDTO> request = getRequestBuildingComponent().getRequestForRead(null,null, employeeOid,
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
+
+        DataServiceResponseForList<EmployeeOfficeDTO> response = dataServiceClient.getEmployeeOfficeList(request);
+
+        List<EmployeeOfficeDTO> employeeOfficeDTOList = response.getBody().getMain();
+
+        List<EmployeeOfficeDTO> finalEmployeeOfficeDTOList = new ArrayList<>();
+
+        for(EmployeeOfficeDTO employeeOfficeDTO : employeeOfficeDTOList){
+            if(employeeOfficeDTO.getOfficeUnitPostOid() != null && employeeOfficeDTO.getStatus().equalsIgnoreCase("Active")
+                    && employeeOfficeDTO.getOfficeUnitPostOid().equalsIgnoreCase(officeUnitPostOid)){
+                finalEmployeeOfficeDTOList.add(employeeOfficeDTO);
+            }
+
+        }
+
+        return finalEmployeeOfficeDTOList;
 
     }
 

@@ -24,6 +24,7 @@ public class Constant {
     public static final String ENDPOINT_CREATE_EMPLOYEE = "/create-employee";
     public static final String ENDPOINT_GET_DETAILS = "/v1/get-details";
     public static final String EMPLOYEE_DETAILS = "employee-details";
+    public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";
 
     public static final String VERSION_1 = "v1/";
     

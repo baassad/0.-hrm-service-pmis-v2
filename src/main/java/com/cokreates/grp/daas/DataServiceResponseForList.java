@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class DataServiceResponseForList<T> {
 
-    DataServiceResponseBody<T> body;
+    DataServiceResponseHeader header;
+
+    DataServiceResponseBodyForList<T> body;
 }

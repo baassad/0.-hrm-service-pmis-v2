@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages="com.cokreates")
 @SpringBootApplication
 @EnableDiscoveryClient
-public class Application extends SpringBootServletInitializer {
+public class Application /*extends SpringBootServletInitializer*/ {
 	
 	@PostConstruct
 	public void init() {
