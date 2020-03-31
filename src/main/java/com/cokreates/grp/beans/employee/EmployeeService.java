@@ -1,21 +1,18 @@
 package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.Constant;
-import com.cokreates.core.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
-import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
-import com.cokreates.grp.util.request.ActorRequestBodyDTO;
-import com.cokreates.grp.util.request.ApprovalHistoryRequestBodyDTO;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import lombok.extern.slf4j.Slf4j;

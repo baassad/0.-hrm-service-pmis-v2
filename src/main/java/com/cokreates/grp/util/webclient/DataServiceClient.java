@@ -1,8 +1,7 @@
 package com.cokreates.grp.util.webclient;
 
-import com.cokreates.core.MasterDTO;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
