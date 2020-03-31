@@ -2,6 +2,8 @@ package com.cokreates.grp.beans.approvalHistory;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
+import com.cokreates.grp.beans.employee.EmployeeDTO;
+import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
@@ -32,6 +34,9 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     @Autowired
     EmployeeOfficeService employeeOfficeService;
+
+    @Autowired
+    EmployeeService employeeService;
 
     public ApprovalHistoryService(RequestBuildingComponent<ApprovalHistoryDTO> requestBuildingComponent,
                                   DataServiceRestTemplateClient< ApprovalHistoryDTO, ApprovalHistory> dataServiceRestTemplateClient){
@@ -64,31 +69,72 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     public List<ApprovalHistoryDTO> getApprovalHistoryByActor(ActorRequestBodyDTO node) {
 
+
+
+        // =================   fetch all offices of employee in request body ====================================================
+
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_OFFICE_BY_EMPLOYEE;;
 
-        DataServiceRequest<EmployeeOfficeDTO> requestemployeeOffice = employeeOfficeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeOfficeDTO> requestEmployeeOffice = employeeOfficeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, node.getOid(), null, null,
                 node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeOfficeService.getDtoClass());
 
 
-        List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestemployeeOffice, gDataEndPointUrl);
+        List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployeeOffice, gDataEndPointUrl);
 
-        List<String> officeOidList = new ArrayList<>();
+
+
+        // =================   accumulates offices only which are permitted for him ====================================================
+
+
+        Set<String> officeOidList = new HashSet<>();
 
             employeeOfficeDTOList
                     .forEach(employeeOfficeDTO -> {
                         if (node.getReviewerOid() != null && employeeOfficeDTO.getIsReviewer().equals("Yes")) {
                             officeOidList.add(employeeOfficeDTO.getOfficeOid());
-                            System.out.println(employeeOfficeDTO.getOfficeOid());
                         } else if (node.getApproverOid() != null && employeeOfficeDTO.getIsApprover().equals("Yes")) {
                             officeOidList.add(employeeOfficeDTO.getOfficeOid());
-                            System.out.println(employeeOfficeDTO.getOfficeOid());
                         }
                     });
 
 
-        Set<String> employeeOidList = dummyEmployeeOfficeService.getEmployeeByOffice(officeOidList);
+
+        // =================   get all employees' DTOs ( containing only oid in object ) who belong to permitted offices ====================================================
+
+
         MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(officeOidList);
+
+
+        gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_BY_OFFICE;;
+
+        DataServiceRequest<EmployeeDTO> requestEmployee = employeeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), null, null,
+                node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeService.getDtoClass());
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeDTO> employeeDTOList = employeeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+
+
+        // =================   preparing list of employee oids from DTOs who are under jurisdiction ====================================================
+
+        Set<String> employeeOidList = new HashSet<>();
+
+        employeeDTOList
+                .forEach(employeeDTO -> {
+                    employeeOidList.add(employeeDTO.getOid());
+                });
+
+
+
+        // =================   finally, get all approval/reviewal requests which are under jurisdiction ====================================================
+
+
+        miscellaneousRequestProperty = new MiscellaneousRequestProperty();
         miscellaneousRequestProperty.setEmployeeOidList(employeeOidList);
 
         gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;;
@@ -97,7 +143,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
                 null, node.getOid(), null, null,
                 node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), this.getDtoClass());
 
-        DataServiceRequestBody dataServiceRequestBody = request.getBody();
+        dataServiceRequestBody = request.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
         return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
