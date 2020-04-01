@@ -35,6 +35,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     @Value("${cmn-service-file-management.url}")
     private String fileServiceUrl;
 
+    @Value("${cmn-service-organogram.url}")
+    private String organogramUrl;
+
     @Autowired
     DataServiceClient dataServiceClient;
 
@@ -116,7 +119,6 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         for(EmployeeInformationDTO dto:employeeInformationDTOS){
             dto.setOid(employeeOid);
-            dto.setPhoto(fetchPhoto(employeeOid));
         }
 
         return employeeInformationDTOS;
@@ -156,6 +158,21 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setOid(response.getBody().getOid());
         return employeeDTO;
+    }
+
+
+    public List<EmployeeInformationDTO> getProfileInfo(String employeeOid) {
+        List<EmployeeInformationDTO> profiles;
+        GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
+        dto.setOids(Arrays.asList(employeeOid));
+        dto.setStrict("No");
+        profiles = webService.postForList(organogramUrl + Constant.ENDPOINT_GET_EMPLOYEE_PROFILE_INFO, EmployeeInformationDTO.class, dto);
+        if(profiles!=null && profiles.isEmpty()==false) {
+            for(EmployeeInformationDTO p : profiles) {
+                p.setPhoto(fetchPhoto(employeeOid));
+            }
+        }
+        return profiles;
     }
 
 

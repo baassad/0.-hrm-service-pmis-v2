@@ -29,6 +29,7 @@ public class Constant {
     public static final String ENDPOINT_GET_PROFILE = "/get-profile";
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
+    public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";
 
     public static final String VERSION_1 = "v1/";
     

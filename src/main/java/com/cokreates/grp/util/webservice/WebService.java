@@ -1,16 +1,19 @@
 package com.cokreates.grp.util.webservice;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -45,6 +48,24 @@ public class WebService {
             e.printStackTrace();
         }
         return new byte[1024];
+    }
+
+    public <T> List<T> postForList(String restUrl, Class<T> c, Object dto) {
+        ResponseEntity<String> response;
+        JsonNode jsonNode;
+        try {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
+            String req = gson.toJson(dto);
+            response = restTemplate.exchange(restUrl, HttpMethod.POST,
+                    new HttpEntity(req, httpHeaders()), String.class);
+            jsonNode = objectMapper.readTree(response.getBody());
+            jsonNode = jsonNode.get("body").get("data");
+            return objectMapper.readValue(jsonNode.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, c));
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 
 }
