@@ -12,6 +12,6 @@ import java.util.List;
 public class Training extends BaseEntity {
 
     private String subjectName, institution, country, grade, position, fundingSource;
-    private Date startedFrom, endedOn;
+    private Date stratedFrom, endedOn;
     private List<String> subjectType;
 }

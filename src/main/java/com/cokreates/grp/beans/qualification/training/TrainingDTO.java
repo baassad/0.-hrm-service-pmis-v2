@@ -12,7 +12,7 @@ import java.util.List;
 public class TrainingDTO extends MasterDTO {
 
 	private String subjectName, institution, country, grade, position, fundingSource;
-    private Date startedFrom, endedOn;
+    private Date stratedFrom, endedOn;
     private List<String> subjectType;
 
 }
