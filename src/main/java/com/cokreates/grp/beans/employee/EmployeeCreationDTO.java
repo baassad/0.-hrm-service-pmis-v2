@@ -13,7 +13,7 @@ public class EmployeeCreationDTO extends MasterDTO {
     private String gender;
     private String religion;
     private String maritalStatus;
-    private String dateOfBirth;
+    private Timestamp dateOfBirth;
     private String phone;
     private String  email;
     private String employeeTypeOid;
