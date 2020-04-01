@@ -50,3 +50,7 @@ eureka:
     fetchRegistry: #FETCHREGISTRY#
     serviceUrl:
       defaultZone: #SERVICEURL-DEFAULTZONE#
+
+
+cmn-service-file-management:
+  url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
