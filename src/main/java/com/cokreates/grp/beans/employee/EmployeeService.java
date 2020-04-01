@@ -127,12 +127,12 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     private byte[] fetchPhoto(String employeeOid) {
         List<FileDTO> fileDTOs = fileService.getList(employeeOid);
-        List<FileDTO> photos = fileDTOs.stream().filter(x -> x.getFileName().trim().equalsIgnoreCase("photo")).collect(Collectors.toList());
+        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
         if(photos.isEmpty()) {
             return null;
         }
         MasterDTO dto = new MasterDTO();
-        dto.setOid(photos.get(0).getFileAttachName());
+        dto.setOid(photos.get(0).getFileOid());
         try {
             return webService.postForByteArray(fileServiceUrl+ Constant.ENDPOINT_DOWNLOAD_FILE, dto);
         } catch (Exception e) {
