@@ -1,8 +1,10 @@
 package com.cokreates.grp.util.components;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+import com.cokreates.grp.beans.employee.EmployeeCreationDTO;
 import org.springframework.stereotype.Component;
 
 import com.cokreates.core.MasterDTO;
@@ -123,6 +125,28 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         requestBody.setNode(node);
         requestBody.setNodePath(nodePath);
         requestBody.setDtoClass(dtoClass);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
+    public DataServiceRequest<EmployeeCreationDTO> getRequestForImport(EmployeeCreationDTO node, String employeeOid){
+        DataServiceRequest<EmployeeCreationDTO> request = new DataServiceRequest<>();
+        DataServiceRequestBody<EmployeeCreationDTO> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setEmployeeOid(employeeOid);
+        //requestBody.setNodeOid(nodeOid);
+
+        node.setRowStatus("Active");
+        node.setCreatedBy("System");
+        Date date = new Date();
+        node.setCreatedOn(new Timestamp(date.getTime()));
+        node.setConfig("");
+        node.setDataStatus("Actived");
+
+        requestBody.setNode(node);
+
 
         request.setBody(requestBody);
 

@@ -35,6 +35,12 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), Collections.singletonList(employeeService.create(requestDTO.getBody().getData().get(0))));
     }
 
+    @PostMapping(Constant.ENDPOINT_IMPORT_EMPLOYEE)
+    public ResponseModel<EmployeeDTO> importEmployee(@Valid @RequestBody RequestModel<EmployeeCreationDTO> requestDTO){
+
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(employeeService.importEmployee(requestDTO.getBody().getData().get(0))));
+    }
+
     @PostMapping(Constant.ENDPOINT_GET_DETAILS)
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformation(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTO(requestDTO.getBody().getData().get(0)));

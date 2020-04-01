@@ -31,6 +31,7 @@ public class ResultBuildingComponent<Dto extends MasterDTO> {
 
     }
 
+
     public ResponseModel<EmployeeOfficeDTO> retrieveResultForEmployeeOffice(DataRequestHeaderModel requestHeaderModel, List<EmployeeOfficeDTO> dtos
     ){
 

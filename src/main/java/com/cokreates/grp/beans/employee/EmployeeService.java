@@ -120,6 +120,16 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     }
 
+    public EmployeeDTO importEmployee(EmployeeCreationDTO dto){
+        DataServiceRequest<EmployeeCreationDTO> request = getRequestBuildingComponent().getRequestForImport(dto,dto.getOid());
+
+        DataServiceResponse<EmployeeDTO> response = dataServiceClient.importEmployee(request);
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setOid(response.getBody().getOid());
+        return employeeDTO;
+    }
+
 
     @Override
     public Class getDtoClass() {
