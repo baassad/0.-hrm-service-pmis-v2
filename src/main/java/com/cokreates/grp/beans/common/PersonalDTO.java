@@ -1,29 +1,34 @@
 package com.cokreates.grp.beans.common;
 
 import com.cokreates.grp.beans.personal.bank.BankDTO;
-import com.cokreates.grp.beans.personal.childEducation.ChildEducationDTO;
-import com.cokreates.grp.beans.personal.emergencyContactAddress.EmergencyContactAddress;
+import com.cokreates.grp.beans.personal.birthPlaceAddress.BirthPlaceAddressDTO;
+import com.cokreates.grp.beans.personal.emergencyContactAddress.EmergencyContactAddressDTO;
 import com.cokreates.grp.beans.personal.familyInfo.FamilyInfoDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
+import com.cokreates.grp.beans.personal.foreignAddress.ForeignAddressDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.health.HealthDTO;
+import com.cokreates.grp.beans.personal.permanentAddress.PermanentAddressDTO;
 import com.cokreates.grp.beans.personal.presentAddress.PresentAddressDTO;
 import com.cokreates.grp.beans.personal.sicknesses.InjuriesSicknessDTO;
 import com.cokreates.grp.beans.personal.travel.TravelDTO;
-import com.cokreates.grp.beans.qualification.education.EducationDTO;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class PersonalDTO {
-    List<BankDTO> bank;
-    List<FileDTO> file;
-    List<TravelDTO> travel;
-    List<PresentAddressDTO> address;
-    List<EducationDTO> education;
-    List<FamilyInfoDTO> familyInfo;
-    List<ChildEducationDTO> childEducation;
-    List<InjuriesSicknessDTO> injuriesSickness;
-    HealthDTO health;
     GeneralDTO general;
-    EmergencyContactAddress emergencyContact;
+    List<BankDTO> bank;
+    List<TravelDTO> travel;
+    HealthDTO health;
+    List<InjuriesSicknessDTO> injuriesSickness;
+    List<FileDTO> file;
+    PermanentAddressDTO permanentAddress;
+    PresentAddressDTO presentAddress;
+    EmergencyContactAddressDTO emergencyContactAddress;
+    BirthPlaceAddressDTO birthPlaceAddress;
+    ForeignAddressDTO foreignAddress;
+    List<FamilyInfoDTO> familyInfo;
+
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,5 +32,19 @@ public class WebService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+
+    public byte[] postForByteArray(String restUrl, Object body) {
+        try {
+            ResponseEntity<byte[]> responseEntity = restTemplate.postForEntity(
+                    restUrl,
+                    body, byte[].class);
+            return responseEntity.getBody();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            e.printStackTrace();
+        }
+        return new byte[1024];
+    }
 
 }

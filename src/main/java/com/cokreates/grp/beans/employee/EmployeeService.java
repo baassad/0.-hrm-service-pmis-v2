@@ -1,10 +1,12 @@
 package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.Constant;
-import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.core.MasterDTO;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
+import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.personal.file.FileDTO;
+import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
@@ -15,16 +17,23 @@ import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
+import com.cokreates.grp.util.webservice.WebService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
+
+    @Value("${cmn-service-file-management.url}")
+    private String fileServiceUrl;
 
     @Autowired
     DataServiceClient dataServiceClient;
@@ -34,6 +43,12 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Autowired
     GeneralService generalService;
+
+    @Autowired
+    WebService webService;
+
+    @Autowired
+    FileService fileService;
 
     public EmployeeService(RequestBuildingComponent<EmployeeDTO> requestBuildingComponent,
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
@@ -100,12 +115,28 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsToEmpInfo(response.getBody().getMain());
 
         for(EmployeeInformationDTO dto:employeeInformationDTOS){
-
             dto.setOid(employeeOid);
+            dto.setPhoto(fetchPhoto(employeeOid));
         }
 
         return employeeInformationDTOS;
 
+    }
+
+    private byte[] fetchPhoto(String employeeOid) {
+        List<FileDTO> fileDTOs = fileService.getList(employeeOid);
+        List<FileDTO> photos = fileDTOs.stream().filter(x -> x.getFileName().trim().equalsIgnoreCase("photo")).collect(Collectors.toList());
+        if(photos.isEmpty()) {
+            return null;
+        }
+        MasterDTO dto = new MasterDTO();
+        dto.setOid(photos.get(0).getFileAttachName());
+        try {
+            return webService.postForByteArray(fileServiceUrl+ Constant.ENDPOINT_DOWNLOAD_FILE, dto);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     public EmployeeOfficeDTO appendEmployeeOfficeDTO(EmployeeOfficeDTO employeeOfficeDTO,String employeeOid){

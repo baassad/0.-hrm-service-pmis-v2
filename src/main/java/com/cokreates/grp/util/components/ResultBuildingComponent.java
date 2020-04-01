@@ -1,6 +1,9 @@
 package com.cokreates.grp.util.components;
 
-import com.cokreates.core.*;
+import com.cokreates.core.DataRequestHeaderModel;
+import com.cokreates.core.MasterDTO;
+import com.cokreates.core.ResponseBodyModel;
+import com.cokreates.core.ResponseModel;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class ResultBuildingComponent<Dto extends MasterDTO> {

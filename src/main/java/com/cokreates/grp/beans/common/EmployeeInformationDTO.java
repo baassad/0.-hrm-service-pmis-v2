@@ -47,4 +47,6 @@ public class EmployeeInformationDTO{
 
     private String responsibilityType;
 
+    private byte[] photo;
+
 }

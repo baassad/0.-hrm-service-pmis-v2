@@ -27,6 +27,8 @@ public class Constant {
     public static final String EMPLOYEE_DETAILS = "employee-details";
     public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";
 
+    public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
+
     public static final String VERSION_1 = "v1/";
     
     public static final String GDATA_GET 		= "get/";
