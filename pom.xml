@@ -72,10 +72,10 @@
 			<version>2.9.2</version>
 		</dependency>
 
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>commons-codec</groupId>

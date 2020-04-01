@@ -12,7 +12,7 @@ public class ProfessionalGeneralService extends MasterService<ProfessionalGenera
     public ProfessionalGeneralService(RequestBuildingComponent<ProfessionalGeneralDTO> requestBuildingComponent,
                                       DataServiceRestTemplateClient< ProfessionalGeneralDTO, ProfessionalGeneral> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
-        this.setNodePath(Arrays.asList("professional", "general"));
+        this.setNodePath(Arrays.asList("professional", "professionalGeneral"));
         this.setType("Node");
     }
     
