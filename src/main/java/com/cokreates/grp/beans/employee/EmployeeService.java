@@ -2,18 +2,27 @@ package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.*;
+import com.cokreates.core.Constant;
+import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.core.MasterService;
+import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
+import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
+import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.cokreates.grp.util.webservice.WebService;
@@ -44,8 +53,19 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     @Autowired
     ClassConversionComponent conversionComponent;
 
+    RequestBuildingComponent<EmployeeOfficeMasterDTO> EmployeeOfficeMasterDTORequestBuildingComponent;
+
+    @Autowired
+    DataServiceRestTemplateClient<EmployeeOfficeMasterDTO, EmployeeOffice> restTemplateEmployeedetailsMasterInfo;
+
     @Autowired
     GeneralService generalService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    EmployeeOfficeService employeeOfficeService;
 
     @Autowired
     WebService webService;
@@ -56,6 +76,15 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     public EmployeeService(RequestBuildingComponent<EmployeeDTO> requestBuildingComponent,
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
+        EmployeeOfficeMasterDTORequestBuildingComponent = new RequestBuildingComponent<EmployeeOfficeMasterDTO>();
+    }
+
+    public RequestBuildingComponent<EmployeeOfficeMasterDTO> getEmployeeOfficeMasterDTORequestBuildingComponent() {
+        return  this.EmployeeOfficeMasterDTORequestBuildingComponent;
+    }
+
+    public DataServiceRestTemplateClient<EmployeeOfficeMasterDTO, EmployeeOffice> getRestTemplateEmployeedetailsMasterInfo() {
+        return  this.restTemplateEmployeedetailsMasterInfo;
     }
 
     public EmployeeDTO create(GeneralDTO dto) {
@@ -120,6 +149,29 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         for(EmployeeInformationDTO dto:employeeInformationDTOS){
             dto.setOid(employeeOid);
         }
+
+        return employeeInformationDTOS;
+
+    }
+
+    public List<EmployeeInformationDTO> getEmployeeInformationDTOByOffice(GetListByOidSetRequestBodyDTO requestDTO){
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
+
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_OFFICE_BY_OFFICE;;
+
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeOfficeMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList);
 
         return employeeInformationDTOS;
 

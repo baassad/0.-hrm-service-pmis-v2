@@ -25,7 +25,7 @@ spring:
     global: true
     search_from_global: false
 #    gdata_end_point_url: "http://43.224.110.22:80/hrm/"
-    gdata_end_point_url: "http://43.224.110.20:4000/hrm"
+    gdata_end_point_url: "http://localhost:5000/hrm/"
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -49,7 +49,7 @@ service:
     short-code: hrm-service-pim
     version: v1.0
 server:
-  port : 8080
+  port : 9001
 
 
 # =============================================================================================
@@ -71,5 +71,8 @@ eureka:
   client:
     enabled: false
 
-cmn-service-file-management.url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
-cmn-service-organogram.url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+
+cmn-service-file-management:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+cmn-service-organogram:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
