@@ -87,7 +87,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
         // =================   accumulates offices only which are permitted for him ====================================================
 
 
-        Set<String> officeOidList = new HashSet<>();
+        List<String> officeOidList = new ArrayList<>();
 
             employeeOfficeDTOList
                     .forEach(employeeOfficeDTO -> {
@@ -122,7 +122,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
         // =================   preparing list of employee oids from DTOs who are under jurisdiction ====================================================
 
-        Set<String> employeeOidList = new HashSet<>();
+        List<String> employeeOidList = new ArrayList<>();
 
         employeeDTOList
                 .forEach(employeeDTO -> {

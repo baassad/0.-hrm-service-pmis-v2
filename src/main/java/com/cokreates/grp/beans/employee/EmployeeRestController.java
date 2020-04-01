@@ -6,6 +6,7 @@ import java.util.Collections;
 import javax.validation.Valid;
 
 import com.cokreates.core.*;
+import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,12 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     @PostMapping(Constant.ENDPOINT_GET_PROFILE)
     public ResponseModel<EmployeeInformationDTO> getEmployeeProfile(@RequestBody RequestModel<MasterDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(), employeeService.getProfileInfo(requestDTO.getBody().getData().get(0).getOid()));
+    }
+
+
+    @PostMapping(Constant.ENDPOINT_GET_BY_OFFICE_OID_LIST)
+    public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByOffice(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTOByOffice(requestDTO.getBody().getData().get(0)));
     }
 
 }

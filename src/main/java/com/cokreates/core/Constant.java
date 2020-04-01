@@ -30,6 +30,7 @@ public class Constant {
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";
+    public static final String ENDPOINT_GET_BY_OFFICE_OID_LIST = "/get-details-by-office-oid-list";
 
     public static final String VERSION_1 = "v1/";
     
@@ -60,6 +61,7 @@ public class Constant {
 
     public static final String GDATA_OFFICE_BY_EMPLOYEE		    = "office-by-employee";
     public static final String GDATA_EMPLOYEE_BY_OFFICE	        = "employee-by-office";
+    public static final String GDATA_EMPLOYEE_OFFICE_BY_OFFICE	        = "employee-office-by-office";
 
     public static final String GDATA_APPROVAL_HISTORY_BY_STATUS 	= "approval-history-by-status";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE	= "approval-history-by-employee";
