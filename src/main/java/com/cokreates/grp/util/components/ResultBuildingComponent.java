@@ -2,6 +2,7 @@ package com.cokreates.grp.util.components;
 
 import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,22 @@ public class ResultBuildingComponent<Dto extends MasterDTO> {
         responseModel.setMeta(new HashMap<>());
 
         ResponseBodyModel<EmployeeInformationDTO> responseBodyModel = new ResponseBodyModel<>();
+        responseBodyModel.setData(dtos);
+        responseModel.setBody(responseBodyModel);
+
+        return responseModel;
+
+    }
+
+    public ResponseModel<EmployeeOfficeMasterDTO> retrieveResultForEmployeeOfficeMasterDTO(DataRequestHeaderModel requestHeaderModel, List<EmployeeOfficeMasterDTO> dtos
+    ){
+
+        ResponseModel<EmployeeOfficeMasterDTO> responseModel = new ResponseModel<>();
+
+        responseModel.setHeader(headerUtilComponent.getResponseHeaderDTO(requestHeaderModel));
+        responseModel.setMeta(new HashMap<>());
+
+        ResponseBodyModel<EmployeeOfficeMasterDTO> responseBodyModel = new ResponseBodyModel<>();
         responseBodyModel.setData(dtos);
         responseModel.setBody(responseBodyModel);
 
