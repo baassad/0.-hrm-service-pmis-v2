@@ -1,8 +1,6 @@
 package com.cokreates.grp.beans.employee;
 
-import com.cokreates.core.Constant;
-import com.cokreates.core.MasterDTO;
-import com.cokreates.core.MasterService;
+import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
@@ -14,6 +12,7 @@ import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
+import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
@@ -23,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +37,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Autowired
     DataServiceClient dataServiceClient;
+
+    @Autowired
+    HeaderUtilComponent headerUtilComponent;
 
     @Autowired
     ClassConversionComponent conversionComponent;
@@ -166,7 +166,10 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
         dto.setOids(Arrays.asList(employeeOid));
         dto.setStrict("No");
-        profiles = webService.postForList(organogramUrl + Constant.ENDPOINT_GET_EMPLOYEE_PROFILE_INFO, EmployeeInformationDTO.class, dto);
+        OrganogramRequestDTO<GetListByOidSetRequestBodyDTO> emp = new OrganogramRequestDTO<>();
+        emp.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        emp.setBody(dto);
+        profiles = webService.postForList(organogramUrl + Constant.ENDPOINT_GET_EMPLOYEE_PROFILE_INFO, EmployeeInformationDTO.class, emp);
         if(profiles!=null && profiles.isEmpty()==false) {
             for(EmployeeInformationDTO p : profiles) {
                 p.setPhoto(fetchPhoto(employeeOid));
