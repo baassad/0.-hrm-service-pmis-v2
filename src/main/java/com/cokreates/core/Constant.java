@@ -22,6 +22,7 @@ public class Constant {
     public static final String ENDPOINT_DELETE_ALL = "/delete-all";
     public static final String ENDPOINT_EMPLOYEE = "emp";
     public static final String ENDPOINT_CREATE_EMPLOYEE = "/create-employee";
+    public static final String ENDPOINT_IMPORT_EMPLOYEE = "/import-employee";
     public static final String ENDPOINT_GET_DETAILS = "/v1/get-details";
     public static final String EMPLOYEE_DETAILS = "employee-details";
     public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";

@@ -1,8 +1,10 @@
 package com.cokreates.grp.util.webclient;
 
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
-import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+
+import com.cokreates.grp.beans.employee.EmployeeCreationDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
@@ -24,4 +26,6 @@ public interface DataServiceClient {
     @RequestMapping(method = RequestMethod.POST,  value = "/get/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponseForList<EmployeeOfficeDTO> getEmployeeOfficeList(@RequestBody DataServiceRequest<EmployeeDTO> requestDTO);
 
+    @RequestMapping(method = RequestMethod.POST, value = "/import/v1/emp",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
+    DataServiceResponse<EmployeeDTO> importEmployee (@RequestBody DataServiceRequest<EmployeeCreationDTO> requestDTO);
 }
