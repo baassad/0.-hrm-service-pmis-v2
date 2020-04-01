@@ -70,3 +70,9 @@ server:
 eureka:
   client:
     enabled: false
+
+
+cmn-service-file-management:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+cmn-service-organogram:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
