@@ -10,11 +10,9 @@ import java.sql.Date;
 @Data
 public class FileDTO extends MasterDTO {
 
-    private String attachmentId;
+	private String attachmentId;
     private String type;
-    private Date issueDate;
-    private Date expiryDate;
-    
-    private String fileAttachName,fileName;
+    private Date issueDate, expiryDate;
+    private String fileOid, fileName, fileExtension;
 
 }

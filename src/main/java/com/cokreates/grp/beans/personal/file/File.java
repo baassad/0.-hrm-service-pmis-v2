@@ -13,7 +13,6 @@ public class File extends BaseEntity {
 
     private String attachmentId;
     private String type;
-    private Date issueDate;
-    private Date expiryDate;
-    private String fileAttachName,fileName;
+    private Date issueDate, expiryDate;
+    private String fileOid, fileName, fileExtension;
 }
