@@ -1,20 +1,18 @@
 package com.cokreates.grp.beans.employee;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import javax.validation.Valid;
 
+import com.cokreates.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
-import com.cokreates.core.MasterRestController;
-import com.cokreates.core.RequestModel;
-import com.cokreates.core.ResponseModel;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
@@ -59,6 +57,13 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
         }else {
             return  null;
         }
+    }
+
+    @PostMapping(Constant.ENDPOINT_GET_PROFILE)
+    public ResponseModel<EmployeeInformationDTO> getEmployeeProfile(@RequestBody RequestModel<MasterDTO> requestDTO){
+        GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
+        dto.setOids(Arrays.asList(requestDTO.getBody().getData().get(0).getOid()));
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTO(dto));
     }
 
 }
