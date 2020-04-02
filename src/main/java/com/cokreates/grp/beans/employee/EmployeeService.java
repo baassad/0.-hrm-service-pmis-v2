@@ -9,6 +9,9 @@ import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.common.OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeUnitDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeUnitPostDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
@@ -266,17 +269,41 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         List<EmployeeInformationDTO> profiles;
         GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
         dto.setOids(Arrays.asList(employeeOid));
-        dto.setStrict("No");
-        OrganogramRequestDTO<GetListByOidSetRequestBodyDTO> emp = new OrganogramRequestDTO<>();
-        emp.setHeader(headerUtilComponent.getRequestHeaderDTO());
-        emp.setBody(dto);
-        profiles = webService.postForList(organogramUrl + Constant.ENDPOINT_GET_EMPLOYEE_PROFILE_INFO, EmployeeInformationDTO.class, emp);
+        profiles = getEmployeeInformationDTO(dto);
         if(profiles!=null && profiles.isEmpty()==false) {
+            setMissingData(profiles);
             for(EmployeeInformationDTO p : profiles) {
                 p.setPhoto(fetchPhoto(employeeOid));
             }
         }
         return profiles;
+    }
+
+    private void setMissingData(List<EmployeeInformationDTO> profiles) {
+        OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(profiles.stream().map(EmployeeInformationDTO::getOfficeOid).collect(Collectors.toList()));
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(profiles.stream().map(EmployeeInformationDTO::getOfficeUnitOid).collect(Collectors.toList()));
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitPostOids(profiles.stream().map(EmployeeInformationDTO::getOfficeUnitPostOid).collect(Collectors.toList()));
+
+        List<OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO> officeOfficeUnitOfficeUnitPostSetResponseBodyDTO = null;
+
+        OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+        organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+
+        try {
+            officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
+                    webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_SEARCH_V1_GET_DETAILS, OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO.class, organogramRequestDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        if (officeOfficeUnitOfficeUnitPostSetResponseBodyDTO== null ||
+                officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.isEmpty()) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+        }
+
+        conversionComponent.mapProfileData(officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0), profiles);
     }
 
 

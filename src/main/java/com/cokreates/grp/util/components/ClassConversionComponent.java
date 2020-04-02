@@ -109,4 +109,40 @@ public class ClassConversionComponent {
         return employeeInformationDTOS;
 
     }
+
+
+
+
+    public void mapProfileData(OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO officeOfficeUnitOfficeUnitPostSetResponseBodyDTO, List<EmployeeInformationDTO> profiles) {
+        HashMap<String, OfficeDTO> officeMap = new HashMap<>();
+        HashMap<String, OfficeUnitDTO> officeUnitMap = new HashMap<>();
+        HashMap<String, OfficeUnitPostDTO> officeUnitPostMap = new HashMap<>();
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOffices()
+                .forEach(officeDTO -> {
+                    officeMap.put(officeDTO.getOid(), officeDTO);
+                });
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOfficeUnits()
+                .forEach(officeUnitDTO -> {
+                    officeUnitMap.put(officeUnitDTO.getOid(), officeUnitDTO);
+                });
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOfficeUnitPostS()
+                .forEach(officeUnitPostDTO -> {
+                    officeUnitPostMap.put(officeUnitPostDTO.getOid(), officeUnitPostDTO);
+                });
+
+        profiles.forEach(x -> {
+            OfficeDTO officeDTO = officeMap.get(x.getOfficeOid());
+            OfficeUnitDTO officeUnitDTO = officeUnitMap.get(x.getOfficeUnitOid());
+            OfficeUnitPostDTO officeUnitPostDTO = officeUnitPostMap.get(x.getOfficeUnitPostOid());
+            x.setOfficeNameBn(officeDTO.getNameBn());
+            x.setOfficeNameEn(officeDTO.getNameEn());
+            x.setOfficeUnitNameBn(officeUnitDTO.getNameBn());
+            x.setOfficeUnitNameEn(officeUnitDTO.getNameEn());
+            x.setOfficeUnitPostNameBn(officeUnitPostDTO.getPost().getNameBn());
+            x.setOfficeUnitPostNameEn(officeUnitPostDTO.getPost().getNameEn());
+        });
+    }
 }
