@@ -8,7 +8,7 @@ public class Constant {
     public static final String ENDPOINT_CREATE_EMPLOYEE_OFFICE = "/create-employee-office";
     public static final String ENDPOINT_CREATE_ALL = "/create-all";
     public static final String ENDPOINT_APPEND = "/append";
-    public static final String ENDPOINT_SEARCH = "/search";
+    public static final String ENDPOINT_SEARCH_V1_GET_DETAILS = "/search/v1/get-details";
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY_BY_ACTOR 	= "/get-approval-history-by-actor";

@@ -3,11 +3,16 @@ package com.cokreates.grp.util.components;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.beans.common.OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeUnitDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeUnitPostDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -40,7 +45,27 @@ public class ClassConversionComponent {
 
     }
 
-    public List<EmployeeInformationDTO> convertEmpDetailsMasterDTOToEmpInfo(List<EmployeeOfficeMasterDTO> EmployeeOfficeMasterDTOS){
+    public List<EmployeeInformationDTO> convertEmpDetailsMasterDTOToEmpInfo(List<EmployeeOfficeMasterDTO> EmployeeOfficeMasterDTOS,
+                                                                            OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO officeOfficeUnitOfficeUnitPostSetResponseBodyDTO){
+
+        HashMap<String, OfficeDTO> officeMap = new HashMap<>();
+        HashMap<String, OfficeUnitDTO> officeUnitMap = new HashMap<>();
+        HashMap<String, OfficeUnitPostDTO> officeUnitPostMap = new HashMap<>();
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOffices()
+                .forEach(officeDTO -> {
+                    officeMap.put(officeDTO.getOid(), officeDTO);
+                });
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOfficeUnits()
+                .forEach(officeUnitDTO -> {
+                    officeUnitMap.put(officeUnitDTO.getOid(), officeUnitDTO);
+                });
+
+        officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.getOfficeUnitPostS()
+                .forEach(officeUnitPostDTO -> {
+                    officeUnitPostMap.put(officeUnitPostDTO.getOid(), officeUnitPostDTO);
+                });
 
         List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
 
@@ -62,6 +87,21 @@ public class ClassConversionComponent {
             employeeInformationDTO.setOfficeUnitOid(employeeOfficeMasterDTO.getOfficeUnitOid());
             employeeInformationDTO.setOfficeUnitPostOid(employeeOfficeMasterDTO.getOfficeUnitPostOid());
             //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
+
+            employeeInformationDTO.setOfficeNameEn(officeMap.get(employeeOfficeMasterDTO.getOfficeOid()).getNameEn());
+            employeeInformationDTO.setOfficeNameBn(officeMap.get(employeeOfficeMasterDTO.getOfficeOid()).getNameBn());
+
+            if (officeUnitMap.get(employeeOfficeMasterDTO.getOfficeUnitOid()) != null) {
+                employeeInformationDTO.setOfficeUnitNameEn(officeUnitMap.get(employeeOfficeMasterDTO.getOfficeUnitOid()).getNameEn());
+                employeeInformationDTO.setOfficeUnitNameBn(officeUnitMap.get(employeeOfficeMasterDTO.getOfficeUnitOid()).getNameBn());
+            }
+
+            if (officeUnitPostMap.get(employeeOfficeMasterDTO.getOfficeUnitPostOid()) != null) {
+                if (officeUnitPostMap.get(employeeOfficeMasterDTO.getOfficeUnitPostOid()).getPost() != null) {
+                    employeeInformationDTO.setOfficeUnitPostNameEn(officeUnitPostMap.get(employeeOfficeMasterDTO.getOfficeUnitPostOid()).getPost().getNameEn());
+                    employeeInformationDTO.setOfficeUnitPostNameBn(officeUnitPostMap.get(employeeOfficeMasterDTO.getOfficeUnitPostOid()).getPost().getNameBn());
+                }
+            }
 
             employeeInformationDTOS.add(employeeInformationDTO);
         }

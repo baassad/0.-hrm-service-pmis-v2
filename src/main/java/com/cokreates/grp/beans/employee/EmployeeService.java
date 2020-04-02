@@ -1,12 +1,12 @@
 package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.*;
-import com.cokreates.grp.beans.common.*;
 import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.beans.common.OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
@@ -15,6 +15,8 @@ import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
+import com.cokreates.grp.beans.request.OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO;
+import com.cokreates.grp.beans.request.OrganogramRequestDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
@@ -22,6 +24,7 @@ import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
@@ -171,7 +174,53 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
-        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList);
+        // ========= get name from cmn service organogram =========================
+
+        OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
+
+        List<String> officeOids = new ArrayList<>();
+        List<String> officeUnitOids = new ArrayList<>();
+        List<String> officeUnitPostOids = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeOfficeMasterDTO -> {
+                    if (employeeOfficeMasterDTO.getOfficeOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeOid().equals(""))
+                            officeOids.add(employeeOfficeMasterDTO.getOfficeOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitOid().equals(""))
+                            officeUnitOids.add(employeeOfficeMasterDTO.getOfficeUnitOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitPostOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitPostOid().equals(""))
+                            officeUnitPostOids.add(employeeOfficeMasterDTO.getOfficeUnitPostOid());
+                    }
+                });
+
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(officeOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(officeUnitOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitPostOids(officeUnitPostOids);
+
+        List<OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO> officeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
+
+        OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+        organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+
+        try {
+            officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
+                    webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_SEARCH_V1_GET_DETAILS, OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO.class, organogramRequestDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+
+        if (officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.isEmpty()) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+        }
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList, officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0));
 
         return employeeInformationDTOS;
 
