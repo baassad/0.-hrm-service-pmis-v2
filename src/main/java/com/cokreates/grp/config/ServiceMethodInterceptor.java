@@ -6,9 +6,11 @@ import com.cokreates.grp.beans.common.LoginInfoDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.jwt.Jwt;
@@ -30,10 +32,11 @@ public class ServiceMethodInterceptor {
 
 
     @Around("execution(* com.cokreates.core.*Service.create(..))" +
-            "execution(* com.cokreates.core.*Service.append(..))" +
-            "execution(* com.cokreates.core.*Service.update(..))" +
-            "execution(* com.cokreates.core.*Service.delete(..))")
-    public void interceptCreateCalls(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+            "|| execution(* com.cokreates.core.*Service.append(..))" +
+            "|| execution(* com.cokreates.grp.beans.employee.EmployeeService.create(..))" +
+            "|| execution(* com.cokreates.grp.beans.employee.EmployeeService.appendEmployeeOfficeDTO(..))" +
+            "|| execution(* com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService.create(..))")
+    public void interceptCreateAppendCalls(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         LoginInfoDTO info = new LoginInfoDTO();
         getLoginInfoFromToken(info);
         String employeeOfficeOid = info.getEmployeeOfficeOid();
@@ -52,6 +55,52 @@ public class ServiceMethodInterceptor {
                 dto.setCreatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setCreatedOn(new Timestamp(System.currentTimeMillis()));
                 proceedingJoinPoint.proceed();;
+            }
+        }
+    }
+
+
+    @Around("execution(* com.cokreates.core.*Service.update(..))" +
+            "|| execution(* com.cokreates.core.*Service.delete(..))" +
+            "|| execution(* com.cokreates.grp.beans.approvalHistory.ApprovalHistoryService.updateApprovalHistory(..))")
+    public void interceptUpdateDeleteCalls(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        LoginInfoDTO info = new LoginInfoDTO();
+        getLoginInfoFromToken(info);
+        String employeeOfficeOid = info.getEmployeeOfficeOid();
+        String employeeOid = info.getEmployeeOid();
+        String officeOid = info.getOfficeOid();
+        System.out.println("EmployeeOid: " + employeeOid);
+        System.out.println("OfficeOid: " + officeOid);
+        System.out.println("EmployeeOfficeOid: " + employeeOfficeOid);
+        Object[] args = proceedingJoinPoint.getArgs();
+        if (args == null || args.length == 0) {
+            return;
+        }
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof MasterDTO) {
+                MasterDTO dto = (MasterDTO) args[i];
+                dto.setUpdatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
+                dto.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+                proceedingJoinPoint.proceed();;
+            }
+        }
+    }
+
+
+    @Before("execution(* com.cokreates.grp.beans.approvalHistory.ApprovalHistoryService.getApprovalHistory(..))" +
+            "|| execution(* com.cokreates.grp.beans.approvalHistory.ApprovalHistoryService.getApprovalHistoryByActor(..))")
+    public void interceptGetCalls(JoinPoint proceedingJoinPoint) throws Throwable {
+        Object[] args = proceedingJoinPoint.getArgs();
+        LoginInfoDTO info = new LoginInfoDTO();
+        getLoginInfoFromToken(info);
+        String employeeOid = info.getEmployeeOid();
+        if (args == null || args.length == 0) {
+            return;
+        }
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof MasterDTO) {
+                MasterDTO dto = (MasterDTO) args[i];
+                //ToDo code something
             }
         }
     }
