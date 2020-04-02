@@ -1,15 +1,15 @@
 package com.cokreates.grp.util.webservice;
 
-import com.cokreates.core.DataRequestHeaderModel;
-import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.tsp.TSPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,5 +69,29 @@ public class WebService {
             throw new RuntimeException(e);
         }
     }
+
+
+    public <T> List<T> getRestTemplateResponse(String restUrl, Class c, Object dto) {
+        ResponseEntity<String> response;
+        JsonNode jsonNode;
+        try {
+            Gson gson = new Gson();
+            String req = gson.toJson(dto);
+            response = restTemplate.exchange(restUrl, HttpMethod.POST,
+                    new HttpEntity(dto, httpHeaders()), String.class);
+            jsonNode = objectMapper.readTree(response.getBody());
+            jsonNode = jsonNode.get("body").get("data");
+            List<T> responseDTOs =
+                    objectMapper.readValue(jsonNode.toString(),
+                            objectMapper.getTypeFactory().constructCollectionType(List.class, c));
+            return responseDTOs;
+//            T main = objectMapper.treeToValue(jsonNode, c);
+//            return main;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
