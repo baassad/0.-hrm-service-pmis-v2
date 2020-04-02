@@ -38,13 +38,13 @@ public class ServiceMethodInterceptor {
             "|| execution(* com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService.create(..))")
     public void interceptCreateAppendCalls(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         LoginInfoDTO info = new LoginInfoDTO();
-        //getLoginInfoFromToken(info);
-//        String employeeOfficeOid = info.getEmployeeOfficeOid();
-//        String employeeOid = info.getEmployeeOid();
-//        String officeOid = info.getOfficeOid();
-//        System.out.println("EmployeeOid: " + employeeOid);
-//        System.out.println("OfficeOid: " + officeOid);
-//        System.out.println("EmployeeOfficeOid: " + employeeOfficeOid);
+        getLoginInfoFromToken(info);
+        String employeeOfficeOid = info.getEmployeeOfficeOid();
+        String employeeOid = info.getEmployeeOid();
+        String officeOid = info.getOfficeOid();
+        System.out.println("EmployeeOid: " + employeeOid);
+        System.out.println("OfficeOid: " + officeOid);
+        System.out.println("EmployeeOfficeOid: " + employeeOfficeOid);
         Object[] args = proceedingJoinPoint.getArgs();
         if (args == null || args.length == 0) {
             return;
@@ -52,7 +52,7 @@ public class ServiceMethodInterceptor {
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof MasterDTO) {
                 MasterDTO dto = (MasterDTO) args[i];
-//                dto.setCreatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
+                dto.setCreatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setCreatedOn(new Timestamp(System.currentTimeMillis()));
                 proceedingJoinPoint.proceed();;
             }
@@ -65,13 +65,13 @@ public class ServiceMethodInterceptor {
             "|| execution(* com.cokreates.grp.beans.approvalHistory.ApprovalHistoryService.updateApprovalHistory(..))")
     public void interceptUpdateDeleteCalls(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         LoginInfoDTO info = new LoginInfoDTO();
-      //  getLoginInfoFromToken(info);
-//        String employeeOfficeOid = info.getEmployeeOfficeOid();
-//        String employeeOid = info.getEmployeeOid();
-//        String officeOid = info.getOfficeOid();
-//        System.out.println("EmployeeOid: " + employeeOid);
-//        System.out.println("OfficeOid: " + officeOid);
-//        System.out.println("EmployeeOfficeOid: " + employeeOfficeOid);
+        getLoginInfoFromToken(info);
+        String employeeOfficeOid = info.getEmployeeOfficeOid();
+        String employeeOid = info.getEmployeeOid();
+        String officeOid = info.getOfficeOid();
+        System.out.println("EmployeeOid: " + employeeOid);
+        System.out.println("OfficeOid: " + officeOid);
+        System.out.println("EmployeeOfficeOid: " + employeeOfficeOid);
         Object[] args = proceedingJoinPoint.getArgs();
         if (args == null || args.length == 0) {
             return;
@@ -79,7 +79,7 @@ public class ServiceMethodInterceptor {
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof MasterDTO) {
                 MasterDTO dto = (MasterDTO) args[i];
-//                dto.setUpdatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
+                dto.setUpdatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
                 proceedingJoinPoint.proceed();;
             }
@@ -92,8 +92,8 @@ public class ServiceMethodInterceptor {
     public void interceptGetCalls(JoinPoint proceedingJoinPoint) throws Throwable {
         Object[] args = proceedingJoinPoint.getArgs();
         LoginInfoDTO info = new LoginInfoDTO();
-       // getLoginInfoFromToken(info);
-       // String employeeOid = info.getEmployeeOid();
+        getLoginInfoFromToken(info);
+        String employeeOid = info.getEmployeeOid();
         if (args == null || args.length == 0) {
             return;
         }
