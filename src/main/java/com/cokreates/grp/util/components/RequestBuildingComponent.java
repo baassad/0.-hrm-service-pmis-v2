@@ -106,6 +106,14 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
     public DataServiceRequest<EmployeeOfficeDTO> getRequestForEmployeeOffice(EmployeeOfficeDTO node, String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = new DataServiceRequest<>();
+        Date date = new Date();
+
+        node.setCreatedBy("System");
+        node.setCreatedOn(new Timestamp(date.getTime()));
+        node.setDataStatus("");
+        node.setConfig("");
+
+
         DataServiceRequestBody<EmployeeOfficeDTO> requestBody = new DataServiceRequestBody<>();
 
         requestBody.setEmployeeOid(employeeOid);

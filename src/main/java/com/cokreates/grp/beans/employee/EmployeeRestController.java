@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.util.request.OidRequestBodyDTO;
+import com.cokreates.grp.util.request.OidSetRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +41,14 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
 
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(employeeService.importEmployee(requestDTO.getBody().getData().get(0))));
     }
+
+    @PostMapping(Constant.ENDPOINT_IMPORT_EMPLOYEE_FROM_HRM_V1)
+    public ResponseModel<EmployeeDTO> getEmployeeResponse(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
+
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),Collections.singletonList(employeeService.importEmployeeByEmployeeOid(requestDTO)));
+    }
+
+
 
     @PostMapping(Constant.ENDPOINT_GET_DETAILS)
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformation(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
