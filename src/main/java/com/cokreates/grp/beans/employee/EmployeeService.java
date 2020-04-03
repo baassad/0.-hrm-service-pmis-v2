@@ -22,14 +22,18 @@ import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
+import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
+import com.cokreates.grp.util.request.OidRequestBodyDTO;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
+import com.cokreates.grp.util.webclient.HrmPimClient;
 import com.cokreates.grp.util.webservice.WebService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -46,6 +50,12 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Value("${cmn-service-organogram.url}")
     private String organogramUrl;
+
+    @Autowired
+    EmployeeDetailsRenderComponent employeeComponent;
+
+    @Autowired
+    HrmPimClient hrmPimClient;
 
     @Autowired
     DataServiceClient dataServiceClient;
@@ -259,6 +269,54 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setOid(response.getBody().getOid());
         return employeeDTO;
+    }
+
+
+    public EmployeeDTO importEmployeeByEmployeeOid(RequestModel<OidRequestBodyDTO> requestDTO){
+
+        String employeeOid = requestDTO.getBody().getData().get(0).getOid();
+
+        DataServiceRequest<EmployeeCreationDTO> request;
+
+        DataServiceResponse<EmployeeDTO> response = new DataServiceResponse<>();
+
+        EmployeeCreationDTO employeeCreationDTO = employeeComponent.getEmployeeCreationDTO(requestDTO);
+
+        ServiceRequestDTO<OidRequestBodyDTO> hrmPimRequest = employeeComponent.getRequestForHrmPim(requestDTO);
+
+        ResponseModel<EmployeeOfficeDTO> employeeOfficeResponse = hrmPimClient.getEmployeeOfficeByEmployeeOid(hrmPimRequest);
+
+        List<EmployeeOfficeDTO> employeeOfficeDTOS = employeeOfficeResponse.getBody().getData();
+
+        if(employeeOfficeDTOS.size() > 0){
+            EmployeeOfficeDTO employeeOfficeDTO = employeeOfficeDTOS.get(0);
+
+            BeanUtils.copyProperties(employeeOfficeDTO,employeeCreationDTO);
+
+            employeeCreationDTO.setOid(employeeOid);
+            employeeCreationDTO.setEmployeeOfficeOid(employeeOfficeDTO.getOid());
+
+             request = getRequestBuildingComponent().getRequestForImport(employeeCreationDTO,employeeCreationDTO.getOid());
+
+             response = dataServiceClient.importEmployee(request);
+
+        }
+
+        DataServiceRequest<EmployeeOfficeDTO> appendRequest;
+        DataServiceResponse<EmployeeOfficeDTO> appendResponse;
+
+        for(int i = 1; i < employeeOfficeDTOS.size();i++){
+
+            appendRequest = getRequestBuildingComponent().getRequestForEmployeeOffice(employeeOfficeDTOS.get(i),employeeOid);
+
+            appendResponse = dataServiceClient.appendEmployeeOffice(appendRequest);
+        }
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setOid(response.getBody().getOid());
+        return employeeDTO;
+
+
     }
 
 

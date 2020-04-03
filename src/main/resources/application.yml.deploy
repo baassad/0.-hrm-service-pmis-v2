@@ -50,3 +50,12 @@ eureka:
     fetchRegistry: #FETCHREGISTRY#
     serviceUrl:
       defaultZone: #SERVICEURL-DEFAULTZONE#
+
+cmn-service-file-management:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+cmn-service-organogram:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+hrm-service:
+  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+cmn-service-global:
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
