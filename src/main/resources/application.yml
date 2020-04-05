@@ -52,10 +52,10 @@ eureka:
       defaultZone: #SERVICEURL-DEFAULTZONE#
 
 cmn-service-file-management:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+  url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
 cmn-service-organogram:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+  url: #CMN-SERVICE-ORGANOGRAM-URL#
 hrm-service:
-  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+  url: #HRM-SERVICE-PIM-V1-URL#
 cmn-service-global:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
+  url: #CMN-SERVICE-GLOBAL-URL#
