@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "data-service",url = "#GDATA-END-POINT#")
+@FeignClient(name = "data-service",url = "${spring.application.gdata_end_point_url}")
 public interface DataServiceClient {
 
     @RequestMapping(method= RequestMethod.POST, value="/get/v1/employee-details", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
