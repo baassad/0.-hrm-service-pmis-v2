@@ -45,6 +45,15 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
         return response.getBody().getMain();
     }
 
+    public EmployeeOfficeDTO updateEmployeeOffice(EmployeeOfficeDTO dto,String employeeOid){
+        DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
+
+        DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
+
+        return response.getBody().getMain();
+
+    }
+
     public List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid, String officeUnitPostOid){
 
         DataServiceRequest<EmployeeDTO> request = employeeService.getRequestBuildingComponent().getRequestForRead(null,null, employeeOid,

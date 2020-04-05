@@ -32,6 +32,11 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(), Collections.singletonList(employeeOfficeService.create(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
     }
 
+    @PostMapping(Constant.ENDPOINT_UPDATE_EMPLOYEE_OFFICE)
+    public ResponseModel<EmployeeOfficeDTO> updateEmployeeOffice(@Valid @RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),Collections.singletonList(employeeOfficeService.updateEmployeeOffice(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
+    }
+
     @PostMapping(Constant.ENDPOINT_EMPLOYEE_OFFICE)
     public ResponseModel<EmployeeOfficeDTO> getEmployeeOfficeListForEmployeeAndOfficeUnitPostOid(@Valid @RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
         String officeUnitPostOid =  requestDTO.getBody().getData().get(0).getOfficeUnitPostOid();
