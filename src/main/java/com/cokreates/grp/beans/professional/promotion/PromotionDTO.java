@@ -10,7 +10,7 @@ import java.sql.Date;
 @Data
 public class PromotionDTO extends MasterDTO {
 
-    private String gono, natureOfPromotion, payScaleToWhichPromoted, rank;
+    private String gono, natureOfPromotion, payScaleToWhichPromoted, rank, grade;
     private Date dateOfPromotion, dateOfGO;
 
 }

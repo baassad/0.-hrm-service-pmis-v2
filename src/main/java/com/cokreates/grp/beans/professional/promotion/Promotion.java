@@ -10,6 +10,6 @@ import java.sql.Date;
 @Data
 public class Promotion extends BaseEntity {
 
-    private String gono, natureOfPromotion, payScaleToWhichPromoted, rank;
+    private String gono, natureOfPromotion, payScaleToWhichPromoted, rank, grade;
     private Date dateOfPromotion, dateOfGO;
 }
