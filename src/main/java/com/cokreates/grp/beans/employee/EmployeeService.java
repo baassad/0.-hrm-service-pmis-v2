@@ -244,8 +244,10 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         List<FileDTO> photos = new ArrayList<>();
         fileDTOs
                 .forEach(fileDTO -> {
-                    if (fileDTO.getFileName().equalsIgnoreCase("photo")) {
-                        photos.add(fileDTO);
+                    if (fileDTO.getFileName() != null) {
+                        if (fileDTO.getFileName().equalsIgnoreCase("photo")) {
+                            photos.add(fileDTO);
+                        }
                     }
                 });
 //        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
