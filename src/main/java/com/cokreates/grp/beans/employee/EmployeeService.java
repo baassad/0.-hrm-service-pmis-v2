@@ -241,7 +241,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     private byte[] fetchPhoto(String employeeOid) {
         List<FileDTO> fileDTOs = fileService.getList(employeeOid);
-        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
+        List<FileDTO> photos = new ArrayList<>();
+        fileDTOs
+                .forEach(fileDTO -> {
+                    if (fileDTO.getFileName().equalsIgnoreCase("photo")) {
+                        photos.add(fileDTO);
+                    }
+                });
+//        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
         if(photos.isEmpty()) {
             return null;
         }
