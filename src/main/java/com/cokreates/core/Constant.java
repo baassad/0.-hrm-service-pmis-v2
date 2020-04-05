@@ -6,6 +6,7 @@ public class Constant {
     public static final String STATUS_DELETE = "delete";
     public static final String ENDPOINT_CREATE = "/create";
     public static final String ENDPOINT_CREATE_EMPLOYEE_OFFICE = "/create-employee-office";
+    public static final String ENDPOINT_UPDATE_EMPLOYEE_OFFICE = "/update-employee-office";
     public static final String ENDPOINT_CREATE_ALL = "/create-all";
     public static final String ENDPOINT_APPEND = "/append";
     public static final String ENDPOINT_SEARCH_V1_GET_DETAILS = "/search/v1/get-details";

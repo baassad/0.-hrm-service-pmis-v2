@@ -104,6 +104,29 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         return request;
     }
 
+
+    public DataServiceRequest<EmployeeOfficeDTO> getRequestForEmployeeOfficeForUpdate(EmployeeOfficeDTO node, String employeeOid){
+        DataServiceRequest<EmployeeOfficeDTO> request = new DataServiceRequest<>();
+        Date date = new Date();
+
+        node.setCreatedBy("System");
+        node.setCreatedOn(new Timestamp(date.getTime()));
+        node.setUpdatedBy("System");
+        node.setUpdatedOn(new Timestamp(date.getTime()));
+        node.setDataStatus("");
+        node.setConfig("");
+
+
+        DataServiceRequestBody<EmployeeOfficeDTO> requestBody = new DataServiceRequestBody<>();
+
+        requestBody.setEmployeeOid(employeeOid);
+        requestBody.setNode(node);
+
+        request.setBody(requestBody);
+
+        return request;
+    }
+
     public DataServiceRequest<EmployeeOfficeDTO> getRequestForEmployeeOffice(EmployeeOfficeDTO node, String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = new DataServiceRequest<>();
         Date date = new Date();

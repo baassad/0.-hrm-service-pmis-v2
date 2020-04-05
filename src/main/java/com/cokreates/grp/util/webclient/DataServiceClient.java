@@ -23,6 +23,9 @@ public interface DataServiceClient {
     @RequestMapping(method= RequestMethod.POST, value="/append/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponse<EmployeeOfficeDTO> appendEmployeeOffice(@RequestBody DataServiceRequest<EmployeeOfficeDTO> requestDTO);
 
+    @RequestMapping(method= RequestMethod.POST, value="/update/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    DataServiceResponse<EmployeeOfficeDTO> updateEmployeeOffice(@RequestBody DataServiceRequest<EmployeeOfficeDTO> requestDTO);
+
     @RequestMapping(method = RequestMethod.POST,  value = "/get/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponseForList<EmployeeOfficeDTO> getEmployeeOfficeList(@RequestBody DataServiceRequest<EmployeeDTO> requestDTO);
 
