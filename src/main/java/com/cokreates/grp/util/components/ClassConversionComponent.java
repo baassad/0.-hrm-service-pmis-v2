@@ -80,7 +80,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setMobileNo(employeeOfficeMasterDTO.getPhone());
             employeeInformationDTO.setEmail(employeeOfficeMasterDTO.getEmail());
 
-            employeeInformationDTO.setEmployeeOfficeOid(employeeOfficeMasterDTO.getOid());
+            employeeInformationDTO.setEmployeeOfficeOid(employeeOfficeMasterDTO.getOfficeOid());
             employeeInformationDTO.setEmployeeTypeOid(employeeOfficeMasterDTO.getEmploymentTypeOid());
             //employeeInformationDTO.setSignatureImageOid(employeeDetailsDTO.getGeneral().getSignature());
             employeeInformationDTO.setOfficeOid(employeeOfficeMasterDTO.getOfficeOid());

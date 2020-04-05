@@ -39,6 +39,8 @@ public class EmployeeOfficeMasterDTO extends MasterDTO {
 
     private String responsibilityType;
 
+    private String employeeOfficeOid;
+
     private String employmentTypeOid;
     private String inchargeLabelBn;
     private String inchargeLabelEn;
