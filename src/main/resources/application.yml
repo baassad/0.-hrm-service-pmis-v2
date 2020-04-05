@@ -2,43 +2,23 @@
 # = DATA SOURCE
 # =============================================================================================
 spring:
-  #  jpa:
-  #    hibernate.ddl-auto: validate
-  #    properties:
-  #      hibernate:
-  #        jdbc:
-  #          lob:
-  #            non_contextual_creation: true
-  #        default_schema: hrm
-  #  datasource:
-  #    url: jdbc:postgresql://localhost:5432/grp
-  #    username: grp
-  #    password: grp
   application:
-    name: hrm-service-pim-lo
-    #    global_url: "http://grp.gov.bd/global/api/"
-    global_url: "http://45.79.102.237:8011/"
-    #    zuul_url: "http://45.79.102.237:8011/"
-    zuul_url: "http://localhost:8001/"
-    cmn_app_name: ""
-    hrm_app_name: ""
-    global: true
-    search_from_global: false
-    gdata_end_point_url: "http://localhost:5000/hrm/"
-  #    gdata_end_point_url: "http://localhost:5000/hrm/"
+    name: #APPLICATION-NAME#
+    gdata_end_point_url: #GDATA-END-POINT#
   main:
-    allow-bean-definition-overriding: true
+    allow-bean-definition-overriding: #BEAN-DEFINITION-OVERRIDING#
   mvc:
-    throw-exception-if-no-handler-found: true
+    throw-exception-if-no-handler-found: #THROW-EXCEPTION-IF-NO-HANDLER#
   resources:
-    add-mappings: false
-  banner.location: classpath:banner.txt
+    add-mappings: #RESOURCES-ADD-MAPPINGS#
+  banner.location: classpath:#BANNER-CLASSPATH#
 
-#  zipkin:
-#    base-url: http://45.79.102.237:9411/
-#  sleuth:
-#    sampler:
-#      probability: 1
+
+  zipkin:
+    base-url: #ZIPKIN-BASE-URL#
+  sleuth:
+    sampler:
+      probability: #SLEUTH-SAMPLER-PROBABILITY#
 
 
 # =============================================================================================
@@ -46,37 +26,36 @@ spring:
 # =============================================================================================
 service:
   properties:
-    short-code: hrm-service-pim
-    version: v1.0
+    short-code: #SHORT-CODE#
+    version: #VERSION#
 server:
-  port : 9001
+  port : #SERVICE-PORT#
+  servlet:
+    context-path: /#APPLICATION-NAME#
 
 
 # =============================================================================================
 # = EUREKA
 # =============================================================================================
-#eureka:
-# instance:
-#   prefer-ip-address: true
-#   ipAddress: 45.33.38.145
-#   appname: "${spring.application.name}"
-#   leaseExpirationDurationInSeconds: 2
-#   leaseRenewalIntervalInSeconds: 1
-# client:
-#   registerWithEureka: true
-#   fetchRegistry: true
-#   serviceUrl:
-#     defaultZone: "${DISCOVERY_URL:http://45.79.102.237:8010}/eureka/"
 eureka:
+  instance:
+    prefer-ip-address: #EUREKA-PREFER-IP#
+    ipAddress: #EUREKA-IPADDRESS#
+    appname: #EUREKA-APPNAME#
+    leaseExpirationDurationInSeconds: #EUREKA-LEASEEXPIRATION#
+    leaseRenewalIntervalInSeconds: #EUREKA-LEASERENEWALINTERVAL#
   client:
-    enabled: false
-
+    enabled: #CLIENTENABLED#
+    registerWithEureka: #REGISTERWITHEUREKA#
+    fetchRegistry: #FETCHREGISTRY#
+    serviceUrl:
+      defaultZone: #SERVICEURL-DEFAULTZONE#
 
 cmn-service-file-management:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+  url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
 cmn-service-organogram:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+  url: #CMN-SERVICE-ORGANOGRAM-URL#
 hrm-service:
-  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+  url: #HRM-SERVICE-PIM-V1-URL#
 cmn-service-global:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
+  url: #CMN-SERVICE-GLOBAL-URL#
