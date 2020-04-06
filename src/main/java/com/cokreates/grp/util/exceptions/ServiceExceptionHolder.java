@@ -24,4 +24,10 @@ public class ServiceExceptionHolder {
         }
     }
 
+    public static class TypeMismatchException extends ServiceException {
+        public TypeMismatchException(String message) {
+            super(4000, message);
+        }
+    }
+
 }

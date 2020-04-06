@@ -1,14 +1,11 @@
 package com.cokreates.grp.beans.employee;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.validation.Valid;
 
 import com.cokreates.core.*;
-import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.util.request.OidRequestBodyDTO;
-import com.cokreates.grp.util.request.OidSetRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
-import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
+import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
 
 @RestController
 @RequestMapping("/employee")

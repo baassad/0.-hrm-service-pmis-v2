@@ -7,6 +7,9 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.cokreates.grp.beans.common.LoginInfoDTO;
+import com.cokreates.grp.beans.user.UserService;
+import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.google.gson.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserService userService;
+
 
     DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient;
 
@@ -41,6 +47,8 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
     @Value("${spring.application.gdata_end_point_url}")
     private String gdata;
+
+    public LoginInfoDTO loggedInEmployee;
 
     protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent,
                             DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient) {
@@ -111,7 +119,12 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Dto main = this.parseBeforeUpdate(updateNode);
 
+        Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, dto.getOid(), this.getDtoClass());
+        DataServiceRequestBody dataServiceRequestBody = request.getBody();
+        dataServiceRequestBody.setComment(comment);
+        request.setBody(dataServiceRequestBody);
 
         String gDataEndPointUrl = gdata + Constant.GDATA_APPEND + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
@@ -167,8 +180,10 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             Dto main = this.parseBeforeUpdate(updateNode);
 
+            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
-                    null, null, null, null,
+                    null, null, comment, null,
                     null, null, null, this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
@@ -180,8 +195,10 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             node = this.parseBeforeUpdate(node);
 
+            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, node, employeeOid,
-                    node.getOid(), null, null, null,
+                    node.getOid(), null, comment, null,
                     null, null, null, this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_UPDATE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
@@ -203,8 +220,10 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         if(this.getType().equalsIgnoreCase("Node")) {
 
+            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, dto.getOid(),
-                    null, null, null, null,
+                    null, null, comment, null,
                     null, null, null, this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
@@ -217,8 +236,10 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             MasterDTO node = new MasterDTO();
             node.setOid(dto.getNodeOid());
 
+            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, (Dto) node, dto.getOid(),
-                    null,null,null,null,
+                    null,null,comment,null,
                     null,null,null,this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;

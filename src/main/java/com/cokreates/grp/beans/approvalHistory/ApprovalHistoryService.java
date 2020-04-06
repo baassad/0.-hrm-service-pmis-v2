@@ -2,6 +2,9 @@ package com.cokreates.grp.beans.approvalHistory;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
+import com.cokreates.grp.beans.common.ApproverCommentDTO;
+import com.cokreates.grp.beans.common.RequesterCommentDTO;
+import com.cokreates.grp.beans.common.ReviewerCommentDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
@@ -11,19 +14,22 @@ import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.dummyService.DummyEmployeeOfficeService;
+import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.ActorRequestBodyDTO;
 import com.cokreates.grp.util.request.ApprovalHistoryRequestBodyDTO;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.*;
+import com.google.gson.internal.LinkedTreeMap;
 import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Type;
+import java.sql.Date;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -149,6 +155,42 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
         return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
 
     }
+
+//    public Object getCommentObject(Object comment) {
+//        if (comment.toString().contains("requesterOid")) {
+//            System.out.println("req");
+//            return (RequesterCommentDTO) comment;
+//        } else if (comment.toString().contains("reviewerOid")) {
+//            System.out.println("rev");
+//
+//            GsonBuilder builder = new GsonBuilder();
+//
+//            // Register an adapter to manage the date types as long values
+//            builder.registerTypeAdapter(java.sql.Date.class, new JsonDeserializer<java.sql.Date>() {
+//                public java.sql.Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+//                    return new Date(json.getAsJsonPrimitive().getAsLong());
+//                }
+//            });
+//
+//            Gson gson = builder.create();
+//
+//            String element = gson.toJson(comment);
+//
+//            LinkedTreeMap<String, Object> mainMap = gson.fromJson(element, LinkedTreeMap.class);
+//
+//            String mainString = gson.toJson(mainMap);
+//
+//            System.out.println(mainString);
+//
+//            ReviewerCommentDTO updateNode = gson.fromJson(mainString, ReviewerCommentDTO.class);
+//
+//            return comment;
+//        } else if (comment.toString().contains("approverOid")) {
+//            System.out.println("app");
+//            return (ApproverCommentDTO) comment;
+//        }
+//        throw new ServiceExceptionHolder.TypeMismatchException("Comment from request body cannot be matched properly");
+//    }
 
 
     @Override

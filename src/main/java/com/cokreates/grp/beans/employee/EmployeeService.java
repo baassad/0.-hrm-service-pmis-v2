@@ -9,17 +9,14 @@ import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.common.OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
-import com.cokreates.grp.beans.organogramDTO.OfficeDTO;
-import com.cokreates.grp.beans.organogramDTO.OfficeUnitDTO;
-import com.cokreates.grp.beans.organogramDTO.OfficeUnitPostDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
-import com.cokreates.grp.beans.request.GetListByOidSetRequestBodyDTO;
-import com.cokreates.grp.beans.request.OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO;
-import com.cokreates.grp.beans.request.OrganogramRequestDTO;
+import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
+import com.cokreates.grp.util.request.OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO;
+import com.cokreates.grp.util.request.OrganogramRequestDTO;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
@@ -346,7 +343,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         return profiles;
     }
 
-    private void setMissingData(List<EmployeeInformationDTO> profiles) {
+    public void setMissingData(List<EmployeeInformationDTO> profiles) {
         OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
         officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(profiles.stream().map(EmployeeInformationDTO::getOfficeOid).collect(Collectors.toList()));
         officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(profiles.stream().map(EmployeeInformationDTO::getOfficeUnitOid).collect(Collectors.toList()));

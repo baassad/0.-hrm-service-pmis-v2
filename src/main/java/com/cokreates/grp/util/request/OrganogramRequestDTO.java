@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.request;
+package com.cokreates.grp.util.request;
 
 import com.cokreates.core.DataRequestHeaderModel;
 import lombok.Data;

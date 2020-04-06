@@ -2,18 +2,18 @@
 # = DATA SOURCE
 # =============================================================================================
 spring:
-#  jpa:
-#    hibernate.ddl-auto: validate
-#    properties:
-#      hibernate:
-#        jdbc:
-#          lob:
-#            non_contextual_creation: true
-#        default_schema: hrm
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/grp
-#    username: grp
-#    password: grp
+  #  jpa:
+  #    hibernate.ddl-auto: validate
+  #    properties:
+  #      hibernate:
+  #        jdbc:
+  #          lob:
+  #            non_contextual_creation: true
+  #        default_schema: hrm
+  #  datasource:
+  #    url: jdbc:postgresql://localhost:5432/grp
+  #    username: grp
+  #    password: grp
   application:
     name: hrm-service-pim-lo
     #    global_url: "http://grp.gov.bd/global/api/"
@@ -24,8 +24,8 @@ spring:
     hrm_app_name: ""
     global: true
     search_from_global: false
-    gdata_end_point_url: "http://43.224.110.20:4000/hrm/"
-#    gdata_end_point_url: "http://localhost:5000/hrm/"
+#    gdata_end_point_url: "http://43.224.110.20:4000/hrm/"
+    gdata_end_point_url: "http://localhost:5000/hrm/"
   main:
     allow-bean-definition-overriding: true
   mvc:
