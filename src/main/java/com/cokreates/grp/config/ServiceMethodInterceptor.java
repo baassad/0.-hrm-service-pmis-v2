@@ -41,6 +41,8 @@ public class ServiceMethodInterceptor {
     public void interceptCreateAppendCalls(JoinPoint proceedingJoinPoint) throws Throwable {
         LoginInfoDTO info = new LoginInfoDTO();
         getLoginInfoFromToken(info);
+        userService.setLoggedInEmployee(info);
+
         String employeeOfficeOid = info.getEmployeeOfficeOid();
         Object[] args = proceedingJoinPoint.getArgs();
         if (args == null || args.length == 0) {
@@ -52,7 +54,6 @@ public class ServiceMethodInterceptor {
                 dto.setCreatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 //                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
-                userService.setLoggedInEmployee(info);
 //                proceedingJoinPoint.proceed();
             }
         }
@@ -65,6 +66,8 @@ public class ServiceMethodInterceptor {
     public void interceptUpdateDeleteCalls(JoinPoint proceedingJoinPoint) throws Throwable {
         LoginInfoDTO info = new LoginInfoDTO();
         getLoginInfoFromToken(info);
+        userService.setLoggedInEmployee(info);
+
         String employeeOfficeOid = info.getEmployeeOfficeOid();
         Object[] args = proceedingJoinPoint.getArgs();
         if (args == null || args.length == 0) {
@@ -76,7 +79,6 @@ public class ServiceMethodInterceptor {
                 dto.setUpdatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 //                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
-                userService.setLoggedInEmployee(info);
 //                proceedingJoinPoint.proceed();;
             }
         }
