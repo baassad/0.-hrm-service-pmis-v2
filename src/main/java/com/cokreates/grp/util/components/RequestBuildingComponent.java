@@ -131,6 +131,8 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         DataServiceRequest<EmployeeOfficeDTO> request = new DataServiceRequest<>();
         Date date = new Date();
 
+        node.setIsApprover("No");
+        node.setIsReviewer("No");
         node.setCreatedBy("System");
         node.setCreatedOn(new Timestamp(date.getTime()));
         node.setDataStatus("");
@@ -164,9 +166,13 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
     public DataServiceRequest<EmployeeCreationDTO> getRequestForImport(EmployeeCreationDTO node, String employeeOid){
         DataServiceRequest<EmployeeCreationDTO> request = new DataServiceRequest<>();
+
+        node.setIsApprover("No");
+        node.setIsReviewer("No");
         DataServiceRequestBody<EmployeeCreationDTO> requestBody = new DataServiceRequestBody<>();
 
         requestBody.setEmployeeOid(employeeOid);
+
         //requestBody.setNodeOid(nodeOid);
 
         node.setRowStatus("Active");
