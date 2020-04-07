@@ -23,16 +23,18 @@ public class UserService {
     @Autowired
     EmployeeService employeeService;
 
-    public RequesterCommentDTO getRequesterCommentFromLoginInfo(LoginInfoDTO info) {
+    public LoginInfoDTO loggedInEmployee;
+
+    public RequesterCommentDTO getRequesterCommentFromLoginInfo() {
 
         RequesterCommentDTO requesterCommentDTO = new RequesterCommentDTO();
-        requesterCommentDTO.setRequesterOid(info.getOid());
+        requesterCommentDTO.setRequesterOid(loggedInEmployee.getOid());
         requesterCommentDTO.setMesssage("");
         requesterCommentDTO.setDateAndTime(new Date(System.currentTimeMillis()));
 
         List<EmployeeInformationDTO> profiles;
         GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
-        dto.setOids(Arrays.asList(info.getOid()));
+        dto.setOids(Arrays.asList(loggedInEmployee.getOid()));
         profiles = employeeService.getEmployeeInformationDTO(dto);
         if(profiles ==null || profiles.isEmpty()==true) {
             throw new ServiceExceptionHolder.ResourceNotFoundException("Employee office not found with given oid");
@@ -41,9 +43,9 @@ public class UserService {
         employeeService.setMissingData(profiles);
         profiles
                 .stream()
-                .filter(profile -> (twoStringMatched(profile.getEmployeeOfficeOid(), info.getEmployeeOfficeOid())
-                                &&  twoStringMatched(profile.getOfficeUnitOid(), info.getOfficeUnitOid())
-                                &&  twoStringMatched(profile.getOfficeUnitPostOid(), info.getOfficeUnitPostOid())))
+                .filter(profile -> (twoStringMatched(profile.getEmployeeOfficeOid(), loggedInEmployee.getEmployeeOfficeOid())
+                                &&  twoStringMatched(profile.getOfficeUnitOid(), loggedInEmployee.getOfficeUnitOid())
+                                &&  twoStringMatched(profile.getOfficeUnitPostOid(), loggedInEmployee.getOfficeUnitPostOid())))
                 .forEach(profile -> {
                     requesterCommentDTO.setNameEn(profile.getNameEn());
                     requesterCommentDTO.setNameBn(profile.getNameBn());

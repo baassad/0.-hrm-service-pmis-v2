@@ -4,6 +4,7 @@ package com.cokreates.grp.config;
 import com.cokreates.core.MasterDTO;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.LoginInfoDTO;
+import com.cokreates.grp.beans.user.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,8 @@ public class ServiceMethodInterceptor {
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    UserService userService;
 
 
     @Before("execution(* com.cokreates.core.*Service.create(..))" +
@@ -48,8 +51,8 @@ public class ServiceMethodInterceptor {
                 MasterDTO dto = (MasterDTO) args[i];
                 dto.setCreatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
-                masterService.setLoggedInEmployee(info);
+//                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
+                userService.setLoggedInEmployee(info);
 //                proceedingJoinPoint.proceed();
             }
         }
@@ -72,8 +75,8 @@ public class ServiceMethodInterceptor {
                 MasterDTO dto = (MasterDTO) args[i];
                 dto.setUpdatedBy(employeeOfficeOid);     //This record should be kept as it is. for employee with specific post.
                 dto.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
-                masterService.setLoggedInEmployee(info);
+//                MasterService masterService = (MasterService) proceedingJoinPoint.getTarget();
+                userService.setLoggedInEmployee(info);
 //                proceedingJoinPoint.proceed();;
             }
         }

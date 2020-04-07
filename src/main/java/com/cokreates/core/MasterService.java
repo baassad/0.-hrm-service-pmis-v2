@@ -48,7 +48,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Value("${spring.application.gdata_end_point_url}")
     private String gdata;
 
-    public LoginInfoDTO loggedInEmployee;
+
 
     protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent,
                             DataServiceRestTemplateClient<Dto, Entity> dataServiceRestTemplateClient) {
@@ -119,7 +119,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Dto main = this.parseBeforeUpdate(updateNode);
 
-        Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+        Object comment = userService.getRequesterCommentFromLoginInfo();
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, dto.getOid(), this.getDtoClass());
         DataServiceRequestBody dataServiceRequestBody = request.getBody();
@@ -180,7 +180,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             Dto main = this.parseBeforeUpdate(updateNode);
 
-            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+            Object comment = userService.getRequesterCommentFromLoginInfo();
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
                     null, null, comment, null,
@@ -195,7 +195,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             node = this.parseBeforeUpdate(node);
 
-            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+            Object comment = userService.getRequesterCommentFromLoginInfo();
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, node, employeeOid,
                     node.getOid(), null, comment, null,
@@ -220,7 +220,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         if(this.getType().equalsIgnoreCase("Node")) {
 
-            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+            Object comment = userService.getRequesterCommentFromLoginInfo();
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, dto.getOid(),
                     null, null, comment, null,
@@ -236,7 +236,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             MasterDTO node = new MasterDTO();
             node.setOid(dto.getNodeOid());
 
-            Object comment = userService.getRequesterCommentFromLoginInfo(loggedInEmployee);
+            Object comment = userService.getRequesterCommentFromLoginInfo();
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, (Dto) node, dto.getOid(),
                     null,null,comment,null,
