@@ -1,11 +1,13 @@
 package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.MasterDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeeCreationDTO extends MasterDTO {
 
     private String nameEn;
@@ -25,6 +27,9 @@ public class EmployeeCreationDTO extends MasterDTO {
     private String isOfficeHead;
     private String isOfficeAdmin;
     private String isOfficeUnitHead;
+    private String isApprover;
+    private String isReviewer;
+
 
     private String employeeOfficeOid;
 }
