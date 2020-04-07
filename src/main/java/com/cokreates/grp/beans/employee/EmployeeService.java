@@ -337,6 +337,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         if(photos.isEmpty()) {
             p.setPhoto(null);
             p.setPhotoFileDTOs(null);
+            return;
         }
         p.setPhotoFileDTOs(photos);
         MasterDTO dto = new MasterDTO();
