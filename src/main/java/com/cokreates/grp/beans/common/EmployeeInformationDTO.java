@@ -1,7 +1,10 @@
 package com.cokreates.grp.beans.common;
 
+import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -50,5 +53,7 @@ public class EmployeeInformationDTO{
     private String responsibilityType;
 
     private byte[] photo;
+
+    private List<FileDTO> photoFileDTOs;
 
 }

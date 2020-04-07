@@ -236,31 +236,6 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     }
 
-    private byte[] fetchPhoto(String employeeOid) {
-        List<FileDTO> fileDTOs = fileService.getList(employeeOid);
-        List<FileDTO> photos = new ArrayList<>();
-        fileDTOs
-                .forEach(fileDTO -> {
-                    if (fileDTO.getFileName() != null) {
-                        if (fileDTO.getFileName().equalsIgnoreCase("photo")) {
-                            photos.add(fileDTO);
-                        }
-                    }
-                });
-//        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
-        if(photos.isEmpty()) {
-            return null;
-        }
-        MasterDTO dto = new MasterDTO();
-        dto.setOid(photos.get(0).getFileOid());
-        try {
-            return webService.postForByteArray(fileServiceUrl+ Constant.ENDPOINT_DOWNLOAD_FILE, dto);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
-    }
-
     public EmployeeOfficeDTO appendEmployeeOfficeDTO(EmployeeOfficeDTO employeeOfficeDTO,String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOffice(employeeOfficeDTO,employeeOid);
 
@@ -336,11 +311,43 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         profiles = getEmployeeInformationDTO(dto);
         if(profiles!=null && profiles.isEmpty()==false) {
             setMissingData(profiles);
+            EmployeeInformationDTO empDTO = profiles.get(0);
+            setProfilePhotoInfos(empDTO);
             for(EmployeeInformationDTO p : profiles) {
-                p.setPhoto(fetchPhoto(employeeOid));
+                p.setPhoto(empDTO.getPhoto());
+                p.setPhotoFileDTOs(empDTO.getPhotoFileDTOs());
             }
         }
         return profiles;
+    }
+
+    private void setProfilePhotoInfos(EmployeeInformationDTO p) {
+        List<FileDTO> fileDTOs = fileService.getList(p.getOid());
+        List<FileDTO> photos = new ArrayList<>();
+        byte[] photoFile = null;
+        fileDTOs
+                .forEach(fileDTO -> {
+                    if (fileDTO.getFileName() != null) {
+                        if ("photo".equalsIgnoreCase(fileDTO.getFileName())) {
+                            photos.add(fileDTO);
+                        }
+                    }
+                });
+//        List<FileDTO> photos = fileDTOs.stream().filter(x -> "photo".equalsIgnoreCase(x.getFileName().trim())).collect(Collectors.toList());
+        if(photos.isEmpty()) {
+            p.setPhoto(null);
+            p.setPhotoFileDTOs(null);
+        }
+        p.setPhotoFileDTOs(photos);
+        MasterDTO dto = new MasterDTO();
+        dto.setOid(photos.get(0).getFileOid());
+        try {
+             photoFile = webService.postForByteArray(fileServiceUrl+ Constant.ENDPOINT_DOWNLOAD_FILE, dto);
+             p.setPhoto(photoFile);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            p.setPhoto(null);
+        }
     }
 
     public void setMissingData(List<EmployeeInformationDTO> profiles) {
