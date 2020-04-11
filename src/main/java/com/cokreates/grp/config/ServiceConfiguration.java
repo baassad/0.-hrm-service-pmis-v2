@@ -1,5 +1,6 @@
 package com.cokreates.grp.config;
 
+import com.cokreates.grp.beans.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -87,6 +89,12 @@ public class ServiceConfiguration extends WebMvcConfigurerAdapter {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + base64Credentials);
         return headers;
+    }
+
+    @Bean
+    @RequestScope
+    public UserService userService() {
+        return new UserService();
     }
 
 

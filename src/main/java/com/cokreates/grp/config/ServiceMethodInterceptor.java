@@ -17,6 +17,7 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -29,7 +30,7 @@ public class ServiceMethodInterceptor {
     @Autowired
     HttpServletRequest request;
 
-    @Autowired
+    @Resource(name = "userService")
     UserService userService;
 
 
