@@ -23,6 +23,8 @@ import com.google.gson.internal.LinkedTreeMap;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Data
 public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEntity> implements CklServiceInterface<Dto, Entity> {
@@ -33,7 +35,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
+    @Resource(name = "userService")
     private UserService userService;
 
 
