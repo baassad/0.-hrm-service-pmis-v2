@@ -23,5 +23,8 @@ public class GeneralDTO extends MasterDTO {
     private String isFreedomFighter;
     private String fromFreedomfighterFamily;
     private String phone;
+    private String nid;
+    private String passport;
+    private String birthCertificate;
 
 }

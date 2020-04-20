@@ -23,5 +23,8 @@ public class General extends BaseEntity {
     private String isFreedomFighter;
     private String fromFreedomfighterFamily;
     private String phone;
+    private String nid;
+    private String passport;
+    private String birthCertificate;
 
 }
