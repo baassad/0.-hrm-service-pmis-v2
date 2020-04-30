@@ -36,11 +36,11 @@ public class Constant {
 
     public static final String VERSION_1 = "v1/";
     
-    public static final String GDATA_GET 		= "get/";
-    public static final String GDATA_CREATE 	= "create/";
-    public static final String GDATA_UPDATE 	= "update/";
-    public static final String GDATA_APPEND 	= "append/";
-    public static final String GDATA_REMOVE		= "remove/";
+    public static final String GDATA_GET 		= "pmis/get/";
+    public static final String GDATA_CREATE 	= "pmis/create/";
+    public static final String GDATA_UPDATE 	= "pmis/update/";
+    public static final String GDATA_APPEND 	= "pmis/append/";
+    public static final String GDATA_REMOVE		= "pmis/remove/";
     
     public static final String GDATA_EMP 						= "emp";
     public static final String GDATA_NODE 						= "node-in-emp-doc";
