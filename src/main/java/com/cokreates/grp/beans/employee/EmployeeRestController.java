@@ -5,6 +5,7 @@ import java.util.Collections;
 import javax.validation.Valid;
 
 import com.cokreates.core.*;
+import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.request.OidRequestBodyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,16 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     @PostMapping(Constant.ENDPOINT_GET_BY_OFFICE_OID_LIST)
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByOffice(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTOByOffice(requestDTO.getBody().getData().get(0)));
+    }
+
+    @PostMapping(Constant.ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST)
+    public ResponseModel<EmployeeInformationDTO> getMainEmployeeInformationByOidSet(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeMainInformationDTOByOidSet(requestDTO.getBody().getData().get(0)));
+    }
+
+    @PostMapping(Constant.ENDPOINT_GET_MAIN_BY_OFFICE_OFFICE_UNIT_OID_LIST)
+    public ResponseModel<EmployeeInformationDTO> getMainEmployeeInformationByOffice(@Valid @RequestBody RequestModel<MiscellaneousRequestProperty> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeMainInformationDTOByOffice(requestDTO.getBody().getData().get(0)));
     }
 
 }

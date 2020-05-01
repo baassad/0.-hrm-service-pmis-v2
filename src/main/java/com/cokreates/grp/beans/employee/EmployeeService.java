@@ -2,11 +2,9 @@ package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.*;
 import com.cokreates.core.Constant;
-import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.approvalHistory.ApprovalHistoryDTO;
+import com.cokreates.grp.beans.common.*;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
-import com.cokreates.grp.beans.common.OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
@@ -68,8 +66,13 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     RequestBuildingComponent<EmployeeOfficeMasterDTO> EmployeeOfficeMasterDTORequestBuildingComponent;
 
+    RequestBuildingComponent<EmployeeDetailsMasterDTO> employeeDetailsMasterDTORequestBuildingComponent;
+
     @Autowired
     DataServiceRestTemplateClient<EmployeeOfficeMasterDTO, EmployeeOffice> restTemplateEmployeedetailsMasterInfo;
+
+    @Autowired
+    DataServiceRestTemplateClient<EmployeeDetailsMasterDTO, EmployeeOffice> restTemplateEmployeeDetailsMasterDTO;
 
     @Autowired
     GeneralService generalService;
@@ -90,14 +93,23 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
         EmployeeOfficeMasterDTORequestBuildingComponent = new RequestBuildingComponent<EmployeeOfficeMasterDTO>();
+        employeeDetailsMasterDTORequestBuildingComponent = new RequestBuildingComponent<EmployeeDetailsMasterDTO>();
     }
 
     public RequestBuildingComponent<EmployeeOfficeMasterDTO> getEmployeeOfficeMasterDTORequestBuildingComponent() {
         return  this.EmployeeOfficeMasterDTORequestBuildingComponent;
     }
 
+    public RequestBuildingComponent<EmployeeDetailsMasterDTO> getEmployeeDetailsMasterDTORequestBuildingComponent() {
+        return  this.employeeDetailsMasterDTORequestBuildingComponent;
+    }
+
     public DataServiceRestTemplateClient<EmployeeOfficeMasterDTO, EmployeeOffice> getRestTemplateEmployeedetailsMasterInfo() {
         return  this.restTemplateEmployeedetailsMasterInfo;
+    }
+
+    public DataServiceRestTemplateClient<EmployeeDetailsMasterDTO, EmployeeOffice> getRestTemplateEmployeeDetailsMasterDTO() {
+        return  this.restTemplateEmployeeDetailsMasterDTO;
     }
 
     public EmployeeDTO create(GeneralDTO dto) {
@@ -165,6 +177,72 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         return employeeInformationDTOS;
 
+    }
+
+    public List<EmployeeInformationDTO> getEmployeeMainInformationDTOByOidSet(GetListByOidSetRequestBodyDTO requestDTO){
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setEmployeeOidList(requestDTO.getOids());
+
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_MAIN_EMPLOYEE_BY_OID_SET;;
+
+        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = employeeService.getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeDetailsMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeDetailsMasterDTO -> {
+                    EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
+                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfo(employeeDetailsDTO));
+                });
+
+        setMissingData(employeeInformationDTOS);
+
+        return employeeInformationDTOS;
+    }
+
+    public List<EmployeeInformationDTO> getEmployeeMainInformationDTOByOffice(MiscellaneousRequestProperty requestDTO){
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOfficeOidList());
+        miscellaneousRequestProperty.setOfficeUnitOidList(requestDTO.getOfficeUnitOidList());
+
+        String endPoint = "";
+
+        if (requestDTO.getOfficeUnitOidList() != null) {
+            endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT;
+        } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + endPoint;
+
+        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = employeeService.getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeDetailsMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeDetailsMasterDTO -> {
+                    EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
+                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfo(employeeDetailsDTO));
+                });
+
+        setMissingData(employeeInformationDTOS);
+
+        return employeeInformationDTOS;
     }
 
     public List<EmployeeInformationDTO> getEmployeeInformationDTOByOffice(GetListByOidSetRequestBodyDTO requestDTO){

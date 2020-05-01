@@ -9,4 +9,5 @@ import java.util.Set;
 public class MiscellaneousRequestProperty {
     private List<String> employeeOidList;
     private List<String> officeOidList;
+    private List<String> officeUnitOidList;
 }
