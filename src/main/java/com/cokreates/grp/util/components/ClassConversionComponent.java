@@ -45,6 +45,35 @@ public class ClassConversionComponent {
 
     }
 
+    public List<EmployeeInformationDTO> convertEmpDetailsToEmpInfoSetOidResponsibilityType(EmployeeDetailsDTO employeeDetailsDTO){
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
+
+        for(EmployeeOfficeDTO employeeOfficeDTO:employeeDetailsDTO.getNodes()){
+
+            EmployeeInformationDTO employeeInformationDTO = new EmployeeInformationDTO();
+            employeeInformationDTO.setNameBn(employeeDetailsDTO.getGeneral().getNameBn());
+            employeeInformationDTO.setNameEn(employeeDetailsDTO.getGeneral().getNameEn());
+            employeeInformationDTO.setEmail(employeeDetailsDTO.getGeneral().getEmail());
+            employeeInformationDTO.setEmployeeOfficeOid(employeeOfficeDTO.getOid());
+            employeeInformationDTO.setEmployeeTypeOid(employeeOfficeDTO.getEmploymentTypeOid());
+            //employeeInformationDTO.setSignatureImageOid(employeeDetailsDTO.getGeneral().getSignature());
+            employeeInformationDTO.setMobileNo(employeeDetailsDTO.getGeneral().getPhone());
+            employeeInformationDTO.setOfficeOid(employeeOfficeDTO.getOfficeOid());
+            employeeInformationDTO.setOfficeUnitOid(employeeOfficeDTO.getOfficeUnitOid());
+            employeeInformationDTO.setOfficeUnitPostOid(employeeOfficeDTO.getOfficeUnitPostOid());
+            //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
+
+            employeeInformationDTO.setOid(employeeOfficeDTO.getOid());
+            employeeInformationDTO.setResponsibilityType(employeeOfficeDTO.getResponsibilityType());
+
+            employeeInformationDTOS.add(employeeInformationDTO);
+        }
+
+        return employeeInformationDTOS;
+
+    }
+
     public List<EmployeeInformationDTO> convertEmpDetailsMasterDTOToEmpInfo(List<EmployeeOfficeMasterDTO> EmployeeOfficeMasterDTOS,
                                                                             OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO officeOfficeUnitOfficeUnitPostSetResponseBodyDTO){
 

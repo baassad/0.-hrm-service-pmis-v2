@@ -201,7 +201,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         employeeOfficeMasterDTOList
                 .forEach(employeeDetailsMasterDTO -> {
                     EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
-                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfo(employeeDetailsDTO));
+                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfoSetOidResponsibilityType(employeeDetailsDTO));
                 });
 
         setMissingData(employeeInformationDTOS);
@@ -237,7 +237,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         employeeOfficeMasterDTOList
                 .forEach(employeeDetailsMasterDTO -> {
                     EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
-                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfo(employeeDetailsDTO));
+                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfoSetOidResponsibilityType(employeeDetailsDTO));
                 });
 
         setMissingData(employeeInformationDTOS);
