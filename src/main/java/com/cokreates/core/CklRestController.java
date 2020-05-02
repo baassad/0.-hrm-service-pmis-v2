@@ -1,8 +1,10 @@
 package com.cokreates.core;
 
+import com.cokreates.grp.util.request.OidSetRequestBody;
+
 public interface CklRestController<T> {
 
-    public ResponseModel<T> getSelected( RequestModel<String> dto);
+    public ResponseModel<T> getSelected( RequestModel<OidSetRequestBody> dto);
     public ResponseModel<T> createAll( RequestModel<T> dto);
     public ResponseModel<T> updateAll( RequestModel<T> dto);
     public ResponseModel<T> deleteAll( RequestModel<String> oids);

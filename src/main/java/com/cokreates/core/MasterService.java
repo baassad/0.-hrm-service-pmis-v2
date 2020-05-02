@@ -10,6 +10,7 @@ import java.util.List;
 import com.cokreates.grp.beans.common.LoginInfoDTO;
 import com.cokreates.grp.beans.user.UserService;
 import com.cokreates.grp.daas.DataServiceRequestBody;
+import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.google.gson.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -291,7 +292,23 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
     @Override
     public List<Dto> getSelected(List<String> oids) {
-        return null;
+        DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, null,
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setEmployeeOidList(oids);
+
+        DataServiceRequestBody<Dto> dataServiceRequestBody = request.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        request.setBody(dataServiceRequestBody);
+
+        String gDataEndPointUrl = gdata + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_NODE_BY_OID_SET;
+        log.debug("==== gDataEndPointUrl ==== " + gDataEndPointUrl);
+
+        return dataServiceRestTemplateClient.getListData(nodePath, request, gDataEndPointUrl);
+
     }
 
     @Override

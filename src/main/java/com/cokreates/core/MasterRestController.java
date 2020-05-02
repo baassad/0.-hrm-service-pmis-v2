@@ -1,6 +1,8 @@
 package com.cokreates.core;
 
 import com.cokreates.grp.util.components.ResultBuildingComponent;
+import com.cokreates.grp.util.request.OidRequestBodyDTO;
+import com.cokreates.grp.util.request.OidSetRequestBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -89,9 +91,9 @@ public class MasterRestController<D extends MasterDTO,E extends BaseEntity> impl
 
     @Override
     @PostMapping(Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<D> getSelected(@RequestBody RequestModel<String> dto) {
+    public ResponseModel<D> getSelected(@RequestBody RequestModel<OidSetRequestBody> dto) {
 
-        return resultBuildingComponent.retrieveResult(dto.getHeader(),service.getSelected(dto.getBody().getData()));
+        return resultBuildingComponent.retrieveResult(dto.getHeader(),service.getSelected(dto.getBody().getData().get(0).getOids()));
     }
 
     @Override
