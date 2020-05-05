@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "data-service",url = "${spring.application.gdata_end_point_url}")
 public interface DataServiceClient {
 
-    @RequestMapping(method= RequestMethod.POST, value="/get/v1/employee-details", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method= RequestMethod.POST, value="/pmis/get/v1/employee-details", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponse<EmployeeDetailsDTO> getEmployeeDetailsFromDaas(@RequestBody DataServiceRequest<EmployeeDTO> requestDTO);
 
-    @RequestMapping(method= RequestMethod.POST, value="/append/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method= RequestMethod.POST, value="/pmis/append/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponse<EmployeeOfficeDTO> appendEmployeeOffice(@RequestBody DataServiceRequest<EmployeeOfficeDTO> requestDTO);
 
-    @RequestMapping(method= RequestMethod.POST, value="/update/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method= RequestMethod.POST, value="/pmis/update/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponse<EmployeeOfficeDTO> updateEmployeeOffice(@RequestBody DataServiceRequest<EmployeeOfficeDTO> requestDTO);
 
-    @RequestMapping(method = RequestMethod.POST,  value = "/get/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.POST,  value = "/pmis/get/v1/employee-office", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponseForList<EmployeeOfficeDTO> getEmployeeOfficeList(@RequestBody DataServiceRequest<EmployeeDTO> requestDTO);
 
-    @RequestMapping(method = RequestMethod.POST, value = "/import/v1/emp",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.POST, value = "/pmis/import/v1/emp",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
     DataServiceResponse<EmployeeDTO> importEmployee (@RequestBody DataServiceRequest<EmployeeCreationDTO> requestDTO);
 }
