@@ -4,7 +4,7 @@ import com.cokreates.core.MasterDTO;
 import lombok.Data;
 
 @Data
-public class DataServiceRequest<T extends MasterDTO> {
+public class DataServiceRequest<T> {
 
      private DataServiceRequestBody<T> body;
 

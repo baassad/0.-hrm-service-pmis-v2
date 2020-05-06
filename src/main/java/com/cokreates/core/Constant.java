@@ -29,6 +29,7 @@ public class Constant {
     public static final String EMPLOYEE_DETAILS = "employee-details";
     public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";
     public static final String ENDPOINT_GET_PROFILE = "/get-profile";
+    public static final String ENDPOINT_SEARCH_EMPLOYEES = "/search-employees";
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";
@@ -76,7 +77,12 @@ public class Constant {
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE	= "approval-history-by-employee";
     public static final String GDATA_APPROVAL_HISTORY_BY_ACTOR	= "approval-history-by-actor";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS	= "approval-history-by-employee-and-status";
-    
+
+
+    public static final String OFFICE = "OFFICE";
+    public static final String OFFICE_UNIT = "OFFICE_UNIT";
+    public static final String OFFICE_UNIT_POST = "OFFICE_UNIT_POST";
+    public static final String COUNT = "COUNT";
     //http://localhost:5000/hrm/create/v1/emp
     
     //http://localhost:5000/hrm/get/v1/node-in-emp-doc

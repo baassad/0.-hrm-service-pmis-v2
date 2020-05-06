@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class DataServiceRequestBody<T extends MasterDTO> {
+public class DataServiceRequestBody<T> {
 
     private T node;
 
