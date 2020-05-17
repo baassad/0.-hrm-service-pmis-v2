@@ -64,7 +64,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setOfficeUnitPostOid(employeeOfficeDTO.getOfficeUnitPostOid());
             //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
 
-            employeeInformationDTO.setOid(employeeOfficeDTO.getOid());
+            employeeInformationDTO.setOid(employeeDetailsDTO.getGeneral().getOid());
             employeeInformationDTO.setResponsibilityType(employeeOfficeDTO.getResponsibilityType());
 
             employeeInformationDTOS.add(employeeInformationDTO);
