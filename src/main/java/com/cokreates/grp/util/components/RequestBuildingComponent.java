@@ -133,6 +133,8 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
         node.setIsApprover("No");
         node.setIsReviewer("No");
+        node.setIsAttendanceAdmin("No");
+        node.setIsAttendanceDataEntryOperator("No");
         node.setCreatedBy("System");
         node.setCreatedOn(new Timestamp(date.getTime()));
         node.setDataStatus("");
@@ -169,6 +171,8 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
         node.setIsApprover("No");
         node.setIsReviewer("No");
+        node.setIsAttendanceAdmin("No");
+        node.setIsAttendanceDataEntryOperator("No");
         DataServiceRequestBody<EmployeeCreationDTO> requestBody = new DataServiceRequestBody<>();
 
         requestBody.setEmployeeOid(employeeOid);

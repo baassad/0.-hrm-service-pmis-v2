@@ -29,6 +29,8 @@ public class EmployeeCreationDTO extends MasterDTO {
     private String isOfficeUnitHead;
     private String isApprover;
     private String isReviewer;
+    private String isAttendanceDataEntryOperator;
+    private String isAttendanceAdmin;
 
 
     private String employeeOfficeOid;
