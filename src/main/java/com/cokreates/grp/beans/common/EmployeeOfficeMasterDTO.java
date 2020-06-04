@@ -1,9 +1,11 @@
 package com.cokreates.grp.beans.common;
 
 import com.cokreates.core.MasterDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeeOfficeMasterDTO extends MasterDTO {
     private String email;
 
@@ -54,4 +56,7 @@ public class EmployeeOfficeMasterDTO extends MasterDTO {
     private String status;
     private String statusChangeDate;
     private String systemRoleOid;
+
+    private String isAttendanceDataEntryOperator;
+    private String isAttendanceAdmin;
 }
