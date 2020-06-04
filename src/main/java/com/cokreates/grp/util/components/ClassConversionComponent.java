@@ -110,6 +110,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setEmail(employeeOfficeMasterDTO.getEmail());
 
             employeeInformationDTO.setEmployeeOfficeOid(employeeOfficeMasterDTO.getEmployeeOfficeOid());
+            employeeInformationDTO.setResponsibilityType(employeeOfficeMasterDTO.getResponsibilityType());
             employeeInformationDTO.setEmployeeTypeOid(employeeOfficeMasterDTO.getEmploymentTypeOid());
             //employeeInformationDTO.setSignatureImageOid(employeeDetailsDTO.getGeneral().getSignature());
             employeeInformationDTO.setOfficeOid(employeeOfficeMasterDTO.getOfficeOid());
