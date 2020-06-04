@@ -1,0 +1,76 @@
+# =============================================================================================
+# = DATA SOURCE
+# =============================================================================================
+spring:
+  application:
+    name: hrm-service-pmis-v2
+    gdata_end_point_url: http://43.224.110.20:4000/hrm/
+  main:
+    allow-bean-definition-overriding: TRUE
+  mvc:
+    throw-exception-if-no-handler-found: TRUE
+  resources:
+    add-mappings: FALSE
+  banner.location: classpath:banner.txt
+  jpa:
+    hibernate.ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        default_schema: hrm
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grp
+    username: hrm
+    password: vJXK2QnBXM5DSLydEPmuaKaKW
+
+
+  zipkin:
+    base-url: http://43.224.110.36:8080/cmn-service-zipkin/
+  sleuth:
+    sampler:
+      probability: 1
+
+
+
+
+
+# =============================================================================================
+# = SERVICE
+# =============================================================================================
+service:
+  properties:
+    short-code: hrm-service-pmis-v2
+    version: v1.0
+server:
+  port : 8080
+  servlet:
+    context-path: /hrm-service-pmis-v2
+
+
+# =============================================================================================
+# = EUREKA
+# =============================================================================================
+eureka:
+  instance:
+    prefer-ip-address: TRUE
+    ipAddress: pmis-v2-hrm.global.data.grp.gov.bd
+    appname: hrm-service-pmis-v2
+    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 1
+  client:
+    enabled: TRUE
+    registerWithEureka: TRUE
+    fetchRegistry: TRUE
+    serviceUrl:
+      defaultZone: http://43.224.110.36:8080/eureka/eureka/
+
+cmn-service-file-management:
+  url: http://data.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+cmn-service-organogram:
+  url: http://data.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+hrm-service:
+  url: http://data.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+cmn-service-global:
+  url: http://data.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
