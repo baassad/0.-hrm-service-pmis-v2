@@ -135,6 +135,12 @@
 			<version>2.3.0.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+
 		<!--		&lt;!&ndash;part to be removed end&ndash;&gt;-->
 	</dependencies>
 
