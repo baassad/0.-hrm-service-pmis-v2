@@ -21,7 +21,7 @@ spring:
             non_contextual_creation: true
         default_schema: hrm
   datasource:
-    url: jdbc:postgresql://localhost:5432/grp
+    url: jdbc:postgresql://43.224.110.36:5432/grp
     username: hrm
     password: vJXK2QnBXM5DSLydEPmuaKaKW
 
