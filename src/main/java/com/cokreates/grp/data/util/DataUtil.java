@@ -47,7 +47,7 @@ public class DataUtil {
             
             jsonObject = jsonObject.getJSONObject(nodePath.getString(i));
         }
-        Object result = jsonObject.get(nodePath.getString(nodePath.length()-1)); // We Don't know if the last item is object or array
+        Object result = jsonObject.get(nodePath.getString(nodePath.length()-1));
         return result;
     }
 }
