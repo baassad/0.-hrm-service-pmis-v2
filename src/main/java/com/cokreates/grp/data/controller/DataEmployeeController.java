@@ -1,8 +1,11 @@
 package com.cokreates.grp.data.controller;
+
+import java.util.Iterator;
 import java.util.Map;
 
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.service.DataEmployeeService;
+import com.cokreates.grp.data.util.DataUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +23,9 @@ public class DataEmployeeController {
 
     @Autowired
     DataCustomRepository repository;
+
+    @Autowired
+    DataUtil dataUtil;
 
     @RequestMapping("/hrm/pmis/get/v1/all-emp")
     @ResponseBody
@@ -40,7 +46,14 @@ public class DataEmployeeController {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
         String employeeOid = jsonBody.getString("employeeOid");
         JSONArray nodePath = jsonBody.getJSONArray("nodePath");
-        System.out.println(nodePath);
-        return repository.getEmployeeDoc(employeeOid);
+        
+        JSONObject employeeDoc = repository.getEmployeeDoc(employeeOid);
+        Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
+        Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("main", employeeMain);
+        resultObject.put("temp", employeeTemp);
+
+        return resultObject.toString();
     }
 }
