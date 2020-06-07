@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DataEmployeeController {
@@ -35,11 +36,12 @@ public class DataEmployeeController {
         return repository.getAllEmployees();
     }
 
-    @RequestMapping("/hrm/pmis/get/v1/emp")
+    @RequestMapping(value = "/hrm/pmis/get/v1/emp", method = RequestMethod.POST)
     @ResponseBody
-    public String getEmployee() {
-        String oid = "6e2637fa-cf8a-489d-92ab-18caaff9e3dd";
-        return repository.getEmployee(oid);
+    public String getEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        String response = dataEmployeeService.getEmployee(requestParam);
+        return response;
     }
 
     @RequestMapping(value = "hrm/pmis/get/v1/node-in-emp-doc", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

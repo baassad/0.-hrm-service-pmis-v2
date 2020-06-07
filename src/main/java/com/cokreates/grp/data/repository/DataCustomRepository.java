@@ -29,11 +29,10 @@ public class DataCustomRepository {
         return dataUtil.listToJsonArray(result).toString();
     }
 
-    public String getEmployee(String oid) {
-        String query = "select * from pmis where oid = '" + oid + "'";
+    public Map<String, Object> getEmployee(JSONObject queryParam) {
+        String query = "select * from pmis where oid = '" + queryParam.getString("employeeOid") + "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
-
-        return dataUtil.mapToJsonObject(result).toString();
+        return result;
     }
 
     public JSONObject getEmployeeDoc(String employeeOid) {
