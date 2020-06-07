@@ -10,7 +10,9 @@ import com.cokreates.grp.data.util.DataUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,22 +47,16 @@ public class DataEmployeeController {
     }
 
     @RequestMapping(value = "hrm/pmis/get/v1/node-in-emp-doc", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public String getNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?>  getNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
+        try{
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        String employeeOid = jsonBody.getString("employeeOid");
-        JSONArray nodePath = jsonBody.getJSONArray("nodePath");
-        
-        JSONObject employeeDoc = repository.getEmployeeDoc(employeeOid);
-        Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
-        Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
-        
-        JSONObject employeeBody = new JSONObject();
-        employeeBody.put("main", employeeMain);
-        employeeBody.put("temp", employeeTemp);
-
-        JSONObject resultObject = new JSONObject();
-        resultObject.put("body", employeeBody);
-        return resultObject.toString();
+        String response =  dataEmployeeService.getNodeFromeDoc(jsonBody);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch(Exception ex){
+            String errorMessage;
+            errorMessage = "Error at API: hrm/pmis/get/v1/node-in-emp-doc, " + ex;
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
     }
 }
