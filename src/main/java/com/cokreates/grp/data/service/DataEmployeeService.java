@@ -25,11 +25,26 @@ public class DataEmployeeService {
     @Autowired
     JsonUtil jsonUtil;
 
-    
+    public ResponseEntity<?> getEmployee(JSONObject requestParam) {
 
-    public String getEmployee(JSONObject requestParam) {
-        Map<String, Object> queryResult = repository.getEmployee(requestParam);
-        return dataUtil.mapToJsonObject(queryResult).toString();
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.getEmployee(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject employeeBody = new JSONObject();
+        employeeBody.put("oid", employeeDoc.getString("oid"));
+        employeeBody.put("personal", employeeDoc.getJSONObject("employee_main").getJSONObject("personal"));
+        employeeBody.put("professional", employeeDoc.getJSONObject("employee_main").getJSONObject("professional"));
+        employeeBody.put("qualification", employeeDoc.getJSONObject("employee_main").getJSONObject("qualification"));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", employeeBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParam){
@@ -53,7 +68,7 @@ public class DataEmployeeService {
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
-                                
+
     }
 
     public ResponseEntity<?> readFromApprovalHistoryByActor(JSONObject requestParameters){

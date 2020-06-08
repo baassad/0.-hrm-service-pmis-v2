@@ -30,10 +30,10 @@ public class DataCustomRepository {
         return dataUtil.listToJsonArray(result).toString();
     }
 
-    public Map<String, Object> getEmployee(JSONObject queryParam) {
+    public JSONObject getEmployee(JSONObject queryParam) throws Exception {
         String query = "select * from pmis where oid = '" + queryParam.getString("employeeOid") + "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
-        return result;
+        return dataUtil.mapToJsonObject(result);
     }
 
     public JSONObject readNodeFromEmployeeDoc(JSONObject requestParam) throws Exception {

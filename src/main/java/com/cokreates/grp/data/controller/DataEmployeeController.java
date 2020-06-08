@@ -46,12 +46,11 @@ public class DataEmployeeController {
         return repository.getAllEmployees();
     }
 
-    @RequestMapping(value = Api.GET_EMP, method = RequestMethod.POST)
+    @RequestMapping(value = Api.GET_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
-    public String getEmployee(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> getEmployee(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
-        String response = dataEmployeeService.getEmployee(requestParam);
-        return response;
+        return dataEmployeeService.getEmployee(requestParam);
     }
 
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
