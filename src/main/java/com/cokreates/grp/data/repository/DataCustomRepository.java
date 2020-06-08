@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import jdk.internal.jline.internal.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @Repository
 public class DataCustomRepository {
 
@@ -35,7 +39,7 @@ public class DataCustomRepository {
         return result;
     }
 
-    public JSONObject getEmployeeDoc(String employeeOid) {
+    public JSONObject readNodeFromEmployeeDoc(String employeeOid) throws Exception {
         // String query="insert into employee values('"+e.getId()+"','"+e.getName()+"','"+e.getSalary()+"')";  
         String query = "SELECT "
         + "p.employee_main as employee_main, "
@@ -46,6 +50,6 @@ public class DataCustomRepository {
         + "'";
 
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
-        return dataUtil.mapToJsonObject(result);
+        return dataUtil.mapToJsonObject(result);        
     }
 }
