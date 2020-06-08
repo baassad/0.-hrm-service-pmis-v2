@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-public class DataEmployeeController<T> {
+public class DataEmployeeController {
 
     @Autowired
     DataEmployeeService dataEmployeeService;
