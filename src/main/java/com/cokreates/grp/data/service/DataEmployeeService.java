@@ -25,28 +25,28 @@ public class DataEmployeeService {
         return dataUtil.mapToJsonObject(queryResult).toString();
     }
     public ResponseEntity<?> readNodeFromeDoc(JSONObject docObject){
+        String employeeOid = docObject.getString("employeeOid");
+        JSONArray nodePath = docObject.getJSONArray("nodePath");
+        
+        JSONObject employeeDoc = null;
         try {
-            String employeeOid = docObject.getString("employeeOid");
-            JSONArray nodePath = docObject.getJSONArray("nodePath");
-            
-            JSONObject employeeDoc = repository.getEmployeeDoc(employeeOid);
-            Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
-            Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
-            
-            JSONObject employeeBody = new JSONObject();
-            employeeBody.put("main", employeeMain);
-            employeeBody.put("temp", employeeTemp);
-
-            JSONObject resultObject = new JSONObject();
-            resultObject.put("body", employeeBody);
-            return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
-            
-            
+            employeeDoc = repository.getEmployeeDoc(employeeOid);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "Error at API: hrm/pmis/get/v1/node-in-emp-doc, " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }
+
+        Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
+        Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
         
+        JSONObject employeeBody = new JSONObject();
+        employeeBody.put("main", employeeMain);
+        employeeBody.put("temp", employeeTemp);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", employeeBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+                                
     }
 }
