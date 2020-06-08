@@ -17,10 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -47,28 +52,26 @@ public class DataEmployeeController<T> {
         return repository.getAllEmployees();
     }
 
-    @RequestMapping("/hrm/pmis/get/v1/emp")
+    @RequestMapping(value = "/hrm/pmis/get/v1/emp", method = RequestMethod.POST)
     @ResponseBody
-    public String getEmployee() {
-        String oid = "6e2637fa-cf8a-489d-92ab-18caaff9e3dd";
-        return repository.getEmployee(oid);
+    public String getEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        String response = dataEmployeeService.getEmployee(requestParam);
+        return response;
     }
 
-    @RequestMapping("hrm/pmis/get/v1/node-in-emp-doc")
-    @ResponseBody
-    public String getNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
+    @RequestMapping(value = "hrm/pmis/get/v1/node-in-emp-doc", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?>  getNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
+        try{
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        String employeeOid = jsonBody.getString("employeeOid");
-        JSONArray nodePath = jsonBody.getJSONArray("nodePath");
-        
-        JSONObject employeeDoc = repository.getEmployeeDoc(employeeOid);
-        Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
-        Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
-        JSONObject resultObject = new JSONObject();
-        resultObject.put("main", employeeMain);
-        resultObject.put("temp", employeeTemp);
-
-        return resultObject.toString();
+        String response =  dataEmployeeService.getNodeFromeDoc(jsonBody);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch(Exception ex){
+            String errorMessage;
+            errorMessage = "Error at API: hrm/pmis/get/v1/node-in-emp-doc, " + ex;
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/testing")
