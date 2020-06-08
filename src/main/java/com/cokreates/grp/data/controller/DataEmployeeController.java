@@ -1,22 +1,33 @@
 package com.cokreates.grp.data.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.data.util.DataUtil;
+import com.cokreates.grp.data.util.JsonUtil;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-public class DataEmployeeController {
+@Slf4j
+public class DataEmployeeController<T> {
 
     @Autowired
     DataEmployeeService dataEmployeeService;
@@ -26,6 +37,9 @@ public class DataEmployeeController {
 
     @Autowired
     DataUtil dataUtil;
+
+    @Autowired
+    JsonUtil jsonUtil;
 
     @RequestMapping("/hrm/pmis/get/v1/all-emp")
     @ResponseBody
@@ -55,5 +69,41 @@ public class DataEmployeeController {
         resultObject.put("temp", employeeTemp);
 
         return resultObject.toString();
+    }
+
+    @PostMapping("/testing")
+    @ResponseBody
+    public String testController(@RequestBody Map<String, Object> requestBody){
+
+        /**
+         * {
+            "body"	 : {
+                "nodePath" : [
+                    "1", "5", "7"
+                ],
+                "input" : {
+                    "id" : "12" ,
+                    "value" : "12310231"
+                }
+            }
+        }
+         */
+
+        String jsonString = "{\"1\" : {\"2\" : {\"3\" : 4}    , \"5\" : {\"6\" : [\"q\", \"s\"], \"7\" : [{\"id\" : \"2\", \"value\" : \"200\"},{\"id\" : \"3\", \"value\" : \"300\"},{\"id\" : \"6\", \"value\" : \"300\"}]} }}";
+        JSONObject destinationNode = new JSONObject(jsonString);
+
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        JSONObject inputNode = jsonBody.getJSONObject("input");
+        JSONArray nodePath = jsonBody.getJSONArray("nodePath");
+
+        // jsonUtil.updateNode(destinationNode, nodePath, inputNode);
+        // jsonUtil.listUpdateNode("id", destinationNode, nodePath, inputNode);
+        // jsonUtil.listAppendNode(destinationNode, nodePath, inputNode);
+        // jsonUtil.listRemoveNode("id", "6", destinationNode, nodePath);
+        // log.warn(jsonUtil.getJsonNode(destinationNode, nodePath).toString());
+        // log.warn(jsonUtil.getJsonArray(destinationNode, nodePath).toString());
+        // log.warn(jsonUtil.getNodeFromList("id", "6", destinationNode, nodePath).toString());
+
+        return destinationNode.toString();
     }
 }
