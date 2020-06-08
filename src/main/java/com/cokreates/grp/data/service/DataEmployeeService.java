@@ -39,6 +39,25 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
+    public ResponseEntity<?> readEmployeeDetails(JSONObject requestParam) {
+
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.readEmployeeDetails(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("main", employeeDoc);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
     public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParam){
         JSONObject employeeDoc = null;
         try {
@@ -60,7 +79,6 @@ public class DataEmployeeService {
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
-
     }
 
     public ResponseEntity<?> readFromApprovalHistoryByActor(JSONObject requestParameters){

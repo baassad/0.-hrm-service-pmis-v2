@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,35 @@ public class DataCustomRepository {
     }
 
     public JSONObject getEmployee(JSONObject queryParam) throws Exception {
-        String query = "select * from pmis where oid = '" + queryParam.getString("employeeOid") + "'";
+        String query =
+                "SELECT " +
+                    "* " +
+                "FROM " +
+                    "pmis " +
+                "WHERE " +
+                     "oid = '" + queryParam.getString("employeeOid") + "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
+    }
+
+    public JSONObject readEmployeeDetails(JSONObject queryParam) throws Exception {
+        String query =
+                "SELECT " +
+                    "p.employee_main->'personal'->'general' as general, " +
+                    "p.employee_office->'nodes' as nodes " +
+                "FROM " +
+                    "pmis p " +
+                "WHERE " +
+                    "p.oid = '" +
+                        queryParam.getString("employeeOid") +
+                    "'";
+        Map<String, Object> result = jdbcTemplate.queryForMap(query);
+
+//        for (Iterator<String> it = result.keySet().iterator(); it.hasNext();) {
+//            String key = it.next();
+//            System.out.println(result.get(key));
+//            System.out.println(result.get(key).toString().charAt(0));
+//        }
         return dataUtil.mapToJsonObject(result);
     }
 

@@ -33,6 +33,13 @@ public class DataEmployeeController {
         return dataEmployeeService.getEmployee(requestParam);
     }
 
+    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readEmployeeDetails(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readEmployeeDetails(requestParam);
+    }
+
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
