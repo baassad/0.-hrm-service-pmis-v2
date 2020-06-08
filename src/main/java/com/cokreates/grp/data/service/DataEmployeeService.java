@@ -1,7 +1,9 @@
 package com.cokreates.grp.data.service;
 
+import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.DataUtil;
+import com.cokreates.grp.data.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,37 +22,39 @@ public class DataEmployeeService {
     @Autowired
     DataUtil dataUtil;
 
+    @Autowired
+    JsonUtil jsonUtil;
+
+    
+
     public String getEmployee(JSONObject requestParam) {
         Map<String, Object> queryResult = repository.getEmployee(requestParam);
         return dataUtil.mapToJsonObject(queryResult).toString();
     }
 
-    public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject docObject){
-        String employeeOid = docObject.getString("employeeOid");
-        JSONArray nodePath = docObject.getJSONArray("nodePath");
-        
+    public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParam){
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readNodeFromEmployeeDoc(employeeOid);
+            employeeDoc = repository.readNodeFromEmployeeDoc(requestParam);
         } catch (Exception ex) {
             String errorMessage;
-            errorMessage = "Error at API: hrm/pmis/get/v1/node-in-emp-doc, " + ex;
+            errorMessage = "Error at API: " + Api.READ_NODE_FROM_EMPLOYEE_DOC
+                      + " Raised Exception: " + ex;
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }
 
-        Object employeeMain = dataUtil.getNode(employeeDoc.getJSONObject("employee_main"), nodePath);
-        Object employeeTemp = dataUtil.getNode(employeeDoc.getJSONObject("employee_temp"), nodePath);
+        Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
+        Object tempNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_temp"), requestParam.getJSONArray("nodePath"));
         
-        JSONObject employeeBody = new JSONObject();
-        employeeBody.put("main", employeeMain);
-        employeeBody.put("temp", employeeTemp);
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("main", mainNode);
+        responseBody.put("temp", tempNode);
 
         JSONObject resultObject = new JSONObject();
-        resultObject.put("body", employeeBody);
+        resultObject.put("body", responseBody);
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
                                 
     }
-
 
     public ResponseEntity<?> readFromApprovalHistoryByActor(JSONObject requestParameters){
         String actor = null;
@@ -69,9 +73,8 @@ public class DataEmployeeService {
             checkingStatus = "NOT ANY";
         }
 
-        
-
         JSONObject response = null;
+
         try {
             response = repository.readFromApprovalHistoryByActor(requestParameters);
         } catch (Exception ex) {
@@ -81,4 +84,28 @@ public class DataEmployeeService {
         }     
         return new ResponseEntity<> (response.toString(), HttpStatus.OK);  
     }
+
+	public ResponseEntity<?> readNodeInListFromEmployeeDoc(JSONObject requestParam) {
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.readNodeFromEmployeeDoc(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "Error at API: "+ Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC 
+                        + " Raised Exception: " + ex;
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        Object mainNode = jsonUtil.getNodeFromList("oid", requestParam.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
+        Object tempNode = jsonUtil.getNodeFromList("oid", requestParam.getString("nodeOid"), employeeDoc.getJSONObject("employee_temp"), requestParam.getJSONArray("nodePath"));
+        
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("main", mainNode);
+        responseBody.put("temp", tempNode);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
 }

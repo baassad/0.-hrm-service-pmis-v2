@@ -34,14 +34,4 @@ public class DataUtil {
         }
         return jsonObject;
     }
-
-    public Object getNode(JSONObject srcObject, JSONArray nodePath) {
-        JSONObject jsonObject = srcObject;
-        for (int i = 0; i < nodePath.length() - 1; i++) {
-
-            jsonObject = jsonObject.getJSONObject(nodePath.getString(i));
-        }
-        Object result = jsonObject.get(nodePath.getString(nodePath.length() - 1));
-        return result;
-    }
 }

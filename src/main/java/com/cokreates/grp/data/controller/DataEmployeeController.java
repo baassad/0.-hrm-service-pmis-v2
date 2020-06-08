@@ -60,6 +60,12 @@ public class DataEmployeeController {
         return dataEmployeeService.readNodeFromEmployeeDoc(jsonBody);
     }
 
+    @RequestMapping(value = Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readNodeInListFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        System.out.println(jsonBody.toString());
+        return dataEmployeeService.readNodeInListFromEmployeeDoc(jsonBody);
+    }
 
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 
                     method = RequestMethod.POST, 
