@@ -54,8 +54,10 @@ public class DataEmployeeController {
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        return dataEmployeeService.readNodeFromeDoc(jsonBody);
+        return dataEmployeeService.readNodeFromEmployeeDoc(jsonBody);
     }
+
+
 
     @PostMapping("/testing")
     @ResponseBody

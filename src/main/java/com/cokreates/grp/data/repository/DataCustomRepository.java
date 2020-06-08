@@ -39,7 +39,7 @@ public class DataCustomRepository {
         return result;
     }
 
-    public JSONObject getEmployeeDoc(String employeeOid) throws Exception {
+    public JSONObject readNodeFromEmployeeDoc(String employeeOid) throws Exception {
         // String query="insert into employee values('"+e.getId()+"','"+e.getName()+"','"+e.getSalary()+"')";  
         String query = "SELECT "
         + "p.employee_main as employee_main, "

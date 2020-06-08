@@ -24,13 +24,13 @@ public class DataEmployeeService {
         Map<String, Object> queryResult = repository.getEmployee(requestParam);
         return dataUtil.mapToJsonObject(queryResult).toString();
     }
-    public ResponseEntity<?> readNodeFromeDoc(JSONObject docObject){
+    public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject docObject){
         String employeeOid = docObject.getString("employeeOid");
         JSONArray nodePath = docObject.getJSONArray("nodePath");
         
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.getEmployeeDoc(employeeOid);
+            employeeDoc = repository.readNodeFromEmployeeDoc(employeeOid);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "Error at API: hrm/pmis/get/v1/node-in-emp-doc, " + ex;
