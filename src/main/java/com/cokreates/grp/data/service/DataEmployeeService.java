@@ -20,9 +20,6 @@ public class DataEmployeeService {
     DataCustomRepository repository;
 
     @Autowired
-    DataUtil dataUtil;
-
-    @Autowired
     JsonUtil jsonUtil;
 
     public ResponseEntity<?> getEmployee(JSONObject requestParam) {

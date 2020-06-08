@@ -31,21 +31,6 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
-    @Autowired
-    DataCustomRepository repository;
-
-    @Autowired
-    DataUtil dataUtil;
-
-    @Autowired
-    JsonUtil jsonUtil;
-
-    @RequestMapping("/hrm/pmis/get/v1/all-emp")
-    @ResponseBody
-    public String getAllEmployee() {
-        return repository.getAllEmployees();
-    }
-
     @RequestMapping(value = Api.GET_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> getEmployee(@RequestBody Map<String, Object> requestBody) {
