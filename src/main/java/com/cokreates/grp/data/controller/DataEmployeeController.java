@@ -3,16 +3,11 @@ package com.cokreates.grp.data.controller;
 
 import java.util.Map;
 import com.cokreates.grp.data.constants.Api;
-import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.service.DataEmployeeService;
-import com.cokreates.grp.data.util.DataUtil;
-import com.cokreates.grp.data.util.JsonUtil;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
