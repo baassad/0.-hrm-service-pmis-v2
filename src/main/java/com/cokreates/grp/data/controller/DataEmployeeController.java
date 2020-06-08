@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.data.util.DataUtil;
@@ -52,7 +53,7 @@ public class DataEmployeeController {
         return repository.getAllEmployees();
     }
 
-    @RequestMapping(value = "/hrm/pmis/get/v1/emp", method = RequestMethod.POST)
+    @RequestMapping(value = Api.GET_EMP, method = RequestMethod.POST)
     @ResponseBody
     public String getEmployee(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
@@ -60,7 +61,7 @@ public class DataEmployeeController {
         return response;
     }
 
-    @RequestMapping(value = "hrm/pmis/get/v1/node-in-emp-doc", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?>  getNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         try{
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
