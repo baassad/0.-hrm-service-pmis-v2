@@ -24,6 +24,7 @@ public class DataEmployeeService {
         Map<String, Object> queryResult = repository.getEmployee(requestParam);
         return dataUtil.mapToJsonObject(queryResult).toString();
     }
+
     public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject docObject){
         String employeeOid = docObject.getString("employeeOid");
         JSONArray nodePath = docObject.getJSONArray("nodePath");
@@ -48,5 +49,36 @@ public class DataEmployeeService {
         resultObject.put("body", employeeBody);
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
                                 
+    }
+
+
+    public ResponseEntity<?> readFromApprovalHistoryByActor(JSONObject requestParameters){
+        String actor = null;
+        String checkingStatus = null;
+
+        if (requestParameters.has("approverOid")){
+            actor = "approver";
+            checkingStatus = "REVIEWED";
+        }
+        else if (requestParameters.has("reviewerOid")){
+            actor = "reviewer";
+            checkingStatus = "REQUESTED";
+        }
+        else{
+            actor = "requester";
+            checkingStatus = "NOT ANY";
+        }
+
+        
+
+        JSONObject response = null;
+        try {
+            response = repository.readFromApprovalHistoryByActor(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }     
+        return new ResponseEntity<> (response.toString(), HttpStatus.OK);  
     }
 }

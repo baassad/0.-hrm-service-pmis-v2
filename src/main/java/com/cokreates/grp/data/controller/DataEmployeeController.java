@@ -1,4 +1,6 @@
 package com.cokreates.grp.data.controller;
+
+
 import java.util.Map;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataEmployeeController {
 
+    
     @Autowired
     DataEmployeeService dataEmployeeService;
 
@@ -56,6 +59,20 @@ public class DataEmployeeController {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
         return dataEmployeeService.readNodeFromEmployeeDoc(jsonBody);
     }
+
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistoryByActor(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByActor(jsonBody);
+        return response;
+    }
+
+
+    
 
 
 

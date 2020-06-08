@@ -116,7 +116,7 @@ public class JsonUtil {
         }
 
         JSONArray listOfValues = value.getJSONArray(nodePath.getString(nodePathSize - 1));
-        Object returnNode = null;
+        Object returnNode = new JSONObject();
 
         for (int i = 0; i < listOfValues.length(); i++) {
             JSONObject lvalue = listOfValues.getJSONObject(i);
