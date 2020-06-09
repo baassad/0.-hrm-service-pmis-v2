@@ -105,6 +105,54 @@ public class DataCustomRepository {
         return dataUtil.listToJsonArray(result);
     }
 
+    public JSONArray readMainEmployeeByOffice(JSONObject queryParam) throws Exception {
+
+        JSONArray officeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+
+        String officeOidListString = "\"" + officeOidList.getString(0) + "\"";
+        for (int i = 1; i < officeOidList.length(); i++) {
+            officeOidListString += " | \"" + officeOidList.getString(i) + "\"";
+        }
+
+        String query =
+                "SELECT " +
+                    "p.oid as oid, " +
+                    "p.employee_main->'personal'->'general' as general, " +
+                    "p.employee_office  -> 'nodes' as nodes " +
+                "FROM " +
+                    "pmis p " +
+                "WHERE " +
+                    "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%'";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+
+        return dataUtil.listToJsonArray(result);
+    }
+
+    public JSONArray readMainEmployeeByOidSet(JSONObject queryParam) throws Exception {
+
+        JSONArray employeeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
+
+        String employeeOidListString = "'" + employeeOidList.getString(0) + "'";
+        for (int i = 1; i < employeeOidList.length(); i++) {
+            employeeOidListString += ", '" + employeeOidList.getString(i) + "'";
+        }
+
+        String query =
+                "SELECT " +
+                        "p.oid as oid, " +
+                        "p.employee_main->'personal'->'general' as general, " +
+                        "p.employee_office  -> 'nodes' as nodes " +
+                        "FROM " +
+                        "pmis p " +
+                        "WHERE " +
+                        "p.oid in (" + employeeOidListString + ")";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+
+        return dataUtil.listToJsonArray(result);
+    }
+
     public JSONObject readNodeFromEmployeeDoc(JSONObject queryParams) throws Exception {
         
         String employeeOid = queryParams.getString("employeeOid");
@@ -320,6 +368,18 @@ public class DataCustomRepository {
                         +"'";
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
         return dataUtil.mapToJsonObject(result);
-    }
-    
+	}
+
+	public JSONArray getEmployeeOficeByOffice(JSONObject queryParams) {
+        String query = "SELECT  hrm.pmis.oid as oid, "
+                     + "hrm.pmis.employee_main->'personal'->'general' as general, "
+                     + "hrm.pmis.employee_office -> 'nodes' as employeeoffice "
+                     + "FROM hrm.pmis "   
+                     + "WHERE "  
+                     + "hrm.pmis.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *("
+                     + queryParams.getString("officeOidList")
+                     + ")%%'";
+        List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        return dataUtil.listToJsonArray(result);
+	}
 }

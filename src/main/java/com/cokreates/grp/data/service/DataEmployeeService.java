@@ -1,6 +1,7 @@
 package com.cokreates.grp.data.service;
 
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import org.json.JSONArray;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -23,6 +23,9 @@ public class DataEmployeeService {
 
     @Autowired
     JsonUtil jsonUtil;
+
+    @Autowired
+    DataHelper dataHelper;
 
     public ResponseEntity<?> getEmployee(JSONObject requestParams) {
 
@@ -84,7 +87,54 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("data", employeeDoc);
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<?> readMainEmployeeByOffice(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList").length() == 0)
+        {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readMainEmployeeByOffice(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> readMainEmployeeByOidSet(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList").length() == 0)
+        {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readMainEmployeeByOidSet(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
@@ -346,6 +396,7 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+
     }
     
 
@@ -375,5 +426,68 @@ public class DataEmployeeService {
         // return responseObject;
         return null;
     }
+	
+
+	public ResponseEntity<?> getEmployeeOficeByOffice(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String officeOidListFormatted = "";
+        for(int i =0; i< officeOidList.length() ; i++){
+            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
+        }
+        if (officeOidListFormatted.length() > 0){
+            officeOidListFormatted = officeOidListFormatted.substring(1);
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        requestParams.put("officeOidList", officeOidListFormatted);
+
+        JSONArray totalEmployeeOfficeList = null;
+
+        try {
+            totalEmployeeOfficeList = repository.getEmployeeOficeByOffice(requestParams);
+        } catch (Exception ex) {
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
+            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i); 
+            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
+            for(int j = 0; j < employeeOfficeList.length(); j++){
+                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
+                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
+                if (innerTotalEmployeeOfficeList.get("general") != null){
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
+                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
+                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
+                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
+                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
+                    }
+                }
+                if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
+                    resultData.put(employeeOffice);
+                }
+            }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+
 	
 }
