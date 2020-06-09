@@ -26,18 +26,34 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
-    @RequestMapping(value = Api.GET_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value = Api.GET_EMPLOYEE,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> getEmployee(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
         return dataEmployeeService.getEmployee(requestParam);
     }
 
-    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> readEmployeeDetails(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
         return dataEmployeeService.readEmployeeDetails(requestParam);
+    }
+
+    @RequestMapping(value = Api.READ_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readMainEmployeeByOfficeOfficeUnit(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readMainEmployeeByOfficeOfficeUnit(requestParam);
     }
 
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -83,6 +99,66 @@ public class DataEmployeeController {
     public ResponseEntity<?> readFromApprovalHistoryByActor(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
         ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByActor(jsonBody);
+        return response;
+    }
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_EMPLOYEE, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistoryByEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByEmployee(jsonBody);
+        return response;
+    }
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_STATUS, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistoryByStatus(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByStatus(jsonBody);
+        return response;
+    }
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistory(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = null;
+        if (jsonBody.has("employeeOid") && jsonBody.has("status")){
+            response = this.readFromApprovalHistoryByEmployeeAndStatus(requestBody);
+        }
+        else if (jsonBody.has("employeeOid")){
+            response = this.readFromApprovalHistoryByEmployee(requestBody);
+        }
+        else if (jsonBody.has("status")){
+            response = this.readFromApprovalHistoryByStatus(requestBody);
+        }
+        
+        return response;
+    }
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistoryByEmployeeAndStatus(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByEmployeeAndStatus(jsonBody);
+        return response;
+    }
+
+    @RequestMapping(value = Api.GET_EMPLOYEES, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> getEmployees(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.getEmployees(jsonBody);
         return response;
     }
 
