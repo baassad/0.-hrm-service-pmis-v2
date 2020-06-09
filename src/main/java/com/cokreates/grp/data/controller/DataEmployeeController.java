@@ -26,18 +26,34 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
-    @RequestMapping(value = Api.GET_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value = Api.GET_EMPLOYEE,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> getEmployee(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
         return dataEmployeeService.getEmployee(requestParam);
     }
 
-    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> readEmployeeDetails(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
         return dataEmployeeService.readEmployeeDetails(requestParam);
+    }
+
+    @RequestMapping(value = Api.READ_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readMainEmployeeByOfficeOfficeUnit(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readMainEmployeeByOfficeOfficeUnit(requestParam);
     }
 
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })

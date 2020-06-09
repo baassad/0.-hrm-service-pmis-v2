@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,12 +56,40 @@ public class DataCustomRepository {
                     "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
 
-//        for (Iterator<String> it = result.keySet().iterator(); it.hasNext();) {
-//            String key = it.next();
-//            System.out.println(result.get(key));
-//            System.out.println(result.get(key).toString().charAt(0));
-//        }
         return dataUtil.mapToJsonObject(result);
+    }
+
+
+    public JSONArray readMainEmployeeByOfficeOfficeUnit(JSONObject queryParam) throws Exception {
+
+        JSONArray officeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+
+        String officeOidListString = "\"" + officeOidList.getString(0) + "\"";
+        for (int i = 1; i < officeOidList.length(); i++) {
+            officeOidListString += " | \"" + officeOidList.getString(i) + "\"";
+        }
+
+        JSONArray officeUnitOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeUnitOidList");
+
+        String officeUnitOidListString = "\"" + officeUnitOidList.getString(0) + "\"";
+        for (int i = 1; i < officeUnitOidList.length(); i++) {
+            officeUnitOidListString += " | \"" + officeUnitOidList.getString(i) + "\"";
+        }
+        String query =
+        "SELECT " +
+            "p.oid as oid, " +
+            "p.employee_main->'personal'->'general' as general, " +
+            "p.employee_office  -> 'nodes' as nodes " +
+        "FROM " +
+            "pmis p " +
+        "WHERE " +
+            "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%' " +
+            "AND " +
+            "p.employee_office  ->> 'nodes' similar  to '%%\"officeUnitOid\" *: *(" + officeUnitOidListString + ")%%'";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+
+        return dataUtil.listToJsonArray(result);
     }
 
     public JSONObject readNodeFromEmployeeDoc(JSONObject queryParams) throws Exception {
