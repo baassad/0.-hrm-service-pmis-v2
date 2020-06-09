@@ -1,9 +1,13 @@
 package com.cokreates.grp.beans.organogramDTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OfficeDTO  {
 
     private String oid;
@@ -17,6 +21,7 @@ public class OfficeDTO  {
     private String officeLayerOid;
     private String stakeholderOid;
     private String isRootOffice;
+    private String goCode;
     
     private OfficeLayerDTO officeLayer;
 
