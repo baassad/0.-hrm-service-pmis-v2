@@ -1,7 +1,5 @@
 package com.cokreates.grp.data.service;
 
-import java.util.Arrays;
-
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
@@ -15,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
