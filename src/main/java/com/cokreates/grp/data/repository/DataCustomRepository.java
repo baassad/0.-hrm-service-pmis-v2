@@ -2,6 +2,7 @@ package com.cokreates.grp.data.repository;
 
 import com.cokreates.grp.data.util.DataUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,9 +65,9 @@ public class DataCustomRepository {
         return dataUtil.mapToJsonObject(result);
     }
 
-    public JSONObject readNodeFromEmployeeDoc(JSONObject requestParam) throws Exception {
+    public JSONObject readNodeFromEmployeeDoc(JSONObject queryParams) throws Exception {
         
-        String employeeOid = requestParam.getString("employeeOid");
+        String employeeOid = queryParams.getString("employeeOid");
         
         String query = "SELECT "
         + "p.employee_main as employee_main, "
@@ -103,15 +104,38 @@ public class DataCustomRepository {
         return dataUtil.mapToJsonObject(result);        
     }
 
-	public JSONObject getEmployeeOfice(JSONObject requestParam) {
+	public JSONObject getEmployeeOfice(JSONObject queryParams) {
         String query = "SELECT p.employee_office->'nodes' as nodes "
                         + "from hrm.pmis p " 
                         + "where "
                         + "p.oid = '"
-                        + requestParam.getString("employeeOid")
+                        + queryParams.getString("employeeOid")
                         + "'";
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
         
         return dataUtil.mapToJsonObject(result); 
+	}
+
+    public JSONArray readEmployeeByOffice(JSONObject queryParams) {
+        String query = "SELECT hrm.pmis.oid as oid "
+                        + "FROM hrm.pmis "
+                        + "WHERE " 
+                        + "hrm.pmis.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *("
+                        + queryParams.getString("officeOidList")
+                        + ")%%'";
+        List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        
+        return dataUtil.listToJsonArray(result); 
+	}
+
+	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
+        String query = "SELECT  p.employee_office -> 'nodes' as office "
+                        + "FROM hrm.pmis p "
+                        + "WHERE "  
+                        + "p.oid = '"
+                        + queryParams.getString("employeeOid")
+                        +"'";
+        Map <String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
 	}
 }

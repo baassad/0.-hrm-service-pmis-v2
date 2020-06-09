@@ -3,6 +3,8 @@ package com.cokreates.grp.data.service;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,11 @@ public class DataEmployeeService {
     @Autowired
     JsonUtil jsonUtil;
 
-    public ResponseEntity<?> getEmployee(JSONObject requestParam) {
+    public ResponseEntity<?> getEmployee(JSONObject requestParams) {
 
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.getEmployee(requestParam);
+            employeeDoc = repository.getEmployee(requestParams);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
@@ -39,11 +41,11 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> readEmployeeDetails(JSONObject requestParam) {
+    public ResponseEntity<?> readEmployeeDetails(JSONObject requestParams) {
 
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readEmployeeDetails(requestParam);
+            employeeDoc = repository.readEmployeeDetails(requestParams);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
@@ -58,19 +60,19 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParam){
+    public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParams){
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readNodeFromEmployeeDoc(requestParam);
+            employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            String errorMessage;
-            errorMessage = "Error at API: " + Api.READ_NODE_FROM_EMPLOYEE_DOC
-                      + " Raised Exception: " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
-        Object tempNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_temp"), requestParam.getJSONArray("nodePath"));
+        Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
+        Object tempNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_temp"), requestParams.getJSONArray("nodePath"));
         
         JSONObject responseBody = new JSONObject();
         responseBody.put("main", mainNode);
@@ -110,19 +112,19 @@ public class DataEmployeeService {
         return new ResponseEntity<> (response.toString(), HttpStatus.OK);  
     }
 
-	public ResponseEntity<?> readNodeInListFromEmployeeDoc(JSONObject requestParam) {
+	public ResponseEntity<?> readNodeInListFromEmployeeDoc(JSONObject requestParams) {
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readNodeFromEmployeeDoc(requestParam);
+            employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            String errorMessage;
-            errorMessage = "Error at API: "+ Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC 
-                        + " Raised Exception: " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Object mainNode = jsonUtil.getNodeFromList("oid", requestParam.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
-        Object tempNode = jsonUtil.getNodeFromList("oid", requestParam.getString("nodeOid"), employeeDoc.getJSONObject("employee_temp"), requestParam.getJSONArray("nodePath"));
+        Object mainNode = jsonUtil.getNodeFromList("oid", requestParams.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
+        Object tempNode = jsonUtil.getNodeFromList("oid", requestParams.getString("nodeOid"), employeeDoc.getJSONObject("employee_temp"), requestParams.getJSONArray("nodePath"));
         
         JSONObject responseBody = new JSONObject();
         responseBody.put("main", mainNode);
@@ -134,15 +136,15 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> getEmployeeOfice(JSONObject requestParam) {
+	public ResponseEntity<?> getEmployeeOfice(JSONObject requestParams) {
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.getEmployeeOfice(requestParam);
+            employeeDoc = repository.getEmployeeOfice(requestParams);
         } catch (Exception ex) {
-            String errorMessage;
-            errorMessage = "Error at API: " + Api.GET_EMPLOYEE_OFFICE
-                      + " Raised Exception: " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -152,5 +154,75 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+    
+    public ResponseEntity<?> readEmployeeByOffice(JSONObject requestParams) {
+        
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String officeOidListFormatted = "";
+        for(int i =0; i< officeOidList.length() ; i++){
+            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
+        }
+        if (officeOidListFormatted.length() > 0){
+            officeOidListFormatted = officeOidListFormatted.substring(1);
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        requestParams.put("officeOidList", officeOidListFormatted);
+
+		JSONArray oidList = null;
+        try {
+            oidList = repository.readEmployeeByOffice(requestParams);
+        } catch (Exception ex) {
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", oidList);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+    
+	public ResponseEntity<?> readOfficeByEmployee(JSONObject requestParams) {
+        JSONObject requestParamsOid = new JSONObject();
+        String permissionType = null;
+        if (requestParams.has("reviewerOid")){
+            requestParamsOid.put("employeeOid", requestParams.get("reviewerOid"));
+            permissionType = "reviewerOfOffice";
+        }
+        else if (requestParams.has("approverOid")){
+            requestParamsOid.put("employeeOid", requestParams.get("approverOid"));
+            permissionType = "approverOfOffice";
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
+        } catch (Exception ex) {
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", employeeDoc.get("office"));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
+	
 }
