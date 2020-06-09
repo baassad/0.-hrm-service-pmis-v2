@@ -1,6 +1,7 @@
 package com.cokreates.grp.data.helper;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,5 +24,16 @@ public class DataHelper {
         }
 
         return employeeDoc;
+    }
+
+    public JSONArray formatEmployeeNodes(JSONArray employeeDoc) {
+        JSONArray items = new JSONArray();
+        for (int i = 0; i < employeeDoc.length(); i++)
+        {
+            JSONObject node = employeeDoc.getJSONObject(i).getJSONObject("node");
+            node.put("oid", employeeDoc.getJSONObject(i).getString("oid"));
+            items.put(node);
+        }
+        return items;
     }
 }
