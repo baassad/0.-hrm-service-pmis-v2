@@ -56,6 +56,26 @@ public class DataEmployeeController {
         return dataEmployeeService.readMainEmployeeByOfficeOfficeUnit(requestParam);
     }
 
+    @RequestMapping(value = Api.READ_MAIN_EMPLOYEE_BY_OFFICE,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readMainEmployeeByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readMainEmployeeByOffice(requestParam);
+    }
+
+    @RequestMapping(value = Api.READ_MAIN_EMPLOYEE_BY_OID_SET,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readMainEmployeeByOidSet(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readMainEmployeeByOidSet(requestParam);
+    }
+
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");

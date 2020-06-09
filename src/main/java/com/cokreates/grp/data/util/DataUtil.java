@@ -3,10 +3,7 @@ package com.cokreates.grp.data.util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-
-import jdk.internal.jline.internal.Log;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

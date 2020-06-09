@@ -3,6 +3,7 @@ package com.cokreates.grp.data.service;
 import java.util.Arrays;
 
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import org.json.JSONArray;
@@ -25,6 +26,9 @@ public class DataEmployeeService {
 
     @Autowired
     JsonUtil jsonUtil;
+
+    @Autowired
+    DataHelper dataHelper;
 
     public ResponseEntity<?> getEmployee(JSONObject requestParams) {
 
@@ -86,7 +90,54 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("data", employeeDoc);
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<?> readMainEmployeeByOffice(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList").length() == 0)
+        {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readMainEmployeeByOffice(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> readMainEmployeeByOidSet(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList").length() == 0)
+        {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readMainEmployeeByOidSet(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", dataHelper.formatEmployeeDoc(employeeDoc));
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
