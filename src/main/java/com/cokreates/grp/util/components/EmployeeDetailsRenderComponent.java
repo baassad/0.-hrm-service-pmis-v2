@@ -39,8 +39,21 @@ public class EmployeeDetailsRenderComponent {
         ResponseModel<EmployeeInformationDTO> organogramResponse = organogramClient.getEmployeeInformationFromOrganogram(organogramRequest);
 
         List<EmployeeInformationDTO> employeeInformationDTOS = organogramResponse.getBody().getData();
+
+        int informationIndex = 0;
+
+        /*for(EmployeeInformationDTO employeeInformationDTO : employeeInformationDTOS){
+
+            if(employeeInformationDTO.getResponsibilityType().equalsIgnoreCase("Not Assigned")){
+                employeeInformationDTOS.remove(employeeInformationDTO);
+                break;
+            }
+
+        }*/
+
         if(employeeInformationDTOS.size() > 0) {
-            EmployeeInformationDTO employeeInformationDTO = employeeInformationDTOS.get(0);
+            EmployeeInformationDTO employeeInformationDTO = employeeInformationDTOS.get(informationIndex);
+
             BeanUtils.copyProperties(employeeInformationDTO, employeeCreationDTO);
             employeeCreationDTO.setPhone(employeeInformationDTO.getMobileNo());
 

@@ -350,6 +350,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         List<EmployeeOfficeDTO> employeeOfficeDTOS = employeeOfficeResponse.getBody().getData();
 
+        for(EmployeeOfficeDTO employeeOfficeDTO:employeeOfficeDTOS){
+            if (employeeOfficeDTO.getResponsibilityType().equalsIgnoreCase("Not Assigned")){
+                employeeOfficeDTOS.remove(employeeOfficeDTO);
+                break;
+            }
+
+        }
+
         if(employeeOfficeDTOS.size() > 0){
             EmployeeOfficeDTO employeeOfficeDTO = employeeOfficeDTOS.get(0);
 
@@ -358,10 +366,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
             employeeCreationDTO.setOid(employeeOid);
             employeeCreationDTO.setEmployeeOfficeOid(employeeOfficeDTO.getOid());
 
-             request = getRequestBuildingComponent().getRequestForImport(employeeCreationDTO,employeeCreationDTO.getOid());
+            request = getRequestBuildingComponent().getRequestForImport(employeeCreationDTO,employeeCreationDTO.getOid());
 
-             response = dataServiceClient.importEmployee(request);
+            response = dataServiceClient.importEmployee(request);
 
+        }else {
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setOid(null);
+            return employeeDTO;
         }
 
         DataServiceRequest<EmployeeOfficeDTO> appendRequest;
