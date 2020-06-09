@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,15 +32,42 @@ public class DataCustomRepository {
         return dataUtil.listToJsonArray(result).toString();
     }
 
-    public Map<String, Object> getEmployee(JSONObject queryParam) {
-        String query = "select * from pmis where oid = '" + queryParam.getString("employeeOid") + "'";
+    public JSONObject getEmployee(JSONObject queryParam) throws Exception {
+        String query =
+                "SELECT " +
+                    "* " +
+                "FROM " +
+                    "pmis " +
+                "WHERE " +
+                     "oid = '" + queryParam.getString("employeeOid") + "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
-        return result;
+        return dataUtil.mapToJsonObject(result);
     }
 
-    public JSONObject readNodeFromEmployeeDoc(JSONObject requestParam) throws Exception {
+    public JSONObject readEmployeeDetails(JSONObject queryParam) throws Exception {
+        String query =
+                "SELECT " +
+                    "p.employee_main->'personal'->'general' as general, " +
+                    "p.employee_office->'nodes' as nodes " +
+                "FROM " +
+                    "pmis p " +
+                "WHERE " +
+                    "p.oid = '" +
+                        queryParam.getString("employeeOid") +
+                    "'";
+        Map<String, Object> result = jdbcTemplate.queryForMap(query);
+
+//        for (Iterator<String> it = result.keySet().iterator(); it.hasNext();) {
+//            String key = it.next();
+//            System.out.println(result.get(key));
+//            System.out.println(result.get(key).toString().charAt(0));
+//        }
+        return dataUtil.mapToJsonObject(result);
+    }
+
+    public JSONObject readNodeFromEmployeeDoc(JSONObject queryParams) throws Exception {
         
-        String employeeOid = requestParam.getString("employeeOid");
+        String employeeOid = queryParams.getString("employeeOid");
         
         String query = "SELECT "
         + "p.employee_main as employee_main, "
@@ -165,7 +192,6 @@ public class DataCustomRepository {
         return resultArray;
     }
 
-
     public JSONArray readFromApprovalHistoryByEmployeeAndStatus(JSONObject queryParameters) throws Exception {
 
         String employeeOid = queryParameters.getString("employeeOid");
@@ -249,9 +275,39 @@ public class DataCustomRepository {
 
 
     
+	public JSONObject getEmployeeOfice(JSONObject queryParams) {
+        String query = "SELECT p.employee_office->'nodes' as nodes "
+                        + "from hrm.pmis p " 
+                        + "where "
+                        + "p.oid = '"
+                        + queryParams.getString("employeeOid")
+                        + "'";
+        Map <String, Object> result = jdbcTemplate.queryForMap(query);
+        
+        return dataUtil.mapToJsonObject(result); 
+	}
 
+    public JSONArray readEmployeeByOffice(JSONObject queryParams) {
+        String query = "SELECT hrm.pmis.oid as oid "
+                        + "FROM hrm.pmis "
+                        + "WHERE " 
+                        + "hrm.pmis.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *("
+                        + queryParams.getString("officeOidList")
+                        + ")%%'";
+        List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        
+        return dataUtil.listToJsonArray(result); 
+	}
 
+	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
+        String query = "SELECT  p.employee_office -> 'nodes' as office "
+                        + "FROM hrm.pmis p "
+                        + "WHERE "  
+                        + "p.oid = '"
+                        + queryParams.getString("employeeOid")
+                        +"'";
+        Map <String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
+    }
     
-
-
 }

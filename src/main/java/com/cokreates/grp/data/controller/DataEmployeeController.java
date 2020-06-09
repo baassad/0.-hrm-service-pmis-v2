@@ -3,16 +3,11 @@ package com.cokreates.grp.data.controller;
 
 import java.util.Map;
 import com.cokreates.grp.data.constants.Api;
-import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.service.DataEmployeeService;
-import com.cokreates.grp.data.util.DataUtil;
-import com.cokreates.grp.data.util.JsonUtil;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,27 +26,18 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
-    @Autowired
-    DataCustomRepository repository;
-
-    @Autowired
-    DataUtil dataUtil;
-
-    @Autowired
-    JsonUtil jsonUtil;
-
-    @RequestMapping("/hrm/pmis/get/v1/all-emp")
+    @RequestMapping(value = Api.GET_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
-    public String getAllEmployee() {
-        return repository.getAllEmployees();
+    public ResponseEntity<?> getEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.getEmployee(requestParam);
     }
 
-    @RequestMapping(value = Api.GET_EMP, method = RequestMethod.POST)
+    @RequestMapping(value = Api.READ_EMPLOYEE_DETAILS, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
-    public String getEmployee(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> readEmployeeDetails(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
-        String response = dataEmployeeService.getEmployee(requestParam);
-        return response;
+        return dataEmployeeService.readEmployeeDetails(requestParam);
     }
 
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -63,8 +49,25 @@ public class DataEmployeeController {
     @RequestMapping(value = Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeInListFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        System.out.println(jsonBody.toString());
         return dataEmployeeService.readNodeInListFromEmployeeDoc(jsonBody);
+    }
+
+    @RequestMapping(value = Api.GET_EMPLOYEE_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> getEmployeeOfice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.getEmployeeOfice(jsonBody);
+    }
+
+    @RequestMapping(value = Api.READ_EMPLOYEE_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readEmployeeByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readEmployeeByOffice(jsonBody);
+    }
+
+    @RequestMapping(value = Api.READ_OFFICE_BY_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readOfficeByEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readOfficeByEmployee(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 

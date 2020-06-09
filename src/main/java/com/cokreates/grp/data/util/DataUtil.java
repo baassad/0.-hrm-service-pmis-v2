@@ -29,11 +29,15 @@ public class DataUtil {
         for (Iterator<String> it = objectMap.keySet().iterator(); it.hasNext();) {
             String key = it.next();
             if (objectMap.get(key) != null) {
-                Object value = objectMap.get(key);
-                if (value instanceof String) {
-                    jsonObject.put(key, value.toString());
-                } else {
-                    jsonObject.put(key, new JSONObject(value.toString()));
+                String value = objectMap.get(key).toString();
+                if (value.charAt(0) == '{') {
+                    jsonObject.put(key, new JSONObject(value));
+                }
+                else if (value.charAt(0) == '[') {
+                    jsonObject.put(key, new JSONArray(value));
+                }
+                else {
+                    jsonObject.put(key, value);
                 }
             }
         }

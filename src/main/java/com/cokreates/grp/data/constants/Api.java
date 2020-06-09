@@ -5,7 +5,7 @@ public interface Api {
     String CREATE_EMP = "/hrm/pmis/create/v1/emp";
     String IMPORT_EMP = "/hrm/pmis/import/v1/emp";
 
-    String GET_EMP = "/hrm/pmis/get/v1/emp";
+    String GET_EMPLOYEE = "/hrm/pmis/get/v1/emp";
     String GET_EMPLOYEE_OFFICE = "/hrm/pmis/get/v1/employee-office";
     String READ_NODE_FROM_EMPLOYEE_DOC = "/hrm/pmis/get/v1/node-in-emp-doc";
     String READ_NODE_FROM_EMPLOYEE_DOC_BY_OID_SET = "/hrm/pmis/get/v1/node-in-emp-doc-by-oid-set";
