@@ -129,9 +129,8 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }     
 
-        return null;
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        return responseObject;
     }
 
 
@@ -146,9 +145,9 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }     
 
-        return null;
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+
+        return responseObject;
     }
 
 
@@ -163,9 +162,9 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }     
 
-        return null;
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+
+        return responseObject;
     }
 
 
@@ -180,9 +179,9 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }     
 
-        return null;
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+
+        return responseObject;
     }
 
 
@@ -203,9 +202,9 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }     
 
-        return null;
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+
+        return responseObject;
     }
 
 

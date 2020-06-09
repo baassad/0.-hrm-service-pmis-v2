@@ -110,10 +110,6 @@ public class DataCustomRepository {
         query += " and p.is_deleted = 'No'\n";
 
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
-
-        for (Map<String, Object> result : resultList){
-            log.warn(dataUtil.mapToJsonObject(result).toString());
-        }
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
@@ -143,13 +139,7 @@ public class DataCustomRepository {
                     + " p.employee_oid = '" + employeeOid + "'"
                     + " and p.is_deleted = 'No'";
 
-        log.warn(query);
-
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
-
-        for (Map<String, Object> result : resultList){
-            log.warn(result.toString());
-        }
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
@@ -179,13 +169,7 @@ public class DataCustomRepository {
                     + " p.status = '" + status + "'"
                     + " and p.is_deleted = 'No'";
 
-        log.warn(query);
-
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
-
-        for (Map<String, Object> result : resultList){
-            log.warn(result.toString());
-        }
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
@@ -216,13 +200,7 @@ public class DataCustomRepository {
                     + " and p.status = '" + status + "'"
                     + " and p.is_deleted = 'No'";
 
-        log.warn(query);
-
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
-
-        for (Map<String, Object> result : resultList){
-            log.warn(result.toString());
-        }
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
@@ -259,15 +237,9 @@ public class DataCustomRepository {
                     +  " FROM hrm.pmis \n"
                     +  " WHERE \n"
                     +  aggregatedCondition;
-    
-        log.warn(query);
 
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
 
-        for (Map<String, Object> result : resultList){
-            log.warn(result.toString());
-        }
-        
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
         return resultArray;
