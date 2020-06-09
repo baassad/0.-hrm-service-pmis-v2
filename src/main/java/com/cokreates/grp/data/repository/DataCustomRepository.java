@@ -5,9 +5,14 @@ import com.cokreates.grp.data.util.DataUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +26,14 @@ public class DataCustomRepository {
 
     @Autowired
     DataUtil dataUtil;
+
+
+    @Transactional
+    public void performTransaction(List<String> queryList){
+        for(int i = 0 ; i < queryList.size(); i++){
+            jdbcTemplate.queryForMap(queryList.get(i));
+        }
+    }
 
 
     public String getAllEmployees() {

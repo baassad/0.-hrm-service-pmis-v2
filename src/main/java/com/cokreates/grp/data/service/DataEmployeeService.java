@@ -346,6 +346,34 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
-	}
+    }
+    
+
+    public ResponseEntity<?> updateNodeInDocumentForRequest(JSONObject requestParameters){
+        JSONObject inputNode        = requestParameters.getJSONObject("node");
+        JSONArray nodePath          = requestParameters.getJSONArray("nodePath");
+        String employeeOid          = requestParameters.getString("employeeOid");
+        JSONObject requesterComment = requestParameters.getJSONObject("comment");
+
+        JSONObject employeeDoc      = null;
+
+        try {
+            employeeDoc = repository.getEmployee(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }     
+
+        JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
+        JSONObject mainNode = (JSONObject) jsonUtil.getJsonNode(mainDoc, nodePath);
+
+        String queryNodeUpdate = null;
+        String queryApprovalHistoryInsert = null;
+
+        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        // return responseObject;
+        return null;
+    }
 	
 }

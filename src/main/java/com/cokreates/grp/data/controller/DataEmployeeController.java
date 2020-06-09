@@ -157,6 +157,17 @@ public class DataEmployeeController {
     }
 
 
+    @RequestMapping(value = Api.UPDATE_NODE_IN_DOCUMENT_FOR_REQUEST, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> updateNodeInDocumentForRequest(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.updateNodeInDocumentForRequest(jsonBody);
+        return response;
+    }
+
+
     
 
 
