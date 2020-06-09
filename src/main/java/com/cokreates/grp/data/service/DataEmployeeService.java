@@ -66,7 +66,7 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = "Error at API: " + Api.READ_NODE_FROM_EMPLOYEE_DOC
                       + " Raised Exception: " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
@@ -118,7 +118,7 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = "Error at API: "+ Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC 
                         + " Raised Exception: " + ex;
-            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         Object mainNode = jsonUtil.getNodeFromList("oid", requestParam.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParam.getJSONArray("nodePath"));
@@ -127,6 +127,26 @@ public class DataEmployeeService {
         JSONObject responseBody = new JSONObject();
         responseBody.put("main", mainNode);
         responseBody.put("temp", tempNode);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getEmployeeOfice(JSONObject requestParam) {
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.getEmployeeOfice(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "Error at API: " + Api.GET_EMPLOYEE_OFFICE
+                      + " Raised Exception: " + ex;
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("main", employeeDoc.get("nodes"));
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);

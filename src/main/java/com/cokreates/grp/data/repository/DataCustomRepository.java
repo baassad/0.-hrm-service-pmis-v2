@@ -102,4 +102,16 @@ public class DataCustomRepository {
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
         return dataUtil.mapToJsonObject(result);        
     }
+
+	public JSONObject getEmployeeOfice(JSONObject requestParam) {
+        String query = "SELECT p.employee_office->'nodes' as nodes "
+                        + "from hrm.pmis p " 
+                        + "where "
+                        + "p.oid = '"
+                        + requestParam.getString("employeeOid")
+                        + "'";
+        Map <String, Object> result = jdbcTemplate.queryForMap(query);
+        
+        return dataUtil.mapToJsonObject(result); 
+	}
 }
