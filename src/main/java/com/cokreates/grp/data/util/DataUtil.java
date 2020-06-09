@@ -4,17 +4,22 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import jdk.internal.jline.internal.Log;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class DataUtil {
 
     public JSONArray listToJsonArray(List<Map<String, Object>> objectList) {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < objectList.size(); i++) {
-            jsonArray.put(mapToJsonObject(objectList.get(i)));
+            JSONObject object = mapToJsonObject(objectList.get(i));
+            jsonArray.put(object);
         }
         return jsonArray;
     }
@@ -34,4 +39,5 @@ public class DataUtil {
         }
         return jsonObject;
     }
+
 }

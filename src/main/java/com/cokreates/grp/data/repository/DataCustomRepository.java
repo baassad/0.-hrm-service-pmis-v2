@@ -2,12 +2,14 @@ package com.cokreates.grp.data.repository;
 
 import com.cokreates.grp.data.util.DataUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,26 +54,204 @@ public class DataCustomRepository {
         return dataUtil.mapToJsonObject(result);        
     }
 
-    public JSONObject readFromApprovalHistoryByActor(JSONObject queryParameters) throws Exception {
-        String actor = null;
-        String query = "SELECT "
-        + "p.oid as oid,"
-        + "p.employee_oid as employeeOid,"
-        + "p.status as status,"
-        + "p.change as change,"
-        + "p.change_type as changeType,"
-        + "p.comment as comment,"
-        + "p.created_by as createdBy,"
-        + "p.created_on as createdOn,"
-        + "p.updated_by as updatedBy,"
-        + "p.updated_on as updatedOn,"
-        + "p.is_deleted as isDeleted"
-        + "FROM"
-        + "hrm.pmis p"
-        + "WHERE"
-        + "(p.comment -> '{actor}' @> '{json.dumps(query_params)}'::jsonb";
+    public JSONArray readFromApprovalHistoryByActor(JSONObject queryParameters, String actor, String checkingStatus,
+            String employeeOids) throws Exception {
 
-        Map <String, Object> result = jdbcTemplate.queryForMap(query);
-        return dataUtil.mapToJsonObject(result);        
+        String query = "SELECT \n"
+                    + " p.oid as oid, \n"
+                    + " p.employee_oid as employeeOid, \n"
+                    + " p.status as status, \n"
+                    + " p.change as change, \n"
+                    + " p.change_type as changeType, \n"
+                    + " p.comment as comment, \n"
+                    + " p.created_by as createdBy, \n"
+                    + " p.created_on as createdOn, \n"
+                    + " p.updated_by as updatedBy, \n"
+                    + " p.updated_on as updatedOn, \n"
+                    + " p.is_deleted as isDeleted \n"
+                    + " FROM \n"
+                    + " hrm.pmis_approval_history p \n"
+                    + " WHERE \n"
+                    + " (p.comment -> '" + actor + "' @> '"+ queryParameters.toString() +"'::jsonb \n";
+
+        if (!employeeOids.equals("()") && !checkingStatus.equals("NOT ANY")){
+            query += " or (p.employee_oid in \n" 
+                    + employeeOids 
+                    + " and p.status = '"+ checkingStatus +"')) \n";
+        }
+
+        query += " and p.is_deleted = 'No'\n";
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        for (Map<String, Object> result : resultList){
+            log.warn(dataUtil.mapToJsonObject(result).toString());
+        }
+        
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        return resultArray;
     }
+
+
+    public JSONArray readFromApprovalHistoryByEmployee(JSONObject queryParameters) throws Exception {
+
+        String employeeOid = queryParameters.getString("employeeOid");
+
+        String query = "SELECT \n"
+                    + " p.oid as oid, \n"
+                    + " p.employee_oid as employeeOid, \n"
+                    + " p.status as status, \n"
+                    + " p.change as change, \n"
+                    + " p.change_type as changeType, \n"
+                    + " p.comment as comment, \n"
+                    + " p.created_by as createdBy, \n"
+                    + " p.created_on as createdOn, \n"
+                    + " p.updated_by as updatedBy, \n"
+                    + " p.updated_on as updatedOn, \n"
+                    + " p.is_deleted as isDeleted \n"
+                    + " FROM \n"
+                    + " hrm.pmis_approval_history p \n"
+                    + " WHERE \n"
+                    + " p.employee_oid = '" + employeeOid + "'"
+                    + " and p.is_deleted = 'No'";
+
+        log.warn(query);
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        for (Map<String, Object> result : resultList){
+            log.warn(result.toString());
+        }
+        
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        return resultArray;
+    }
+
+
+    public JSONArray readFromApprovalHistoryByStatus(JSONObject queryParameters) throws Exception {
+
+        String status = queryParameters.getString("status");
+
+        String query = "SELECT \n"
+                    + " p.oid as oid, \n"
+                    + " p.employee_oid as employeeOid, \n"
+                    + " p.status as status, \n"
+                    + " p.change as change, \n"
+                    + " p.change_type as changeType, \n"
+                    + " p.comment as comment, \n"
+                    + " p.created_by as createdBy, \n"
+                    + " p.created_on as createdOn, \n"
+                    + " p.updated_by as updatedBy, \n"
+                    + " p.updated_on as updatedOn, \n"
+                    + " p.is_deleted as isDeleted \n"
+                    + " FROM \n"
+                    + " hrm.pmis_approval_history p \n"
+                    + " WHERE \n"
+                    + " p.status = '" + status + "'"
+                    + " and p.is_deleted = 'No'";
+
+        log.warn(query);
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        for (Map<String, Object> result : resultList){
+            log.warn(result.toString());
+        }
+        
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        return resultArray;
+    }
+
+
+    public JSONArray readFromApprovalHistoryByEmployeeAndStatus(JSONObject queryParameters) throws Exception {
+
+        String employeeOid = queryParameters.getString("employeeOid");
+        String status = queryParameters.getString("status");
+
+        String query = "SELECT \n"
+                    + " p.oid as oid, \n"
+                    + " p.employee_oid as employeeOid, \n"
+                    + " p.status as status, \n"
+                    + " p.change as change, \n"
+                    + " p.change_type as changeType, \n"
+                    + " p.comment as comment, \n"
+                    + " p.created_by as createdBy, \n"
+                    + " p.created_on as createdOn, \n"
+                    + " p.updated_by as updatedBy, \n"
+                    + " p.updated_on as updatedOn, \n"
+                    + " p.is_deleted as isDeleted \n"
+                    + " FROM \n"
+                    + " hrm.pmis_approval_history p \n"
+                    + " WHERE \n"
+                    + " p.employee_oid = '" + employeeOid + "'"
+                    + " and p.status = '" + status + "'"
+                    + " and p.is_deleted = 'No'";
+
+        log.warn(query);
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        for (Map<String, Object> result : resultList){
+            log.warn(result.toString());
+        }
+        
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        return resultArray;
+    }
+
+
+    public JSONArray getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPost(JSONObject queryParameters, String category) throws Exception {
+        String fieldFromCategory = null;
+
+        if (category.equals("OFFICE")){
+            fieldFromCategory = "officeOid";
+        }
+        else if (category.equals("OFFICE_UNIT")){
+            fieldFromCategory = "officeUnitOid";
+        }
+        else if (category.equals("OFFICE_UNIT_POST")){
+            fieldFromCategory = "officeUnitPostOid";
+        }
+
+        JSONArray listOfOid = queryParameters.getJSONArray("listOfOid");
+        List<String> conditionElemets = new ArrayList<>();
+        String aggregatedCondition = "";
+        
+        for(int i = 0; i < listOfOid.length(); i++){
+            String oid = listOfOid.getString(i);
+            String condition = " employee_office->'nodes' @> '[{\"" + fieldFromCategory + "\":\"" + oid + "\",\"status\":\"Active\"}]' \n";
+            conditionElemets.add(condition);
+        }
+
+        aggregatedCondition = String.join(" or ", conditionElemets);
+
+        String query = " SELECT oid,employee_main->'personal'->'general' as personal_general,employee_office \n"
+                    +  " FROM hrm.pmis \n"
+                    +  " WHERE \n"
+                    +  aggregatedCondition;
+    
+        log.warn(query);
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        for (Map<String, Object> result : resultList){
+            log.warn(result.toString());
+        }
+        
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        return resultArray;
+    }
+
+
+    
+
+
+    
+
+
 }
