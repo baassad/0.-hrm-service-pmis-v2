@@ -1,5 +1,7 @@
 package com.cokreates.grp.data.service;
 
+import java.util.Arrays;
+
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
@@ -218,6 +220,67 @@ public class DataEmployeeService {
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("data", employeeDoc.get("office"));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getEmployeeOficeByOffice(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String officeOidListFormatted = "";
+        for(int i =0; i< officeOidList.length() ; i++){
+            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
+        }
+        if (officeOidListFormatted.length() > 0){
+            officeOidListFormatted = officeOidListFormatted.substring(1);
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        requestParams.put("officeOidList", officeOidListFormatted);
+
+        JSONArray totalEmployeeOfficeList = null;
+
+        try {
+            totalEmployeeOfficeList = repository.getEmployeeOficeByOffice(requestParams);
+        } catch (Exception ex) {
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
+            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i); 
+            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
+            for(int j = 0; j < employeeOfficeList.length(); j++){
+                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
+                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
+                if (innerTotalEmployeeOfficeList.get("general") != null){
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
+                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
+                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
+                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
+                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
+                    }
+                }
+                if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
+                    resultData.put(employeeOffice);
+                }
+            }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);

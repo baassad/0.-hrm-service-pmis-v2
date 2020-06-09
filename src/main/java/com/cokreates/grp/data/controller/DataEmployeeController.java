@@ -70,6 +70,12 @@ public class DataEmployeeController {
         return dataEmployeeService.readOfficeByEmployee(jsonBody);
     }
 
+    @RequestMapping(value = Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> getEmployeeOficeByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.getEmployeeOficeByOffice(jsonBody);
+    }
+
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 
                     method = RequestMethod.POST, 
                     consumes = {MediaType.APPLICATION_JSON_VALUE }, 
