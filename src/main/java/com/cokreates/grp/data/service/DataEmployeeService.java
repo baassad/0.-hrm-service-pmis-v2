@@ -3,7 +3,6 @@ package com.cokreates.grp.data.service;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,32 @@ public class DataEmployeeService {
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("main", employeeDoc);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> readMainEmployeeByOfficeOfficeUnit(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList").length() == 0
+                ||
+            requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeUnitOidList").length() == 0
+        )
+        {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readMainEmployeeByOfficeOfficeUnit(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", employeeDoc);
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
