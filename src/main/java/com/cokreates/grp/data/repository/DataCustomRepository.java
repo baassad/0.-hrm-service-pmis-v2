@@ -536,4 +536,17 @@ public class DataCustomRepository {
 
         return query;
     }
+
+    public String getQueryUpdateEmployeeMainAndTempInPmis(JSONObject queryParams) {
+        String query =
+            "UPDATE " +
+                "pmis p " +
+            "SET " +
+                "employee_main = '" + queryParams.getJSONObject("employee_main") + "'::jsonb, " +
+                "employee_temp = '" + queryParams.getJSONObject("employee_temp") + "'::jsonb " +
+            "WHERE " +
+                "p.oid = '" + queryParams.getString("employee_oid") + "'";
+
+        return query;
+    }
 }

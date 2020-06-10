@@ -721,17 +721,112 @@ public class DataEmployeeService {
 
         String employeeOid = approvalHistoryInfo.getString("employeeoid");
         JSONObject commentFromApprovalHistory = approvalHistoryInfo.getJSONObject("comment");
-        JSONArray nodepath = new JSONArray();
-        nodepath.put("reviewer");
+        JSONArray nodePath = new JSONArray();
+        nodePath.put("reviewer");
 
-        String updateCommentAndStatusInApprovalHistoryQuery = dataHelper.updateCommentAndStatusInApprovalHistory(commentFromApprovalHistory,
-                nodepath,
+        String updateCommentAndStatusInApprovalHistoryQuery = dataHelper.updateCommentAndStatusInApprovalHistory(
+                commentFromApprovalHistory,
+                nodePath,
                 commentFromRequest,
                 approvalHistoryOid,
                 "REVIEWED");
 
         List<String> queryList = new ArrayList<>();
         queryList.add(updateCommentAndStatusInApprovalHistoryQuery);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", approvalHistoryOid);
+        responseBody.put("employeeOid", employeeOid);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> updateApprovalHistoryForApprove(JSONObject requestParams) {
+
+        JSONObject approvalHistoryInfo = null;
+        try {
+            approvalHistoryInfo = repository.getApprovalHistory(requestParams);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        String approvalHistoryOid = requestParams.getString("approvalHistoryOid");
+        JSONObject commentFromRequest = requestParams.getJSONObject("comment");
+
+        String employeeOid = approvalHistoryInfo.getString("employeeoid");
+        String changeType = approvalHistoryInfo.getString("changetype");
+        JSONArray changedNodePath = approvalHistoryInfo.getJSONObject("change").getJSONArray("nodePath");
+        JSONObject commentFromApprovalHistory = approvalHistoryInfo.getJSONObject("comment");
+
+        JSONObject queryParamsForEmployeeDoc = new JSONObject().put("employeeOid", employeeOid);
+
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.getEmployee(queryParamsForEmployeeDoc);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject mainDataFromEmployeeDoc = employeeDoc.getJSONObject("employee_main");
+        JSONObject tempDataFromEmployeeDoc = employeeDoc.getJSONObject("employee_temp");
+
+        JSONArray nodePath = new JSONArray();
+        nodePath.put("approver");
+
+        String updateCommentAndStatusInApprovalHistoryQuery = dataHelper.updateCommentAndStatusInApprovalHistory(
+                commentFromApprovalHistory,
+                nodePath,
+                commentFromRequest,
+                approvalHistoryOid,
+                "APPROVED");
+
+        String addTempDataToMainQuery = null;
+        if (changeType.equals("UPDATE_NODE_IN_DOC")) {
+            addTempDataToMainQuery = dataHelper.addTempDataToMain(
+                    mainDataFromEmployeeDoc, tempDataFromEmployeeDoc, changedNodePath, employeeOid
+            );
+        }
+        else if (changeType.equals("APPEND_NODE_IN_LIST")) {
+            String nodeToBeAddedOid = approvalHistoryInfo.getJSONObject("change").getJSONObject("newValue").getString("oid");
+            addTempDataToMainQuery = dataHelper.addTempDataToMainObjectList(
+                    mainDataFromEmployeeDoc, tempDataFromEmployeeDoc, changedNodePath, employeeOid, nodeToBeAddedOid
+            );
+        }
+        else if (changeType.equals("UPDATE_NODE_IN_LIST")) {
+            String nodeToBeAddedOid = approvalHistoryInfo.getJSONObject("change").getJSONObject("newValue").getString("oid");
+            addTempDataToMainQuery = dataHelper.updateTempDataToMainObjectList(
+                    mainDataFromEmployeeDoc, tempDataFromEmployeeDoc, changedNodePath, employeeOid, nodeToBeAddedOid
+            );
+        }
+        else if (changeType.equals("REMOVE_NODE_IN_LIST")) {
+            String nodeToBeRemovedOid = approvalHistoryInfo.getJSONObject("change").getJSONObject("newValue").getString("oid");
+            addTempDataToMainQuery = dataHelper.updateTempDataToMainObjectListForRemove(
+                    mainDataFromEmployeeDoc, tempDataFromEmployeeDoc, changedNodePath, employeeOid, nodeToBeRemovedOid
+            );
+        }
+        else {
+            String errorMessage = "INVALID CHANGE TYPE - OPERATION NOT SUPPORTED";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(updateCommentAndStatusInApprovalHistoryQuery);
+        queryList.add(addTempDataToMainQuery);
 
         try {
             repository.performTransaction(queryList);
