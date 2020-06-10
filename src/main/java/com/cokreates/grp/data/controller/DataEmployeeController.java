@@ -242,7 +242,11 @@ public class DataEmployeeController {
         return response;
     }
 
-
+    @RequestMapping(value = Api.APPEND_NODE_EMPLOYEE_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> appendNodeEmployeeOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.appendNodeEmployeeOffice(jsonBody);
+    }
     
 
 

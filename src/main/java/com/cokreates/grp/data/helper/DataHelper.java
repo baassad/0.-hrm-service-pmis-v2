@@ -122,12 +122,22 @@ public class DataHelper {
     }
 
     public String updateEmployeeOfficeListInPmisByOid(JSONObject employeeOfficeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid) {
-        JSONObject tempDoc = employeeOfficeDoc;
+        JSONObject tempDoc = employeeOfficeDoc.getJSONObject("employee_office");
         jsonUtil.listUpdateNode("oid", tempDoc, nodePath, inputNode);
         JSONObject queryParams = new JSONObject();
         queryParams.put("employee_oid", employeeOid);
         queryParams.put("employee_office", tempDoc);
         return repository.queryUpdateEmployeeOfficeInPmis(queryParams);
     }
+
+
+	public String updateEmployeeOfficeListInPmis(JSONObject employeeOfficeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid) {        
+        JSONObject tempDoc = employeeOfficeDoc.getJSONObject("employee_office");
+        jsonUtil.listAppendNode(tempDoc, nodePath, inputNode);
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_office", tempDoc);
+        return repository.queryUpdateEmployeeOfficeInPmis(queryParams);
+	}
 
 }

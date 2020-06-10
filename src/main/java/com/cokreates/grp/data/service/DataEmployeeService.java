@@ -613,11 +613,10 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        JSONObject mainDoc = employeeOfficeDoc.getJSONObject("employee_office");
         JSONArray nodePath = new JSONArray().put("nodes");
         String queryNodeUpdate = null;
         try {
-            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(mainDoc, nodePath, inputNode, employeeOid);
+            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(employeeOfficeDoc, nodePath, inputNode, employeeOid);
         } catch (Exception ex) {
             String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -639,5 +638,42 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
+
+	public ResponseEntity<?> appendNodeEmployeeOffice(JSONObject requestParams) {
+        JSONObject inputNode = requestParams.getJSONObject("node");
+        String employeeOid   = requestParams.getString("employeeOid");
+
+        JSONObject employeeOfficeDoc = null;
+        try {
+            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray nodePath = new JSONArray().put("nodes");
+        String queryNodeUpdate = null;
+        try {
+            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmis(employeeOfficeDoc, nodePath, inputNode, employeeOid);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", requestParams.get("employeeOid"));
+        responseBody.put("nodeOid", inputNode.get("oid"));
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
 
 }
