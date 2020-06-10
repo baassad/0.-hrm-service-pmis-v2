@@ -845,4 +845,94 @@ public class DataEmployeeService {
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
+
+    public ResponseEntity<?> updateApprovalHistoryForReject(JSONObject requestParams) {
+
+        JSONObject approvalHistoryInfo = null;
+        try {
+            approvalHistoryInfo = repository.getApprovalHistory(requestParams);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        String approvalHistoryOid = requestParams.getString("approvalHistoryOid");
+        JSONObject commentFromRequest = requestParams.getJSONObject("comment");
+
+        String employeeOid = approvalHistoryInfo.getString("employeeoid");
+        String changeType = approvalHistoryInfo.getString("changetype");
+        JSONArray changedNodePath = approvalHistoryInfo.getJSONObject("change").getJSONArray("nodePath");
+        JSONObject commentFromApprovalHistory = approvalHistoryInfo.getJSONObject("comment");
+        String status = approvalHistoryInfo.getString("status");
+
+        String actor = null;
+        if (status.equals("REQUESTED")) {
+            actor = "reviewer";
+        }
+        else {
+            actor = "approver";
+        }
+
+        JSONObject queryParamsForEmployeeDoc = new JSONObject().put("employeeOid", employeeOid);
+
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.getEmployee(queryParamsForEmployeeDoc);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject tempDataFromEmployeeDoc = employeeDoc.getJSONObject("employee_temp");
+
+        JSONArray nodePath = new JSONArray();
+        nodePath.put(actor);
+
+        String updateCommentAndStatusInApprovalHistoryQuery = dataHelper.updateCommentAndStatusInApprovalHistory(
+                commentFromApprovalHistory,
+                nodePath,
+                commentFromRequest,
+                approvalHistoryOid,
+                "REJECTED");
+
+        String removeTempDataQuery = null;
+        if (changeType.equals("UPDATE_NODE_IN_DOC")) {
+            removeTempDataQuery = dataHelper.removeTempData(
+                    tempDataFromEmployeeDoc, changedNodePath, employeeOid
+            );
+        }
+        else if (changeType.equals("APPEND_NODE_IN_LIST") || changeType.equals("UPDATE_NODE_IN_LIST") || changeType.equals("REMOVE_NODE_IN_LIST")) {
+            String nodeToBeRemovedOid = approvalHistoryInfo.getJSONObject("change").getJSONObject("newValue").getString("oid");
+            removeTempDataQuery = dataHelper.removeTempDataFromList(
+                    tempDataFromEmployeeDoc, changedNodePath, employeeOid, nodeToBeRemovedOid
+            );
+        }
+        else {
+            String errorMessage = "INVALID CHANGE TYPE - OPERATION NOT SUPPORTED";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(updateCommentAndStatusInApprovalHistoryQuery);
+        queryList.add(removeTempDataQuery);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", approvalHistoryOid);
+        responseBody.put("employeeOid", employeeOid);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
 }

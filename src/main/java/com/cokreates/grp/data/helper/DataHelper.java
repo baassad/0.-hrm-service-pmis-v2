@@ -272,4 +272,23 @@ public class DataHelper {
 
         return repository.getQueryUpdateEmployeeMainAndTempInPmis(queryParams);
     }
+
+    public String removeTempData(
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid) {
+        jsonUtil.updateNode(tempDataFromEmployeeDoc, changeNodePath, new JSONObject());
+
+        return repository.queryUpdateEmployeeTempInPmis(tempDataFromEmployeeDoc, employeeOid);
+    }
+
+    public String removeTempDataFromList(
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid,
+            String nodeToBeRemovedOid) {
+        jsonUtil.listRemoveNode("oid", nodeToBeRemovedOid, tempDataFromEmployeeDoc, changeNodePath);
+
+        return repository.queryUpdateEmployeeTempInPmis(tempDataFromEmployeeDoc, employeeOid);
+    }
 }

@@ -281,6 +281,16 @@ public class DataEmployeeController {
         return response;
     }
 
+
+    @RequestMapping(value = Api.UPDATE_APPROVAL_HISTORY_FOR_REJECT,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> updateApprovalHistoryForReject(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.updateApprovalHistoryForReject(requestParam);
+        return response;
+    }
     
 
 
