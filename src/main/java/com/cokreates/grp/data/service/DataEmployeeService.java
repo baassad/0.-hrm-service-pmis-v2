@@ -141,6 +141,28 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
+    public ResponseEntity<?> readNodeFromEmployeeDocByOidSet(JSONObject requestParam) {
+        if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList").length() == 0) {
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("data", new JSONObject())).toString(), HttpStatus.OK);
+        }
+
+        JSONArray employeeDoc = null;
+        try {
+            employeeDoc = repository.readNodeFromEmployeeDocByOidSet(requestParam);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", dataHelper.formatEmployeeNodes(employeeDoc));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
     public ResponseEntity<?> readNodeFromEmployeeDoc(JSONObject requestParams){
         JSONObject employeeDoc = null;
         try {

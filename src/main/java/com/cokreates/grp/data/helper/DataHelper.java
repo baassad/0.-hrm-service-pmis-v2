@@ -50,6 +50,7 @@ public class DataHelper {
         return employeeDoc;
     }
 
+
     public String updateEmpTempInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
         
         // JSONObject tempDoc = new JSONObject("{\"name\" : \"hello\"}");
@@ -65,10 +66,24 @@ public class DataHelper {
         return query;
     }
 
+    
     public String approvalHistoryInsertWithComment(JSONObject inputNode, JSONObject mainNode, JSONArray nodePath,
                                     String employeeOid, JSONObject requesterComment, String changeType){
         String query = "";
 
         return query;
+    
+    }
+
+
+    public JSONArray formatEmployeeNodes(JSONArray employeeDoc) {
+        JSONArray items = new JSONArray();
+        for (int i = 0; i < employeeDoc.length(); i++)
+        {
+            JSONObject node = employeeDoc.getJSONObject(i).getJSONObject("node");
+            node.put("oid", employeeDoc.getJSONObject(i).getString("oid"));
+            items.put(node);
+        }
+        return items;
     }
 }

@@ -89,16 +89,16 @@ public class DataCustomRepository {
             officeUnitOidListString += " | \"" + officeUnitOidList.getString(i) + "\"";
         }
         String query =
-        "SELECT " +
-            "p.oid as oid, " +
-            "p.employee_main->'personal'->'general' as general, " +
-            "p.employee_office  -> 'nodes' as nodes " +
-        "FROM " +
-            "pmis p " +
-        "WHERE " +
-            "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%' " +
-            "AND " +
-            "p.employee_office  ->> 'nodes' similar  to '%%\"officeUnitOid\" *: *(" + officeUnitOidListString + ")%%'";
+                "SELECT " +
+                    "p.oid as oid, " +
+                    "p.employee_main->'personal'->'general' as general, " +
+                    "p.employee_office  -> 'nodes' as nodes " +
+                "FROM " +
+                    "pmis p " +
+                "WHERE " +
+                    "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%' " +
+                    "AND " +
+                    "p.employee_office  ->> 'nodes' similar  to '%%\"officeUnitOid\" *: *(" + officeUnitOidListString + ")%%'";
 
         List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
 
@@ -140,13 +140,43 @@ public class DataCustomRepository {
 
         String query =
                 "SELECT " +
-                        "p.oid as oid, " +
-                        "p.employee_main->'personal'->'general' as general, " +
-                        "p.employee_office  -> 'nodes' as nodes " +
-                        "FROM " +
-                        "pmis p " +
-                        "WHERE " +
-                        "p.oid in (" + employeeOidListString + ")";
+                    "p.oid as oid, " +
+                    "p.employee_main->'personal'->'general' as general, " +
+                    "p.employee_office  -> 'nodes' as nodes " +
+                "FROM " +
+                    "pmis p " +
+                "WHERE " +
+                    "p.oid in (" + employeeOidListString + ")";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+
+        return dataUtil.listToJsonArray(result);
+    }
+
+    public JSONArray readNodeFromEmployeeDocByOidSet(JSONObject queryParam) throws Exception {
+
+        JSONArray employeeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
+
+        String employeeOidListString = "'" + employeeOidList.getString(0) + "'";
+        for (int i = 1; i < employeeOidList.length(); i++) {
+            employeeOidListString += ", '" + employeeOidList.getString(i) + "'";
+        }
+
+        JSONArray queryPath = queryParam.getJSONArray("nodePath");
+
+        String queryPathString = "";
+        for (int i = 0; i < queryPath.length(); i++) {
+            queryPathString += "->'" + queryPath.getString(i) + "'";
+        }
+
+        String query =
+            "SELECT " +
+                "p.oid as oid, " +
+                "p.employee_main" + queryPathString + " as node " +
+            "FROM " +
+                "pmis p " +
+            "WHERE " +
+                "p.oid in (" + employeeOidListString + ")";
 
         List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
 

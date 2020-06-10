@@ -76,6 +76,16 @@ public class DataEmployeeController {
         return dataEmployeeService.readMainEmployeeByOidSet(requestParam);
     }
 
+    @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC_BY_OID_SET,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> readNodeFromEmployeeDocByOidSet(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        return dataEmployeeService.readNodeFromEmployeeDocByOidSet(requestParam);
+    }
+
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
