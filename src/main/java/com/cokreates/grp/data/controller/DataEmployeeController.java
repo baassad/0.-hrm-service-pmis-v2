@@ -99,9 +99,9 @@ public class DataEmployeeController {
     }
 
     @RequestMapping(value = Api.GET_EMPLOYEE_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> getEmployeeOfice(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> getEmployeeOffice(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        return dataEmployeeService.getEmployeeOfice(jsonBody);
+        return dataEmployeeService.getEmployeeOffice(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_EMPLOYEE_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })

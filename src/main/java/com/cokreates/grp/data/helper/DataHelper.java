@@ -120,4 +120,14 @@ public class DataHelper {
         }
         return items;
     }
+
+    public String updateEmployeeOfficeListInPmisByOid(JSONObject employeeOfficeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid) {
+        JSONObject tempDoc = employeeOfficeDoc;
+        jsonUtil.listUpdateNode("oid", tempDoc, nodePath, inputNode);
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_office", tempDoc);
+        return repository.queryUpdateEmployeeOfficeInPmis(queryParams);
+    }
+
 }

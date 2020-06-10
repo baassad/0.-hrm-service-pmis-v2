@@ -1,6 +1,7 @@
 package com.cokreates.grp.data.repository;
 
 import com.cokreates.grp.data.util.DataUtil;
+import com.cokreates.grp.data.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,6 +32,10 @@ public class DataCustomRepository {
 
     @Autowired
     DataUtil dataUtil;
+
+    @Autowired
+    JsonUtil jsonUtil;
+
 
     @Transactional
     public void performTransaction(List<String> queryList){
@@ -375,7 +380,7 @@ public class DataCustomRepository {
 
 
     
-	public JSONObject getEmployeeOfice(JSONObject queryParams) {
+	public JSONObject getEmployeeOffice(JSONObject queryParams) {
         String query = "SELECT p.employee_office->'nodes' as nodes "
                         + "from hrm.pmis p " 
                         + "where "
@@ -383,7 +388,17 @@ public class DataCustomRepository {
                         + queryParams.getString("employeeOid")
                         + "'";
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
-        
+        return dataUtil.mapToJsonObject(result); 
+	}
+
+    public JSONObject getEmployeeOfficeDetails(JSONObject queryParams) {
+        String query = "SELECT employee_office as employee_office "
+                        + "FROM "  
+                        + "hrm.pmis p "
+                        + "WHERE p.oid = '"  
+                        + queryParams.getString("employeeOid")
+                        +"'";
+        Map <String, Object> result = jdbcTemplate.queryForMap(query);
         return dataUtil.mapToJsonObject(result); 
 	}
 
@@ -397,7 +412,7 @@ public class DataCustomRepository {
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
         
         return dataUtil.listToJsonArray(result); 
-	}
+    }
 
 	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
         String query = "SELECT  p.employee_office -> 'nodes' as office "
@@ -463,5 +478,17 @@ public class DataCustomRepository {
         return query;
     }
 
+
+	public String queryUpdateEmployeeOfficeInPmis(JSONObject queryParams) {
+        String query = "update hrm.pmis p "
+                        + "set "
+                        + "employee_office = '"
+                        + queryParams.getJSONObject("employee_office").toString()
+                        + "'::jsonb WHERE"  
+                        + "p.oid = '"
+                        + queryParams.getString("employee_oid")
+                        + "'";
+		return query;
+	}
 
 }
