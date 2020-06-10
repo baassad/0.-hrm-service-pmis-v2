@@ -117,9 +117,9 @@ public class DataEmployeeController {
     }
 
     @RequestMapping(value = Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> getEmployeeOficeByOffice(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> readEmployeeOfficeByOffice(@RequestBody Map<String, Object> requestBody) {
         JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
-        return dataEmployeeService.getEmployeeOficeByOffice(jsonBody);
+        return dataEmployeeService.readEmployeeOfficeByOffice(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 

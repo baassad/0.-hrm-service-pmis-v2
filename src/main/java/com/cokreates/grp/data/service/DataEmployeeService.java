@@ -467,7 +467,7 @@ public class DataEmployeeService {
 
 	
 
-	public ResponseEntity<?> getEmployeeOficeByOffice(JSONObject requestParams) {
+	public ResponseEntity<?> readEmployeeOfficeByOffice(JSONObject requestParams) {
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
         requestParams.remove("miscellaneousRequestProperty");
         String officeOidListFormatted = "";
@@ -485,7 +485,7 @@ public class DataEmployeeService {
         JSONArray totalEmployeeOfficeList = null;
 
         try {
-            totalEmployeeOfficeList = repository.getEmployeeOficeByOffice(requestParams);
+            totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
         } catch (Exception ex) {
             JSONObject error = new JSONObject();
             error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
