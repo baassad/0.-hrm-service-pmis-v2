@@ -5,10 +5,11 @@ import com.cokreates.grp.data.util.DataUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 @Slf4j
 @Repository
@@ -36,10 +38,10 @@ public class DataCustomRepository {
             try{
                 Map<String, Object> output = jdbcTemplate.queryForMap(queryList.get(i));
             }
-            catch(Exception e){
-                log.warn("No object returned by the query");
+            catch(DataIntegrityViolationException e){
+                // log.warn("No results returned by this query " + queryList.get(i));
+                log.warn("No results returned by the query");
             }
-            // log.warn(dataUtil.mapToJsonObject(output).toString());
         }
     }
 

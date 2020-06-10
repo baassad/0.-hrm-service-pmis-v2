@@ -204,6 +204,18 @@ public class DataEmployeeController {
     }
 
 
+    @RequestMapping(value = Api.REMOVE_NODE_IN_DOCUMENT_FOR_REQUEST, 
+                    method = RequestMethod.POST, 
+                    consumes = {MediaType.APPLICATION_JSON_VALUE }, 
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> removeNodeInDocumentForRequest(@RequestBody Map<String, Object> requestBody) {
+        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        jsonBody.put("node", new JSONObject("{}"));
+        ResponseEntity<?> response = dataEmployeeService.updateNodeInDocumentForRequest(jsonBody);
+        return response;
+    }
+
+
     
 
 
