@@ -9,7 +9,6 @@ import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.JsonValidationUtil;
 
-import org.everit.json.schema.ValidationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,4 +206,112 @@ public class DataHelper {
         return repository.queryUpdateEmployeeOfficeInPmis(queryParams);
 	}
 
+    public String updateCommentAndStatusInApprovalHistory
+            (JSONObject commentFromApprovalHistory,
+              JSONArray nodePath,
+              JSONObject commentFromRequest,
+              String approvalHistoryOid,
+              String status) {
+
+        jsonUtil.updateNode(commentFromApprovalHistory, nodePath, commentFromRequest);
+
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("status", status);
+        queryParams.put("comment", commentFromApprovalHistory);
+        queryParams.put("oid", approvalHistoryOid);
+
+        return repository.getQueryUpdateApprovalHistory(queryParams);
+    }
+
+    public String addTempDataToMain(JSONObject mainDataFromEmployeeDoc,
+                                    JSONObject tempDataFromEmployeeDoc,
+                                    JSONArray changeNodePath,
+                                    String employeeOid) {
+        JSONObject copyOfTempData = (JSONObject) jsonUtil.getJsonNode(tempDataFromEmployeeDoc, changeNodePath);
+        jsonUtil.updateNode(mainDataFromEmployeeDoc, changeNodePath, copyOfTempData);
+        jsonUtil.updateNode(tempDataFromEmployeeDoc, changeNodePath, new JSONObject());
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_main", mainDataFromEmployeeDoc);
+        queryParams.put("employee_temp", tempDataFromEmployeeDoc);
+
+        return repository.getQueryUpdateEmployeeMainAndTempInPmis(queryParams);
+    }
+
+    public String addTempDataToMainObjectList(
+            JSONObject mainDataFromEmployeeDoc,
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid,
+            String nodeToBeAddedOid
+    ) {
+        JSONObject objectToBeAdded = (JSONObject) jsonUtil.getNodeFromList("oid", nodeToBeAddedOid, tempDataFromEmployeeDoc, changeNodePath);
+        JSONObject copyOfObjectToBeAdded = new JSONObject(objectToBeAdded.toString());
+        jsonUtil.listAppendNode(mainDataFromEmployeeDoc, changeNodePath, copyOfObjectToBeAdded);
+        jsonUtil.listRemoveNode("oid", nodeToBeAddedOid, tempDataFromEmployeeDoc, changeNodePath);
+
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_main", mainDataFromEmployeeDoc);
+        queryParams.put("employee_temp", tempDataFromEmployeeDoc);
+
+        return repository.getQueryUpdateEmployeeMainAndTempInPmis(queryParams);
+    }
+
+    public String updateTempDataToMainObjectList(
+            JSONObject mainDataFromEmployeeDoc,
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid,
+            String nodeToBeAddedOid
+    ) {
+        JSONObject objectToBeAdded = (JSONObject) jsonUtil.getNodeFromList("oid", nodeToBeAddedOid, tempDataFromEmployeeDoc, changeNodePath);
+        JSONObject copyOfObjectToBeAdded = new JSONObject(objectToBeAdded.toString());
+        jsonUtil.listUpdateNode("oid", mainDataFromEmployeeDoc, changeNodePath, copyOfObjectToBeAdded);
+        jsonUtil.listRemoveNode("oid", nodeToBeAddedOid, tempDataFromEmployeeDoc, changeNodePath);
+
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_main", mainDataFromEmployeeDoc);
+        queryParams.put("employee_temp", tempDataFromEmployeeDoc);
+
+        return repository.getQueryUpdateEmployeeMainAndTempInPmis(queryParams);
+    }
+
+    public String updateTempDataToMainObjectListForRemove(
+            JSONObject mainDataFromEmployeeDoc,
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid,
+            String nodeToBeRemovedOid
+    ) {
+        jsonUtil.listRemoveNode("oid", nodeToBeRemovedOid, mainDataFromEmployeeDoc, changeNodePath);
+        jsonUtil.listRemoveNode("oid", nodeToBeRemovedOid, tempDataFromEmployeeDoc, changeNodePath);
+
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("employee_oid", employeeOid);
+        queryParams.put("employee_main", mainDataFromEmployeeDoc);
+        queryParams.put("employee_temp", tempDataFromEmployeeDoc);
+
+        return repository.getQueryUpdateEmployeeMainAndTempInPmis(queryParams);
+    }
+
+    public String removeTempData(
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid) {
+        jsonUtil.updateNode(tempDataFromEmployeeDoc, changeNodePath, new JSONObject());
+
+        return repository.queryUpdateEmployeeTempInPmis(tempDataFromEmployeeDoc, employeeOid);
+    }
+
+    public String removeTempDataFromList(
+            JSONObject tempDataFromEmployeeDoc,
+            JSONArray changeNodePath,
+            String employeeOid,
+            String nodeToBeRemovedOid) {
+        jsonUtil.listRemoveNode("oid", nodeToBeRemovedOid, tempDataFromEmployeeDoc, changeNodePath);
+
+        return repository.queryUpdateEmployeeTempInPmis(tempDataFromEmployeeDoc, employeeOid);
+    }
 }
