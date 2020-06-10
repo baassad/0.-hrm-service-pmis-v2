@@ -20,6 +20,7 @@ public class JsonSchemas {
     private static JSONObject PMIS_EMPLOYEE_JSON_SCHEMA_V_4;
     private static JSONObject APPROVAL_HISTORY_COMMENT_JSON_SKELETON_V_1;
     private static JSONObject APPROVAL_HISTORY_CHANGE_JSON_SKELETON_V_1;
+    private static JSONObject PMIS_EMPLOYEE_JSON_SKELETON_V_4;
     private File file;
 
     private JsonSchemas(){
@@ -46,6 +47,10 @@ public class JsonSchemas {
             file = ResourceUtils.getFile("classpath:json/approval_history_change_json_skeleton_v_1.json");
             APPROVAL_HISTORY_CHANGE_JSON_SKELETON_V_1 = new JSONObject(FileUtils.readFileToString(file));   
             log.warn(APPROVAL_HISTORY_CHANGE_JSON_SKELETON_V_1.toString());
+
+            file = ResourceUtils.getFile("classpath:json/pmis_employee_json_skeleton_v_4.json");
+            PMIS_EMPLOYEE_JSON_SKELETON_V_4 = new JSONObject(FileUtils.readFileToString(file));   
+            log.warn(PMIS_EMPLOYEE_JSON_SKELETON_V_4.toString());
         }
         catch(Exception e){
             log.error("The json schema file could not be read");
@@ -62,6 +67,10 @@ public class JsonSchemas {
 
     public static JSONObject getApprovalHistoryChangeJsonSkeletonV1(){
         return APPROVAL_HISTORY_CHANGE_JSON_SKELETON_V_1;
+    }
+
+    public static JSONObject getPmisEmployeeJsonSkeletonV4(){
+        return PMIS_EMPLOYEE_JSON_SKELETON_V_4;
     }
 
     

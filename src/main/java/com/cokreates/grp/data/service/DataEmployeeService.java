@@ -35,6 +35,34 @@ public class DataEmployeeService {
         return error.toString();
     }
 
+
+    public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
+        String employeeOid = UUID.randomUUID().toString();
+
+        String pmisInsertQuery = dataHelper.pmisInsert(inputNode, nodePath, employeeOid);
+        String approvalHistoryInsertQuery = dataHelper.approvalHistoryInsert(inputNode, new JSONObject("{}"), nodePath,
+                                                                                  employeeOid, "UPDATE_NODE_IN_DOC");
+        
+        List<String> queryList = new ArrayList<>();
+        queryList.add(pmisInsertQuery);
+        queryList.add(approvalHistoryInsertQuery);
+        
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // getting employee main info from getEmployee Service
+        requestParameters.put("employeeOid", employeeOid);
+        ResponseEntity<?> responseObject = this.getEmployee(requestParameters);
+            
+        return responseObject;
+    }
+    
+
+
     public ResponseEntity<?> getEmployee(JSONObject requestParams) {
 
         JSONObject employeeDoc = null;
@@ -657,7 +685,7 @@ public class DataEmployeeService {
         
         return responseObject;
     }
-    
+
 
 	public ResponseEntity<?> updateNodeEmployeeOffice(JSONObject requestParams) {
         JSONObject inputNode = requestParams.getJSONObject("node");

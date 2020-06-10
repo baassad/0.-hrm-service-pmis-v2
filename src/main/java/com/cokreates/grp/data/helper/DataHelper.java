@@ -1,5 +1,7 @@
 package com.cokreates.grp.data.helper;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.cokreates.grp.data.constants.JsonSchemas;
@@ -31,6 +33,48 @@ public class DataHelper {
     DataCustomRepository repository;
 
     private JsonSchemas schemaValues = JsonSchemas.getInstance();
+
+
+    public String pmisInsert(JSONObject inputNode, JSONArray nodePath, String employeeOid){
+
+        // jsonValidationUtil.isValidJsonSchema(schemaValues.getPMISEmployeeSchemaV4(), inputNode);
+
+        JSONObject employeeBlankSkeleton = schemaValues.getPmisEmployeeJsonSkeletonV4();
+
+        JSONObject employeeDocSkeleton = new JSONObject(employeeBlankSkeleton.toString());
+
+        jsonUtil.updateNode(employeeDocSkeleton, nodePath, inputNode);
+
+        String query = repository.getQueryInsertPmis(employeeOid, employeeBlankSkeleton, employeeDocSkeleton);
+        
+        return query;
+    }
+
+    public String approvalHistoryInsert(JSONObject inputNode, JSONObject mainNode, 
+                            JSONArray nodePath, String employeeOid, String changeType){
+        JSONObject commentNodeSkeleton = schemaValues.getApprovalHistoryCommentJsonSkeletonV1();
+        JSONObject requesterNode = new JSONObject();
+        requesterNode.put("dateAndTime", Instant.now().getEpochSecond());
+        requesterNode.put("requesterOid", employeeOid);
+        commentNodeSkeleton.put("requester", requesterNode);
+
+        JSONObject changeNodeSkeleton = schemaValues.getApprovalHistoryChangeJsonSkeletonV1();
+        changeNodeSkeleton.put("nodeName", nodePath.get(nodePath.length()-1));
+        changeNodeSkeleton.put("nodePath", nodePath);
+        changeNodeSkeleton.put("oldValue", mainNode);
+        changeNodeSkeleton.put("newValue", inputNode);
+
+        JSONObject queryParameters = new JSONObject();
+        queryParameters.put("oid", UUID.randomUUID().toString());
+        queryParameters.put("employee_oid", employeeOid);
+        queryParameters.put("change", changeNodeSkeleton);
+        queryParameters.put("comment", commentNodeSkeleton);
+        queryParameters.put("change_type", changeType);
+
+        String query = repository.getQueryInsertApprovalHistory(queryParameters);
+
+        return query;
+    }
 
 
     public JSONArray formatEmployeeDoc(JSONArray employeeDoc) {

@@ -50,6 +50,21 @@ public class DataCustomRepository {
         }
     }
 
+    public String getQueryInsertPmis(String employeeOid, JSONObject employeeMain, JSONObject employeeTemp){
+        String query = " INSERT \n"
+                     + " INTO \n" 
+                     + " hrm.pmis (\n" 
+                     + " oid, \n" 
+                     + " employee_main, \n" 
+                     + " employee_temp) \n" 
+                     + " VALUES (\n" 
+                     + " '"+ employeeOid +"', \n" 
+                     + " '"+ employeeMain.toString() +"', \n" 
+                     + " '"+ employeeTemp.toString() +"') \n" ;
+                     
+        return query;
+    }
+
 
     public String getAllEmployees() {
         String query = "select * from pmis";

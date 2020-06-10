@@ -26,6 +26,21 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
+
+    @RequestMapping(value = Api.CREATE_EMP,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> createEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParameters = new JSONObject(requestBody).getJSONObject("body");
+        
+        JSONObject inputNode = requestParameters.getJSONObject("general");
+        JSONArray path = new JSONArray("[\"personal\", \"general\"]");
+        ResponseEntity<?> response = dataEmployeeService.createEmployee(inputNode, path, requestParameters);
+        return response;
+    }
+
     @RequestMapping(value = Api.GET_EMPLOYEE,
             method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE },
