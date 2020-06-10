@@ -408,7 +408,7 @@ public class DataCustomRepository {
         return dataUtil.mapToJsonObject(result);
 	}
 
-	public JSONArray getEmployeeOficeByOffice(JSONObject queryParams) {
+	public JSONArray readEmployeeOfficeByOffice(JSONObject queryParams) {
         String query = "SELECT  hrm.pmis.oid as oid, "
                      + "hrm.pmis.employee_main->'personal'->'general' as general, "
                      + "hrm.pmis.employee_office -> 'nodes' as employeeoffice "
