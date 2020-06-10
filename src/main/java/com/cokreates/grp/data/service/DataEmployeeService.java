@@ -28,6 +28,13 @@ public class DataEmployeeService {
     @Autowired
     DataHelper dataHelper;
 
+    private static String getErrorMessage(String apiName, Exception ex){
+        JSONObject error = new JSONObject();
+        error.put("API" ,apiName);
+        error.put("Exception", ex);
+        return error.toString();
+    }
+
     public ResponseEntity<?> getEmployee(JSONObject requestParams) {
 
         JSONObject employeeDoc = null;
@@ -94,7 +101,6 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
-
 
     public ResponseEntity<?> readMainEmployeeByOffice(JSONObject requestParam) {
         if (requestParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList").length() == 0)
@@ -169,10 +175,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_NODE_FROM_EMPLOYEE_DOC, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
@@ -231,7 +235,6 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
     public ResponseEntity<?> readFromApprovalHistoryByEmployee(JSONObject requestParameters){
         JSONArray response = null;
 
@@ -247,7 +250,6 @@ public class DataEmployeeService {
 
         return responseObject;
     }
-
 
     public ResponseEntity<?> readFromApprovalHistoryByStatus(JSONObject requestParameters){
         JSONArray response = null;
@@ -265,7 +267,6 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
     public ResponseEntity<?> readFromApprovalHistoryByEmployeeAndStatus(JSONObject requestParameters){
         JSONArray response = null;
 
@@ -281,7 +282,6 @@ public class DataEmployeeService {
 
         return responseObject;
     }
-
 
     public ResponseEntity<?> getEmployees(JSONObject requestParameters){
         JSONArray response = null;
@@ -305,16 +305,13 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
-
-
 	public ResponseEntity<?> readNodeInListFromEmployeeDoc(JSONObject requestParams) {
         JSONObject employeeDoc = null;
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
             JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("API" ,Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC);
             error.put("Exception", ex);
             return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -332,13 +329,13 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> getEmployeeOfice(JSONObject requestParams) {
+	public ResponseEntity<?> getEmployeeOffice(JSONObject requestParams) {
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.getEmployeeOfice(requestParams);
+            employeeDoc = repository.getEmployeeOffice(requestParams);
         } catch (Exception ex) {
             JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("API" ,Api.GET_EMPLOYEE_OFFICE);
             error.put("Exception", ex);
             return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -373,7 +370,7 @@ public class DataEmployeeService {
             oidList = repository.readEmployeeByOffice(requestParams);
         } catch (Exception ex) {
             JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("API" ,Api.READ_EMPLOYEE_BY_OFFICE);
             error.put("Exception", ex);
             return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -407,7 +404,7 @@ public class DataEmployeeService {
             employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
         } catch (Exception ex) {
             JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
+            error.put("API" ,Api.READ_OFFICE_BY_EMPLOYEE);
             error.put("Exception", ex);
             return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -421,7 +418,68 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 
     }
-    
+
+	public ResponseEntity<?> readEmployeeOfficeByOffice(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String officeOidListFormatted = "";
+        for(int i =0; i< officeOidList.length() ; i++){
+            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
+        }
+        if (officeOidListFormatted.length() > 0){
+            officeOidListFormatted = officeOidListFormatted.substring(1);
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        requestParams.put("officeOidList", officeOidListFormatted);
+
+        JSONArray totalEmployeeOfficeList = null;
+
+        try {
+            totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
+        } catch (Exception ex) {
+            JSONObject error = new JSONObject();
+            error.put("API" ,Api.READ_EMPLOYEE_OFFICE_BY_OFFICE);
+            error.put("Exception", ex);
+            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
+            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i); 
+            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
+            for(int j = 0; j < employeeOfficeList.length(); j++){
+                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
+                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
+                if (innerTotalEmployeeOfficeList.get("general") != null){
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
+                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
+                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
+                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
+                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
+                    }
+                }
+                if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
+                    resultData.put(employeeOffice);
+                }
+            }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+
 
     public ResponseEntity<?> updateNodeInDocumentForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
@@ -464,8 +522,6 @@ public class DataEmployeeService {
         
         return responseObject;
     }
-
-
 
     public ResponseEntity<?> appendNodeInListForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
@@ -511,69 +567,49 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
-	
-
-	public ResponseEntity<?> readEmployeeOfficeByOffice(JSONObject requestParams) {
-        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
-        requestParams.remove("miscellaneousRequestProperty");
-        String officeOidListFormatted = "";
-        for(int i =0; i< officeOidList.length() ; i++){
-            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
-        }
-        if (officeOidListFormatted.length() > 0){
-            officeOidListFormatted = officeOidListFormatted.substring(1);
-        }
-        else{
-            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
-        }
-        requestParams.put("officeOidList", officeOidListFormatted);
-
-        JSONArray totalEmployeeOfficeList = null;
-
+	public ResponseEntity<?> updateNodeEmployeeOffice(JSONObject requestParams) {
+        JSONObject inputNode = requestParams.getJSONObject("node");
+        String employeeOid   = requestParams.getString("employeeOid");
+        
+        JSONObject employeeOfficeDoc = null;
         try {
-            totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
+            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_FROM_EMPLOYEE_DOC);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        JSONArray resultData = new JSONArray();
-        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
-            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i); 
-            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
-            for(int j = 0; j < employeeOfficeList.length(); j++){
-                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
-                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
-                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
-                if (innerTotalEmployeeOfficeList.get("general") != null){
-                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
-                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
-                    }
-                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
-                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
-                    }
-                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
-                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
-                    }
-                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
-                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
-                    }
-                }
-                if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
-                    resultData.put(employeeOffice);
-                }
-            }
+        // main_doc = employee_office_doc['employee_office']
+        // node_path = ['nodes']
+        // query_node_update = PMISServiceHelper.update_employee_office_list_in_pmis_by_oid(main_doc,node_path,input_node,employee_oid)
+        // query_list = [query_node_update]
+        // PMISService.dao.execute_queries(query_list)
+
+        // return {'oid': request_params['employeeOid']}, SuccessCodes._200_OK[1]
+        JSONObject mainDoc = employeeOfficeDoc.getJSONObject("employee_office");
+        JSONArray nodePath = new JSONArray().put("nodes");
+        String queryNodeUpdate = null;
+        try {
+            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(mainDoc, nodePath, inputNode, employeeOid);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONObject responseBody = new JSONObject();
-        responseBody.put("data", resultData);
+        responseBody.put("oid", requestParams.get("employeeOid"));
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
-
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
-	}
+    }
 
-	
 }
