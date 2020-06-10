@@ -50,6 +50,29 @@ public class DataHelper {
         return query;
     }
 
+
+    public String pmisImport(JSONArray nodePath, String employeeOid, JSONObject generalNode, JSONObject employeeOfficeNode){
+
+        JSONObject employeeBlankSkeleton = schemaValues.getPmisEmployeeJsonSkeletonV4();
+
+        JSONObject employeeDocSkeleton = new JSONObject(employeeBlankSkeleton.toString());
+
+        jsonUtil.updateNode(employeeDocSkeleton, nodePath, generalNode);
+
+        JSONObject pmis = new JSONObject();
+        pmis.put("oid", employeeOid);
+        pmis.put("employee_main", employeeDocSkeleton);
+        pmis.put("employee_temp", employeeBlankSkeleton);
+
+        JSONObject employeeOffice = new JSONObject();
+        employeeOffice.put("nodes", new JSONArray().put(employeeOfficeNode));
+
+        String query = repository.getQueryImportPmis(pmis, employeeOffice);
+
+        return query;
+    }
+
+
     public String approvalHistoryInsert(JSONObject inputNode, JSONObject mainNode, 
                             JSONArray nodePath, String employeeOid, String changeType){
         JSONObject commentNodeSkeleton = schemaValues.getApprovalHistoryCommentJsonSkeletonV1();

@@ -41,6 +41,23 @@ public class DataEmployeeController {
         return response;
     }
 
+
+    @RequestMapping(value = Api.IMPORT_EMP,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> importEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParameters = new JSONObject(requestBody).getJSONObject("body");
+
+        JSONObject inputNode = requestParameters.getJSONObject("node");
+        JSONArray path = new JSONArray("[\"personal\", \"general\"]");
+        
+        ResponseEntity<?> response = dataEmployeeService.importEmployee(inputNode, path, requestParameters);
+        return response;
+    }
+
+
     @RequestMapping(value = Api.GET_EMPLOYEE,
             method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE },

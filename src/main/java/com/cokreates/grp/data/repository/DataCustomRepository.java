@@ -61,9 +61,28 @@ public class DataCustomRepository {
                      + " '"+ employeeOid +"', \n" 
                      + " '"+ employeeMain.toString() +"', \n" 
                      + " '"+ employeeTemp.toString() +"') \n" ;
-                     
+
         return query;
     }
+
+
+    public String getQueryImportPmis(JSONObject queryParams1, JSONObject queryParams2){
+        String query = " INSERT \n"
+                     + " INTO \n" 
+                     + " hrm.pmis (\n" 
+                     + " oid, \n" 
+                     + " employee_main, \n" 
+                     + " employee_temp, \n" 
+                     + " employee_office) \n" 
+                     + " VALUES (\n" 
+                     + " '"+ queryParams1.getString("oid") +"', \n" 
+                     + " '"+ queryParams1.getJSONObject("employee_main").toString() +"', \n" 
+                     + " '"+ queryParams1.getJSONObject("employee_temp").toString() +"', \n" 
+                     + " '"+ queryParams2.toString() +"') \n" ;
+
+        return query;
+    }
+
 
 
     public String getAllEmployees() {

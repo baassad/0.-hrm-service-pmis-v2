@@ -60,6 +60,74 @@ public class DataEmployeeService {
 
         return responseObject;
     }
+
+
+    public ResponseEntity<?> importEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters){
+        String employeeOid = inputNode.getString("oid");
+
+        JSONObject generalNode = new JSONObject();
+
+        generalNode.put("nameEn", inputNode.getString("nameEn"));
+        generalNode.put("nameBn", inputNode.getString("nameBn"));
+        generalNode.put("religion", inputNode.getString("religion"));
+        generalNode.put("gender", inputNode.getString("gender"));
+        generalNode.put("maritalStatus", inputNode.getString("maritalStatus"));
+        generalNode.put("dateOfBirth", inputNode.getString("dateOfBirth"));
+        generalNode.put("phone", inputNode.getString("phone"));
+        generalNode.put("email", inputNode.getString("email"));
+        generalNode.put("rowStatus", "Active");
+        generalNode.put("createdBy", inputNode.getString("createdBy"));
+        generalNode.put("createdOn", inputNode.getString("createdOn"));
+        generalNode.put("updatedBy", inputNode.getString("updatedBy"));
+        generalNode.put("updatedOn", inputNode.getString("updatedOn"));
+        generalNode.put("config", inputNode.getString("config"));
+        generalNode.put("dataStatus", "Active");
+
+        JSONObject employeeOfficeNode = new JSONObject();
+
+        employeeOfficeNode.put("oid", inputNode.getString("employeeOfficeOid"));
+        employeeOfficeNode.put("officeOid", inputNode.getString("officeOid"));
+        employeeOfficeNode.put("officeUnitOid", inputNode.getString("officeUnitOid"));
+        employeeOfficeNode.put("officeUnitPostOid", inputNode.getString("officeUnitPostOid"));
+        employeeOfficeNode.put("employmentTypeOid", inputNode.getString("employeeTypeOid"));
+        employeeOfficeNode.put("responsibilityType", inputNode.getString("responsibilityType"));
+        employeeOfficeNode.put("joiningDate", inputNode.getString("joiningDate"));
+        employeeOfficeNode.put("isOfficeAdmin", inputNode.getString("isOfficeAdmin"));
+        employeeOfficeNode.put("isOfficeHead", inputNode.getString("isOfficeHead"));
+        employeeOfficeNode.put("isOfficeUnitHead", inputNode.getString("isOfficeUnitHead"));
+        employeeOfficeNode.put("isAttendanceDataEntryOperator", inputNode.getString("isAttendanceDataEntryOperator"));
+        employeeOfficeNode.put("isAttendanceAdmin", inputNode.getString("isAttendanceAdmin"));
+        employeeOfficeNode.put("isApprover", inputNode.getString("isApprover"));
+        employeeOfficeNode.put("isReviewer", inputNode.getString("isReviewer"));
+        employeeOfficeNode.put("status", "Active");
+        employeeOfficeNode.put("createdBy", inputNode.getString("createdBy"));
+        employeeOfficeNode.put("createdOn", inputNode.getString("createdOn"));
+        employeeOfficeNode.put("updatedBy", inputNode.getString("updatedBy"));
+        employeeOfficeNode.put("updatedOn", inputNode.getString("updatedOn"));
+        employeeOfficeNode.put("config", inputNode.getString("config"));
+        employeeOfficeNode.put("dataStatus", "Active");
+
+        String pmisImportQuery = dataHelper.pmisImport(nodePath, employeeOid, generalNode, employeeOfficeNode);
+    
+        List<String> queryList = new ArrayList<>();
+        queryList.add(pmisImportQuery);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }     
+
+        JSONObject response = new JSONObject();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", employeeOid);
+        response.put("body", responseBody);
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
+
+        return responseObject;
+    }
     
 
 
