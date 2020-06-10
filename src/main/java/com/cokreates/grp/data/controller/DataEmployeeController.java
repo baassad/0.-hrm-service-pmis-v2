@@ -256,6 +256,15 @@ public class DataEmployeeController {
         ResponseEntity<?> response = dataEmployeeService.updateNodeInListForRequest(jsonBody);
         return response;
     }
+    @RequestMapping(value = Api.UPDATE_APPROVAL_HISTORY_FOR_REVIEW,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> updateApprovalHistoryForReview(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestParam = new JSONObject(requestBody).getJSONObject("body");
+        ResponseEntity<?> response = dataEmployeeService.updateApprovalHistoryForReview(requestParam);
+        return response;
+    }
 
     @RequestMapping(value = Api.APPEND_NODE_EMPLOYEE_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> appendNodeEmployeeOffice(@RequestBody Map<String, Object> requestBody) {

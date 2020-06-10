@@ -705,4 +705,49 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
 
+    public ResponseEntity<?> updateApprovalHistoryForReview(JSONObject requestParams) {
+
+        JSONObject approvalHistoryInfo = null;
+        try {
+            approvalHistoryInfo = repository.getApprovalHistory(requestParams);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
+            return new ResponseEntity<>(new JSONObject().put("body", new JSONObject().put("error_message", errorMessage)).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        String approvalHistoryOid = requestParams.getString("approvalHistoryOid");
+        JSONObject commentFromRequest = requestParams.getJSONObject("comment");
+
+        String employeeOid = approvalHistoryInfo.getString("employeeoid");
+        JSONObject commentFromApprovalHistory = approvalHistoryInfo.getJSONObject("comment");
+        JSONArray nodepath = new JSONArray();
+        nodepath.put("reviewer");
+
+        String updateCommentAndStatusInApprovalHistoryQuery = dataHelper.updateCommentAndStatusInApprovalHistory(commentFromApprovalHistory,
+                nodepath,
+                commentFromRequest,
+                approvalHistoryOid,
+                "REVIEWED");
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(updateCommentAndStatusInApprovalHistoryQuery);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", approvalHistoryOid);
+        responseBody.put("employeeOid", employeeOid);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
 }

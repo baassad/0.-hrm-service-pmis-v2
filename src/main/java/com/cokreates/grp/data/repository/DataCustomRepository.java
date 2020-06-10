@@ -13,12 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.sql.Connection;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -493,17 +489,51 @@ public class DataCustomRepository {
         return query;
     }
 
+    public JSONObject getApprovalHistory(JSONObject queryParam) throws Exception{
+        String query =
+            "SELECT " +
+                "p.oid as oid, " +
+                "p.employee_oid as employeeOid, " +
+                "p.status as status, " +
+                "p.change as change, " +
+                "p.change_type as changeType, " +
+                "p.comment as comment, " +
+                "p.created_by as createdBy, " +
+                "p.created_on as createdOn, " +
+                "p.updated_by as updatedBy, " +
+                "p.updated_on as updatedOn, " +
+                "p.is_deleted as isDeleted " +
+            "FROM " +
+                "pmis_approval_history p " +
+            "WHERE " +
+        "p.oid = '" + queryParam.getString("approvalHistoryOid") + "'";
 
-	public String queryUpdateEmployeeOfficeInPmis(JSONObject queryParams) {
+        Map<String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
+    }
+
+    public String queryUpdateEmployeeOfficeInPmis(JSONObject queryParams) {
         String query = "update hrm.pmis p "
-                        + "set "
-                        + "employee_office = '"
-                        + queryParams.getJSONObject("employee_office").toString()
-                        + "'::jsonb WHERE "  
-                        + "p.oid = '"
-                        + queryParams.getString("employee_oid")
-                        + "'";
-		return query;
-	}
+                + "set "
+                + "employee_office = '"
+                + queryParams.getJSONObject("employee_office").toString()
+                + "'::jsonb WHERE "
+                + "p.oid = '"
+                + queryParams.getString("employee_oid")
+                + "'";
+        return query;
+    }
 
+    public String getQueryUpdateApprovalHistory(JSONObject queryParams) {
+        String query =
+            "UPDATE " +
+                "pmis_approval_history p " +
+            "SET " +
+                "status = '" + queryParams.getString("status") + "', " +
+                "comment = '" + queryParams.getJSONObject("comment") + "'::jsonb " +
+            "WHERE " +
+                "p.oid = '" + queryParams.getString("oid") + "'";
+
+        return query;
+    }
 }

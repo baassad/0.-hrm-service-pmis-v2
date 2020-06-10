@@ -9,7 +9,6 @@ import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.JsonValidationUtil;
 
-import org.everit.json.schema.ValidationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,4 +183,20 @@ public class DataHelper {
         return repository.queryUpdateEmployeeOfficeInPmis(queryParams);
 	}
 
+    public String updateCommentAndStatusInApprovalHistory
+            (JSONObject commentFromApprovalHistory,
+              JSONArray nodePath,
+              JSONObject commentFromRequest,
+              String approvalHistoryOid,
+              String status) {
+
+        jsonUtil.updateNode(commentFromApprovalHistory, nodePath, commentFromRequest);
+
+        JSONObject queryParams = new JSONObject();
+        queryParams.put("status", status);
+        queryParams.put("comment", commentFromApprovalHistory);
+        queryParams.put("oid", approvalHistoryOid);
+
+        return repository.getQueryUpdateApprovalHistory(queryParams);
+    }
 }
