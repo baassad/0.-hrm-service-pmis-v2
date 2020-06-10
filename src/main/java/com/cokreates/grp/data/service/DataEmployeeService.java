@@ -57,7 +57,7 @@ public class DataEmployeeService {
         // getting employee main info from getEmployee Service
         requestParameters.put("employeeOid", employeeOid);
         ResponseEntity<?> responseObject = this.getEmployee(requestParameters);
-            
+
         return responseObject;
     }
     
@@ -338,10 +338,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         Object mainNode = jsonUtil.getNodeFromList("oid", requestParams.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
@@ -362,10 +360,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.getEmployeeOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.GET_EMPLOYEE_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.GET_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -397,10 +393,8 @@ public class DataEmployeeService {
         try {
             oidList = repository.readEmployeeByOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_EMPLOYEE_BY_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -431,10 +425,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_OFFICE_BY_EMPLOYEE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -467,10 +459,8 @@ public class DataEmployeeService {
         try {
             totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_EMPLOYEE_OFFICE_BY_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONArray resultData = new JSONArray();
         for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
@@ -595,7 +585,6 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
     public ResponseEntity<?> updateNodeInListForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
         String nodeOid              = inputNode.getString("oid");
@@ -640,53 +629,6 @@ public class DataEmployeeService {
         return responseObject;
     }
 
-
-
-    public ResponseEntity<?> removeNodeInListForRequest(JSONObject requestParameters){
-        JSONObject inputNode        = requestParameters.getJSONObject("node");
-        String nodeOid              = inputNode.getString("oid");
-        JSONArray nodePath          = requestParameters.getJSONArray("nodePath");
-        String employeeOid          = requestParameters.getString("employeeOid");
-        JSONObject requesterComment = requestParameters.getJSONObject("comment");
-
-        JSONObject employeeDoc      = null;
-
-        try {
-            employeeDoc = repository.getEmployee(requestParameters);
-        } catch (Exception ex) {
-            String errorMessage;
-            errorMessage = ex.toString();
-            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }  
-
-        JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
-        JSONObject mainNode = (JSONObject) jsonUtil.getNodeFromList("oid", nodeOid, mainDoc, nodePath);
-
-        String queryNodeUpdate = dataHelper.updateEmpTempListInPmis(employeeDoc, nodePath, inputNode, employeeOid);
-        String queryApprovalHistoryInsert = dataHelper.approvalHistoryInsertWithComment(inputNode, mainNode, nodePath,
-                                                                                  employeeOid, requesterComment, "REMOVE_NODE_IN_LIST");
-        List<String> queryList = new ArrayList<>();
-        queryList.add(queryNodeUpdate);
-        queryList.add(queryApprovalHistoryInsert);
-
-        try {
-            repository.performTransaction(queryList);
-        } catch (Exception ex) {
-            String errorMessage;
-            errorMessage = ex.toString();
-            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
-
-        JSONObject response = new JSONObject();
-        JSONObject responseBody = new JSONObject();
-        responseBody.put("oid", employeeOid);
-        response.put("body", responseBody); 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
-        
-        return responseObject;
-    }
-
-
 	public ResponseEntity<?> updateNodeEmployeeOffice(JSONObject requestParams) {
         JSONObject inputNode = requestParams.getJSONObject("node");
         String employeeOid   = requestParams.getString("employeeOid");
@@ -698,18 +640,11 @@ public class DataEmployeeService {
             String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // main_doc = employee_office_doc['employee_office']
-        // node_path = ['nodes']
-        // query_node_update = PMISServiceHelper.update_employee_office_list_in_pmis_by_oid(main_doc,node_path,input_node,employee_oid)
-        // query_list = [query_node_update]
-        // PMISService.dao.execute_queries(query_list)
 
-        // return {'oid': request_params['employeeOid']}, SuccessCodes._200_OK[1]
-        JSONObject mainDoc = employeeOfficeDoc.getJSONObject("employee_office");
         JSONArray nodePath = new JSONArray().put("nodes");
         String queryNodeUpdate = null;
         try {
-            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(mainDoc, nodePath, inputNode, employeeOid);
+            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(employeeOfficeDoc, nodePath, inputNode, employeeOid);
         } catch (Exception ex) {
             String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -730,7 +665,44 @@ public class DataEmployeeService {
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
-
     }
+
+
+	public ResponseEntity<?> appendNodeEmployeeOffice(JSONObject requestParams) {
+        JSONObject inputNode = requestParams.getJSONObject("node");
+        String employeeOid   = requestParams.getString("employeeOid");
+
+        JSONObject employeeOfficeDoc = null;
+        try {
+            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray nodePath = new JSONArray().put("nodes");
+        String queryNodeUpdate = null;
+        try {
+            queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmis(employeeOfficeDoc, nodePath, inputNode, employeeOid);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", requestParams.get("employeeOid"));
+        responseBody.put("nodeOid", inputNode.get("oid"));
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
 
 }
