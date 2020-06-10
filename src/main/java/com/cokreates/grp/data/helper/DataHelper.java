@@ -1,10 +1,35 @@
 package com.cokreates.grp.data.helper;
 
+import com.cokreates.grp.data.constants.JsonSchemas;
+import com.cokreates.grp.data.repository.DataCustomRepository;
+import com.cokreates.grp.data.util.JsonUtil;
+import com.cokreates.grp.data.util.JsonValidationUtil;
+
+import org.everit.json.schema.ValidationException;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+
 @Component
+@Slf4j
 public class DataHelper {
+
+    @Autowired
+    JsonValidationUtil jsonValidationUtil;
+
+    @Autowired
+    JsonUtil jsonUtil;
+
+    @Autowired
+    DataCustomRepository repository;
+
+    private JsonSchemas schemaValues = JsonSchemas.getInstance();
+
 
     public JSONArray formatEmployeeDoc(JSONArray employeeDoc) {
         for (int i = 0; i < employeeDoc.length(); i++) {
@@ -23,5 +48,27 @@ public class DataHelper {
         }
 
         return employeeDoc;
+    }
+
+    public String updateEmpTempInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
+        
+        // JSONObject tempDoc = new JSONObject("{\"name\" : \"hello\"}");
+        JSONObject tempDoc = employeeDoc.getJSONObject("employee_temp");
+
+
+        // jsonValidationUtil.isValidJsonSchema(schemaValues.getPMISEmployeeSchemaV4(), inputNode);
+        
+        jsonUtil.updateNode(tempDoc, nodePath, inputNode);
+
+        String query = repository.queryUpdateEmployeeTempInPmis(tempDoc, employeeOid);
+
+        return query;
+    }
+
+    public String approvalHistoryInsertWithComment(JSONObject inputNode, JSONObject mainNode, JSONArray nodePath,
+                                    String employeeOid, JSONObject requesterComment, String changeType){
+        String query = "";
+
+        return query;
     }
 }

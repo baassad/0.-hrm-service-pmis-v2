@@ -1,0 +1,3170 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1587385255.json", 
+	"title": "Root", 
+	"type": "object",
+	"properties": {
+		"personal": {
+			"$id": "#root/personal", 
+			"title": "Personal", 
+			"type": "object",
+			"properties": {
+				"general": {
+					"$id": "#root/personal/general", 
+					"title": "General", 
+					"type": "object",
+					"properties": {
+						"nameEn": {
+							"$id": "#root/personal/general/nameEn",
+							"title": "Nameen",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"nameBn": {
+							"$id": "#root/personal/general/nameBn",
+							"title": "Namebn",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"maritalStatus": {
+							"$id": "#root/personal/general/maritalStatus",
+							"title": "Maritalstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"bloodGroup": {
+							"$id": "#root/personal/general/bloodGroup",
+							"title": "Bloodgroup",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dateOfBirth": {
+							"$id": "#root/personal/general/dateOfBirth",
+							"title": "Dateofbirth",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"gender": {
+							"$id": "#root/personal/general/gender",
+							"title": "Gender",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"religion": {
+							"$id": "#root/personal/general/religion",
+							"title": "Religion",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"nationality": {
+							"$id": "#root/personal/general/nationality",
+							"title": "Nationality",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/general/email", 
+							"title": "Email", 
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"passport": {
+							"$id": "#root/personal/general/passport", 
+							"title": "Passport", 
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"nid": {
+							"$id": "#root/personal/general/nid", 
+							"title": "Nid", 
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"birthCertificate": {
+							"$id": "#root/personal/general/birthCertificate", 
+							"title": "Birthcertificate", 
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"isFreedomFighter": {
+							"$id": "#root/personal/general/isFreedomFighter",
+							"title": "Isfreedomfighter",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"fromFreedomfighterFamily": {
+							"$id": "#root/personal/general/fromFreedomfighterFamily",
+							"title": "Fromfreedomfighterfamily",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/general/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/general/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/general/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/general/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/general/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/general/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/general/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/general/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"bank": {
+					"$id": "#root/personal/bank",
+					"title": "Bank",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/bank/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/bank/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nameBn": {
+								"$id": "#root/personal/bank/items/nameBn",
+								"title": "Namebn",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"branch": {
+								"$id": "#root/personal/bank/items/branch",
+								"title": "Branch",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"accountNumber": {
+								"$id": "#root/personal/bank/items/accountNumber",
+								"title": "Accountnumber",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"typeOfAccount": {
+								"$id": "#root/personal/bank/items/typeOfAccount",
+								"title": "Typeofaccount",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nameOfAccount": {
+								"$id": "#root/personal/bank/items/nameOfAccount",
+								"title": "Nameofaccount",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"currentCondition": {
+								"$id": "#root/personal/bank/items/currentCondition",
+								"title": "Currentcondition",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/bank/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/bank/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/bank/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/personal/bank/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/bank/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/personal/bank/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/bank/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"travel": {
+					"$id": "#root/personal/travel",
+					"title": "Travel",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/travel/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/travel/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"countryNameEn": {
+								"$id": "#root/personal/travel/items/countryNameEn",
+								"title": "Countrynameen",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"countryNameBn": {
+								"$id": "#root/personal/travel/items/countryNameBn",
+								"title": "Countrynamebn",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"purpose": {
+								"$id": "#root/personal/travel/items/purpose",
+								"title": "Purpose",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"from": {
+								"$id": "#root/personal/travel/items/from",
+								"title": "From",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"to": {
+								"$id": "#root/personal/travel/items/to",
+								"title": "To",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"govtOrderNo": {
+								"$id": "#root/personal/travel/items/govtOrderNo",
+								"title": "Govtorderno",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"govtOrderDate": {
+								"$id": "#root/personal/travel/items/govtOrderDate",
+								"title": "Govtorderdate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/travel/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/travel/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/travel/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/personal/travel/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/travel/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/personal/travel/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/travel/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"health": {
+					"$id": "#root/personal/health",
+					"title": "Health",
+					"type": "object",
+					"properties": {
+						"height": {
+							"$id": "#root/personal/health/height",
+							"title": "Height",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"identifyingMark": {
+							"$id": "#root/personal/health/identifyingMark",
+							"title": "Identifyingmark",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"speciallyAbled": {
+							"$id": "#root/personal/health/speciallyAbled",
+							"title": "Speciallyabled",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"weight": {
+							"$id": "#root/personal/health/weight",
+							"title": "Weight",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/health/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/health/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/health/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/health/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/health/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/health/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/health/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"injuriesSickness": {
+					"$id": "#root/personal/injuriesSickness",
+					"title": "Injuriessickness",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/injuriesSickness/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/injuriesSickness/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"description": {
+								"$id": "#root/personal/injuriesSickness/items/description",
+								"title": "Description",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"type": {
+								"$id": "#root/personal/injuriesSickness/items/type",
+								"title": "Type",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"from": {
+								"$id": "#root/personal/injuriesSickness/items/from",
+								"title": "From",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"to": {
+								"$id": "#root/personal/injuriesSickness/items/to",
+								"title": "To",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"comment": {
+								"$id": "#root/personal/injuriesSickness/items/comment",
+								"title": "Comment",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"phisicallyImpairment": {
+								"$id": "#root/personal/injuriesSickness/items/phisicallyImpairment",
+								"title": "Phisicallyimpairment",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"stability": {
+								"$id": "#root/personal/injuriesSickness/items/stability",
+								"title": "Stability",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/injuriesSickness/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/injuriesSickness/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/injuriesSickness/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/personal/injuriesSickness/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/injuriesSickness/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/personal/injuriesSickness/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/injuriesSickness/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"file": {
+					"$id": "#root/personal/file",
+					"title": "File",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/file/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/file/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"attachmentId": {
+								"$id": "#root/personal/file/items/attachmentId",
+								"title": "Attachmentid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"type": {
+								"$id": "#root/personal/file/items/type",
+								"title": "Type",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"issueDate": {
+								"$id": "#root/personal/file/items/issueDate",
+								"title": "Issuedate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"expiryDate": {
+								"$id": "#root/personal/file/items/expiryDate",
+								"title": "Expirydate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/file/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"fileOid": {
+								"$id": "#root/personal/file/items/fileOid", 
+								"title": "Fileoid", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"fileName": {
+								"$id": "#root/personal/file/items/fileName", 
+								"title": "Filename", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"fileExtension": {
+								"$id": "#root/personal/file/items/fileExtension", 
+								"title": "Fileextension", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/file/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/file/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/personal/file/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/file/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/personal/file/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/file/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"permanentAddress": {
+					"$id": "#root/personal/permanentAddress",
+					"title": "Permanentaddress",
+					"type": "object",
+					"properties": {
+						"oid": {
+							"$id": "#root/personal/permanentAddress/oid",
+							"title": "Oid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"road": {
+							"$id": "#root/personal/permanentAddress/road",
+							"title": "Road",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"village": {
+							"$id": "#root/personal/permanentAddress/village",
+							"title": "Village",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postOffice": {
+							"$id": "#root/personal/permanentAddress/postOffice",
+							"title": "Postoffice",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postCode": {
+							"$id": "#root/personal/permanentAddress/postCode",
+							"title": "Postcode",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"thana": {
+							"$id": "#root/personal/permanentAddress/thana",
+							"title": "Thana",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"district": {
+							"$id": "#root/personal/permanentAddress/district",
+							"title": "District",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"division": {
+							"$id": "#root/personal/permanentAddress/division",
+							"title": "Division",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"country": {
+							"$id": "#root/personal/permanentAddress/country",
+							"title": "Country",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/permanentAddress/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/permanentAddress/email",
+							"title": "Email",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/permanentAddress/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/permanentAddress/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/permanentAddress/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/permanentAddress/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/permanentAddress/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/permanentAddress/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/permanentAddress/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"presentAddress": {
+					"$id": "#root/personal/presentAddress",
+					"title": "Presentaddress",
+					"type": "object",
+					"properties": {
+						"oid": {
+							"$id": "#root/personal/presentAddress/oid",
+							"title": "Oid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"road": {
+							"$id": "#root/personal/presentAddress/road",
+							"title": "Road",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"village": {
+							"$id": "#root/personal/presentAddress/village",
+							"title": "Village",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postOffice": {
+							"$id": "#root/personal/presentAddress/postOffice",
+							"title": "Postoffice",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postCode": {
+							"$id": "#root/personal/presentAddress/postCode",
+							"title": "Postcode",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"thana": {
+							"$id": "#root/personal/presentAddress/thana",
+							"title": "Thana",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"district": {
+							"$id": "#root/personal/presentAddress/district",
+							"title": "District",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"division": {
+							"$id": "#root/personal/presentAddress/division",
+							"title": "Division",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"country": {
+							"$id": "#root/personal/presentAddress/country",
+							"title": "Country",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/presentAddress/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/presentAddress/email",
+							"title": "Email",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/presentAddress/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/presentAddress/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/presentAddress/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/presentAddress/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/presentAddress/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/presentAddress/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/presentAddress/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"foreignAddress": {
+					"$id": "#root/personal/foreignAddress",
+					"title": "Foreignaddress",
+					"type": "object",
+					"properties": {
+						"oid": {
+							"$id": "#root/personal/foreignAddress/oid",
+							"title": "Oid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"houseRoadBlockSector": {
+							"$id": "#root/personal/foreignAddress/houseRoadBlockSector",
+							"title": "Houseroadblocksector",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"stateProvinceRegion": {
+							"$id": "#root/personal/foreignAddress/stateProvinceRegion",
+							"title": "Stateprovinceregion",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"zipPostalCode": {
+							"$id": "#root/personal/foreignAddress/zipPostalCode",
+							"title": "Zippostalcode",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"city": {
+							"$id": "#root/personal/foreignAddress/city",
+							"title": "City",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"country": {
+							"$id": "#root/personal/foreignAddress/country",
+							"title": "Country",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/foreignAddress/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/foreignAddress/email",
+							"title": "Email",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/foreignAddress/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/foreignAddress/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/foreignAddress/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/foreignAddress/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/foreignAddress/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/foreignAddress/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/foreignAddress/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"emergencyContactAddress": {
+					"$id": "#root/personal/emergencyContactAddress",
+					"title": "Emergencycontactaddress",
+					"type": "object",
+					"properties": {
+						"oid": {
+							"$id": "#root/personal/emergencyContactAddress/oid",
+							"title": "Oid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"houseRoadBlockSector": {
+							"$id": "#root/personal/emergencyContactAddress/houseRoadBlockSector",
+							"title": "Houseroadblocksector",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"villageColonyWard": {
+							"$id": "#root/personal/emergencyContactAddress/villageColonyWard",
+							"title": "Villagecolonyward",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postOffice": {
+							"$id": "#root/personal/emergencyContactAddress/postOffice",
+							"title": "Postoffice",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postCode": {
+							"$id": "#root/personal/emergencyContactAddress/postCode",
+							"title": "Postcode",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"thana": {
+							"$id": "#root/personal/emergencyContactAddress/thana",
+							"title": "Thana",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"district": {
+							"$id": "#root/personal/emergencyContactAddress/district",
+							"title": "District",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"division": {
+							"$id": "#root/personal/emergencyContactAddress/division",
+							"title": "Division",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"country": {
+							"$id": "#root/personal/emergencyContactAddress/country",
+							"title": "Country",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/emergencyContactAddress/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/emergencyContactAddress/email",
+							"title": "Email",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/emergencyContactAddress/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/emergencyContactAddress/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/emergencyContactAddress/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/emergencyContactAddress/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/emergencyContactAddress/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/emergencyContactAddress/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/emergencyContactAddress/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"birthPlaceAddress": {
+					"$id": "#root/personal/birthPlaceAddress",
+					"title": "Birthplaceaddress",
+					"type": "object",
+					"properties": {
+						"oid": {
+							"$id": "#root/personal/birthPlaceAddress/oid",
+							"title": "Oid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"houseRoadBlockSector": {
+							"$id": "#root/personal/birthPlaceAddress/houseRoadBlockSector",
+							"title": "Houseroadblocksector",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"villageColonyWard": {
+							"$id": "#root/personal/birthPlaceAddress/villageColonyWard",
+							"title": "Villagecolonyward",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postOffice": {
+							"$id": "#root/personal/birthPlaceAddress/postOffice",
+							"title": "Postoffice",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"postCode": {
+							"$id": "#root/personal/birthPlaceAddress/postCode",
+							"title": "Postcode",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"thana": {
+							"$id": "#root/personal/birthPlaceAddress/thana",
+							"title": "Thana",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"district": {
+							"$id": "#root/personal/birthPlaceAddress/district",
+							"title": "District",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"division": {
+							"$id": "#root/personal/birthPlaceAddress/division",
+							"title": "Division",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"country": {
+							"$id": "#root/personal/birthPlaceAddress/country",
+							"title": "Country",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"phone": {
+							"$id": "#root/personal/birthPlaceAddress/phone",
+							"title": "Phone",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"email": {
+							"$id": "#root/personal/birthPlaceAddress/email",
+							"title": "Email",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/personal/birthPlaceAddress/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/personal/birthPlaceAddress/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/personal/birthPlaceAddress/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/personal/birthPlaceAddress/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/personal/birthPlaceAddress/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/personal/birthPlaceAddress/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/personal/birthPlaceAddress/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"familyInfo": {
+					"$id": "#root/personal/familyInfo",
+					"title": "Familyinfo",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/familyInfo/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/familyInfo/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nameEn": {
+								"$id": "#root/personal/familyInfo/items/nameEn",
+								"title": "Nameen",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nameBn": {
+								"$id": "#root/personal/familyInfo/items/nameBn",
+								"title": "Namebn",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nationality": {
+								"$id": "#root/personal/familyInfo/items/nationality",
+								"title": "Nationality",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"profession": {
+								"$id": "#root/personal/familyInfo/items/profession",
+								"title": "Profession",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dateOfBirth": {
+								"$id": "#root/personal/familyInfo/items/dateOfBirth",
+								"title": "Dateofbirth",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"relation": {
+								"$id": "#root/personal/familyInfo/items/relation",
+								"title": "Relation",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"photo": {
+								"$id": "#root/personal/familyInfo/items/photo",
+								"title": "Photo",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"maritalStatus": {
+								"$id": "#root/personal/familyInfo/items/maritalStatus",
+								"title": "Maritalstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"hasDisability": {
+								"$id": "#root/personal/familyInfo/items/hasDisability",
+								"title": "Hasdisability",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nid": {
+								"$id": "#root/personal/familyInfo/items/nid",
+								"title": "Nid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"birthCertificate": {
+								"$id": "#root/personal/familyInfo/items/birthCertificate",
+								"title": "Birthcertificate",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"Passport": {
+								"$id": "#root/personal/familyInfo/items/Passport",
+								"title": "Passport",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"isGovtEmployee": {
+								"$id": "#root/personal/familyInfo/items/isGovtEmployee",
+								"title": "Isgovtemployee",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"gender": {
+								"$id": "#root/personal/familyInfo/items/gender",
+								"title": "Gender",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"address": {
+								"$id": "#root/personal/familyInfo/items/address",
+								"title": "Address",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"organization": {
+								"$id": "#root/personal/familyInfo/items/organization",
+								"title": "Organization",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"designation": {
+								"$id": "#root/personal/familyInfo/items/designation",
+								"title": "Designation",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"location": {
+								"$id": "#root/personal/familyInfo/items/location",
+								"title": "Location",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/familyInfo/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/familyInfo/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/familyInfo/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/personal/familyInfo/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/familyInfo/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/personal/familyInfo/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/familyInfo/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				}
+			}
+		}
+,
+		"professional": {
+			"$id": "#root/professional",
+			"title": "Professional",
+			"type": "object",
+			"properties": {
+				"professionalGeneral": {
+					"$id": "#root/professional/professionalGeneral",
+					"title": "Professionalgeneral",
+					"type": "object",
+					"properties": {
+						"employmentType": {
+							"$id": "#root/professional/professionalGeneral/employmentType",
+							"title": "Employmenttype",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"isGovernmentEmployee": {
+							"$id": "#root/professional/professionalGeneral/isGovernmentEmployee",
+							"title": "Isgovernmentemployee",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"batch": {
+							"$id": "#root/professional/professionalGeneral/batch",
+							"title": "Batch",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"cadre": {
+							"$id": "#root/professional/professionalGeneral/cadre",
+							"title": "Cadre",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"cadreDate": {
+							"$id": "#root/professional/professionalGeneral/cadreDate",
+							"title": "Cadredate",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"grade": {
+							"$id": "#root/professional/professionalGeneral/grade",
+							"title": "Grade",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"payScale": {
+							"$id": "#root/professional/professionalGeneral/payScale",
+							"title": "Payscale",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"designation": {
+							"$id": "#root/professional/professionalGeneral/designation",
+							"title": "Designation",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rank": {
+							"$id": "#root/professional/professionalGeneral/rank",
+							"title": "Rank",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"officeName": {
+							"$id": "#root/professional/professionalGeneral/officeName",
+							"title": "Officename",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"govtId": {
+							"$id": "#root/professional/professionalGeneral/govtId",
+							"title": "Govtid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"enothiId": {
+							"$id": "#root/professional/professionalGeneral/enothiId",
+							"title": "Enothiid",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"location": {
+							"$id": "#root/professional/professionalGeneral/location",
+							"title": "Location",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"confirmationGODate": {
+							"$id": "#root/professional/professionalGeneral/confirmationGODate",
+							"title": "Confirmationgodate",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"gazettedDate": {
+							"$id": "#root/professional/professionalGeneral/gazettedDate",
+							"title": "Gazetteddate",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"joiningDate": {
+							"$id": "#root/professional/professionalGeneral/joiningDate",
+							"title": "Joiningdate",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"prlDate": {
+							"$id": "#root/professional/professionalGeneral/prlDate",
+							"title": "Prldate",
+							"type": ["string", "null", "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"presentSalary": {
+							"$id": "#root/professional/professionalGeneral/presentSalary",
+							"title": "Presentsalary",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"status": {
+							"$id": "#root/professional/professionalGeneral/status",
+							"title": "Status",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"rowStatus": {
+							"$id": "#root/professional/professionalGeneral/rowStatus",
+							"title": "Rowstatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdBy": {
+							"$id": "#root/professional/professionalGeneral/createdBy",
+							"title": "Createdby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"createdOn": {
+							"$id": "#root/professional/professionalGeneral/createdOn",
+							"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedBy": {
+							"$id": "#root/professional/professionalGeneral/updatedBy",
+							"title": "Updatedby",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"updatedOn": {
+							"$id": "#root/professional/professionalGeneral/updatedOn",
+							"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"config": {
+							"$id": "#root/professional/professionalGeneral/config",
+							"title": "Config",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
+						"dataStatus": {
+							"$id": "#root/professional/professionalGeneral/dataStatus",
+							"title": "Datastatus",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"promotion": {
+					"$id": "#root/professional/promotion",
+					"title": "Promotion",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/professional/promotion/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/professional/promotion/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dateOfPromotion": {
+								"$id": "#root/professional/promotion/items/dateOfPromotion",
+								"title": "Dateofpromotion",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dateOfGO": {
+								"$id": "#root/professional/promotion/items/dateOfGO",
+								"title": "Dateofgo",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"gono": {
+								"$id": "#root/professional/promotion/items/gono",
+								"title": "Gono",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"natureOfPromotion": {
+								"$id": "#root/professional/promotion/items/natureOfPromotion",
+								"title": "Natureofpromotion",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"payScaleToWhichPromoted": {
+								"$id": "#root/professional/promotion/items/payScaleToWhichPromoted",
+								"title": "Payscaletowhichpromoted",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rank": {
+								"$id": "#root/professional/promotion/items/rank",
+								"title": "Rank",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"grade": {
+								"$id": "#root/professional/promotion/items/grade", 
+								"title": "Grade", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/professional/promotion/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/professional/promotion/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/professional/promotion/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/professional/promotion/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/professional/promotion/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/professional/promotion/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/professional/promotion/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"posting": {
+					"$id": "#root/professional/posting",
+					"title": "Posting",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/professional/posting/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/professional/posting/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"post": {
+								"$id": "#root/professional/posting/items/post",
+								"title": "Post",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"organization": {
+								"$id": "#root/professional/posting/items/organization",
+								"title": "Organization",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"location": {
+								"$id": "#root/professional/posting/items/location",
+								"title": "Location",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"district": {
+								"$id": "#root/professional/posting/items/district",
+								"title": "District",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"city": {
+								"$id": "#root/professional/posting/items/city",
+								"title": "City",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"from": {
+								"$id": "#root/professional/posting/items/from",
+								"title": "From",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"to": {
+								"$id": "#root/professional/posting/items/to",
+								"title": "To",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"payScale": {
+								"$id": "#root/professional/posting/items/payScale",
+								"title": "Payscale",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"payLastDrawn": {
+								"$id": "#root/professional/posting/items/payLastDrawn", 
+								"title": "Paylastdrawn", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"grade": {
+								"$id": "#root/professional/posting/items/grade", 
+								"title": "Grade", 
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/professional/posting/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/professional/posting/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/professional/posting/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/professional/posting/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/professional/posting/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/professional/posting/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/professional/posting/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"jobHistory": {
+					"$id": "#root/professional/jobHistory",
+					"title": "Jobhistory",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/professional/jobHistory/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/professional/jobHistory/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"post": {
+								"$id": "#root/professional/jobHistory/items/post",
+								"title": "Post",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"from": {
+								"$id": "#root/professional/jobHistory/items/from",
+								"title": "From",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"to": {
+								"$id": "#root/professional/jobHistory/items/to",
+								"title": "To",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"type": {
+								"$id": "#root/professional/jobHistory/items/type",
+								"title": "Type",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"officeName": {
+								"$id": "#root/professional/jobHistory/items/officeName",
+								"title": "Officename",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"officeAddress": {
+								"$id": "#root/professional/jobHistory/items/officeAddress",
+								"title": "Officeaddress",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/professional/jobHistory/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/professional/jobHistory/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/professional/jobHistory/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/professional/jobHistory/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/professional/jobHistory/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/professional/jobHistory/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/professional/jobHistory/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"serviceHistory": {
+					"$id": "#root/professional/serviceHistory",
+					"title": "Servicehistory",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/professional/serviceHistory/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/professional/serviceHistory/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"govtServiceDate": {
+								"$id": "#root/professional/serviceHistory/items/govtServiceDate",
+								"title": "Govtservicedate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"gazettedDate": {
+								"$id": "#root/professional/serviceHistory/items/gazettedDate",
+								"title": "Gazetteddate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"encadrementDate": {
+								"$id": "#root/professional/serviceHistory/items/encadrementDate",
+								"title": "Encadrementdate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"seniorityDate": {
+								"$id": "#root/professional/serviceHistory/items/seniorityDate",
+								"title": "Senioritydate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"cadre": {
+								"$id": "#root/professional/serviceHistory/items/cadre",
+								"title": "Cadre",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/professional/serviceHistory/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/professional/serviceHistory/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/professional/serviceHistory/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/professional/serviceHistory/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/professional/serviceHistory/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/professional/serviceHistory/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/professional/serviceHistory/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"disciplinaryAction": {
+					"$id": "#root/professional/disciplinaryAction",
+					"title": "Disciplinaryaction",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/professional/disciplinaryAction/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/professional/disciplinaryAction/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"type": {
+								"$id": "#root/professional/disciplinaryAction/items/type",
+								"title": "Type",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"details": {
+								"$id": "#root/professional/disciplinaryAction/items/details",
+								"title": "Details",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"currentSituation": {
+								"$id": "#root/professional/disciplinaryAction/items/currentSituation",
+								"title": "Currentsituation",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"decision": {
+								"$id": "#root/professional/disciplinaryAction/items/decision",
+								"title": "Decision",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dateOfJudgement": {
+								"$id": "#root/professional/disciplinaryAction/items/dateOfJudgement",
+								"title": "Dateofjudgement",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"courtType": {
+								"$id": "#root/professional/disciplinaryAction/items/courtType",
+								"title": "Courttype",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"observation": {
+								"$id": "#root/professional/disciplinaryAction/items/observation",
+								"title": "Observation",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/professional/disciplinaryAction/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/professional/disciplinaryAction/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/professional/disciplinaryAction/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/professional/disciplinaryAction/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/professional/disciplinaryAction/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/professional/disciplinaryAction/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/professional/disciplinaryAction/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				}
+			}
+		}
+,
+		"qualification": {
+			"$id": "#root/qualification",
+			"title": "Qualification",
+			"type": "object",
+			"properties": {
+				"education": {
+					"$id": "#root/qualification/education",
+					"title": "Education",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/qualification/education/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/qualification/education/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"degree": {
+								"$id": "#root/qualification/education/items/degree",
+								"title": "Degree",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"subject": {
+								"$id": "#root/qualification/education/items/subject",
+								"title": "Subject",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"institution": {
+								"$id": "#root/qualification/education/items/institution",
+								"title": "Institution",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"isForeignInstitution": {
+								"$id": "#root/qualification/education/items/isForeignInstitution",
+								"title": "Isforeigninstitution",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"result": {
+								"$id": "#root/qualification/education/items/result",
+								"title": "Result",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"achieved": {
+								"$id": "#root/qualification/education/items/achieved",
+								"title": "Achieved",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"scale": {
+								"$id": "#root/qualification/education/items/scale",
+								"title": "Scale",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"startingDate": {
+								"$id": "#root/qualification/education/items/startingDate",
+								"title": "Startingdate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"endingDate": {
+								"$id": "#root/qualification/education/items/endingDate",
+								"title": "Endingdate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"country": {
+								"$id": "#root/qualification/education/items/country",
+								"title": "Country",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/qualification/education/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/qualification/education/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/qualification/education/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/qualification/education/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/qualification/education/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/qualification/education/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/qualification/education/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"language": {
+					"$id": "#root/qualification/language",
+					"title": "Language",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/qualification/language/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/qualification/language/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"languageName": {
+								"$id": "#root/qualification/language/items/languageName",
+								"title": "Languagename",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"isNativeLanguage": {
+								"$id": "#root/qualification/language/items/isNativeLanguage",
+								"title": "Isnativelanguage",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"readingSkill": {
+								"$id": "#root/qualification/language/items/readingSkill",
+								"title": "Readingskill",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"writingSkill": {
+								"$id": "#root/qualification/language/items/writingSkill",
+								"title": "Writingskill",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"speakingSkill": {
+								"$id": "#root/qualification/language/items/speakingSkill",
+								"title": "Speakingskill",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"listeningSkill": {
+								"$id": "#root/qualification/language/items/listeningSkill",
+								"title": "Listeningskill",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/qualification/language/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/qualification/language/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/qualification/language/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/qualification/language/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/qualification/language/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/qualification/language/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/qualification/language/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"award": {
+					"$id": "#root/qualification/award",
+					"title": "Award",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/qualification/award/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/qualification/award/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"titleOfAward": {
+								"$id": "#root/qualification/award/items/titleOfAward",
+								"title": "Titleofaward",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"awardReceivalPlace": {
+								"$id": "#root/qualification/award/items/awardReceivalPlace",
+								"title": "Awardreceivalplace",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"awardReceivedDate": {
+								"$id": "#root/qualification/award/items/awardReceivedDate",
+								"title": "Awardreceiveddate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"country": {
+								"$id": "#root/qualification/award/items/country",
+								"title": "Country",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/qualification/award/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/qualification/award/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/qualification/award/items/createdOn",
+								"title": "Createdon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"updatedBy": {
+								"$id": "#root/qualification/award/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/qualification/award/items/updatedOn",
+								"title": "Updatedon",
+							"type": ["string", "null",  "number"],
+							"default": "",
+							"pattern": "^.*$"
+						},
+							"config": {
+								"$id": "#root/qualification/award/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/qualification/award/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"trainingAndProfessionalCertification": {
+					"$id": "#root/qualification/trainingAndProfessionalCertification",
+					"title": "Trainingandprofessionalcertification",
+					"type": "object",
+					"properties": {
+						"training": {
+							"$id": "#root/qualification/trainingAndProfessionalCertification/training",
+							"title": "Training",
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/qualification/trainingAndProfessionalCertification/training/items",
+								"title": "Items",
+								"type": "object",
+								"properties": {
+									"oid": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/oid",
+										"title": "Oid",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"subjectName": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/subjectName",
+										"title": "Subjectname",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"subjectType": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/subjectType",
+										"title": "Subjecttype",
+										"type": "array",
+										"default": [],
+										"items":{
+											"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/subjectType/items",
+											"title": "Items",
+											"type": "string",
+											"default": "",
+											"pattern": "^.*$"
+										}
+									},
+									"institution": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/institution",
+										"title": "Institution",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"country": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/country",
+										"title": "Country",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"startedFrom": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/startedFrom",
+										"title": "startedFrom",
+										"type": ["string", "null", "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"endedOn": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/endedOn",
+										"title": "Endedon",
+										"type": ["string", "null", "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"grade": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/grade",
+										"title": "Grade",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"position": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/position",
+										"title": "Position",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"fundingSource": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/fundingSource",
+										"title": "Fundingsource",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"rowStatus": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/rowStatus",
+										"title": "Rowstatus",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"createdBy": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/createdBy",
+										"title": "Createdby",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"createdOn": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/createdOn",
+										"title": "Createdon",
+										"type": ["string", "null",  "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"updatedBy": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/updatedBy",
+										"title": "Updatedby",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"updatedOn": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/updatedOn",
+										"title": "Updatedon",
+										"type": ["string", "null",  "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"config": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/config",
+										"title": "Config",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"dataStatus": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/training/items/dataStatus",
+										"title": "Datastatus",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									}
+								}
+							}
+
+						},
+						"professionalCertification": {
+							"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification",
+							"title": "Professionalcertification",
+							"type": "array",
+							"default": [],
+							"items":{
+								"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items",
+								"title": "Items",
+								"type": "object",
+								"properties": {
+									"oid": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/oid",
+										"title": "Oid",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"title": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/title",
+										"title": "Title",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"institution": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/institution",
+										"title": "Institution",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"receivalDate": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/receivalDate",
+										"title": "Receivaldate",
+										"type": ["string", "null", "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"expiryDate": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/expiryDate",
+										"title": "Expirydate",
+										"type": ["string", "null", "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"duration": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/duration",
+										"title": "Duration",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"country": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/country",
+										"title": "Country",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"comment": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/comment",
+										"title": "Comment",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"rowStatus": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/rowStatus",
+										"title": "Rowstatus",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"createdBy": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/createdBy",
+										"title": "Createdby",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"createdOn": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/createdOn",
+										"title": "Createdon",
+										"type": ["string", "null",  "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"updatedBy": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/updatedBy",
+										"title": "Updatedby",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"updatedOn": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/updatedOn",
+										"title": "Updatedon",
+										"type": ["string", "null",  "number"],
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"config": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/config",
+										"title": "Config",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									},
+									"dataStatus": {
+										"$id": "#root/qualification/trainingAndProfessionalCertification/professionalCertification/items/dataStatus",
+										"title": "Datastatus",
+										"type": "string",
+										"default": "",
+										"pattern": "^.*$"
+									}
+								}
+							}
+
+						}
+					}
+				}
+,
+				"publication": {
+					"$id": "#root/qualification/publication",
+					"title": "Publication",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/qualification/publication/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/qualification/publication/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"publicationType": {
+								"$id": "#root/qualification/publication/items/publicationType",
+								"title": "Publicationtype",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"publicationName": {
+								"$id": "#root/qualification/publication/items/publicationName",
+								"title": "Publicationname",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"publicationDate": {
+								"$id": "#root/qualification/publication/items/publicationDate",
+								"title": "Publicationdate",
+								"type": ["string", "null", "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"description": {
+								"$id": "#root/qualification/publication/items/description",
+								"title": "Description",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/qualification/publication/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/qualification/publication/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/qualification/publication/items/createdOn",
+								"title": "Createdon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedBy": {
+								"$id": "#root/qualification/publication/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/qualification/publication/items/updatedOn",
+								"title": "Updatedon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"config": {
+								"$id": "#root/qualification/publication/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/qualification/publication/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
+				"professionalQualification": {
+					"$id": "#root/qualification/professionalQualification",
+					"title": "Professionalqualification",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/qualification/professionalQualification/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/qualification/professionalQualification/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"qualification": {
+								"$id": "#root/qualification/professionalQualification/items/qualification",
+								"title": "Qualification",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/qualification/professionalQualification/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/qualification/professionalQualification/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/qualification/professionalQualification/items/createdOn",
+								"title": "Createdon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedBy": {
+								"$id": "#root/qualification/professionalQualification/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/qualification/professionalQualification/items/updatedOn",
+								"title": "Updatedon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"config": {
+								"$id": "#root/qualification/professionalQualification/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/qualification/professionalQualification/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+	}
+}

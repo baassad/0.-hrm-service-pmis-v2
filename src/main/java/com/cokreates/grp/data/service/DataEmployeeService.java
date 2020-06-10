@@ -419,8 +419,9 @@ public class DataEmployeeService {
         JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
         JSONObject mainNode = (JSONObject) jsonUtil.getJsonNode(mainDoc, nodePath);
 
-        String queryNodeUpdate = null;
-        String queryApprovalHistoryInsert = null;
+        String queryNodeUpdate = dataHelper.updateEmpTempInPmis(employeeDoc, nodePath, inputNode, employeeOid);
+        String queryApprovalHistoryInsert = dataHelper.approvalHistoryInsertWithComment(inputNode, mainNode, nodePath,
+                                                                                employeeOid, requesterComment, "UPDATE_NODE_IN_DOC");
 
         // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
         // return responseObject;

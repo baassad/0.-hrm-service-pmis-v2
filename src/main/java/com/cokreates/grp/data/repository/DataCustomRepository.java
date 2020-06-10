@@ -381,5 +381,21 @@ public class DataCustomRepository {
                      + ")%%'";
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
         return dataUtil.listToJsonArray(result);
-	}
+    }
+    
+
+    public String queryUpdateEmployeeTempInPmis(JSONObject employeeTemp, String employeeOid){
+        String query = " UPDATE \n"
+                     + " hrm.pmis p \n"
+                     + " SET \n"
+                     + " employee_temp = '" + employeeTemp.toString() + "'::jsonb \n"
+                     + " WHERE \n"
+                     + " p.oid = '"+ employeeOid +"' \n";
+        
+        log.warn(query);
+
+        return query;
+    }
+
+
 }
