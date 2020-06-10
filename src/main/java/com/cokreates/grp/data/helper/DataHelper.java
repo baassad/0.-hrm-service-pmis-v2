@@ -69,6 +69,20 @@ public class DataHelper {
     }
 
 
+    public String updateEmpTempListInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
+
+        JSONObject tempDoc = employeeDoc.getJSONObject("employee_temp");
+    
+        // jsonValidationUtil.isValidJsonSchema(schemaValues.getPMISEmployeeSchemaV4(), inputNode);
+
+        jsonUtil.listAppendNode(tempDoc, nodePath, inputNode);
+
+        String query = repository.queryUpdateEmployeeTempInPmis(tempDoc, employeeOid);
+
+        return query;
+    }
+
+
     public String approvalHistoryInsertWithComment(JSONObject inputNode, JSONObject mainNode, JSONArray nodePath,
                                     String employeeOid, JSONObject requesterComment, String changeType){
 

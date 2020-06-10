@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -459,6 +460,52 @@ public class DataEmployeeService {
 
         JSONObject response = new JSONObject();
         response.put("body", new JSONObject().put("oid", employeeOid));
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
+        
+        return responseObject;
+    }
+
+
+
+    public ResponseEntity<?> appendNodeInListForRequest(JSONObject requestParameters){
+        JSONObject inputNode        = requestParameters.getJSONObject("node");
+        JSONArray nodePath          = requestParameters.getJSONArray("nodePath");
+        String employeeOid          = requestParameters.getString("employeeOid");
+        JSONObject requesterComment = requestParameters.getJSONObject("comment");
+
+        String inputNodeOid = UUID.randomUUID().toString(); 
+        inputNode.put("oid", inputNodeOid);
+
+        JSONObject employeeDoc      = null;
+
+        try {
+            employeeDoc = repository.getEmployee(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }  
+
+        String queryNodeUpdate = dataHelper.updateEmpTempListInPmis(employeeDoc, nodePath, inputNode, employeeOid);
+        String queryApprovalHistoryInsert = dataHelper.approvalHistoryInsertWithComment(inputNode, new JSONObject("{}"), nodePath,
+                                                                                  employeeOid, requesterComment, "APPEND_NODE_IN_LIST");
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        queryList.add(queryApprovalHistoryInsert);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }     
+
+        JSONObject response = new JSONObject();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", employeeOid) ;
+        responseBody.put("nodeOid", inputNodeOid) ;
+        response.put("body", responseBody);
         ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
         
         return responseObject;
