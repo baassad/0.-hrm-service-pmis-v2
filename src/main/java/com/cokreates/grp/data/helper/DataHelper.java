@@ -1,5 +1,7 @@
 package com.cokreates.grp.data.helper;
 
+import java.util.UUID;
+
 import com.cokreates.grp.data.constants.JsonSchemas;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
@@ -66,10 +68,28 @@ public class DataHelper {
         return query;
     }
 
-    
+
     public String approvalHistoryInsertWithComment(JSONObject inputNode, JSONObject mainNode, JSONArray nodePath,
                                     String employeeOid, JSONObject requesterComment, String changeType){
-        String query = "";
+
+        JSONObject commentNodeSkeleton = new JSONObject(schemaValues.getApprovalHistoryCommentJsonSkeletonV1().toString());
+        JSONObject changeNodeSkeleton = new JSONObject(schemaValues.getApprovalHistoryChangeJsonSkeletonV1().toString());
+
+        commentNodeSkeleton.put("requester", requesterComment);
+        
+        changeNodeSkeleton.put("nodeName", nodePath.get(nodePath.length()-1));
+        changeNodeSkeleton.put("nodePath", nodePath);
+        changeNodeSkeleton.put("oldValue", mainNode);
+        changeNodeSkeleton.put("newValue", inputNode);
+
+        JSONObject approvalHistory = new JSONObject();
+        approvalHistory.put("oid", UUID.randomUUID().toString());
+        approvalHistory.put("employee_oid", employeeOid);
+        approvalHistory.put("change", changeNodeSkeleton);
+        approvalHistory.put("comment", commentNodeSkeleton);
+        approvalHistory.put("change_type", changeType);
+
+        String query = repository.getQueryInsertApprovalHistory(approvalHistory);
 
         return query;
     

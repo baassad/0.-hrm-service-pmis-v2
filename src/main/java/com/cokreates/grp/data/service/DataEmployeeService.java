@@ -445,9 +445,23 @@ public class DataEmployeeService {
         String queryApprovalHistoryInsert = dataHelper.approvalHistoryInsertWithComment(inputNode, mainNode, nodePath,
                                                                                 employeeOid, requesterComment, "UPDATE_NODE_IN_DOC");
 
-        // ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        // return responseObject;
-        return null;
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        queryList.add(queryApprovalHistoryInsert);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }     
+
+        JSONObject response = new JSONObject();
+        response.put("body", new JSONObject().put("oid", employeeOid));
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
+        
+        return responseObject;
     }
 	
 

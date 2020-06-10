@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +30,16 @@ public class DataCustomRepository {
     @Autowired
     DataUtil dataUtil;
 
-
     @Transactional
     public void performTransaction(List<String> queryList){
         for(int i = 0 ; i < queryList.size(); i++){
-            jdbcTemplate.queryForMap(queryList.get(i));
+            try{
+                Map<String, Object> output = jdbcTemplate.queryForMap(queryList.get(i));
+            }
+            catch(Exception e){
+                log.warn("No object returned by the query");
+            }
+            // log.warn(dataUtil.mapToJsonObject(output).toString());
         }
     }
 
@@ -421,8 +429,34 @@ public class DataCustomRepository {
                      + " employee_temp = '" + employeeTemp.toString() + "'::jsonb \n"
                      + " WHERE \n"
                      + " p.oid = '"+ employeeOid +"' \n";
-        
-        log.warn(query);
+
+        return query;
+    }
+
+
+    public String getQueryInsertApprovalHistory(JSONObject queryParams){
+        String query = " INSERT \n"
+                     + " INTO \n"
+                     + " hrm.pmis_approval_history (\n"
+                     + " oid, \n"
+                     + " created_by, \n"
+                     + " created_on, \n"
+                     + " is_deleted, \n"
+                     + " employee_oid, \n"
+                     + " change, \n"
+                     + " change_type,  \n"
+                     + " comment, \n"
+                     + " status) \n"
+                     + " VALUES ( \n"
+                     + " '"+ queryParams.getString("oid") +"', \n"
+                     + " 'System', \n"
+                     + " '"+ LocalDateTime.now().toString() +"', \n"
+                     + " 'No', \n"
+                     + " '"+ queryParams.getString("employee_oid") +"', \n"
+                     + " '"+ queryParams.getJSONObject("change").toString() +"'::jsonb, \n"
+                     + " '"+ queryParams.getString("change_type") +"', \n"
+                     + " '"+ queryParams.getJSONObject("comment").toString() +"'::jsonb, \n"
+                     + " 'REQUESTED') \n";
 
         return query;
     }
