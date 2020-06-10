@@ -484,7 +484,7 @@ public class DataCustomRepository {
                         + "set "
                         + "employee_office = '"
                         + queryParams.getJSONObject("employee_office").toString()
-                        + "'::jsonb WHERE"  
+                        + "'::jsonb WHERE "  
                         + "p.oid = '"
                         + queryParams.getString("employee_oid")
                         + "'";
