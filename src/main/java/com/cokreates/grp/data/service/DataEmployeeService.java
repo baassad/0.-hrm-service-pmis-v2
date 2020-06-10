@@ -310,10 +310,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         Object mainNode = jsonUtil.getNodeFromList("oid", requestParams.getString("nodeOid"), employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
@@ -334,10 +332,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.getEmployeeOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.GET_EMPLOYEE_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.GET_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -369,10 +365,8 @@ public class DataEmployeeService {
         try {
             oidList = repository.readEmployeeByOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_EMPLOYEE_BY_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -403,10 +397,8 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_OFFICE_BY_EMPLOYEE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         JSONObject responseBody = new JSONObject();
@@ -439,10 +431,8 @@ public class DataEmployeeService {
         try {
             totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
         } catch (Exception ex) {
-            JSONObject error = new JSONObject();
-            error.put("API" ,Api.READ_EMPLOYEE_OFFICE_BY_OFFICE);
-            error.put("Exception", ex);
-            return new ResponseEntity<>(error.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONArray resultData = new JSONArray();
         for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
