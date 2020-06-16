@@ -345,11 +345,14 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = ex.toString();
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
+        }
 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
 
-        return responseObject;
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> readFromApprovalHistoryByStatus(JSONObject requestParameters){
