@@ -267,10 +267,10 @@ public class DataCustomRepository {
         if (!employeeOids.equals("()") && !checkingStatus.equals("NOT ANY")){
             query += " or (p.employee_oid in \n" 
                     + employeeOids 
-                    + " and p.status = '"+ checkingStatus +"')) \n";
+                    + " and p.status = '"+ checkingStatus +"') \n";
         }
 
-        query += " and p.is_deleted = 'No'\n";
+        query += ") and p.is_deleted = 'No'\n";
 
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
         

@@ -317,7 +317,8 @@ public class DataEmployeeService {
         employeeOids = String.join(",", employeeOidArrayList);
         employeeOids = "(" + employeeOids + ")";
 
-        requestParameters = (JSONObject) requestParameters.remove("miscellaneousRequestProperty");
+        requestParameters.remove("miscellaneousRequestProperty");
+
 
         try {
             response = repository.readFromApprovalHistoryByActor(requestParameters, actor, checkingStatus, employeeOids);
@@ -325,10 +326,14 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = ex.toString();
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
+        }
 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
-        return responseObject;
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> readFromApprovalHistoryByEmployee(JSONObject requestParameters){
