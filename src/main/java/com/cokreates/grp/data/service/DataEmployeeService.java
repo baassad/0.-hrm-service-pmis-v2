@@ -364,11 +364,14 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = ex.toString();
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
+        }
 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
 
-        return responseObject;
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> readFromApprovalHistoryByEmployeeAndStatus(JSONObject requestParameters){
@@ -380,11 +383,14 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = ex.toString();
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
+        }
 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
 
-        return responseObject;
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> getEmployees(JSONObject requestParameters){
@@ -402,11 +408,14 @@ public class DataEmployeeService {
             String errorMessage;
             errorMessage = ex.toString();
             return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }     
+        }
 
-        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);  
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
 
-        return responseObject;
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
 	public ResponseEntity<?> readNodeInListFromEmployeeDoc(JSONObject requestParams) {
@@ -704,6 +713,48 @@ public class DataEmployeeService {
         
         return responseObject;
     }
+
+    public ResponseEntity<?> removeNodeInListForRequest(JSONObject requestParameters){
+        JSONObject inputNode        = requestParameters.getJSONObject("node");
+        String nodeOid              = inputNode.getString("oid");
+        JSONArray nodePath          = requestParameters.getJSONArray("nodePath");
+        String employeeOid          = requestParameters.getString("employeeOid");
+        JSONObject requesterComment = requestParameters.getJSONObject("comment");
+
+        JSONObject employeeDoc      = null;
+        try {
+            employeeDoc = repository.getEmployee(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
+        JSONObject mainNode = (JSONObject) jsonUtil.getNodeFromList("oid", nodeOid, mainDoc, nodePath);
+
+        String queryNodeUpdate = dataHelper.updateEmpTempListInPmis(employeeDoc, nodePath, inputNode, employeeOid);
+        String queryApprovalHistoryInsert = dataHelper.approvalHistoryInsertWithComment(inputNode, mainNode, nodePath,
+                employeeOid, requesterComment, "REMOVE_NODE_IN_LIST");
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        queryList.add(queryApprovalHistoryInsert);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject response = new JSONObject();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", employeeOid);
+        response.put("body", responseBody);
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
+            return responseObject;
+        }
 
 	public ResponseEntity<?> updateNodeEmployeeOffice(JSONObject requestParams) {
         JSONObject inputNode = requestParams.getJSONObject("node");
