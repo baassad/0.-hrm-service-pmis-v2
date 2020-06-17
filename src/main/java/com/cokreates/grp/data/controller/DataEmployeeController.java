@@ -1,13 +1,18 @@
 package com.cokreates.grp.data.controller;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.service.DataEmployeeService;
+import com.cokreates.grp.data.util.RestUtil;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +31,8 @@ public class DataEmployeeController {
     @Autowired
     DataEmployeeService dataEmployeeService;
 
+    @Autowired
+    RestUtil restUtil;
 
     @RequestMapping(value = Api.CREATE_EMP,
             method = RequestMethod.POST,
@@ -120,7 +127,18 @@ public class DataEmployeeController {
 
     @RequestMapping(value = Api.READ_NODE_FROM_EMPLOYEE_DOC, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readNodeFromEmployeeDoc(@RequestBody Map<String, Object> requestBody) {
-        JSONObject jsonBody = new JSONObject(requestBody).getJSONObject("body");
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList();
+        requiredFields.add(Arrays.asList("employeeOid", "java.lang.String"));
+        requiredFields.add(Arrays.asList("nodePath", "org.json.JSONArray"));
+        List<List<String>> nonRequiredFields = new ArrayList();
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilter(requestObject, requiredFields , nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
         return dataEmployeeService.readNodeFromEmployeeDoc(jsonBody);
     }
 

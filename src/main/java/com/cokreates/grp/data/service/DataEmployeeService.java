@@ -4,6 +4,8 @@ import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
+import com.cokreates.grp.data.util.RestUtil;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,8 @@ public class DataEmployeeService {
     @Autowired
     DataHelper dataHelper;
 
-    private static String getErrorMessage(String apiName, Exception ex){
-        JSONObject error = new JSONObject();
-        error.put("API" ,apiName);
-        error.put("Exception", ex);
-        return error.toString();
-    }
+    @Autowired
+    RestUtil restUtil;
 
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
@@ -50,7 +48,7 @@ public class DataEmployeeService {
         try {
             repository.performTransaction(queryList);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -271,7 +269,7 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.READ_NODE_FROM_EMPLOYEE_DOC, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_NODE_FROM_EMPLOYEE_DOC, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -423,7 +421,7 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readNodeFromEmployeeDoc(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -445,7 +443,7 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.getEmployeeOffice(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.GET_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.GET_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -478,7 +476,7 @@ public class DataEmployeeService {
         try {
             oidList = repository.readEmployeeByOffice(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -510,7 +508,7 @@ public class DataEmployeeService {
         try {
             employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -544,7 +542,7 @@ public class DataEmployeeService {
         try {
             totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONArray resultData = new JSONArray();
@@ -764,7 +762,7 @@ public class DataEmployeeService {
         try {
             employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -773,7 +771,7 @@ public class DataEmployeeService {
         try {
             queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmisByOid(employeeOfficeDoc, nodePath, inputNode, employeeOid);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
@@ -783,7 +781,7 @@ public class DataEmployeeService {
         try {
             repository.performTransaction(queryList);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONObject responseBody = new JSONObject();
@@ -803,7 +801,7 @@ public class DataEmployeeService {
         try {
             employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONArray nodePath = new JSONArray().put("nodes");
@@ -811,7 +809,7 @@ public class DataEmployeeService {
         try {
             queryNodeUpdate = dataHelper.updateEmployeeOfficeListInPmis(employeeOfficeDoc, nodePath, inputNode, employeeOid);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -821,7 +819,7 @@ public class DataEmployeeService {
         try {
             repository.performTransaction(queryList);
         } catch (Exception ex) {
-            String errorMessage = getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONObject responseBody = new JSONObject();
