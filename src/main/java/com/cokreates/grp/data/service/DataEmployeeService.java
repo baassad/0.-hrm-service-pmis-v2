@@ -275,8 +275,8 @@ public class DataEmployeeService {
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Object mainNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
-        Object tempNode = jsonUtil.getJsonArray(employeeDoc.getJSONObject("employee_temp"), requestParams.getJSONArray("nodePath"));
+        Object mainNode = jsonUtil.getNode(employeeDoc.getJSONObject("employee_main"), requestParams.getJSONArray("nodePath"));
+        Object tempNode = jsonUtil.getNode(employeeDoc.getJSONObject("employee_temp"), requestParams.getJSONArray("nodePath"));
         
         JSONObject responseBody = new JSONObject();
         responseBody.put("main", mainNode);
