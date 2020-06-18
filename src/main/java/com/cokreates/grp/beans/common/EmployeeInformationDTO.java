@@ -50,6 +50,10 @@ public class EmployeeInformationDTO{
 
     private String isDefaultProfile;
 
+    private String isAttendanceAdmin;
+
+    private String isAttendanceDataEntryOperator;
+
     private String responsibilityType;
 
     private byte[] photo;

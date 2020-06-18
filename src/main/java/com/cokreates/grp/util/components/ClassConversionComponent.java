@@ -66,6 +66,8 @@ public class ClassConversionComponent {
 
             employeeInformationDTO.setOid(employeeDetailsDTO.getGeneral().getOid());
             employeeInformationDTO.setResponsibilityType(employeeOfficeDTO.getResponsibilityType());
+            employeeInformationDTO.setIsAttendanceAdmin(employeeOfficeDTO.getIsAttendanceAdmin());
+            employeeInformationDTO.setIsAttendanceDataEntryOperator(employeeOfficeDTO.getIsAttendanceDataEntryOperator());
 
             employeeInformationDTOS.add(employeeInformationDTO);
         }
