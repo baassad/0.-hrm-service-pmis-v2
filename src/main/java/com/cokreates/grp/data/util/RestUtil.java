@@ -24,24 +24,63 @@ public class RestUtil {
             String fieldName = field.get(0);
             String fieldType = field.get(1);
             if (requestObject.has(fieldName)){
-                String foundType = requestObject.get(fieldName).getClass().getName();
+                String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
+                String foundType = splitString[splitString.length - 1];
                 if (!foundType.equals(fieldType)){
-                    throw new Exception("expected TYPE of required field " + fieldName + " is " + fieldType+ " but found " + foundType);
+                    throw new Exception("expected TYPE of required field " + fieldName + " is " + fieldType+ " but got type " + foundType);
                 }
+                resultObject.put(fieldName, requestObject.get(fieldName));
             }else{
                 throw new NotFoundException("REQUIRED field " + fieldName + " NOT PRESENT in request");
             }
-            resultObject.put(fieldName, requestObject.get(fieldName));
+            
         }
-        if(nonRequiredFields!=null){
-            for(List<String> field : nonRequiredFields){
-                String fieldName = field.get(0);
-                String fieldType = field.get(1);
-                if (requestObject.has(fieldName)){
-                    String foundType = requestObject.get(fieldName).getClass().getName();
-                    if (!foundType.equals(fieldType)){
-                        throw new Exception("expected TYPE of non-required field " + fieldName + " is " + fieldType+ " but found " + foundType);
-                    }
+        for(List<String> field : nonRequiredFields){
+            String fieldName = field.get(0);
+            String fieldType = field.get(1);
+            if (requestObject.has(fieldName)){
+                String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
+                String foundType = splitString[splitString.length - 1];
+                if (!foundType.equals(fieldType)){
+                    throw new Exception("expected TYPE of non-required field " + fieldName + " is " + fieldType+ " but got type " + foundType);
+                }
+                resultObject.put(fieldName, requestObject.get(fieldName));
+            }
+        }
+        return resultObject;
+    }
+    
+
+    public JSONObject requestParsingFilterCheckOr(JSONObject requestObject,
+                                    List<List<String>> requiredFields, 
+                                    List<List<String>> nonRequiredFields)throws Exception{
+        JSONObject resultObject = new JSONObject();
+        boolean foundOneRequired = requiredFields.size() > 0 ? false : true;
+        for(List<String> field : requiredFields){
+            String fieldName = field.get(0);
+            String fieldType = field.get(1);
+            if (requestObject.has(fieldName)){
+                foundOneRequired = true;
+                String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
+                String foundType = splitString[splitString.length - 1];
+                if (!foundType.equals(fieldType)){
+                    throw new Exception("expected TYPE of required field " + fieldName + " is " + fieldType+ " but got type " + foundType);
+                }
+                resultObject.put(fieldName, requestObject.get(fieldName));
+            }
+        }
+        if (!foundOneRequired){
+            throw new NotFoundException("No expected field PRESENT in request");
+        }
+
+        for(List<String> field : nonRequiredFields){
+            String fieldName = field.get(0);
+            String fieldType = field.get(1);
+            if (requestObject.has(fieldName)){
+                String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
+                String foundType = splitString[splitString.length - 1];
+                if (!foundType.equals(fieldType)){
+                    throw new Exception("expected TYPE of non-required field " + fieldName + " is " + fieldType+ " but got type " + foundType);
                 }
                 resultObject.put(fieldName, requestObject.get(fieldName));
             }
