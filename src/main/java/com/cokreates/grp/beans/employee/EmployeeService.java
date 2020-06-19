@@ -223,7 +223,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
             if (!requestDTO.getOfficeUnitOidList().isEmpty()) {
                 hasOfficeUnit = true;
                 endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT;
-            }        } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
+            } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
+        } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + endPoint;
 
