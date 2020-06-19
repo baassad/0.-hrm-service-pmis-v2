@@ -217,9 +217,13 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String endPoint = "";
 
+        boolean hasOfficeUnit = false;
+
         if (requestDTO.getOfficeUnitOidList() != null) {
-            endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT;
-        } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
+            if (!requestDTO.getOfficeUnitOidList().isEmpty()) {
+                hasOfficeUnit = true;
+                endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT;
+            }        } else endPoint = Constant.GDATA_MAIN_EMPLOYEE_BY_OFFICE;
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + endPoint;
 
@@ -234,11 +238,29 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
 
-        employeeOfficeMasterDTOList
-                .forEach(employeeDetailsMasterDTO -> {
-                    EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
-                    employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfoSetOidResponsibilityType(employeeDetailsDTO));
-                });
+        boolean finalHasOfficeUnit = hasOfficeUnit;
+        if (finalHasOfficeUnit) {
+            employeeOfficeMasterDTOList
+                    .stream()
+                    .filter(employeeDetailsMasterDTO -> employeeDetailsMasterDTO.getNodes() != null)
+                    .filter(employeeDetailsMasterDTO -> !employeeDetailsMasterDTO.getNodes().isEmpty())
+                    .filter(employeeDetailsMasterDTO -> requestDTO.getOfficeOidList().contains(employeeDetailsMasterDTO.getNodes().get(0).getOfficeOid())
+                                                    &&  requestDTO.getOfficeUnitOidList().contains(employeeDetailsMasterDTO.getNodes().get(0).getOfficeUnitOid()))
+                    .forEach(employeeDetailsMasterDTO -> {
+                        EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
+                        employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfoSetOidResponsibilityType(employeeDetailsDTO));
+                    });
+        } else {
+            employeeOfficeMasterDTOList
+                    .stream()
+                    .filter(employeeDetailsMasterDTO -> employeeDetailsMasterDTO.getNodes() != null)
+                    .filter(employeeDetailsMasterDTO -> !employeeDetailsMasterDTO.getNodes().isEmpty())
+                    .filter(employeeDetailsMasterDTO -> requestDTO.getOfficeOidList().contains(employeeDetailsMasterDTO.getNodes().get(0).getOfficeOid()))
+                    .forEach(employeeDetailsMasterDTO -> {
+                        EmployeeDetailsDTO employeeDetailsDTO = getModelMapper().map(employeeDetailsMasterDTO, EmployeeDetailsDTO.class);
+                        employeeInformationDTOS.addAll(conversionComponent.convertEmpDetailsToEmpInfoSetOidResponsibilityType(employeeDetailsDTO));
+                    });
+        }
 
         setMissingData(employeeInformationDTOS);
 
