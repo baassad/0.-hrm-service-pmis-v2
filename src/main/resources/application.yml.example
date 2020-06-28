@@ -13,23 +13,27 @@ spring:
     add-mappings: #RESOURCES-ADD-MAPPINGS#
   banner.location: classpath:#BANNER-CLASSPATH#
   jpa:
-    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
+    hibernate.ddl-auto: validate
     properties:
       hibernate:
         jdbc:
           lob:
-            non_contextual_creation: #NON-CONTEXTUAL-CREATION#
-        default_schema: #DEFAULT-SCHEMA#
+            non_contextual_creation: true
+        default_schema: hrm
   datasource:
     url: #DATASOURCE-URL#
     username: #DATASOURCE-USERNAME#
     password: #DATASOURCE-PASSWORD#
+
 
   zipkin:
     base-url: #ZIPKIN-BASE-URL#
   sleuth:
     sampler:
       probability: #SLEUTH-SAMPLER-PROBABILITY#
+
+
+
 
 
 # =============================================================================================

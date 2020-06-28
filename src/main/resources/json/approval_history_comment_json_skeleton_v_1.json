@@ -1,0 +1,29 @@
+{
+  "requester": {
+    "requesterOid": "",
+    "messsage": "",
+    "dateAndTime": "",
+    "nameEn": "",
+    "nameBn": "",
+    "postnameEn": "",
+    "postnameBn": ""
+  },
+  "reviewer": {
+    "reviewerOid": "",
+    "messsage": "",
+    "dateAndTime": "",
+    "nameEn": "",
+    "nameBn": "",
+    "postnameEn": "",
+    "postnameBn": ""
+  },
+  "approver": {
+    "approverOid": "",
+    "messsage": "",
+    "dateAndTime": "",
+    "nameEn": "",
+    "nameBn": "",
+    "postnameEn": "",
+    "postnameBn": ""
+  }
+}
