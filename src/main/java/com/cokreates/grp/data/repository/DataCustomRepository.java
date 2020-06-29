@@ -82,7 +82,7 @@ public class DataCustomRepository {
 
 
     public String getAllEmployees() {
-        String query = "select * from pmis";
+        String query = "select * from hrm.pmis";
 
         List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
 
@@ -94,7 +94,7 @@ public class DataCustomRepository {
                 "SELECT " +
                     "* " +
                 "FROM " +
-                    "pmis " +
+                    "hrm.pmis " +
                 "WHERE " +
                      "oid = '" + queryParam.getString("employeeOid") + "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
@@ -107,7 +107,7 @@ public class DataCustomRepository {
                     "p.employee_main->'personal'->'general' as general, " +
                     "p.employee_office->'nodes' as nodes " +
                 "FROM " +
-                    "pmis p " +
+                    "hrm.pmis p " +
                 "WHERE " +
                     "p.oid = '" +
                         queryParam.getString("employeeOid") +
@@ -139,7 +139,7 @@ public class DataCustomRepository {
                     "p.employee_main->'personal'->'general' as general, " +
                     "p.employee_office  -> 'nodes' as nodes " +
                 "FROM " +
-                    "pmis p " +
+                    "hrm.pmis p " +
                 "WHERE " +
                     "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%' " +
                     "AND " +
@@ -165,7 +165,7 @@ public class DataCustomRepository {
                     "p.employee_main->'personal'->'general' as general, " +
                     "p.employee_office  -> 'nodes' as nodes " +
                 "FROM " +
-                    "pmis p " +
+                    "hrm.pmis p " +
                 "WHERE " +
                     "p.employee_office  ->> 'nodes' similar  to '%%\"officeOid\" *: *(" + officeOidListString + ")%%'";
 
@@ -189,7 +189,7 @@ public class DataCustomRepository {
                     "p.employee_main->'personal'->'general' as general, " +
                     "p.employee_office  -> 'nodes' as nodes " +
                 "FROM " +
-                    "pmis p " +
+                    "hrm.pmis p " +
                 "WHERE " +
                     "p.oid in (" + employeeOidListString + ")";
 
@@ -219,7 +219,7 @@ public class DataCustomRepository {
                 "p.oid as oid, " +
                 "p.employee_main" + queryPathString + " as node " +
             "FROM " +
-                "pmis p " +
+                "hrm.pmis p " +
             "WHERE " +
                 "p.oid in (" + employeeOidListString + ")";
 
@@ -523,7 +523,7 @@ public class DataCustomRepository {
                 "p.updated_on as updatedOn, " +
                 "p.is_deleted as isDeleted " +
             "FROM " +
-                "pmis_approval_history p " +
+                "hrm.pmis_approval_history p " +
             "WHERE " +
         "p.oid = '" + queryParam.getString("approvalHistoryOid") + "'";
 
@@ -546,7 +546,7 @@ public class DataCustomRepository {
     public String getQueryUpdateApprovalHistory(JSONObject queryParams) {
         String query =
             "UPDATE " +
-                "pmis_approval_history p " +
+                "hrm.pmis_approval_history p " +
             "SET " +
                 "status = '" + queryParams.getString("status") + "', " +
                 "comment = '" + queryParams.getJSONObject("comment") + "'::jsonb " +
@@ -559,7 +559,7 @@ public class DataCustomRepository {
     public String getQueryUpdateEmployeeMainAndTempInPmis(JSONObject queryParams) {
         String query =
             "UPDATE " +
-                "pmis p " +
+                "hrm.pmis p " +
             "SET " +
                 "employee_main = '" + queryParams.getJSONObject("employee_main") + "'::jsonb, " +
                 "employee_temp = '" + queryParams.getJSONObject("employee_temp") + "'::jsonb " +
