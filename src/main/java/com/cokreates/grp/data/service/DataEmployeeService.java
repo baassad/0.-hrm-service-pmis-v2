@@ -65,44 +65,106 @@ public class DataEmployeeService {
 
         JSONObject generalNode = new JSONObject();
 
-        generalNode.put("nameEn", inputNode.getString("nameEn"));
-        generalNode.put("nameBn", inputNode.getString("nameBn"));
-        generalNode.put("religion", inputNode.getString("religion"));
-        generalNode.put("gender", inputNode.getString("gender"));
-        generalNode.put("maritalStatus", inputNode.getString("maritalStatus"));
-        generalNode.put("dateOfBirth", inputNode.getString("dateOfBirth"));
-        generalNode.put("phone", inputNode.getString("phone"));
-        generalNode.put("email", inputNode.getString("email"));
+        if(inputNode.has("nameEn")) {
+            generalNode.put("nameEn", inputNode.getString("nameEn"));
+        }
+        if(inputNode.has("nameBn")) {
+            generalNode.put("nameBn", inputNode.getString("nameBn"));
+        }
+        if(inputNode.has("religion")) {
+            generalNode.put("religion", inputNode.getString("religion"));
+        }
+        if(inputNode.has("gender")) {
+            generalNode.put("gender", inputNode.getString("gender"));
+        }
+        if(inputNode.has("maritalStatus")) {
+            generalNode.put("maritalStatus", inputNode.getString("maritalStatus"));
+        }
+        if(inputNode.has("nameEn")) {
+            generalNode.put("dateOfBirth", inputNode.getLong("dateOfBirth"));
+        }
+        if(inputNode.has("phone")) {
+            generalNode.put("phone", inputNode.getString("phone"));
+        }
+        if(inputNode.has("email")) {
+            generalNode.put("email", inputNode.getString("email"));
+        }
         generalNode.put("rowStatus", "Active");
-        generalNode.put("createdBy", inputNode.getString("createdBy"));
-        generalNode.put("createdOn", inputNode.getString("createdOn"));
-        generalNode.put("updatedBy", inputNode.getString("updatedBy"));
-        generalNode.put("updatedOn", inputNode.getString("updatedOn"));
-        generalNode.put("config", inputNode.getString("config"));
+        if(inputNode.has("createdBy")) {
+            generalNode.put("createdBy", inputNode.getString("createdBy"));
+        }
+        if(inputNode.has("createdOn")) {
+            generalNode.put("createdOn", inputNode.getLong("createdOn"));
+        }
+        if(inputNode.has("updatedBy")) {
+            generalNode.put("updatedBy", inputNode.getString("updatedBy"));
+        }
+        if(inputNode.has("updatedOn")) {
+            generalNode.put("updatedOn", inputNode.getLong("updatedOn"));
+        }
+        if(inputNode.has("config")) {
+            generalNode.put("config", inputNode.getString("config"));
+        }
         generalNode.put("dataStatus", "Active");
 
         JSONObject employeeOfficeNode = new JSONObject();
 
-        employeeOfficeNode.put("oid", inputNode.getString("employeeOfficeOid"));
-        employeeOfficeNode.put("officeOid", inputNode.getString("officeOid"));
-        employeeOfficeNode.put("officeUnitOid", inputNode.getString("officeUnitOid"));
-        employeeOfficeNode.put("officeUnitPostOid", inputNode.getString("officeUnitPostOid"));
-        employeeOfficeNode.put("employmentTypeOid", inputNode.getString("employeeTypeOid"));
-        employeeOfficeNode.put("responsibilityType", inputNode.getString("responsibilityType"));
-        employeeOfficeNode.put("joiningDate", inputNode.getString("joiningDate"));
-        employeeOfficeNode.put("isOfficeAdmin", inputNode.getString("isOfficeAdmin"));
-        employeeOfficeNode.put("isOfficeHead", inputNode.getString("isOfficeHead"));
-        employeeOfficeNode.put("isOfficeUnitHead", inputNode.getString("isOfficeUnitHead"));
-        employeeOfficeNode.put("isAttendanceDataEntryOperator", inputNode.getString("isAttendanceDataEntryOperator"));
-        employeeOfficeNode.put("isAttendanceAdmin", inputNode.getString("isAttendanceAdmin"));
-        employeeOfficeNode.put("isApprover", inputNode.getString("isApprover"));
-        employeeOfficeNode.put("isReviewer", inputNode.getString("isReviewer"));
+        if(inputNode.has("employeeOfficeOid")) {
+            employeeOfficeNode.put("oid", inputNode.getString("employeeOfficeOid"));
+        }
+        if(inputNode.has("officeOid")) {
+            employeeOfficeNode.put("officeOid", inputNode.getString("officeOid"));
+        }
+        if(inputNode.has("officeUnitOid")) {
+            employeeOfficeNode.put("officeUnitOid", inputNode.getString("officeUnitOid"));
+        }
+        if(inputNode.has("officeUnitPostOid")) {
+            employeeOfficeNode.put("officeUnitPostOid", inputNode.getString("officeUnitPostOid"));
+        }
+        if(inputNode.has("employeeTypeOid")) {
+            employeeOfficeNode.put("employmentTypeOid", inputNode.getString("employeeTypeOid"));
+        }
+        if(inputNode.has("responsibilityType")) {
+            employeeOfficeNode.put("responsibilityType", inputNode.getString("responsibilityType"));
+        }
+        if(inputNode.has("joiningDate")) {
+            employeeOfficeNode.put("joiningDate", inputNode.getLong("joiningDate"));
+        }
+        if(inputNode.has("isOfficeAdmin")) {
+            employeeOfficeNode.put("isOfficeAdmin", inputNode.getString("isOfficeAdmin"));
+        }
+        if(inputNode.has("isOfficeHead")) {
+            employeeOfficeNode.put("isOfficeHead", inputNode.getString("isOfficeHead"));
+        }
+        if(inputNode.has("isOfficeUnitHead")) {
+            employeeOfficeNode.put("isOfficeUnitHead", inputNode.getString("isOfficeUnitHead"));
+        }
+
+        employeeOfficeNode.put("isAttendanceDataEntryOperator","No");
+
+        employeeOfficeNode.put("isAttendanceAdmin","No");
+
+        employeeOfficeNode.put("isApprover", "No");
+
+        employeeOfficeNode.put("isReviewer", "No");
+
         employeeOfficeNode.put("status", "Active");
-        employeeOfficeNode.put("createdBy", inputNode.getString("createdBy"));
-        employeeOfficeNode.put("createdOn", inputNode.getString("createdOn"));
-        employeeOfficeNode.put("updatedBy", inputNode.getString("updatedBy"));
-        employeeOfficeNode.put("updatedOn", inputNode.getString("updatedOn"));
-        employeeOfficeNode.put("config", inputNode.getString("config"));
+
+        if(inputNode.has("createdBy")) {
+            employeeOfficeNode.put("createdBy", inputNode.getString("createdBy"));
+        }
+        if(inputNode.has("createdOn")) {
+            employeeOfficeNode.put("createdOn", inputNode.getLong("createdOn"));
+        }
+        if(inputNode.has("updatedBy")) {
+            employeeOfficeNode.put("updatedBy", inputNode.getString("updatedBy"));
+        }
+        if(inputNode.has("updatedOn")) {
+            employeeOfficeNode.put("updatedOn", inputNode.getLong("updatedOn"));
+        }
+        if(inputNode.has("config")) {
+            employeeOfficeNode.put("config", inputNode.getString("config"));
+        }
         employeeOfficeNode.put("dataStatus", "Active");
 
         String pmisImportQuery = dataHelper.pmisImport(nodePath, employeeOid, generalNode, employeeOfficeNode);

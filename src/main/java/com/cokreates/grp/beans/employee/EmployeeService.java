@@ -391,6 +391,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
             request = getRequestBuildingComponent().getRequestForImport(employeeCreationDTO,employeeCreationDTO.getOid());
 
+            System.out.println("Import employee request : " + request);
             response = dataServiceClient.importEmployee(request);
 
         }else {
