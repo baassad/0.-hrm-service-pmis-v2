@@ -4,6 +4,8 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,14 +77,46 @@ public class SearchService {
         //map.put(Constant.COUNT, employeeOffices.getTotalElements());
         ServiceRequestDTO<DataServiceEmployeeSearchDTO> dataServiceRequest = new ServiceRequestDTO<>();
         dataServiceRequest.setBody(searchDTO);
-        ResponseModel<EmployeeInformationDTO> response = dataServiceClient.getEmployees(dataServiceRequest);
+        ResponseModel<EmployeeDetails> response = dataServiceClient.getEmployees(dataServiceRequest);
 
-        List<EmployeeInformationDTO> employeeInformationDTOS = response.getBody().getData();
+        List<EmployeeDetails> employeeDetailsList = response.getBody().getData();
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList);
 
         return employeeInformationDTOS;
 
+    }
+
+    public List<EmployeeInformationDTO> convertEmployeeDetailsToEmployeeInformationDTO(List<EmployeeDetails> employeeDetailList){
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
+
+        for(EmployeeDetails employeeDetail : employeeDetailList){
+
+            for(EmployeeOfficeDTO employeeOffice:employeeDetail.getEmployee_office().getNodes()){
+
+                EmployeeInformationDTO employeeInformationDTO = new EmployeeInformationDTO();
+                employeeInformationDTO.setOid(employeeDetail.getOid());
+                employeeInformationDTO.setNameEn(employeeDetail.getPersonal_general().getNameEn());
+                employeeInformationDTO.setNameBn(employeeDetail.getPersonal_general().getNameBn());
+                employeeInformationDTO.setEmployeeOfficeOid(employeeOffice.getOid());
+                employeeInformationDTO.setOfficeOid(employeeOffice.getOfficeOid());
+                employeeInformationDTO.setOfficeUnitOid(employeeOffice.getOfficeUnitOid());
+                employeeInformationDTO.setOfficeUnitPostOid(employeeOffice.getOfficeUnitPostOid());
+                employeeInformationDTO.setEmail(employeeDetail.getPersonal_general().getEmail());
+                employeeInformationDTO.setMobileNo(employeeDetail.getPersonal_general().getPhone());
+                employeeInformationDTO.setEmployeeTypeOid(employeeOffice.getEmploymentTypeOid());
+                employeeInformationDTO.setIsAttendanceAdmin(employeeOffice.getIsAttendanceAdmin());
+                employeeInformationDTO.setIsAttendanceDataEntryOperator(employeeOffice.getIsAttendanceDataEntryOperator());
+                employeeInformationDTO.setResponsibilityType(employeeOffice.getResponsibilityType());
+                employeeInformationDTOS.add(employeeInformationDTO);
 
 
+            }
+
+        }
+
+        return employeeInformationDTOS;
 
     }
 

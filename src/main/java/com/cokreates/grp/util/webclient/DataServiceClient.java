@@ -9,6 +9,7 @@ import com.cokreates.grp.beans.employee.EmployeeCreationDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.search.DataServiceEmployeeSearchDTO;
+import com.cokreates.grp.beans.search.EmployeeDetails;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
@@ -37,5 +38,5 @@ public interface DataServiceClient {
     DataServiceResponse<EmployeeDTO> importEmployee (@RequestBody DataServiceRequest<EmployeeCreationDTO> requestDTO);
 
     @RequestMapping(method = RequestMethod.POST,value = "/pmis/v1/get-employees-by-name" ,consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseModel<EmployeeInformationDTO> getEmployees (@RequestBody ServiceRequestDTO<DataServiceEmployeeSearchDTO> requestDTO);
+    ResponseModel<EmployeeDetails> getEmployees (@RequestBody ServiceRequestDTO<DataServiceEmployeeSearchDTO> requestDTO);
 }
