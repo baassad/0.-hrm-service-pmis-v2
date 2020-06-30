@@ -11,10 +11,7 @@ import com.cokreates.grp.util.webclient.DataServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,27 +40,40 @@ public class SearchService {
 
         System.out.println("Request search Procedure " + request.getSearchProcedure() + "..........................................");
 
-
+        String filterCriterion  = "";
+        Set<String> intendedOids = new HashSet<>();
 
 
         switch(request.getSearchProcedure()) {
 
             case 1 : searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitPostOid(), Constant.OFFICE_UNIT_POST,request.getName());
+                     filterCriterion = Constant.OFFICE_UNIT_POST;
+                     intendedOids = request.getListOfOfficeUnitPostOid();
                      break;
 
             case 2 : searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitOid(),Constant.OFFICE_UNIT,request.getName());
-                     break;
+                      filterCriterion = Constant.OFFICE_UNIT;
+                      intendedOids = request.getListOfOfficeUnitOid();
+                      break;
 
             case 3 : searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeOid(),Constant.OFFICE,request.getName());
-                     break;
+                      filterCriterion = Constant.OFFICE;
+                      intendedOids = request.getListOfOfficeOid();
+                      break;
 
             case 5 : {
                      if(request.getListOfOfficeUnitPostOid().size() > 0){
                          searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitPostOid(), Constant.OFFICE_UNIT_POST,request.getName());
+                         filterCriterion = Constant.OFFICE_UNIT_POST;
+                         intendedOids = request.getListOfOfficeUnitPostOid();
                      }else if (request.getListOfOfficeUnitOid().size() > 0){
                          searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitOid(),Constant.OFFICE_UNIT,request.getName());
+                         filterCriterion = Constant.OFFICE_UNIT;
+                         intendedOids = request.getListOfOfficeUnitOid();
                      }else if (request.getListOfOfficeOid().size() > 0){
                          searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeOid(),Constant.OFFICE,request.getName());
+                         filterCriterion = Constant.OFFICE;
+                         intendedOids = request.getListOfOfficeOid();
                      }
                      break;
 
@@ -81,19 +91,25 @@ public class SearchService {
 
         List<EmployeeDetails> employeeDetailsList = response.getBody().getData();
 
-        List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList);
+        List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList,filterCriterion,intendedOids);
 
         return employeeInformationDTOS;
 
     }
 
-    public List<EmployeeInformationDTO> convertEmployeeDetailsToEmployeeInformationDTO(List<EmployeeDetails> employeeDetailList){
+    public List<EmployeeInformationDTO> convertEmployeeDetailsToEmployeeInformationDTO(List<EmployeeDetails> employeeDetailList,String criterion,Set<String> oidSet){
 
         List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
 
         for(EmployeeDetails employeeDetail : employeeDetailList){
 
             for(EmployeeOfficeDTO employeeOffice:employeeDetail.getEmployee_office().getNodes()){
+
+                if((criterion.equalsIgnoreCase(Constant.OFFICE) && !(oidSet.contains(employeeOffice.getOfficeOid()))) ||
+                        (criterion.equalsIgnoreCase(Constant.OFFICE_UNIT) && !(oidSet.contains(employeeOffice.getOfficeUnitOid()))) ||
+                            (criterion.equalsIgnoreCase(Constant.OFFICE_UNIT_POST) && !(oidSet.contains(employeeOffice.getOfficeUnitPostOid())))){
+                    continue;
+                }
 
                 EmployeeInformationDTO employeeInformationDTO = new EmployeeInformationDTO();
                 employeeInformationDTO.setOid(employeeDetail.getOid());
