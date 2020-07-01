@@ -12,7 +12,18 @@ spring:
   resources:
     add-mappings: #RESOURCES-ADD-MAPPINGS#
   banner.location: classpath:#BANNER-CLASSPATH#
-
+  jpa:
+    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: #NON-CONTEXTUAL-CREATION#
+        default_schema: #DEFAULT-SCHEMA#
+  datasource:
+    url: #DATASOURCE-URL#
+    username: #DATASOURCE-USERNAME#
+    password: #DATASOURCE-PASSWORD#
 
   zipkin:
     base-url: #ZIPKIN-BASE-URL#

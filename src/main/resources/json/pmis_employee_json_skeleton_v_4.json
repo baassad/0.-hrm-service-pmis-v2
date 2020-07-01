@@ -1,0 +1,35 @@
+{
+  "personal": {
+    "general": {},
+    "bank": [],
+    "travel": [],
+    "health": {},
+    "injuriesSickness": [],
+    "file": [],
+    "permanentAddress": {},
+    "presentAddress": {},
+    "foreignAddress": {},
+    "emergencyContactAddress": {},
+    "birthPlaceAddress": {},
+    "familyInfo": []
+  },
+  "professional": {
+    "professionalGeneral": {},
+    "promotion": [],
+    "posting": [],
+    "jobHistory": [],
+    "serviceHistory": [],
+    "disciplinaryAction": []
+  },
+  "qualification": {
+    "education": [],
+    "language": [],
+    "award": [],
+    "trainingAndProfessionalCertification": {
+      "training": [],
+      "professionalCertification": []
+    },
+    "publication": [],
+    "professionalQualification": []
+  }
+}
