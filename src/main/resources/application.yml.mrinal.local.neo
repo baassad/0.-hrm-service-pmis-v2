@@ -4,7 +4,7 @@
 spring:
   application:
     name: hrm-service-pmis-v2
-    gdata_end_point_url: http://localhost:9001/hrm/
+    gdata_end_point_url: http://localhost:9002/hrm/
   main:
     allow-bean-definition-overriding: TRUE
   mvc:
@@ -44,7 +44,7 @@ service:
     short-code: hrm-service-pmis-v2
     version: v1.0
 server:
-  port : 9001
+  port : 9002
 #  servlet:
 #    context-path:
 
@@ -53,20 +53,20 @@ server:
 # = EUREKA
 # =============================================================================================
 eureka:
-#  instance:
-#    prefer-ip-address: TRUE
-#    ipAddress: pmis-v2-hrm.global.data.grp.gov.bd
-#    appname: hrm-service-pmis-v2
-#    leaseExpirationDurationInSeconds: 2
-#    leaseRenewalIntervalInSeconds: 1
+  #  instance:
+  #    prefer-ip-address: TRUE
+  #    ipAddress: pmis-v2-hrm.global.data.grp.gov.bd
+  #    appname: hrm-service-pmis-v2
+  #    leaseExpirationDurationInSeconds: 2
+  #    leaseRenewalIntervalInSeconds: 1
   client:
     enabled: FALSE
 
 cmn-service-file-management:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+  url: http://sqa.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
 cmn-service-organogram:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+  url: http://sqa.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
 hrm-service:
-  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+  url: http://sqa.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
 cmn-service-global:
-  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
+  url: http://sqa.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
