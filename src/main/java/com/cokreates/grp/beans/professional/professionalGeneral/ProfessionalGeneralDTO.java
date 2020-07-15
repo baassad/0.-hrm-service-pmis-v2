@@ -15,6 +15,6 @@ import lombok.EqualsAndHashCode;
 public class ProfessionalGeneralDTO extends MasterDTO {
 
 	private String employmentType, isGovernmentEmployee, batch, cadre, grade, payScale, designation, rank, officeName,
-			govtId, enothiId, location, presentSalary, status;
+			govtId, enothiId, location, presentSalary, status, rankType;
 	private Date cadreDate, confirmationGODate, gazettedDate, joiningDate, prlDate;
 }
