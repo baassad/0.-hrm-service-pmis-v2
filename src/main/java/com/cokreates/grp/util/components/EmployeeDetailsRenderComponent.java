@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class EmployeeDetailsRenderComponent {
@@ -99,6 +101,24 @@ public class EmployeeDetailsRenderComponent {
         request.setBody(body);
         request.setMeta(requestDTO.getMeta());
         request.setHeader(requestDTO.getHeader());
+
+        return request;
+    }
+
+    public ServiceRequestDTO<OidSetWithStrictnessRequestBodyDTO> getRequestForOrganogramOidSet(DataRequestHeaderModel headerModel,Set<String> oids){
+
+        ServiceRequestDTO<OidSetWithStrictnessRequestBodyDTO> request = new ServiceRequestDTO<>();
+
+        OidSetWithStrictnessRequestBodyDTO body = new OidSetWithStrictnessRequestBodyDTO();
+        List<String> oidList = new ArrayList<>();
+        oidList.addAll(oids);
+
+        body.setOids(oidList);
+        body.setStrict("No");
+
+        request.setBody(body);
+        request.setMeta(new HashMap<>());
+        request.setHeader(headerModel);
 
         return request;
     }

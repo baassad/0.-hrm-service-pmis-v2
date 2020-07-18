@@ -4,11 +4,16 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
-import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
+import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
+import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceResponse;
+import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
+import com.cokreates.grp.util.webservice.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,8 +22,23 @@ import java.util.stream.Collectors;
 @Service
 public class SearchService {
 
+    @Value("${cmn-service-organogram.url}")
+    String cmnOrganogramUrl;
+
+    @Autowired
+    EmployeeDetailsRenderComponent employeeDetailsRenderComponent;
+
+    @Autowired
+    EmployeeOfficeRepository employeeOfficeRepository;
+
+    @Autowired
+    PmisRepository pmisRepository;
+
     @Autowired
     DataServiceClient dataServiceClient;
+
+    @Autowired
+    WebService webService;
 
     public DataServiceEmployeeSearchDTO getEmployeeSearchDTO(DataServiceEmployeeSearchDTO searchDTO, Set<String> oidList, String category, String name){
         searchDTO.setListOfOid(oidList);
@@ -94,6 +114,41 @@ public class SearchService {
         List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList,filterCriterion,intendedOids);
 
         return employeeInformationDTOS;
+
+    }
+
+    public List<EmployeeInformationDTO> getTheEmployeesNotImported(ServiceRequestDTO<NamedEmployeeRequestBodyDTO> requestDTO){
+
+        NamedEmployeeRequestBodyDTO request = requestDTO.getBody();
+
+        List<EmployeeOffice> employeeOffices = new ArrayList<>();
+        Set<String> employeeOids = new HashSet<>();
+
+
+        if(request.getListOfOfficeUnitPostOid() != null && request.getListOfOfficeUnitPostOid().size() > 0){
+            employeeOffices = employeeOfficeRepository.findByOfficeUnitPostOidInAndStatusAndIsDeleted(request.getListOfOfficeUnitPostOid(),"Active","No");
+
+        }else if (request.getListOfOfficeUnitOid() != null && request.getListOfOfficeUnitOid().size() > 0){
+            employeeOffices = employeeOfficeRepository.findByOfficeUnitOidInAndStatusAndIsDeleted(request.getListOfOfficeUnitOid(),"Active","No");
+
+        }else if (request.getListOfOfficeOid() != null && request.getListOfOfficeOid().size() > 0){
+            employeeOffices = employeeOfficeRepository.findByOfficeOidInAndStatusAndIsDeleted(request.getListOfOfficeOid(),"Active","No");
+        }
+
+
+        for(EmployeeOffice employeeOffice:employeeOffices){
+            System.out.println("Employee Oid : " + employeeOffice.getEmployeeMasterInfo().getOid());
+            employeeOids.add(employeeOffice.getEmployeeMasterInfo().getOid());
+        }
+
+        Set<String> pmisOids = pmisRepository.getAllOidsFromPmis();
+
+        employeeOids.removeAll(pmisOids);
+
+        System.out.println("Set :" +  employeeOids);
+
+
+        return webService.postForList(cmnOrganogramUrl + "/search/v1/get-list-by-oid-set",EmployeeInformationDTO.class,employeeDetailsRenderComponent.getRequestForOrganogramOidSet(requestDTO.getHeader(),employeeOids));
 
     }
 

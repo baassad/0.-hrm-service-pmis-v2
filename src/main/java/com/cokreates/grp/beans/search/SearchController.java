@@ -29,4 +29,11 @@ public class SearchController {
 
       }
 
+      @PostMapping(Constant.ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED)
+      ResponseModel<EmployeeInformationDTO> getTheSearchedEmployeesNotImported(@Valid @RequestBody ServiceRequestDTO<NamedEmployeeRequestBodyDTO> requestDTO){
+
+            return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),service.getTheEmployeesNotImported(requestDTO));
+
+      }
+
 }
