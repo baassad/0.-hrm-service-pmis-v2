@@ -100,6 +100,7 @@ public class DataEmployeeService {
             generalNode.put("updatedBy", inputNode.getString("updatedBy"));
         }
         if(inputNode.has("updatedOn")) {
+            System.out.println("Working on updated on");
             generalNode.put("updatedOn", inputNode.getLong("updatedOn"));
         }
         if(inputNode.has("config")) {
@@ -160,6 +161,7 @@ public class DataEmployeeService {
             employeeOfficeNode.put("updatedBy", inputNode.getString("updatedBy"));
         }
         if(inputNode.has("updatedOn")) {
+            System.out.println("Working on updated on");
             employeeOfficeNode.put("updatedOn", inputNode.getLong("updatedOn"));
         }
         if(inputNode.has("config")) {
