@@ -58,6 +58,10 @@ public class EmployeeInformationDTO{
 
     private String responsibilityType;
 
+    private String isAo;
+
+    private String isDpAuthority;
+
     private byte[] photo;
 
     private List<FileDTO> photoFileDTOs;

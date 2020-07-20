@@ -75,7 +75,7 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     }
 
 
-    @PostMapping(Constant.ENDPOINT_GET_BY_OFFICE_OID_LIST)
+    @PostMapping(Constant.ENDPOINT_GET_DETAILS_BY_OFFICE_OID_LIST)
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByOffice(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTOByOffice(requestDTO.getBody().getData().get(0)));
     }
