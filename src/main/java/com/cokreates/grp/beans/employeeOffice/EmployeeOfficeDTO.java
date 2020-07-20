@@ -27,6 +27,8 @@ public class EmployeeOfficeDTO extends MasterDTO {
     private String isDefaultProfile;
     private String isOfficeUnitHead;
     private String responsibilityType;
+    private String isAo;
+    private String isDpAuthority;
     private String isAttendanceDataEntryOperator;
     private String isAttendanceAdmin;
 

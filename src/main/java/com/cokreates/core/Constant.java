@@ -36,6 +36,7 @@ public class Constant {
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";
     public static final String ENDPOINT_GET_BY_OFFICE_OID_LIST = "/get-details-by-office-oid-list";
+    public static final String ENDPOINT_GET_DETAILS_BY_OFFICE_OID_LIST = "/get-details-by-office-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST = "/get-main-by-employee-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_OFFICE_OFFICE_UNIT_OID_LIST = "/get-main-by-office-office-unit-oid-list";
 
