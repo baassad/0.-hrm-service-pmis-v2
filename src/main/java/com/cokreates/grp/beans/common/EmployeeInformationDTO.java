@@ -62,6 +62,8 @@ public class EmployeeInformationDTO{
 
     private String isDpAuthority;
 
+    private String isDisciplineAdmin;
+
     private byte[] photo;
 
     private List<FileDTO> photoFileDTOs;

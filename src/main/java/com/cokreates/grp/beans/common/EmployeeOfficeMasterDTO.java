@@ -45,6 +45,8 @@ public class EmployeeOfficeMasterDTO extends MasterDTO {
 
     private String isDpAuthority;
 
+    private String isDisciplineAdmin;
+
     private String employeeOfficeOid;
 
     private String employmentTypeOid;

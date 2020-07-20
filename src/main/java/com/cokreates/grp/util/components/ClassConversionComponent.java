@@ -68,6 +68,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setResponsibilityType(employeeOfficeDTO.getResponsibilityType());
             employeeInformationDTO.setIsAo(employeeOfficeDTO.getIsAo());
             employeeInformationDTO.setIsDpAuthority(employeeOfficeDTO.getIsDpAuthority());
+            employeeInformationDTO.setIsDisciplineAdmin(employeeOfficeDTO.getIsDisciplineAdmin());
             employeeInformationDTO.setIsAttendanceAdmin(employeeOfficeDTO.getIsAttendanceAdmin());
             employeeInformationDTO.setIsAttendanceDataEntryOperator(employeeOfficeDTO.getIsAttendanceDataEntryOperator());
 
@@ -117,6 +118,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setResponsibilityType(employeeOfficeMasterDTO.getResponsibilityType());
             employeeInformationDTO.setIsAo(employeeOfficeMasterDTO.getIsAo());
             employeeInformationDTO.setIsDpAuthority(employeeOfficeMasterDTO.getIsDpAuthority());
+            employeeInformationDTO.setIsDisciplineAdmin(employeeOfficeMasterDTO.getIsDisciplineAdmin());
             employeeInformationDTO.setEmployeeTypeOid(employeeOfficeMasterDTO.getEmploymentTypeOid());
             //employeeInformationDTO.setSignatureImageOid(employeeDetailsDTO.getGeneral().getSignature());
             employeeInformationDTO.setOfficeOid(employeeOfficeMasterDTO.getOfficeOid());
