@@ -83,4 +83,18 @@ public class ResultBuildingComponent<Dto extends MasterDTO> {
         return responseModel;
 
     }
+
+    public<T> ResponseModel<T>  getResponse(DataRequestHeaderModel requestHeaderModel, List<T> oids){
+
+        ResponseModel<T> responseModel = new ResponseModel<>();
+
+        responseModel.setHeader(headerUtilComponent.getResponseHeaderDTO(requestHeaderModel));
+        responseModel.setMeta(new HashMap<>());
+        ResponseBodyModel<T> responseBodyModel = new ResponseBodyModel<>();
+        responseBodyModel.setData(oids);
+        responseModel.setBody(responseBodyModel);
+
+        return responseModel;
+
+    }
 }

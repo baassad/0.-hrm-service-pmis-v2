@@ -12,9 +12,8 @@ import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
-import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
-import com.cokreates.grp.util.request.OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO;
-import com.cokreates.grp.util.request.OrganogramRequestDTO;
+import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
+import com.cokreates.grp.util.request.*;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
@@ -24,8 +23,6 @@ import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
-import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
-import com.cokreates.grp.util.request.OidRequestBodyDTO;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.cokreates.grp.util.webclient.HrmPimClient;
@@ -57,6 +54,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Autowired
     DataServiceClient dataServiceClient;
+
+    @Autowired
+    EmployeeOfficeRepository employeeOfficeRepository;
 
     @Autowired
     HeaderUtilComponent headerUtilComponent;
@@ -415,6 +415,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
 
     }
+
 
 
     public List<EmployeeInformationDTO> getProfileInfo(String employeeOid) {

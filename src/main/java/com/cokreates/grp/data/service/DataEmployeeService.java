@@ -1,11 +1,16 @@
 package com.cokreates.grp.data.service;
 
+
+import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
+import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
+import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.RestUtil;
 
+import com.cokreates.grp.util.components.MasterDataComponent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +38,9 @@ public class DataEmployeeService {
     @Autowired
     RestUtil restUtil;
 
+    @Autowired
+    MasterDataComponent masterDataComponent;
+
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
         String employeeOid = UUID.randomUUID().toString();
@@ -57,6 +65,123 @@ public class DataEmployeeService {
         ResponseEntity<?> responseObject = this.getEmployee(requestParameters);
 
         return responseObject;
+    }
+
+    public String importEmployees(JSONArray nodePath,EmployeeMasterInfo employeeMasterInfo, EmployeePersonalInfo employeePersonalInfo,List<EmployeeOffice> employeeOffices){
+
+        JSONObject generalNode = new JSONObject();
+        generalNode.put("oid",employeeMasterInfo.getOid());
+        if(employeeMasterInfo.getNameEn() != null) {
+            generalNode.put("nameEn", employeeMasterInfo.getNameEn());
+        }
+        if(employeeMasterInfo.getNameBn() != null) {
+            generalNode.put("nameBn", employeeMasterInfo.getNameBn());
+        }
+        if(employeePersonalInfo.getGender() != null) {
+            generalNode.put("gender", masterDataComponent.getGender(employeePersonalInfo.getGender()));
+        }
+        if(employeePersonalInfo.getMaritalStatus() != null) {
+            generalNode.put("maritalStatus", masterDataComponent.getMaritalStatus(employeePersonalInfo.getMaritalStatus()));
+        }
+        if(employeePersonalInfo.getDateOfBirth() != null) {
+            generalNode.put("dateOfBirth", employeePersonalInfo.getDateOfBirth());
+        }
+        if(employeePersonalInfo.getPhoneNo() != null) {
+            generalNode.put("phone", employeePersonalInfo.getPhoneNo());
+        }
+        if(employeePersonalInfo.getEmailAddress() != null) {
+            generalNode.put("email", employeePersonalInfo.getEmailAddress());
+        }
+        generalNode.put("rowStatus", "Active");
+        if(employeeMasterInfo.getCreatedBy() != null) {
+            generalNode.put("createdBy", employeeMasterInfo.getCreatedBy());
+        }
+        if(employeeMasterInfo.getCreatedOn() != null) {
+            generalNode.put("createdOn", employeeMasterInfo.getCreatedOn());
+        }
+        if(employeeMasterInfo.getUpdatedBy() != null) {
+            generalNode.put("updatedBy", employeeMasterInfo.getUpdatedBy());
+        }
+        if(employeeMasterInfo.getUpdatedOn() != null) {
+            generalNode.put("updatedOn", employeeMasterInfo.getUpdatedOn());
+        }
+        generalNode.put("config", "");
+        generalNode.put("dataStatus", "Active");
+
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+
+        for(EmployeeOffice employeeOffice:employeeOffices){
+            JSONObject employeeOfficeNode = new JSONObject();
+
+            employeeOfficeNode.put("oid", employeeOffice.getOid());
+            if(employeeOffice.getOfficeOid() != null) {
+                employeeOfficeNode.put("officeOid", employeeOffice.getOfficeOid());
+            }
+            if(employeeOffice.getOfficeUnitOid() != null) {
+                employeeOfficeNode.put("officeUnitOid", employeeOffice.getOfficeUnitOid());
+            }
+            if(employeeOffice.getOfficeUnitPostOid() != null) {
+                employeeOfficeNode.put("officeUnitPostOid", employeeOffice.getOfficeUnitPostOid());
+            }
+            if(employeeOffice.getEmploymentType() != null) {
+                employeeOfficeNode.put("employmentTypeOid", employeeOffice.getEmploymentType().getOid());
+            }
+            if(employeeOffice.getResponsibilityType() != null) {
+                employeeOfficeNode.put("responsibilityType", employeeOffice.getResponsibilityType());
+            }
+            if(employeeOffice.getJoiningDate() != null) {
+                employeeOfficeNode.put("joiningDate", employeeOffice.getJoiningDate());
+            }
+            if(employeeOffice.getIsOfficeAdmin() != null) {
+                employeeOfficeNode.put("isOfficeAdmin", employeeOffice.getIsOfficeAdmin());
+            }
+            if(employeeOffice.getIsOfficeHead() != null) {
+                employeeOfficeNode.put("isOfficeHead", employeeOffice.getIsOfficeHead());
+            }
+            employeeOfficeNode.put("isOfficeUnitHead", "No");
+
+            employeeOfficeNode.put("isAttendanceDataEntryOperator","No");
+
+            employeeOfficeNode.put("isAttendanceAdmin","No");
+
+            employeeOfficeNode.put("isApprover", "No");
+
+            employeeOfficeNode.put("isReviewer", "No");
+
+            employeeOfficeNode.put("status", "Active");
+
+            if(employeeOffice.getCreatedBy() != null) {
+                employeeOfficeNode.put("createdBy", employeeOffice.getCreatedBy());
+            }
+            if(employeeOffice.getCreatedOn() != null) {
+                employeeOfficeNode.put("createdOn", employeeOffice.getCreatedOn());
+            }
+            if(employeeOffice.getUpdatedBy() != null) {
+                employeeOfficeNode.put("updatedBy", employeeOffice.getUpdatedBy());
+            }
+            if(employeeOffice.getUpdatedOn() != null) {
+                employeeOfficeNode.put("updatedOn",employeeOffice.getUpdatedOn());
+            }
+            employeeOfficeNode.put("config", "");
+            employeeOfficeNode.put("dataStatus", "Active");
+
+            jsonObjectList.add(employeeOfficeNode);
+
+        }
+
+        String pmisImportQuery = dataHelper.pmisBulkImport(nodePath, employeeMasterInfo.getOid(), generalNode, jsonObjectList);
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(pmisImportQuery);
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            return "Failed";
+        }
+
+        return employeeMasterInfo.getOid();
+
     }
 
 

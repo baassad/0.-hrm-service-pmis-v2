@@ -2,6 +2,7 @@ package com.cokreates.grp.data.helper;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import com.cokreates.grp.data.constants.JsonSchemas;
@@ -65,6 +66,32 @@ public class DataHelper {
 
         JSONObject employeeOffice = new JSONObject();
         employeeOffice.put("nodes", new JSONArray().put(employeeOfficeNode));
+
+        String query = repository.getQueryImportPmis(pmis, employeeOffice);
+
+        return query;
+    }
+
+    public String pmisBulkImport(JSONArray nodePath, String employeeOid, JSONObject generalNode, List<JSONObject> employeeOfficeNodes){
+
+        JSONObject employeeBlankSkeleton = schemaValues.getPmisEmployeeJsonSkeletonV4();
+
+        JSONObject employeeDocSkeleton = new JSONObject(employeeBlankSkeleton.toString());
+
+        jsonUtil.updateNode(employeeDocSkeleton, nodePath, generalNode);
+
+        JSONObject pmis = new JSONObject();
+        pmis.put("oid", employeeOid);
+        pmis.put("employee_main", employeeDocSkeleton);
+        pmis.put("employee_temp", employeeBlankSkeleton);
+
+        JSONArray jsonArray = new JSONArray();
+        for(JSONObject employeeOfficeNode:employeeOfficeNodes){
+            jsonArray.put(employeeOfficeNode);
+        }
+
+        JSONObject employeeOffice = new JSONObject();
+        employeeOffice.put("nodes", jsonArray);
 
         String query = repository.getQueryImportPmis(pmis, employeeOffice);
 

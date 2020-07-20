@@ -147,6 +147,10 @@ public class SearchService {
 
         System.out.println("Set :" +  employeeOids);
 
+        if(employeeOids.size() == 0){
+            return new ArrayList<>();
+        }
+
 
         return webService.postForList(cmnOrganogramUrl + "/search/v1/get-list-by-oid-set",EmployeeInformationDTO.class,employeeDetailsRenderComponent.getRequestForOrganogramOidSet(requestDTO.getHeader(),employeeOids));
 

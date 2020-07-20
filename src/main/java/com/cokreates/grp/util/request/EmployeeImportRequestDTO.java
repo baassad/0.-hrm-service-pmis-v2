@@ -2,11 +2,11 @@ package com.cokreates.grp.util.request;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class EmployeeImportRequestDTO extends OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO{
 
-    private List<String> employeeOids;
+    private Set<String> employeeOids;
 
 }
