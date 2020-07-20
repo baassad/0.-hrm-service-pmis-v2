@@ -97,13 +97,13 @@ public class DataEmployeeService {
             generalNode.put("createdBy", employeeMasterInfo.getCreatedBy());
         }
         if(employeeMasterInfo.getCreatedOn() != null) {
-            generalNode.put("createdOn", employeeMasterInfo.getCreatedOn());
+            generalNode.put("createdOn", employeeMasterInfo.getCreatedOn().getTime());
         }
         if(employeeMasterInfo.getUpdatedBy() != null) {
             generalNode.put("updatedBy", employeeMasterInfo.getUpdatedBy());
         }
         if(employeeMasterInfo.getUpdatedOn() != null) {
-            generalNode.put("updatedOn", employeeMasterInfo.getUpdatedOn());
+            generalNode.put("updatedOn", employeeMasterInfo.getUpdatedOn().getTime());
         }
         generalNode.put("config", "");
         generalNode.put("dataStatus", "Active");
@@ -130,7 +130,7 @@ public class DataEmployeeService {
                 employeeOfficeNode.put("responsibilityType", employeeOffice.getResponsibilityType());
             }
             if(employeeOffice.getJoiningDate() != null) {
-                employeeOfficeNode.put("joiningDate", employeeOffice.getJoiningDate());
+                employeeOfficeNode.put("joiningDate", employeeOffice.getJoiningDate().getTime());
             }
             if(employeeOffice.getIsOfficeAdmin() != null) {
                 employeeOfficeNode.put("isOfficeAdmin", employeeOffice.getIsOfficeAdmin());
@@ -154,13 +154,13 @@ public class DataEmployeeService {
                 employeeOfficeNode.put("createdBy", employeeOffice.getCreatedBy());
             }
             if(employeeOffice.getCreatedOn() != null) {
-                employeeOfficeNode.put("createdOn", employeeOffice.getCreatedOn());
+                employeeOfficeNode.put("createdOn", employeeOffice.getCreatedOn().getTime());
             }
             if(employeeOffice.getUpdatedBy() != null) {
                 employeeOfficeNode.put("updatedBy", employeeOffice.getUpdatedBy());
             }
             if(employeeOffice.getUpdatedOn() != null) {
-                employeeOfficeNode.put("updatedOn",employeeOffice.getUpdatedOn());
+                employeeOfficeNode.put("updatedOn",employeeOffice.getUpdatedOn().getTime());
             }
             employeeOfficeNode.put("config", "");
             employeeOfficeNode.put("dataStatus", "Active");
