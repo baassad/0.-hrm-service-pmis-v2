@@ -84,7 +84,7 @@ public class DataEmployeeService {
             generalNode.put("maritalStatus", masterDataComponent.getMaritalStatus(employeePersonalInfo.getMaritalStatus()));
         }
         if(employeePersonalInfo.getDateOfBirth() != null) {
-            generalNode.put("dateOfBirth", employeePersonalInfo.getDateOfBirth());
+            generalNode.put("dateOfBirth", employeePersonalInfo.getDateOfBirth().getTime());
         }
         if(employeePersonalInfo.getPhoneNo() != null) {
             generalNode.put("phone", employeePersonalInfo.getPhoneNo());
