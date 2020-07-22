@@ -4,6 +4,8 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.OfficeUnitAndPostOidHolderRequestBodyDTO;
+import com.cokreates.grp.beans.common.OfficeUnitPostDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
@@ -11,6 +13,7 @@ import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
+import com.cokreates.grp.util.webclient.OrganogramClient;
 import com.cokreates.grp.util.webservice.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +39,9 @@ public class SearchService {
 
     @Autowired
     DataServiceClient dataServiceClient;
+
+    @Autowired
+    OrganogramClient organogramClient;
 
     @Autowired
     WebService webService;
@@ -125,7 +131,27 @@ public class SearchService {
         Set<String> employeeOids = new HashSet<>();
 
 
-        if(request.getListOfOfficeUnitPostOid() != null && request.getListOfOfficeUnitPostOid().size() > 0){
+        if(request.getListOfPostOid() != null && request.getListOfOfficeUnitOid() != null && request.getListOfPostOid().size() > 0 && request.getListOfOfficeUnitOid().size() > 0){
+            OfficeUnitAndPostOidHolderRequestBodyDTO requestBodyDTO = new OfficeUnitAndPostOidHolderRequestBodyDTO();
+            requestBodyDTO.setOfficeUnitOid(request.getListOfOfficeUnitOid().iterator().next());
+            requestBodyDTO.setPostOid(request.getListOfPostOid().iterator().next());
+
+            ServiceRequestDTO<OfficeUnitAndPostOidHolderRequestBodyDTO> serviceRequestDTO = new ServiceRequestDTO<>();
+            serviceRequestDTO.setHeader(requestDTO.getHeader());
+            serviceRequestDTO.setMeta(new HashMap<>());
+            serviceRequestDTO.setBody(requestBodyDTO);
+
+            ResponseModel<OfficeUnitPostDTO> officeUnitPostDTO = organogramClient.getOfficeUnitPostByOfficeUnitAndPostFromOrganogram(serviceRequestDTO);
+            if(officeUnitPostDTO.getBody().getData().size() > 0){
+                Set<String> officeUnitPostOids = new HashSet<>();
+                officeUnitPostOids.add(officeUnitPostDTO.getBody().getData().get(0).getOid());
+                employeeOffices = employeeOfficeRepository.findByOfficeUnitPostOidInAndStatusAndIsDeleted(officeUnitPostOids,"Active","No");
+            }else {
+                return new ArrayList<>();
+            }
+
+
+        }else if(request.getListOfOfficeUnitPostOid() != null && request.getListOfOfficeUnitPostOid().size() > 0){
             employeeOffices = employeeOfficeRepository.findByOfficeUnitPostOidInAndStatusAndIsDeleted(request.getListOfOfficeUnitPostOid(),"Active","No");
 
         }else if (request.getListOfOfficeUnitOid() != null && request.getListOfOfficeUnitOid().size() > 0){

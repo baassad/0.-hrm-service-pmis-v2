@@ -17,6 +17,8 @@ public class EmployeeOfficeRelatedOidHolderRequestBodyDTO {
     @NotNull
     Set<String> listOfOfficeUnitPostOid;
 
+    Set<String> listOfPostOid;
+
     @NotNull
     Integer limit;
 
