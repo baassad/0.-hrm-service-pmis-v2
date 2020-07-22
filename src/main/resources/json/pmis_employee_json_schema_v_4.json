@@ -1598,6 +1598,13 @@
 							"default": "",
 							"pattern": "^.*$"
 						},
+						"rankType": {
+							"$id": "#root/professional/professionalGeneral/rankType",
+							"title": "RankType",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
 						"isGovernmentEmployee": {
 							"$id": "#root/professional/professionalGeneral/isGovernmentEmployee",
 							"title": "Isgovernmentemployee",
