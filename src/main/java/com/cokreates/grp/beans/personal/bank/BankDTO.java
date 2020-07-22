@@ -14,5 +14,5 @@ public class BankDTO extends MasterDTO {
     private String typeOfAccount;
     private String nameOfAccount;
     private String currentCondition;
-    private String nameType;
+    private String bankType;
 }
