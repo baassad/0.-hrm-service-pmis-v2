@@ -181,6 +181,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     public List<EmployeeInformationDTO> getEmployeeMainInformationDTOByOidSet(GetListByOidSetRequestBodyDTO requestDTO){
 
+        if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
+
         MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
         miscellaneousRequestProperty.setEmployeeOidList(requestDTO.getOids());
 
@@ -269,6 +271,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     }
 
     public List<EmployeeInformationDTO> getEmployeeInformationDTOByOffice(GetListByOidSetRequestBodyDTO requestDTO){
+
+        if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
 
         MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
         miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
