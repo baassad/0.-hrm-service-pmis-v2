@@ -39,7 +39,8 @@ public class Constant {
     public static final String ENDPOINT_GET_DETAILS_BY_OFFICE_OID_LIST = "/get-details-by-office-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST = "/get-main-by-employee-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_OFFICE_OFFICE_UNIT_OID_LIST = "/get-main-by-office-office-unit-oid-list";
-
+    public static final String GET_TIME_ZONE = "get-time-zone";
+    public static final String SET_TIME_ZONE = "set-time-zone";
     public static final String VERSION_1 = "v1/";
     
     public static final String GDATA_GET 		= "pmis/get/";

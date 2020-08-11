@@ -496,6 +496,19 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         conversionComponent.mapProfileData(officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0), profiles);
     }
 
+    public List<EmptyBodyDTO> setTimeZone(OidRequestBodyDTO oidRequestBodyDTO) {
+
+        TimeZone.setDefault(TimeZone.getTimeZone(oidRequestBodyDTO.getOid()));
+
+        return new ArrayList<>();
+    }
+
+    public List<EmptyBodyDTO> getTimeZone(EmptyBodyDTO emptyBodyDTO) {
+
+        return new ArrayList<>();
+
+    }
+
 
     @Override
     public Class getDtoClass() {
