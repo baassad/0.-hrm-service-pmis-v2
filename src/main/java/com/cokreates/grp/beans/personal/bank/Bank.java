@@ -14,4 +14,5 @@ public class Bank extends BaseEntity {
     private String typeOfAccount;
     private String nameOfAccount;
     private String currentCondition;
+    private String bankType;
 }
