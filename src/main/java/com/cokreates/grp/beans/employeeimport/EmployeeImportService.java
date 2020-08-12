@@ -130,4 +130,22 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         return importedEmployeeOids;
 
     }
+
+    public List<String> importOfficeAdmin(List<String> officeOids){
+
+        Set<String> employeeOids = employeeOfficeRepository.findEmployeeOidsOfOfficeAdminByOfficeOids(officeOids);
+
+        EmployeeImportRequestDTO employeeImportRequestDTO = new EmployeeImportRequestDTO();
+
+        List<String> oidStringList = new ArrayList<>();
+
+        employeeImportRequestDTO.setOfficeOids(oidStringList);
+        employeeImportRequestDTO.setOfficeUnitOids(oidStringList);
+        employeeImportRequestDTO.setOfficeUnitPostOids(oidStringList);
+
+        employeeImportRequestDTO.setEmployeeOids(employeeOids);
+
+        return importEmployees(employeeImportRequestDTO);
+
+    }
 }

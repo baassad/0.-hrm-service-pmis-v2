@@ -30,4 +30,11 @@ public class EmployeeImportRestController extends MasterRestController<EmployeeD
 
         return resultBuildingComponent.getResponse(requestDTO.getHeader(),employeeImportService.importEmployees(requestDTO.getBody().getData().get(0)));
     }
+
+    @PostMapping(Constant.ENDPOINT_IMPORT_OFFICE_ADMIN_FROM_HRM_V1)
+    public ResponseModel<String> importOfficeAdmin(@Valid @RequestBody RequestModel<String> requestDTO){
+
+        return resultBuildingComponent.getResponse(requestDTO.getHeader(),employeeImportService.importOfficeAdmin(requestDTO.getBody().getData()));
+    }
+
 }
