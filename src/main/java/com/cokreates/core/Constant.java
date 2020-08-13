@@ -26,6 +26,7 @@ public class Constant {
     public static final String ENDPOINT_IMPORT_EMPLOYEE = "/import-employee";
     public static final String ENDPOINT_IMPORT_EMPLOYEE_FROM_HRM_V1 = "/import-employee-from-hrm-v1";
     public static final String ENDPOINT_BULK_IMPORT_EMPLOYEE_FROM_HRM_V1 = "/bulk-import-employee-from-hrm-v1";
+    public static final String ENDPOINT_IMPORT_OFFICE_ADMIN_FROM_HRM_V1 = "/import-office-admin-from-hrm-v1";
     public static final String ENDPOINT_GET_DETAILS = "/v1/get-details";
     public static final String EMPLOYEE_DETAILS = "employee-details";
     public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";
