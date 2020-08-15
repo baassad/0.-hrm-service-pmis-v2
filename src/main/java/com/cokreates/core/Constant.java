@@ -9,6 +9,7 @@ public class Constant {
     public static final String ENDPOINT_UPDATE_EMPLOYEE_OFFICE = "/update-employee-office";
     public static final String ENDPOINT_CREATE_ALL = "/create-all";
     public static final String ENDPOINT_APPEND = "/append";
+    public static final String ENDPOINT_APPEND_APPROVED = "/append-approved-node";
     public static final String ENDPOINT_SEARCH_V1_GET_DETAILS = "/search/v1/get-details";
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
@@ -61,6 +62,7 @@ public class Constant {
     public static final String GDATA_LIST_NODE_REQUEST 			= "list-node-in-doc-for-request";
     public static final String GDATA_LIST_NODE_APPROVE 			= "list-node-in-doc-for-approve";
     public static final String GDATA_LIST_NODE_REJECT 			= "list-node-in-doc-for-reject";
+    public static final String GDATA_LIST_APPROVED_NODE         = "list-approved-node-in-doc-for-request";
 
     public static final String GDATA_APPROVAL_HISTORY = "approval-history";
 

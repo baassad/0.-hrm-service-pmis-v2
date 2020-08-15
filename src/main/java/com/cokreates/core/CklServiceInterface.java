@@ -8,6 +8,8 @@ public interface CklServiceInterface<Dto extends MasterDTO,Entity extends BaseEn
     
     public Dto append(Dto dto);
 
+    public Dto appendApprovedNode(Dto dto,String employeeOid);
+
     public List<Entity> createAll (List<Dto> dtos);
 
     public boolean isValid(List<Dto> dto);

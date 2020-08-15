@@ -533,6 +533,29 @@ public class DataEmployeeController {
         return response;
     }
 
+    @RequestMapping(value = Api.APPEND_APPROVED_NODE_IN_LIST_FOR_REQUEST,
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> appendApprovedNodeInListForRequest(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        requiredFields.add(Arrays.asList("employeeOid", "String"));
+        requiredFields.add(Arrays.asList("node", "JSONObject"));
+        requiredFields.add(Arrays.asList("nodePath", "JSONArray"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilter(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_IN_LIST_FOR_REQUEST, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        ResponseEntity<?> response = dataEmployeeService.appendApprovedNodeInListForRequest(jsonBody);
+        return response;
+    }
+
+
     @RequestMapping(value = Api.REMOVE_NODE_IN_LIST_FOR_REQUEST,
             method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE },

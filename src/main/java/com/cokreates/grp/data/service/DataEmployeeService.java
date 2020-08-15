@@ -857,6 +857,48 @@ public class DataEmployeeService {
         return responseObject;
     }
 
+    public ResponseEntity<?> appendApprovedNodeInListForRequest(JSONObject requestParameters){
+        JSONObject inputNode        = requestParameters.getJSONObject("node");
+        JSONArray nodePath          = requestParameters.getJSONArray("nodePath");
+        String employeeOid          = requestParameters.getString("employeeOid");
+
+        String inputNodeOid = UUID.randomUUID().toString();
+        inputNode.put("oid", inputNodeOid);
+
+        JSONObject employeeDoc      = null;
+
+        try {
+            employeeDoc = repository.getEmployee(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        String queryNodeUpdate = dataHelper.updateEmpMainListInPmis(employeeDoc, nodePath, inputNode, employeeOid);
+
+        List<String> queryList = new ArrayList<>();
+        queryList.add(queryNodeUpdate);
+        
+
+        try {
+            repository.performTransaction(queryList);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject response = new JSONObject();
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("oid", employeeOid) ;
+        responseBody.put("nodeOid", inputNodeOid) ;
+        response.put("body", responseBody);
+        ResponseEntity<?> responseObject = new ResponseEntity<> (response.toString(), HttpStatus.OK);
+
+        return responseObject;
+    }
+
     public ResponseEntity<?> updateNodeInListForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
         String nodeOid              = inputNode.getString("oid");

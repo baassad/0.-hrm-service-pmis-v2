@@ -480,6 +480,17 @@ public class DataCustomRepository {
         return query;
     }
 
+    public String queryUpdateEmployeeMainInPmis(JSONObject employeeTemp, String employeeOid){
+        String query = " UPDATE \n"
+                + " hrm.pmis p \n"
+                + " SET \n"
+                + " employee_main = '" + employeeTemp.toString() + "'::jsonb \n"
+                + " WHERE \n"
+                + " p.oid = '"+ employeeOid +"' \n";
+
+        return query;
+    }
+
 
     public String getQueryInsertApprovalHistory(JSONObject queryParams){
         String query = " INSERT \n"
