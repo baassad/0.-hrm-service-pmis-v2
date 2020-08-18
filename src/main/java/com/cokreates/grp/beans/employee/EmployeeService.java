@@ -341,6 +341,77 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     }
 
+    public List<EmployeeInformationDTO> getImproperResponsibilityType(GetListByOidSetRequestBodyDTO requestDTO){
+
+        if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
+
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_IMPROPER_RESPONSIBILITY_TYPE;;
+
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeOfficeMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        // ========= get name from cmn service organogram =========================
+
+        OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
+
+        List<String> officeOids = new ArrayList<>();
+        List<String> officeUnitOids = new ArrayList<>();
+        List<String> officeUnitPostOids = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeOfficeMasterDTO -> {
+                    if (employeeOfficeMasterDTO.getOfficeOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeOid().equals(""))
+                            officeOids.add(employeeOfficeMasterDTO.getOfficeOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitOid().equals(""))
+                            officeUnitOids.add(employeeOfficeMasterDTO.getOfficeUnitOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitPostOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitPostOid().equals(""))
+                            officeUnitPostOids.add(employeeOfficeMasterDTO.getOfficeUnitPostOid());
+                    }
+                });
+
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(officeOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(officeUnitOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitPostOids(officeUnitPostOids);
+
+        List<OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO> officeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
+
+        OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+        organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+
+        try {
+            officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
+                    webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_SEARCH_V1_GET_DETAILS, OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO.class, organogramRequestDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+
+        if (officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.isEmpty()) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+        }
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList, officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0));
+
+        return employeeInformationDTOS;
+
+    }
+
     public EmployeeOfficeDTO appendEmployeeOfficeDTO(EmployeeOfficeDTO employeeOfficeDTO,String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOffice(employeeOfficeDTO,employeeOid);
 

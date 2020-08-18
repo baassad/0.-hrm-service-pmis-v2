@@ -16,6 +16,7 @@ public interface Api {
     String READ_MAIN_EMPLOYEE_BY_OFFICE = "/hrm/pmis/get/v1/main-employee-by-office";
     String READ_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT = "/hrm/pmis/get/v1/main-employee-by-office-office-unit";
     String READ_EMPLOYEE_OFFICE_BY_OFFICE = "/hrm/pmis/get/v1/employee-office-by-office";
+    String READ_IMPROPER_RESPONSIBILITY_TYPE = "/hrm/pmis/get/v1/improper-responsibility-type";
     String READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC = "/hrm/pmis/get/v1/list-node-in-emp-doc";
     String READ_FROM_APPROVAL_HISTORY_BY_ACTOR = "/hrm/pmis/get/v1/approval-history-by-actor";
     String READ_FROM_APPROVAL_HISTORY_BY_EMPLOYEE = "/hrm/pmis/get/v1/approval-history-by-employee";

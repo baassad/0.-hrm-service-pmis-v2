@@ -1,6 +1,7 @@
 package com.cokreates.grp.data.service;
 
 
+import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
@@ -11,6 +12,8 @@ import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.RestUtil;
 
 import com.cokreates.grp.util.components.MasterDataComponent;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,10 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class DataEmployeeService {
+
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Autowired
     DataCustomRepository repository;
 
@@ -770,6 +777,93 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
 
+    public ResponseEntity<?> readImproperResponsibilityType(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String officeOidListFormatted = "";
+        for(int i =0; i< officeOidList.length() ; i++){
+            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
+        }
+        if (officeOidListFormatted.length() > 0){
+            officeOidListFormatted = officeOidListFormatted.substring(1);
+        }
+        else{
+            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+        }
+        requestParams.put("officeOidList", officeOidListFormatted);
+
+        JSONArray totalEmployeeOfficeList = null;
+
+        try {
+            totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
+            boolean hasMain = false;
+            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i);
+            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
+            for(int j = 0; j < employeeOfficeList.length(); j++){
+                boolean improper = false;
+                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
+                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
+
+                String employeeOfficeString = employeeOffice.toString();
+
+                if (!employeeOfficeString.contains("responsibilityType")) {
+                    improper = true;
+                }
+
+                try {
+                    EmployeeOfficeMasterDTO employeeOfficeFromJson = objectMapper.readValue(employeeOfficeString, EmployeeOfficeMasterDTO.class);
+
+                    if (employeeOfficeFromJson.getResponsibilityType() == null) {
+                        improper = true;
+                    } else if (employeeOfficeFromJson.getResponsibilityType().equals("")) {
+                        improper = true;
+                    } else if (employeeOfficeFromJson.getResponsibilityType().equals("Main")) {
+                        hasMain = true;
+                    }
+
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+                if(!improper) {
+                    if (hasMain || (j != employeeOfficeList.length() - 1))continue;
+                    else employeeOffice.put("responsibilityType", "No main responsibility");
+                }
+
+                if (innerTotalEmployeeOfficeList.get("general") != null){
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
+                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
+                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
+                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
+                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
+                    }
+                }
+                if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
+                    resultData.put(employeeOffice);
+                }
+            }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
 
     public ResponseEntity<?> updateNodeInDocumentForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
