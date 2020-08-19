@@ -63,6 +63,7 @@ public class Constant {
     public static final String GDATA_LIST_NODE_APPROVE 			= "list-node-in-doc-for-approve";
     public static final String GDATA_LIST_NODE_REJECT 			= "list-node-in-doc-for-reject";
     public static final String GDATA_LIST_APPROVED_NODE         = "list-approved-node-in-doc-for-request";
+    public static final String GDATA_LIST_APPROVED_NODE_FOR_UPDATE = "list-approved-node-in-doc";
 
     public static final String GDATA_APPROVAL_HISTORY = "approval-history";
 

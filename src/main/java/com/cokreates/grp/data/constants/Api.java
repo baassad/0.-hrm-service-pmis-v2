@@ -29,6 +29,7 @@ public interface Api {
     String APPEND_NODE_IN_LIST_FOR_REQUEST = "/hrm/pmis/append/v1/list-node-in-doc-for-request";
     String APPEND_APPROVED_NODE_IN_LIST_FOR_REQUEST = "/hrm/pmis/append/v1/list-approved-node-in-doc-for-request";
     String UPDATE_NODE_IN_LIST_FOR_REQUEST = "/hrm/pmis/update/v1/list-node-in-doc-for-request";
+    String UPDATE_APPROVED_NODE_IN_LIST = "/hrm/pmis/update/v1/list-approved-node-in-doc";
     String REMOVE_NODE_IN_LIST_FOR_REQUEST = "/hrm/pmis/remove/v1/list-node-in-doc-for-request";
     String UPDATE_APPROVAL_HISTORY_FOR_REVIEW = "/hrm/pmis/update/v1/approval-history-for-review";
     String UPDATE_APPROVAL_HISTORY_FOR_REJECT = "/hrm/pmis/update/v1/approval-history-for-reject";
