@@ -65,7 +65,7 @@ public class RestUtil {
         for(List<String> field : requiredFields){
             String fieldName = field.get(0);
             String fieldType = field.get(1);
-            if (requestObject.has(fieldName)){
+            if (requestObject.has(fieldName) && fieldType != null){
                 System.out.println("Inside check function for " + fieldName);
                 foundOneRequired = true;
                 String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
@@ -83,7 +83,7 @@ public class RestUtil {
         for(List<String> field : nonRequiredFields){
             String fieldName = field.get(0);
             String fieldType = field.get(1);
-            if (requestObject.has(fieldName)){
+            if (requestObject.has(fieldName) && fieldType != null){
                 String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
                 String foundType = splitString[splitString.length - 1];
                 if (!foundType.equals(fieldType)){
