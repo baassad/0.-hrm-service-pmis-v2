@@ -65,4 +65,5 @@ public class EmployeeOfficeMasterDTO extends MasterDTO {
 
     private String isAttendanceDataEntryOperator;
     private String isAttendanceAdmin;
+    private String isAwardAdmin;
 }
