@@ -37,6 +37,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setOfficeUnitOid(employeeOfficeDTO.getOfficeUnitOid());
             employeeInformationDTO.setOfficeUnitPostOid(employeeOfficeDTO.getOfficeUnitPostOid());
             //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
+            employeeInformationDTO.setIsAwardAdmin(employeeOfficeDTO.getIsAwardAdmin());
 
             employeeInformationDTOS.add(employeeInformationDTO);
         }
@@ -71,6 +72,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setIsDisciplineAdmin(employeeOfficeDTO.getIsDisciplineAdmin());
             employeeInformationDTO.setIsAttendanceAdmin(employeeOfficeDTO.getIsAttendanceAdmin());
             employeeInformationDTO.setIsAttendanceDataEntryOperator(employeeOfficeDTO.getIsAttendanceDataEntryOperator());
+            employeeInformationDTO.setIsAwardAdmin(employeeOfficeDTO.getIsAwardAdmin());
 
             employeeInformationDTOS.add(employeeInformationDTO);
         }
@@ -125,6 +127,7 @@ public class ClassConversionComponent {
             employeeInformationDTO.setOfficeUnitOid(employeeOfficeMasterDTO.getOfficeUnitOid());
             employeeInformationDTO.setOfficeUnitPostOid(employeeOfficeMasterDTO.getOfficeUnitPostOid());
             //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
+            employeeInformationDTO.setIsAwardAdmin(employeeOfficeMasterDTO.getIsAwardAdmin());
 
             employeeInformationDTO.setOfficeNameEn(officeMap.get(employeeOfficeMasterDTO.getOfficeOid()).getNameEn());
             employeeInformationDTO.setOfficeNameBn(officeMap.get(employeeOfficeMasterDTO.getOfficeOid()).getNameBn());

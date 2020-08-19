@@ -162,6 +162,32 @@ public class DataHelper {
     }
 
 
+    public String appendEmpMainListInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
+
+        JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
+
+        // jsonValidationUtil.isValidJsonSchema(schemaValues.getPMISEmployeeSchemaV4(), inputNode);
+
+        jsonUtil.listAppendNode(mainDoc, nodePath, inputNode);
+
+        String query = repository.queryUpdateEmployeeMainInPmis(mainDoc, employeeOid);
+
+        return query;
+    }
+
+    public String updateEmpMainListInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
+
+        JSONObject mainDoc = employeeDoc.getJSONObject("employee_main");
+
+        // jsonValidationUtil.isValidJsonSchema(schemaValues.getPMISEmployeeSchemaV4(), inputNode);
+
+        jsonUtil.listUpdateNode("oid",mainDoc, nodePath, inputNode);
+
+        String query = repository.queryUpdateEmployeeMainInPmis(mainDoc, employeeOid);
+
+        return query;
+    }
+
     public String updateEmpTempListInPmis(JSONObject employeeDoc, JSONArray nodePath, JSONObject inputNode, String employeeOid){
 
         JSONObject tempDoc = employeeDoc.getJSONObject("employee_temp");
