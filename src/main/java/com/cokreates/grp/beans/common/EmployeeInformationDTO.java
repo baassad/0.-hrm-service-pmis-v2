@@ -68,4 +68,5 @@ public class EmployeeInformationDTO{
 
     private List<FileDTO> photoFileDTOs;
 
+    private String isAwardAdmin;
 }

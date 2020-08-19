@@ -32,5 +32,5 @@ public class EmployeeOfficeDTO extends MasterDTO {
     private String isDisciplineAdmin;
     private String isAttendanceDataEntryOperator;
     private String isAttendanceAdmin;
-
+    private String isAwardAdmin;
 }
