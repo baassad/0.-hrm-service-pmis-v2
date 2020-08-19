@@ -19,6 +19,8 @@ public class RestUtil {
     public JSONObject requestParsingFilter(JSONObject requestObject,
                                 List<List<String>> requiredFields, 
                                 List<List<String>> nonRequiredFields)throws Exception{
+        
+        System.out.println("******************Inside AND Filter******************");
         JSONObject resultObject = new JSONObject();
         for(List<String> field : requiredFields){
             String fieldName = field.get(0);
@@ -54,12 +56,17 @@ public class RestUtil {
     public JSONObject requestParsingFilterCheckOr(JSONObject requestObject,
                                     List<List<String>> requiredFields, 
                                     List<List<String>> nonRequiredFields)throws Exception{
+
+        System.out.println("******************Inside OR Filter******************");
         JSONObject resultObject = new JSONObject();
         boolean foundOneRequired = requiredFields.size() > 0 ? false : true;
+        System.out.println("RequestObject");
+        System.out.println(requestObject);
         for(List<String> field : requiredFields){
             String fieldName = field.get(0);
             String fieldType = field.get(1);
             if (requestObject.has(fieldName)){
+                System.out.println("Inside check function for " + fieldName);
                 foundOneRequired = true;
                 String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
                 String foundType = splitString[splitString.length - 1];
