@@ -1,19 +1,15 @@
 package com.cokreates.grp.beans.employee;
 
 import com.cokreates.core.*;
-import com.cokreates.core.Constant;
-import com.cokreates.grp.beans.approvalHistory.ApprovalHistoryDTO;
 import com.cokreates.grp.beans.common.*;
-import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
-import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
-import com.cokreates.grp.util.request.*;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
@@ -23,6 +19,7 @@ import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
+import com.cokreates.grp.util.request.*;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.cokreates.grp.util.webclient.HrmPimClient;
@@ -33,7 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
