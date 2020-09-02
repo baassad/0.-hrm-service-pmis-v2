@@ -2,6 +2,9 @@ package com.cokreates.core;
 
 public class Constant {
 
+	public static final String PREFIX_AWARD = "/award";
+	public static final String PREFIX_PUBLICATION = "/publication";
+
 	public static final String STATUS_ACTIVE = "active";
     public static final String STATUS_DELETE = "delete";
     public static final String ENDPOINT_CREATE = "/create";
@@ -34,6 +37,7 @@ public class Constant {
     public static final String ENDPOINT_GET_PROFILE = "/get-profile";
     public static final String ENDPOINT_SEARCH_EMPLOYEES = "/search-employees";
     public static final String ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED = "/search-employees-not-imported";
+    public static final String ENDPOINT_GET_BY_EMPLOYEE_OID = "/get-by-employee-oid";
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";

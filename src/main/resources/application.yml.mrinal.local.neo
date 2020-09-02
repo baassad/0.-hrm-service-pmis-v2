@@ -13,7 +13,7 @@ spring:
     add-mappings: FALSE
   banner.location: classpath:banner.txt
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: update
     properties:
       hibernate:
         jdbc:
@@ -66,6 +66,8 @@ cmn-service-file-management:
   url: http://sqa.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
 cmn-service-organogram:
   url: http://sqa.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+hrm-service-award-publication:
+  url: http://sqa.grp.gov.bd/global/api/hrm-service-award-publication/hrm-service-award-publication
 hrm-service:
   url: http://sqa.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
 cmn-service-global:
