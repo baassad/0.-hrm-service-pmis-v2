@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 public class PublicationService extends MasterService<PublicationDTO, Publication> {
 
-    @Value("${hrm-service-award-publication.url}")
-    private String awardPublicationUrl;
+//    @Value("${hrm-service-award-publication.url}")
+//    private String awardPublicationUrl;
 
     @Autowired
     private WebService webService;
@@ -47,7 +47,8 @@ public class PublicationService extends MasterService<PublicationDTO, Publicatio
         employeeRequest.setMeta(requestDTO.getMeta());
         employeeRequest.setBody(employeeBody);
 
-        String endPointUrl = awardPublicationUrl + Constant.PREFIX_PUBLICATION + Constant.ENDPOINT_GET_BY_EMPLOYEE_OID;
+//        String endPointUrl = awardPublicationUrl + Constant.PREFIX_PUBLICATION + Constant.ENDPOINT_GET_BY_EMPLOYEE_OID;
+        String endPointUrl = Constant.PREFIX_PUBLICATION + Constant.ENDPOINT_GET_BY_EMPLOYEE_OID;
 
         List<PublicationListResponseBodyDTO> resultFromPublicationSubModule = webService.getRestTemplateResponse(endPointUrl, PublicationListResponseBodyDTO.class, employeeRequest);
 
