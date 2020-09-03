@@ -10,6 +10,7 @@ import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.cokreates.grp.util.webservice.WebService;
 import com.netflix.discovery.converters.Auto;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Data
 public class AwardService extends MasterService<AwardDTO, Award> {
 
     @Value("${hrm-service-award-publication.url}")
