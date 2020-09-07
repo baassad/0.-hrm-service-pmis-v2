@@ -467,7 +467,19 @@ public class DataCustomRepository {
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
         return dataUtil.listToJsonArray(result);
     }
-    
+
+    public JSONArray readEmployeeOfficeByEmployee(JSONObject queryParams) {
+        String query = "SELECT  hrm.pmis.oid as oid, "
+                + "hrm.pmis.employee_main->'personal'->'general' as general, "
+                + "hrm.pmis.employee_office -> 'nodes' as employeeoffice "
+                + "FROM hrm.pmis "
+                + "WHERE "
+                + "hrm.pmis.oid in (" + queryParams.getString("employeeOidList") + ")"
+                ;
+
+        List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        return dataUtil.listToJsonArray(result);
+    }
 
     public String queryUpdateEmployeeTempInPmis(JSONObject employeeTemp, String employeeOid){
         String query = " UPDATE \n"

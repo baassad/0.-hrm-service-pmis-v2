@@ -92,6 +92,11 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getImproperResponsibilityType(requestDTO.getBody().getData().get(0)));
     }
 
+    @PostMapping(Constant.ENDPOINT_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE)
+    public ResponseModel<EmployeeInformationDTO> getImproperResponsibilityTypeByEmployee(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getImproperResponsibilityTypeByEmployee(requestDTO.getBody().getData().get(0)));
+    }
+
     @PostMapping(Constant.ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST)
     public ResponseModel<EmployeeInformationDTO> getMainEmployeeInformationByOidSet(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeMainInformationDTOByOidSet(requestDTO.getBody().getData().get(0)));

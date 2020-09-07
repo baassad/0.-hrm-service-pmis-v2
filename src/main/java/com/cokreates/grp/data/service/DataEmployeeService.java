@@ -871,7 +871,7 @@ public class DataEmployeeService {
         try {
             totalEmployeeOfficeList = repository.readEmployeeOfficeByOffice(requestParams);
         } catch (Exception ex) {
-            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_IMPROPER_RESPONSIBILITY_TYPE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         JSONArray resultData = new JSONArray();
@@ -928,6 +928,89 @@ public class DataEmployeeService {
                 if(officeOidList.toString().contains(employeeOffice.getString("officeOid"))){
                     resultData.put(employeeOffice);
                 }
+            }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> readImproperResponsibilityTypeByEmployee(JSONObject requestParams) {
+        JSONArray employeeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        String employeeOidListString = "'" + employeeOidList.getString(0) + "'";
+        for (int i = 1; i < employeeOidList.length(); i++) {
+            employeeOidListString += ", '" + employeeOidList.getString(i) + "'";
+        }
+
+        requestParams.put("employeeOidList", employeeOidListString);
+
+        JSONArray totalEmployeeOfficeList = null;
+
+        try {
+            totalEmployeeOfficeList = repository.readEmployeeOfficeByEmployee(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int i = 0; i < totalEmployeeOfficeList.length(); i++){
+            boolean hasMain = false;
+            JSONObject innerTotalEmployeeOfficeList = totalEmployeeOfficeList.getJSONObject(i);
+            JSONArray employeeOfficeList = innerTotalEmployeeOfficeList.getJSONArray("employeeoffice");
+            for(int j = 0; j < employeeOfficeList.length(); j++){
+                boolean improper = false;
+                JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+                employeeOffice.put("employeeOfficeOid", employeeOffice.get("oid"));
+                employeeOffice.put("oid", innerTotalEmployeeOfficeList.get("oid"));
+
+                String employeeOfficeString = employeeOffice.toString();
+
+                if (!employeeOfficeString.contains("responsibilityType")) {
+                    improper = true;
+                }
+
+                try {
+                    EmployeeOfficeMasterDTO employeeOfficeFromJson = objectMapper.readValue(employeeOfficeString, EmployeeOfficeMasterDTO.class);
+
+                    if (employeeOfficeFromJson.getResponsibilityType() == null) {
+                        improper = true;
+                    } else if (employeeOfficeFromJson.getResponsibilityType().equals("")) {
+                        improper = true;
+                    } else if (employeeOfficeFromJson.getResponsibilityType().equals("Main")) {
+                        hasMain = true;
+                    }
+
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+                if(!improper) {
+                    if (hasMain || (j != employeeOfficeList.length() - 1)) continue;
+                    else employeeOffice.put("responsibilityType", "No main responsibility");
+                }
+
+                if (innerTotalEmployeeOfficeList.get("general") != null){
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameEn")){
+                        employeeOffice.put("nameEn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameEn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("nameBn")){
+                        employeeOffice.put("nameBn", innerTotalEmployeeOfficeList.getJSONObject("general").get("nameBn"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("phone")){
+                        employeeOffice.put("phone", innerTotalEmployeeOfficeList.getJSONObject("general").get("phone"));
+                    }
+                    if(innerTotalEmployeeOfficeList.getJSONObject("general").has("email")){
+                        employeeOffice.put("email", innerTotalEmployeeOfficeList.getJSONObject("general").get("email"));
+                    }
+                }
+//                if(employeeOidList.toString().contains(employeeOffice.getString("officeOid"))){
+                resultData.put(employeeOffice);
+//                }
             }
         }
         JSONObject responseBody = new JSONObject();

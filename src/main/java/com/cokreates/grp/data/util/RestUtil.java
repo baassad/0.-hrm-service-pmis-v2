@@ -60,13 +60,10 @@ public class RestUtil {
         System.out.println("******************Inside OR Filter******************");
         JSONObject resultObject = new JSONObject();
         boolean foundOneRequired = requiredFields.size() > 0 ? false : true;
-        System.out.println("RequestObject");
-        System.out.println(requestObject);
         for(List<String> field : requiredFields){
             String fieldName = field.get(0);
             String fieldType = field.get(1);
             if (requestObject.has(fieldName) && fieldType != null){
-                System.out.println("Inside check function for " + fieldName);
                 foundOneRequired = true;
                 String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
                 String foundType = splitString[splitString.length - 1];

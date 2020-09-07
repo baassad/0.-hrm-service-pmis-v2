@@ -13,7 +13,12 @@ public class Constant {
     public static final String ENDPOINT_CREATE_ALL = "/create-all";
     public static final String ENDPOINT_APPEND = "/append";
     public static final String ENDPOINT_APPEND_APPROVED = "/append-approved-node";
+
+    // organogram end point
     public static final String ENDPOINT_SEARCH_V1_GET_DETAILS = "/search/v1/get-details";
+    public static final String ENDPOINT_OFFICE_V1_GET_BY_OID = "/office/v1/get-by-oid";
+    public static final String ENDPOINT_OFFICE_UNIT_V1_GET_BY_OID = "/office-unit/v1/get-by-oid";
+
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY_BY_ACTOR 	= "/get-approval-history-by-actor";
@@ -45,6 +50,7 @@ public class Constant {
     public static final String ENDPOINT_GET_DETAILS_BY_OFFICE_OID_LIST = "/get-details-by-office-oid-list";
     public static final String ENDPOINT_GET_ADMIN_BY_OFFICE_OID_LIST = "/get-admin-by-office-oid-list";
     public static final String ENDPOINT_IMPROPER_RESPONSIBILITY_TYPE = "/get-improper-responsibility-type";
+    public static final String ENDPOINT_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE = "/get-improper-responsibility-type-by-employee";
     public static final String ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST = "/get-main-by-employee-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_OFFICE_OFFICE_UNIT_OID_LIST = "/get-main-by-office-office-unit-oid-list";
     public static final String GET_TIME_ZONE = "get-time-zone";
@@ -84,6 +90,7 @@ public class Constant {
     public static final String GDATA_EMPLOYEE_OFFICE_BY_OFFICE	        = "employee-office-by-office";
     public static final String GDATA_ADMIN_BY_OFFICE	        = "admin-by-office";
     public static final String GDATA_IMPROPER_RESPONSIBILITY_TYPE	        = "improper-responsibility-type";
+    public static final String GDATA_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE	        = "improper-responsibility-type-by-employee";
 
     public static final String GDATA_MAIN_EMPLOYEE_BY_OID_SET	        = "main-employee-by-oid-set";
     public static final String GDATA_MAIN_EMPLOYEE_BY_OFFICE	        = "main-employee-by-office";
