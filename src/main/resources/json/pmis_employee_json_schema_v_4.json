@@ -291,6 +291,104 @@
 					}
 
 				},
+				"mobileBanking": {
+					"$id": "#root/personal/mobileBanking",
+					"title": "MobileBanking",
+					"type": "array",
+					"default": [],
+					"items":{
+						"$id": "#root/personal/bank/items",
+						"title": "Items",
+						"type": "object",
+						"properties": {
+							"oid": {
+								"$id": "#root/personal/mobileBanking/items/oid",
+								"title": "Oid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"providerOid": {
+								"$id": "#root/personal/bank/items/providerOid",
+								"title": "Provider",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"accountNumber": {
+								"$id": "#root/personal/bank/items/accountNumber",
+								"title": "Accountnumber",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"typeOfAccount": {
+								"$id": "#root/personal/bank/items/typeOfAccount",
+								"title": "Typeofaccount",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"nameOfAccount": {
+								"$id": "#root/personal/bank/items/nameOfAccount",
+								"title": "Nameofaccount",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"rowStatus": {
+								"$id": "#root/personal/bank/items/rowStatus",
+								"title": "Rowstatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdBy": {
+								"$id": "#root/personal/bank/items/createdBy",
+								"title": "Createdby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"createdOn": {
+								"$id": "#root/personal/bank/items/createdOn",
+								"title": "Createdon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedBy": {
+								"$id": "#root/personal/bank/items/updatedBy",
+								"title": "Updatedby",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"updatedOn": {
+								"$id": "#root/personal/bank/items/updatedOn",
+								"title": "Updatedon",
+								"type": ["string", "null",  "number"],
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"config": {
+								"$id": "#root/personal/bank/items/config",
+								"title": "Config",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"dataStatus": {
+								"$id": "#root/personal/bank/items/dataStatus",
+								"title": "Datastatus",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							}
+						}
+					}
+
+				},
 				"travel": {
 					"$id": "#root/personal/travel",
 					"title": "Travel",

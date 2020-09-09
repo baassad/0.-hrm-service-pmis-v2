@@ -62,6 +62,9 @@ eureka:
     serviceUrl:
       defaultZone: #SERVICEURL-DEFAULTZONE#
 
+placeholder-test:
+  url: #test-placeholder#
+
 cmn-service-file-management:
   url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
 cmn-service-organogram:

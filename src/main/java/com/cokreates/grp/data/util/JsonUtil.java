@@ -49,7 +49,15 @@ public class JsonUtil {
             value = value.getJSONObject(nodePath.getString(i));
         }
 
-        JSONArray listOfValues = value.getJSONArray(nodePath.getString(nodePathSize-1));
+        JSONArray listOfValues;
+
+        if(value.has(nodePath.getString(nodePathSize-1))) {
+            listOfValues = value.getJSONArray(nodePath.getString(nodePathSize - 1));
+        }else {
+            listOfValues = new JSONArray();
+            value.put(nodePath.getString(nodePathSize - 1),listOfValues);
+        }
+
         listOfValues.put(inputNode);
 
     }
