@@ -123,7 +123,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
         Dto main = this.parseBeforeUpdate(updateNode);
 
         Object comment = userService.getRequesterCommentFromLoginInfo();
-        //Object comment = null;
+
 
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, dto.getOid(), this.getDtoClass());
         DataServiceRequestBody dataServiceRequestBody = request.getBody();
