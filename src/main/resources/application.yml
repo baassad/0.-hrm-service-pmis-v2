@@ -69,6 +69,8 @@ cmn-service-file-management:
   url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
 cmn-service-organogram:
   url: #CMN-SERVICE-ORGANOGRAM-URL#
+hrm-service-award-publication:
+  url: #HRM-SERVICE-AWARD-PUBLICATION-URL#
 hrm-service:
   url: #HRM-SERVICE-PIM-V1-URL#
 cmn-service-global:

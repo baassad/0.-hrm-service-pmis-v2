@@ -75,8 +75,6 @@ public class WebService {
         ResponseEntity<String> response;
         JsonNode jsonNode;
         try {
-            Gson gson = new Gson();
-            String req = gson.toJson(dto);
             response = restTemplate.exchange(restUrl, HttpMethod.POST,
                     new HttpEntity(dto, httpHeaders()), String.class);
             jsonNode = objectMapper.readTree(response.getBody());

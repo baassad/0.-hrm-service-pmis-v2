@@ -5,6 +5,8 @@ import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
+import com.cokreates.grp.beans.organogramDTO.OfficeDTO;
+import com.cokreates.grp.beans.organogramDTO.OfficeUnitDTO;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
@@ -30,10 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -265,6 +264,103 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
                     });
         }
 
+//        if (employeeInformationDTOS.isEmpty()) {
+//
+//            GetListByOidSetRequestBodyDTO getListByOidSetRequestBodyDTO = new GetListByOidSetRequestBodyDTO();
+//            getListByOidSetRequestBodyDTO.setOids(requestDTO.getOfficeOidList());
+//
+//            List<EmployeeInformationDTO> improperEmployeeInformationDTOS = getImproperResponsibilityType(getListByOidSetRequestBodyDTO);
+//
+//            if (improperEmployeeInformationDTOS.isEmpty()) {
+//                if (hasOfficeUnit) {
+//                    OidRequestBodyDTO oidRequestBodyDTO = new OidRequestBodyDTO();
+//                    oidRequestBodyDTO.setOid(requestDTO.getOfficeOidList().get(0));
+//
+//                    List<OfficeDTO> officeResponseBodyDTO = null;
+//
+//                    OrganogramRequestDTO<OidRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+//                    organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+//                    organogramRequestDTO.setBody(oidRequestBodyDTO);
+//
+//                    try {
+//                        officeResponseBodyDTO =
+//                                webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_OFFICE_V1_GET_BY_OID, OfficeDTO.class, organogramRequestDTO);
+//                    } catch (Exception e) {
+//                        log.error(e.getMessage(), e);
+//                    }
+//
+//                    if (officeResponseBodyDTO== null ||
+//                            officeResponseBodyDTO.isEmpty()) {
+//                        throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+//                    }
+//
+//                    String officeName = officeResponseBodyDTO.get(0).getNameBn();
+//
+//                    List<OfficeUnitDTO> officeUnitResponseBodyDTO = null;
+//
+//                    oidRequestBodyDTO.setOid(requestDTO.getOfficeUnitOidList().get(0));
+//                    organogramRequestDTO.setBody(oidRequestBodyDTO);
+//
+//                    try {
+//                        officeUnitResponseBodyDTO =
+//                                webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_OFFICE_UNIT_V1_GET_BY_OID, OfficeUnitDTO.class, organogramRequestDTO);
+//                    } catch (Exception e) {
+//                        log.error(e.getMessage(), e);
+//                    }
+//
+//                    if (officeUnitResponseBodyDTO== null ||
+//                            officeUnitResponseBodyDTO.isEmpty()) {
+//                        throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+//                    }
+//
+//                    String officeUnitName = officeResponseBodyDTO.get(0).getNameBn();
+//
+//                    throw new ServiceExceptionHolder.ResourceNotFoundException(
+//                            "এখানে কোনো স্বপদ পাওয়া যায় নি: " + officeUnitName + ", " + officeName
+//                    );
+//
+//                } else {
+//                    OidRequestBodyDTO oidRequestBodyDTO = new OidRequestBodyDTO();
+//                    oidRequestBodyDTO.setOid(requestDTO.getOfficeOidList().get(0));
+//
+//                    List<OfficeDTO> officeResponseBodyDTO = null;
+//
+//                    OrganogramRequestDTO<OidRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+//                    organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+//                    organogramRequestDTO.setBody(oidRequestBodyDTO);
+//
+//                    try {
+//                        officeResponseBodyDTO =
+//                                webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_OFFICE_V1_GET_BY_OID, OfficeDTO.class, organogramRequestDTO);
+//                    } catch (Exception e) {
+//                        log.error(e.getMessage(), e);
+//                    }
+//
+//                    if (officeResponseBodyDTO== null ||
+//                            officeResponseBodyDTO.isEmpty()) {
+//                        throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+//                    }
+//
+//                    String officeName = officeResponseBodyDTO.get(0).getNameBn();
+//
+//                    throw new ServiceExceptionHolder.ResourceNotFoundException(
+//                            "এখানে কোনো স্বপদ পাওয়া যায় নি: " + officeName
+//                    );
+//                }
+//            } else {
+//
+//                String name = improperEmployeeInformationDTOS.get(0).getNameBn();
+//                String officeName = improperEmployeeInformationDTOS.get(0).getOfficeNameBn();
+//                String officeUnitName = improperEmployeeInformationDTOS.get(0).getOfficeUnitNameBn();
+//                String officeUnitPostName = improperEmployeeInformationDTOS.get(0).getOfficeUnitPostNameBn();
+//
+//                throw new ServiceExceptionHolder.ResourceNotFoundException(
+//                        "ইনার কোনো স্বপদ পাওয়া যায়নি: " + name + " (" + officeUnitPostName + ", " + officeUnitName + ", " + officeName + ")"
+//                );
+//            }
+//
+//        }
+
         setMissingData(employeeInformationDTOS);
 
         return employeeInformationDTOS;
@@ -322,6 +418,79 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
         organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
         organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+        organogramRequestDTO.setMeta(new HashMap<>());
+
+        try {
+            officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
+                    webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_SEARCH_V1_GET_DETAILS, OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO.class, organogramRequestDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+
+        if (officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.isEmpty()) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+        }
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList, officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0));
+
+        return employeeInformationDTOS;
+
+    }
+
+    public List<EmployeeInformationDTO> getAdminEmployeeInformationDTOByOffice(GetListByOidSetRequestBodyDTO requestDTO){
+
+        if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
+
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_ADMIN_BY_OFFICE;;
+
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeOfficeMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        // ========= get name from cmn service organogram =========================
+
+        OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
+
+        List<String> officeOids = new ArrayList<>();
+        List<String> officeUnitOids = new ArrayList<>();
+        List<String> officeUnitPostOids = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeOfficeMasterDTO -> {
+                    if (employeeOfficeMasterDTO.getOfficeOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeOid().equals(""))
+                            officeOids.add(employeeOfficeMasterDTO.getOfficeOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitOid().equals(""))
+                            officeUnitOids.add(employeeOfficeMasterDTO.getOfficeUnitOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitPostOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitPostOid().equals(""))
+                            officeUnitPostOids.add(employeeOfficeMasterDTO.getOfficeUnitPostOid());
+                    }
+                });
+
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(officeOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(officeUnitOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitPostOids(officeUnitPostOids);
+
+        List<OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO> officeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
+
+        OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+        organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+        organogramRequestDTO.setMeta(new HashMap<>());
 
         try {
             officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
@@ -393,6 +562,79 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
         organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
         organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+        organogramRequestDTO.setMeta(new HashMap<>());
+
+        try {
+            officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
+                    webService.getRestTemplateResponse(organogramUrl + Constant.ENDPOINT_SEARCH_V1_GET_DETAILS, OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO.class, organogramRequestDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+
+        if (officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.isEmpty()) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException("No data found from "+ organogramUrl);
+        }
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = conversionComponent.convertEmpDetailsMasterDTOToEmpInfo(employeeOfficeMasterDTOList, officeOfficeUnitOfficeUnitPostSetResponseBodyDTO.get(0));
+
+        return employeeInformationDTOS;
+
+    }
+
+    public List<EmployeeInformationDTO> getImproperResponsibilityTypeByEmployee(GetListByOidSetRequestBodyDTO requestDTO){
+
+        if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
+
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setEmployeeOidList(requestDTO.getOids());
+
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE;;
+
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, null, null, null,
+                null, null, null, EmployeeOfficeMasterDTO.class);
+
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+
+        // ========= get name from cmn service organogram =========================
+
+        OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO officeOfficeUnitOfficeUnitPostSetRequestBodyDTO = new OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO();
+
+        List<String> officeOids = new ArrayList<>();
+        List<String> officeUnitOids = new ArrayList<>();
+        List<String> officeUnitPostOids = new ArrayList<>();
+
+        employeeOfficeMasterDTOList
+                .forEach(employeeOfficeMasterDTO -> {
+                    if (employeeOfficeMasterDTO.getOfficeOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeOid().equals(""))
+                            officeOids.add(employeeOfficeMasterDTO.getOfficeOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitOid().equals(""))
+                            officeUnitOids.add(employeeOfficeMasterDTO.getOfficeUnitOid());
+                    }
+                    if (employeeOfficeMasterDTO.getOfficeUnitPostOid() != null) {
+                        if (!employeeOfficeMasterDTO.getOfficeUnitPostOid().equals(""))
+                            officeUnitPostOids.add(employeeOfficeMasterDTO.getOfficeUnitPostOid());
+                    }
+                });
+
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeOids(officeOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitOids(officeUnitOids);
+        officeOfficeUnitOfficeUnitPostSetRequestBodyDTO.setOfficeUnitPostOids(officeUnitPostOids);
+
+        List<OfficeOfficeUnitOfficeUnitPostSetResponseBodyDTO> officeOfficeUnitOfficeUnitPostSetResponseBodyDTO;
+
+        OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
+        organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
+        organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+        organogramRequestDTO.setMeta(new HashMap<>());
 
         try {
             officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =
@@ -551,6 +793,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         OrganogramRequestDTO<OfficeOfficeUnitOfficeUnitPostSetRequestBodyDTO> organogramRequestDTO = new OrganogramRequestDTO<>();
         organogramRequestDTO.setHeader(headerUtilComponent.getRequestHeaderDTO());
         organogramRequestDTO.setBody(officeOfficeUnitOfficeUnitPostSetRequestBodyDTO);
+        organogramRequestDTO.setMeta(new HashMap<>());
 
         try {
             officeOfficeUnitOfficeUnitPostSetResponseBodyDTO =

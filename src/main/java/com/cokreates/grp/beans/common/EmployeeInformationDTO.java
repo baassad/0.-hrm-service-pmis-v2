@@ -54,6 +54,8 @@ public class EmployeeInformationDTO{
 
     private String isAttendanceAdmin;
 
+    private String isOfficeAdmin;
+
     private String isAttendanceDataEntryOperator;
 
     private String responsibilityType;

@@ -306,6 +306,22 @@ public class DataEmployeeController {
         return dataEmployeeService.readEmployeeOfficeByOffice(jsonBody);
     }
 
+    @RequestMapping(value = Api.READ_ADMIN_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readAdminByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        nonRequiredFields.add(Arrays.asList("miscellaneousRequestProperty", "JSONObject"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.READ_ADMIN_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        return dataEmployeeService.readAdminByOffice(jsonBody);
+    }
+
     @RequestMapping(value = Api.READ_IMPROPER_RESPONSIBILITY_TYPE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> readImproperResponsibilityType(@RequestBody Map<String, Object> requestBody) {
         JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
@@ -316,10 +332,26 @@ public class DataEmployeeController {
         try{
             jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
         }catch(Exception ex){
-            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            String errorMessage = restUtil.getErrorMessage(Api.READ_IMPROPER_RESPONSIBILITY_TYPE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         return dataEmployeeService.readImproperResponsibilityType(jsonBody);
+    }
+
+    @RequestMapping(value = Api.READ_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readImproperResponsibilityTypeByEmployee(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        nonRequiredFields.add(Arrays.asList("miscellaneousRequestProperty", "JSONObject"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.READ_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        return dataEmployeeService.readImproperResponsibilityTypeByEmployee(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 
