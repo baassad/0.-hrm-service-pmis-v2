@@ -23,8 +23,8 @@ import java.util.List;
 @Data
 public class AwardService extends MasterService<AwardDTO, Award> {
 
-//    @Value("${hrm-service-award-publication.url}")
-//    private String awardPublicationUrl;
+    @Value("${hrm-service-award-publication.url}")
+    private String awardPublicationUrl;
 
     @Autowired
     private WebService webService;
