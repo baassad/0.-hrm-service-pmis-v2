@@ -1,6 +1,7 @@
 package com.cokreates.grp.data.service;
 
 
+import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
@@ -549,6 +550,26 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
+    public ResponseEntity<?> readFromApprovalHistoryByOid(JSONObject requestParameters){
+        JSONArray response = null;
+
+        try {
+            response = repository.readFromApprovalHistoryByOid(requestParameters);
+        } catch (Exception ex) {
+            String errorMessage;
+            errorMessage = ex.toString();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", response);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
+    }
+
     public ResponseEntity<?> readFromApprovalHistoryByStatus(JSONObject requestParameters){
         JSONArray response = null;
 
@@ -777,7 +798,7 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
 
-    public ResponseEntity<?> readAdminByOffice(JSONObject requestParams) {
+    public ResponseEntity<?> readEmployeeByOfficeAndEmployeeType(JSONObject requestParams, String employeeType) {
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
         requestParams.remove("miscellaneousRequestProperty");
         String officeOidListFormatted = "";
@@ -811,10 +832,24 @@ public class DataEmployeeService {
                 try {
                     EmployeeOfficeMasterDTO employeeOfficeFromJson = objectMapper.readValue(employeeOfficeString, EmployeeOfficeMasterDTO.class);
 
-                    if (employeeOfficeFromJson.getIsOfficeAdmin() == null) {
-                        continue;
-                    } else if (!employeeOfficeFromJson.getIsOfficeAdmin().equals("Yes")) {
-                        continue;
+                    if (employeeType.equals(Constant.ADMIN)) {
+                        if (employeeOfficeFromJson.getIsOfficeAdmin() == null) {
+                            continue;
+                        } else if (!employeeOfficeFromJson.getIsOfficeAdmin().equals("Yes")) {
+                            continue;
+                        }
+                    } else if (employeeType.equals(Constant.APPROVER)) {
+                        if (employeeOfficeFromJson.getIsApprover() == null) {
+                            continue;
+                        } else if (!employeeOfficeFromJson.getIsApprover().equals("Yes")) {
+                            continue;
+                        }
+                    } else if (employeeType.equals(Constant.REVIEWER)) {
+                        if (employeeOfficeFromJson.getIsReviewer() == null) {
+                            continue;
+                        } else if (!employeeOfficeFromJson.getIsReviewer().equals("Yes")) {
+                            continue;
+                        }
                     }
 
                 } catch (JsonProcessingException e) {

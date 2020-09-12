@@ -91,11 +91,5 @@ public class ServiceConfiguration extends WebMvcConfigurerAdapter {
         return headers;
     }
 
-    @Bean
-    @RequestScope
-    public UserService userService() {
-        return new UserService();
-    }
-
 
 }

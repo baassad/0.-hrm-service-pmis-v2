@@ -13,27 +13,23 @@ spring:
     add-mappings: #RESOURCES-ADD-MAPPINGS#
   banner.location: classpath:#BANNER-CLASSPATH#
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
     properties:
       hibernate:
         jdbc:
           lob:
-            non_contextual_creation: true
-        default_schema: hrm
+            non_contextual_creation: #NON-CONTEXTUAL-CREATION#
+        default_schema: #DEFAULT-SCHEMA#
   datasource:
     url: #DATASOURCE-URL#
     username: #DATASOURCE-USERNAME#
     password: #DATASOURCE-PASSWORD#
-
 
   zipkin:
     base-url: #ZIPKIN-BASE-URL#
   sleuth:
     sampler:
       probability: #SLEUTH-SAMPLER-PROBABILITY#
-
-
-
 
 
 # =============================================================================================
@@ -72,5 +68,11 @@ cmn-service-organogram:
   url: #CMN-SERVICE-ORGANOGRAM-URL#
 hrm-service:
   url: #HRM-SERVICE-PIM-V1-URL#
+notification-service-ictd:
+  url: #NOTIFICATION-SERVICE-ICTD-URL#
+email-service-ictd:
+  url: #EMAIL-SERVICE-ICTD-URL#
+hrm-service-award-publication:
+  url: #HRM-SERVICE-AWARD-PUBLICATION-URL#
 cmn-service-global:
   url: #CMN-SERVICE-GLOBAL-URL#

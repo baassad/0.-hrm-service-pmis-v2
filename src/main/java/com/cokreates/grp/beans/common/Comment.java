@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Comment {
-    private Object approver;
+    private ApproverCommentDTO approver;
     private Object reviewer;
     private Object requester;
 }

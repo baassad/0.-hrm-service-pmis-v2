@@ -309,6 +309,41 @@ public class DataCustomRepository {
         return resultArray;
     }
 
+    public JSONArray readFromApprovalHistoryByOid(JSONObject queryParameters) throws Exception {
+
+        String oid = queryParameters.getString("oid");
+
+        String query = "SELECT \n"
+                + " p.oid as oid, \n"
+                + " p.employee_oid as employeeOid, \n"
+                + " p.status as status, \n"
+                + " p.change as change, \n"
+                + " p.change_type as changeType, \n"
+                + " p.comment as comment, \n"
+                + " p.created_by as createdBy, \n"
+                + " p.created_on as createdOn, \n"
+                + " p.updated_by as updatedBy, \n"
+                + " p.updated_on as updatedOn, \n"
+                + " p.is_deleted as isDeleted \n"
+                + " FROM \n"
+                + " hrm.pmis_approval_history p \n"
+                + " WHERE \n"
+                + " p.oid = '" + oid + "'"
+                + " and p.is_deleted = 'No'";
+
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        JSONArray resultArray = dataUtil.listToJsonArray(resultList);
+
+        int resultSize = resultArray.length();
+
+        for (int i = 0; i < resultSize; i++) {
+            resultArray.getJSONObject(i).put("employeeOid", resultArray.getJSONObject(i).get("employeeoid"));
+            resultArray.getJSONObject(i).put("changeType", resultArray.getJSONObject(i).get("changetype"));
+        }
+
+        return resultArray;
+    }
 
     public JSONArray readFromApprovalHistoryByStatus(JSONObject queryParameters) throws Exception {
 

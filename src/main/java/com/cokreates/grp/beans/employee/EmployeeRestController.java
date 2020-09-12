@@ -26,6 +26,9 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     protected EmployeeService employeeService;
 
     @Autowired
+    private SwitchService switchService;
+
+    @Autowired
     protected ResultBuildingComponent<EmptyBodyDTO> emptyResultBuildingComponent;
 
     public EmployeeRestController(EmployeeService employeeService){
@@ -84,7 +87,7 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
 
     @PostMapping(Constant.ENDPOINT_GET_ADMIN_BY_OFFICE_OID_LIST)
     public ResponseModel<EmployeeInformationDTO> getAdminByOffice(@Valid @RequestBody RequestModel<GetListByOidSetRequestBodyDTO> requestDTO){
-        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getAdminEmployeeInformationDTOByOffice(requestDTO.getBody().getData().get(0)));
+        return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),employeeService.getEmployeeInformationDTOByOfficeByEmployeeType(requestDTO.getBody().getData().get(0), Constant.ADMIN));
     }
 
     @PostMapping(Constant.ENDPOINT_IMPROPER_RESPONSIBILITY_TYPE)
@@ -118,6 +121,20 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     public ResponseModel<EmptyBodyDTO> getTimeZone(@Valid @RequestBody RequestModel<EmptyBodyDTO> requestDTO){
         ResponseModel<EmptyBodyDTO> responseModel = emptyResultBuildingComponent.getResponse(requestDTO.getHeader(),employeeService.getTimeZone(requestDTO.getBody().getData().get(0)));
         responseModel.getHeader().setResponseMessage(("Current timezone: " + TimeZone.getDefault()));
+        return responseModel;
+    }
+
+    @PostMapping(Constant.SET_NOTIFICATION_ENABLED)
+    public ResponseModel<EmptyBodyDTO> setNotificationEnabled(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
+        ResponseModel<EmptyBodyDTO> responseModel = emptyResultBuildingComponent.getResponse(requestDTO.getHeader(),employeeService.setNotificationEnabled(requestDTO.getBody().getData().get(0)));
+        responseModel.getHeader().setResponseMessage(("Notification enabled: " + switchService.getEmailEnabled()));
+        return responseModel;
+    }
+
+    @PostMapping(Constant.SET_EMAIL_ENABLED)
+    public ResponseModel<EmptyBodyDTO> setEmailEnabled(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
+        ResponseModel<EmptyBodyDTO> responseModel = emptyResultBuildingComponent.getResponse(requestDTO.getHeader(),employeeService.setEmailEnabled(requestDTO.getBody().getData().get(0)));
+        responseModel.getHeader().setResponseMessage(("Email enabled: " + switchService.getEmailEnabled()));
         return responseModel;
     }
 

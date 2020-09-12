@@ -1,29 +1,45 @@
 package com.cokreates.grp.beans.user;
 
+import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationFromAuthDTO;
 import com.cokreates.grp.beans.common.LoginInfoDTO;
 import com.cokreates.grp.beans.common.RequesterCommentDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
+import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
+import com.cokreates.grp.util.webservice.WebService;
+import com.netflix.discovery.converters.Auto;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
 @Data
+@RequestScope
 public class UserService {
 
     @Autowired
     EmployeeService employeeService;
 
     public LoginInfoDTO loggedInEmployee;
+
+    @Autowired
+    WebService webService;
+
+    @Value("${auth-user.url}")
+    private String userUrl;
 
     public RequesterCommentDTO getRequesterCommentFromLoginInfo() {
 
@@ -61,6 +77,21 @@ public class UserService {
         if (one == null && two == null) return true;
         if (one == null ^ two == null) return false;
         return one.equals(two);
+    }
+
+    public List<EmployeeInformationFromAuthDTO> getUserOid(Set<String> oids) {
+
+        List<EmployeeInformationFromAuthDTO> employeeInformationDTOS = new ArrayList<>();
+
+        try {
+            employeeInformationDTOS =
+                    webService.getRestTemplateDataResponse(userUrl + Constant.AUTHENTICATION_V1_RESOURCE + Constant.GET_USERS_BY_EMPLOYEE, EmployeeInformationFromAuthDTO.class, oids);
+        } catch (Exception e) {
+            throw new ServiceExceptionHolder.ResourceNotFoundException(e.getMessage());
+        }
+
+        return employeeInformationDTOS;
+
     }
 
 }

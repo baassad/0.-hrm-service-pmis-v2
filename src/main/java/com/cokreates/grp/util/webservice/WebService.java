@@ -35,6 +35,14 @@ public class WebService {
         return headers;
     }
 
+    public HttpHeaders httpHeadersNoAuth() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
+        return headers;
+    }
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -91,5 +99,43 @@ public class WebService {
         }
     }
 
+    public <T> T getNodeResponse(String restUrl, Class c, Object dto) {
+        ResponseEntity<String> response;
+
+        try {
+            response = restTemplate.exchange(restUrl, HttpMethod.POST,
+                    new HttpEntity(dto, httpHeadersNoAuth()), String.class);
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            T main = (T) objectMapper.treeToValue(jsonNode, c);
+
+            return main;
+//            T main = objectMapper.treeToValue(jsonNode, c);
+//            return main;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public <T> List<T> getRestTemplateDataResponse(String restUrl, Class c, Object dto) {
+        ResponseEntity<String> response;
+        JsonNode jsonNode;
+        try {
+            response = restTemplate.exchange(restUrl, HttpMethod.POST,
+                    new HttpEntity(dto, httpHeadersNoAuth()), String.class);
+            jsonNode = objectMapper.readTree(response.getBody());
+            jsonNode = jsonNode.get("data");
+            List<T> responseDTOs =
+                    objectMapper.readValue(jsonNode.toString(),
+                            objectMapper.getTypeFactory().constructCollectionType(List.class, c));
+            return responseDTOs;
+//            T main = objectMapper.treeToValue(jsonNode, c);
+//            return main;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
 
 }

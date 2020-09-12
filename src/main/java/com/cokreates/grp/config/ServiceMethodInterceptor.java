@@ -30,7 +30,7 @@ public class ServiceMethodInterceptor {
     @Autowired
     HttpServletRequest request;
 
-    @Resource(name = "userService")
+    @Autowired
     UserService userService;
 
 

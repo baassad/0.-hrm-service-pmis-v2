@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import com.cokreates.core.Constant;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.data.util.RestUtil;
@@ -319,7 +321,39 @@ public class DataEmployeeController {
             String errorMessage = restUtil.getErrorMessage(Api.READ_ADMIN_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
-        return dataEmployeeService.readAdminByOffice(jsonBody);
+        return dataEmployeeService.readEmployeeByOfficeAndEmployeeType(jsonBody, Constant.ADMIN);
+    }
+
+    @RequestMapping(value = Api.READ_APPROVER_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readApproverByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        nonRequiredFields.add(Arrays.asList("miscellaneousRequestProperty", "JSONObject"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.READ_APPROVER_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        return dataEmployeeService.readEmployeeByOfficeAndEmployeeType(jsonBody, Constant.APPROVER);
+    }
+
+    @RequestMapping(value = Api.READ_REVIEWER_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readReviewerByOffice(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        nonRequiredFields.add(Arrays.asList("miscellaneousRequestProperty", "JSONObject"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.READ_REVIEWER_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        return dataEmployeeService.readEmployeeByOfficeAndEmployeeType(jsonBody, Constant.REVIEWER);
     }
 
     @RequestMapping(value = Api.READ_IMPROPER_RESPONSIBILITY_TYPE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -395,6 +429,27 @@ public class DataEmployeeController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByEmployee(jsonBody);
+        return response;
+    }
+
+    @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_OID,
+                    method = RequestMethod.POST,
+                    consumes = {MediaType.APPLICATION_JSON_VALUE },
+                    produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> readFromApprovalHistoryByOid(@RequestBody Map<String, Object> requestBody) {
+        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+        List<List<String>> requiredFields = new ArrayList<List<String>>();
+        List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
+        requiredFields.add(Arrays.asList("employeeOid", "String"));
+        JSONObject jsonBody = null;
+        try{
+            jsonBody = restUtil.requestParsingFilter(requestObject, requiredFields, nonRequiredFields);
+        }catch(Exception ex){
+            String errorMessage = restUtil.getErrorMessage(Api.READ_FROM_APPROVAL_HISTORY_BY_OID, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        jsonBody.put("oid", jsonBody.get("employeeOid"));
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByOid(jsonBody);
         return response;
     }
 
