@@ -50,9 +50,6 @@ public class EmailService {
     @Autowired
     UtilCharacter utilCharacter;
 
-    @Value("${notification-service-ictd.url}")
-    private String notificationUrl;
-
     @Value("${email-service-ictd.url}")
     private String emailUrl;
 

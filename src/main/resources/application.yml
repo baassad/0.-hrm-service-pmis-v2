@@ -76,3 +76,5 @@ hrm-service-award-publication:
   url: #HRM-SERVICE-AWARD-PUBLICATION-URL#
 cmn-service-global:
   url: #CMN-SERVICE-GLOBAL-URL#
+auth-user:
+  url: #AUTH-USER-URL#
