@@ -53,10 +53,19 @@ public class Constant {
     public static final String ENDPOINT_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE = "/get-improper-responsibility-type-by-employee";
     public static final String ENDPOINT_GET_MAIN_BY_EMPLOYEE_OID_LIST = "/get-main-by-employee-oid-list";
     public static final String ENDPOINT_GET_MAIN_BY_OFFICE_OFFICE_UNIT_OID_LIST = "/get-main-by-office-office-unit-oid-list";
+    public static final String SET_EMAIL_ENABLED = "set-email-enabled";
+    public static final String SET_NOTIFICATION_ENABLED = "set-notification-enabled";
     public static final String GET_TIME_ZONE = "get-time-zone";
     public static final String SET_TIME_ZONE = "set-time-zone";
     public static final String VERSION_1 = "v1/";
-    
+
+    // auth
+    public static final String AUTHENTICATION_V1_RESOURCE =  "/authentication/v1/";
+    public static final String TOKEN_FOUND = "{ message : Token Found }";
+    public static final String CHECK_TOKEN = "check/token";
+    public static final String GET_USERS_BY_EMPLOYEE = "get-users-by-employees";
+
+
     public static final String GDATA_GET 		= "pmis/get/";
     public static final String GDATA_CREATE 	= "pmis/create/";
     public static final String GDATA_UPDATE 	= "pmis/update/";
@@ -79,6 +88,7 @@ public class Constant {
     public static final String GDATA_LIST_APPROVED_NODE_FOR_UPDATE = "list-approved-node-in-doc";
 
     public static final String GDATA_APPROVAL_HISTORY = "approval-history";
+    public static final String GDATA_APPROVAL_HISTORY_OID = "approval-history-by-oid";
 
     public static final String GDATA_APPROVAL_HISTORY_REQUEST	= "approval-history-for-request";
     public static final String GDATA_APPROVAL_HISTORY_REVIEW 	= "approval-history-for-review";
@@ -89,6 +99,8 @@ public class Constant {
     public static final String GDATA_EMPLOYEE_BY_OFFICE	        = "employee-by-office";
     public static final String GDATA_EMPLOYEE_OFFICE_BY_OFFICE	        = "employee-office-by-office";
     public static final String GDATA_ADMIN_BY_OFFICE	        = "admin-by-office";
+    public static final String GDATA_APPROVER_BY_OFFICE	        = "approver-by-office";
+    public static final String GDATA_REVIEWER_BY_OFFICE	        = "reviewer-by-office";
     public static final String GDATA_IMPROPER_RESPONSIBILITY_TYPE	        = "improper-responsibility-type";
     public static final String GDATA_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE	        = "improper-responsibility-type-by-employee";
 
@@ -101,6 +113,23 @@ public class Constant {
     public static final String GDATA_APPROVAL_HISTORY_BY_ACTOR	= "approval-history-by-actor";
     public static final String GDATA_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS	= "approval-history-by-employee-and-status";
 
+    public static final String ADMIN = "Admin";
+    public static final String REVIEWER = "Reviewer";
+    public static final String APPROVER = "Approver";
+
+    public static final String REVIEW = "Review";
+    public static final String APPROVE = "Approve";
+
+    public static final String APPROVED = "APPROVED";
+    public static final String REJECTED = "REJECTED";
+    public static final String REQUESTED = "REQUESTED";
+
+    public static final String REJECTED_BN = "অননুমোদিত";
+    public static final String APPROVED_BN = "অনুমোদিত";
+    public static final String PENDING_BN = "বিবেচনাধীন";
+
+    public static final String OF_REVIEW_BN = "রিভিউয়ের";
+    public static final String OF_APPROVE_BN = "অনুমোদনের";
 
     public static final String OFFICE = "OFFICE";
     public static final String OFFICE_UNIT = "OFFICE_UNIT";

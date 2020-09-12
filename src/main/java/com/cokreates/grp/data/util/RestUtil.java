@@ -20,7 +20,6 @@ public class RestUtil {
                                 List<List<String>> requiredFields, 
                                 List<List<String>> nonRequiredFields)throws Exception{
         
-        System.out.println("******************Inside AND Filter******************");
         JSONObject resultObject = new JSONObject();
         for(List<String> field : requiredFields){
             String fieldName = field.get(0);
@@ -57,7 +56,6 @@ public class RestUtil {
                                     List<List<String>> requiredFields, 
                                     List<List<String>> nonRequiredFields)throws Exception{
 
-        System.out.println("******************Inside OR Filter******************");
         JSONObject resultObject = new JSONObject();
         boolean foundOneRequired = requiredFields.size() > 0 ? false : true;
         for(List<String> field : requiredFields){

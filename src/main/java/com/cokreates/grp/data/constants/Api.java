@@ -17,6 +17,8 @@ public interface Api {
     String READ_MAIN_EMPLOYEE_BY_OFFICE_OFFICE_UNIT = "/hrm/pmis/get/v1/main-employee-by-office-office-unit";
     String READ_EMPLOYEE_OFFICE_BY_OFFICE = "/hrm/pmis/get/v1/employee-office-by-office";
     String READ_ADMIN_BY_OFFICE = "/hrm/pmis/get/v1/admin-by-office";
+    String READ_APPROVER_BY_OFFICE = "/hrm/pmis/get/v1/approver-by-office";
+    String READ_REVIEWER_BY_OFFICE = "/hrm/pmis/get/v1/reviewer-by-office";
     String READ_IMPROPER_RESPONSIBILITY_TYPE = "/hrm/pmis/get/v1/improper-responsibility-type";
     String READ_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE = "/hrm/pmis/get/v1/improper-responsibility-type-by-employee";
     String READ_NODE_IN_LIST_FROM_EMPLOYEE_DOC = "/hrm/pmis/get/v1/list-node-in-emp-doc";
@@ -24,6 +26,7 @@ public interface Api {
     String READ_FROM_APPROVAL_HISTORY_BY_EMPLOYEE = "/hrm/pmis/get/v1/approval-history-by-employee";
     String READ_FROM_APPROVAL_HISTORY_BY_STATUS = "/hrm/pmis/get/v1/approval-history-by-status";
     String READ_FROM_APPROVAL_HISTORY = "/hrm/pmis/get/v1/approval-history";
+    String READ_FROM_APPROVAL_HISTORY_BY_OID = "/hrm/pmis/get/v1/approval-history-by-oid";
     String READ_FROM_APPROVAL_HISTORY_BY_EMPLOYEE_AND_STATUS = "/hrm/pmis/get/v1/approval-history-by-employee-and-status";
     String GET_EMPLOYEES = "/hrm/pmis/v1/get-employees-by-name";
 
@@ -39,6 +42,8 @@ public interface Api {
     String UPDATE_APPROVAL_HISTORY_FOR_APPROVE = "/hrm/pmis/update/v1/approval-history-for-approve";
     String APPEND_NODE_EMPLOYEE_OFFICE = "/hrm/pmis/append/v1/employee-office";
     String UPDATE_NODE_EMPLOYEE_OFFICE = "/hrm/pmis/update/v1/employee-office";
-    
+
+    String ENDPOINT_NOTIFICATION = "/notification";
+    String ENDPOINT_EMAIL = "/api/v1/updated-email";
 
 }

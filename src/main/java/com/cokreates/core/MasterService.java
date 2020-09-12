@@ -8,8 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.cokreates.grp.beans.common.LoginInfoDTO;
+import com.cokreates.grp.beans.common.RequesterCommentDTO;
+import com.cokreates.grp.beans.notification.email.EmailService;
+import com.cokreates.grp.beans.notification.pushNotification.NotificationService;
 import com.cokreates.grp.beans.user.UserService;
 import com.cokreates.grp.daas.DataServiceRequestBody;
+import com.cokreates.grp.data.constants.NodeNameBn;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.google.gson.*;
 import org.modelmapper.ModelMapper;
@@ -36,7 +40,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Autowired
     private ModelMapper modelMapper;
 
-    @Resource(name = "userService")
+    @Autowired
     private UserService userService;
 
 
@@ -51,6 +55,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Value("${spring.application.gdata_end_point_url}")
     private String gdata;
 
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    NotificationService notificationService;
 
 
     protected MasterService(RequestBuildingComponent<Dto> requestBuildingComponent,
@@ -131,7 +140,12 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         String gDataEndPointUrl = gdata + Constant.GDATA_APPEND + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
-        return dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
+        Dto dtoForAppend = dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
+
+        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+
+        return dtoForAppend;
     }
 
     @Override
@@ -200,8 +214,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Entity entity = null;
 
+        Object comment = userService.getRequesterCommentFromLoginInfo();
+
         if (this.getType().equalsIgnoreCase("Node")) {
 
+            employeeOid = node.getOid();
             // Creates the json object which will manage the information received
             GsonBuilder builder = new GsonBuilder();
 
@@ -223,8 +240,6 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             Dto main = this.parseBeforeUpdate(updateNode);
 
-            Object comment = userService.getRequesterCommentFromLoginInfo();
-
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, node.getOid(),
                     null, null, comment, null,
                     null, null, null, this.getDtoClass());
@@ -238,8 +253,6 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             node = this.parseBeforeUpdate(node);
 
-            Object comment = userService.getRequesterCommentFromLoginInfo();
-
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, node, employeeOid,
                     node.getOid(), null, comment, null,
                     null, null, null, this.getDtoClass());
@@ -249,6 +262,9 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             entity = convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
             //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
         }
+
+        emailService.emailToActors(employeeOid, comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(employeeOid, comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
 
         return entity;
     }
@@ -261,9 +277,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Override
     public Dto delete(Dto dto) {
 
-        if(this.getType().equalsIgnoreCase("Node")) {
+        Dto dtoDeleted = null;
 
-            Object comment = userService.getRequesterCommentFromLoginInfo();
+        Object comment = userService.getRequesterCommentFromLoginInfo();
+
+        if(this.getType().equalsIgnoreCase("Node")) {
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, dto.getOid(),
                     null, null, comment, null,
@@ -272,14 +290,12 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_NODE_REQUEST;
 
 
-            return (dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
+            dtoDeleted = (dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
 
         }else if(this.getType().equalsIgnoreCase("List")){
 
             MasterDTO node = new MasterDTO();
             node.setOid(dto.getNodeOid());
-
-            Object comment = userService.getRequesterCommentFromLoginInfo();
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, (Dto) node, dto.getOid(),
                     null,null,comment,null,
@@ -287,11 +303,14 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
-            return (dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
+            dtoDeleted = (dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
             //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
         }
 
-        return null;
+        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+
+        return dtoDeleted;
     }
 
     @Override

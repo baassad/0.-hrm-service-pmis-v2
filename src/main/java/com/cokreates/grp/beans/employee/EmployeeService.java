@@ -88,6 +88,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     @Autowired
     FileService fileService;
 
+    @Autowired
+    SwitchService switchService;
+
     public EmployeeService(RequestBuildingComponent<EmployeeDTO> requestBuildingComponent,
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
@@ -438,7 +441,7 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     }
 
-    public List<EmployeeInformationDTO> getAdminEmployeeInformationDTOByOffice(GetListByOidSetRequestBodyDTO requestDTO){
+    public List<EmployeeInformationDTO> getEmployeeInformationDTOByOfficeByEmployeeType(GetListByOidSetRequestBodyDTO requestDTO, String employeeType){
 
         if (requestDTO.getOids().isEmpty()) return new ArrayList<>();
 
@@ -446,7 +449,17 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
 
 
-        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_ADMIN_BY_OFFICE;;
+        String gDataUrlSuffix = null;
+
+        if (employeeType.equals(Constant.ADMIN)) {
+            gDataUrlSuffix = Constant.GDATA_ADMIN_BY_OFFICE;
+        } else if (employeeType.equals(Constant.APPROVER)) {
+            gDataUrlSuffix = Constant.GDATA_APPROVER_BY_OFFICE;
+        } else if (employeeType.equals(Constant.REVIEWER)) {
+            gDataUrlSuffix = Constant.GDATA_REVIEWER_BY_OFFICE;
+        }
+
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + gDataUrlSuffix;;
 
         DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
@@ -821,6 +834,20 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         return new ArrayList<>();
 
+    }
+
+    public List<EmptyBodyDTO> setNotificationEnabled(OidRequestBodyDTO oidRequestBodyDTO) {
+
+        switchService.setNotificationEnabled(oidRequestBodyDTO.getOid());
+
+        return new ArrayList<>();
+    }
+
+    public List<EmptyBodyDTO> setEmailEnabled(OidRequestBodyDTO oidRequestBodyDTO) {
+
+        switchService.setEmailEnabled(oidRequestBodyDTO.getOid());
+
+        return new ArrayList<>();
     }
 
 

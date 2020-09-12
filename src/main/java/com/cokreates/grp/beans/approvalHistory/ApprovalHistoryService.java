@@ -3,6 +3,7 @@ package com.cokreates.grp.beans.approvalHistory;
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.ApproverCommentDTO;
+import com.cokreates.grp.beans.common.Change;
 import com.cokreates.grp.beans.common.RequesterCommentDTO;
 import com.cokreates.grp.beans.common.ReviewerCommentDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
@@ -10,8 +11,11 @@ import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
+import com.cokreates.grp.beans.notification.email.EmailService;
+import com.cokreates.grp.beans.notification.pushNotification.NotificationService;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
+import com.cokreates.grp.data.constants.NodeNameBn;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.dummyService.DummyEmployeeOfficeService;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
@@ -44,6 +48,12 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    NotificationService notificationService;
+
     public ApprovalHistoryService(RequestBuildingComponent<ApprovalHistoryDTO> requestBuildingComponent,
                                   DataServiceRestTemplateClient< ApprovalHistoryDTO, ApprovalHistory> dataServiceRestTemplateClient){
         super(requestBuildingComponent, dataServiceRestTemplateClient);
@@ -61,6 +71,18 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     }
 
+    public List<ApprovalHistoryDTO> getApprovalHistoryByOid(String oid) {
+
+        String gDataEndPointUrl = getGData()+ Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_OID;
+
+        DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(null, null, oid,
+                null, null, null, null,
+                null, null, null, this.getDtoClass());
+
+        return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
+
+    }
+
     public ApprovalHistory updateApprovalHistory(ApprovalHistoryRequestBodyDTO node) {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_UPDATE+Constant.VERSION_1;
@@ -69,9 +91,40 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
                 null, node.getOid(), node.getComment(), node.getStatus(),
                 null, null, null, this.getDtoClass());
 
-        return convertToEntity(getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl));
-    }
+        ApprovalHistory created = convertToEntity(getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl));
 
+        ApprovalHistoryDTO approvalHistory = getApprovalHistoryByOid(node.getOid()).get(0);
+
+        Change change = approvalHistory.getChange();
+        String employeeOid = approvalHistory.getEmployeeOid();
+
+        if (approvalHistory.getStatus().equals(Constant.APPROVED) || approvalHistory.getStatus().equals(Constant.REJECTED)) {
+
+
+            String action = Constant.REVIEW;
+
+
+            if (approvalHistory.getComment().getApprover() != null && !approvalHistory.getComment().getApprover().equals("")) {
+                ApproverCommentDTO approverCommentDTO = approvalHistory.getComment().getApprover();
+
+                if (approverCommentDTO.getApproverOid() != null && !approverCommentDTO.getApproverOid().equals("")) {
+                    action = Constant.APPROVE;
+                }
+            }
+
+            emailService.emailToRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            notificationService.notifyRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+
+        } else {
+
+            emailService.emailToActors(employeeOid, node.getComment(), Constant.APPROVE, NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            notificationService.notifyActors(employeeOid, node.getComment(), Constant.APPROVE, NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+
+        }
+
+        return created;
+
+    }
 
     public List<ApprovalHistoryDTO> getApprovalHistoryByActor(ActorRequestBodyDTO node) {
 
