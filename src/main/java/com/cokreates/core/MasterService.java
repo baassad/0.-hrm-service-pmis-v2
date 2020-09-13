@@ -143,8 +143,8 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Dto dtoForAppend = dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
 
-        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
-        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, "APPEND", NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, "APPEND", NodeNameBn.nodeNameToBangla.get(nodePath));
 
         return dtoForAppend;
     }
@@ -264,8 +264,8 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
         }
 
-        emailService.emailToActors(employeeOid, comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
-        notificationService.notifyActors(employeeOid, comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        emailService.emailToActors(employeeOid, comment, Constant.REVIEW, "UPDATE", NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(employeeOid, comment, Constant.REVIEW, "UPDATE", NodeNameBn.nodeNameToBangla.get(nodePath));
 
         return entity;
     }
@@ -308,8 +308,8 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             //return convertToEntity(dataServiceRestTemplateClient.updateInList(this.nodePath, request, gDataEndPointUrl));
         }
 
-        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
-        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, NodeNameBn.nodeNameToBangla.get(nodePath));
+        emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, "REMOVE", NodeNameBn.nodeNameToBangla.get(nodePath));
+        notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, "REMOVE", NodeNameBn.nodeNameToBangla.get(nodePath));
 
         return dtoDeleted;
     }

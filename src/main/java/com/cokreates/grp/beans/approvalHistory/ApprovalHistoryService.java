@@ -117,8 +117,8 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
         } else {
 
-            emailService.emailToActors(employeeOid, node.getComment(), Constant.APPROVE, NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
-            notificationService.notifyActors(employeeOid, node.getComment(), Constant.APPROVE, NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            emailService.emailToActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            notificationService.notifyActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
 
         }
 

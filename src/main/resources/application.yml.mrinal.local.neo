@@ -78,3 +78,5 @@ cmn-service-global:
   url: http://sqa.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
 auth-user:
   url: http://sqa.grp.gov.bd/global/api/auth-service/auth-service/sec/master
+pmis-web-home:
+  url: http://dev-hscm.grp.gov.bd/global/hrm2/hrm/pmis

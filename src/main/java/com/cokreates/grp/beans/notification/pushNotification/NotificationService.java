@@ -45,6 +45,9 @@ public class NotificationService {
     @Value("${notification-service-ictd.url}")
     private String notificationUrl;
 
+    @Value("${pmis-web-home.url}")
+    private String pmisWebHomeUrl;
+
     @Autowired
     UserService userService;
 
@@ -82,18 +85,9 @@ public class NotificationService {
         return responseDTO;
     }
 
-    public NotificationResponseDTO notifyForSendWithUrl(NotificationDTO dto, NotificationUrlHelperDTO helperDto) {
+    public NotificationResponseDTO notifyForSendWithUrl(NotificationDTO dto, String urlEndPoint) {
 
-        String accordion = helperDto.getAccordion();
-        String tab = helperDto.getTab();
-        Date dateOfReceiving = helperDto.getDateOfReceiving();
-        String typeOid = helperDto.getTypeOid();
-        String officeOid = helperDto.getOfficeOid();
-        String officeUnitOid = helperDto.getOfficeUnitOid();
-        String recipientOid = helperDto.getRecipientOid();
-        String hrmWebHomeUrl = helperDto.getHrmWebHomeUrl();
-
-        String url = "";
+        String url = pmisWebHomeUrl + urlEndPoint;
 
 //        String url = hrmWebHomeUrl +
 //                "?" +
@@ -126,7 +120,15 @@ public class NotificationService {
         return send(dto);
     }
 
-    public void notifyActors(String employeeOid, Object comment, String action, String nodeName) {
+    public void notifyActors(String employeeOid, Object comment, String action, String changeType, String nodeName) {
+
+        if (changeType.startsWith("UPDATE")) {
+            changeType = "হালনাগাদকরণ";
+        } else if (changeType.startsWith("APPEND")) {
+            changeType = "সংযোজন";
+        } else if (changeType.startsWith("REMOVE")) {
+            changeType = "অপসারণ";
+        }
 
         HashSet<String> employeeOidsToNotify = new HashSet<>();
 
@@ -162,6 +164,8 @@ public class NotificationService {
 
         String actionBn = null;
 
+        String urlEndPoint = null;
+
         if (action.equals(Constant.REVIEW)) {
 
             employeeInformationDTOS = employeeService.getEmployeeInformationDTOByOfficeByEmployeeType(getListByOidSetRequestBodyDTO, Constant.REVIEWER);
@@ -173,6 +177,7 @@ public class NotificationService {
             postNameBn = requesterCommentDTO.getPostnameBn();
 
             actionBn = Constant.OF_REVIEW_BN;
+            urlEndPoint = "/review";
 
         } else {
 
@@ -185,6 +190,7 @@ public class NotificationService {
             postNameBn = reviewerCommentDTO.getPostnameBn();
 
             actionBn = Constant.OF_APPROVE_BN;
+            urlEndPoint = "/approval";
 
         }
 
@@ -202,11 +208,11 @@ public class NotificationService {
             );
         }
 
-        NotificationUrlHelperDTO notificationUrlHelperDTO = new NotificationUrlHelperDTO();
+//        NotificationUrlHelperDTO notificationUrlHelperDTO = new NotificationUrlHelperDTO();
 
-        notificationUrlHelperDTO.setAccordion("todo");
-
-        notificationUrlHelperDTO.setTab("pending");
+//        notificationUrlHelperDTO.setAccordion("todo");
+//
+//        notificationUrlHelperDTO.setTab("pending");
 
 //        notificationUrlHelperDTO.setDateOfReceiving(sample.getDateOfReceiving());
 //        notificationUrlHelperDTO.setTypeOid(sample.getTypeOid());
@@ -234,13 +240,13 @@ public class NotificationService {
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-YYYY");
         String sendDate = sf.format(new java.util.Date(System.currentTimeMillis()));
 
-        String part0 = "আপনার নিকট " + utilCharacter.convertNumberEnToBn(sendDate) + " তারিখ এর অনুরোধ প্রেরিত হয়েছে।";
+        String part0 = "আপনার নিকট " + utilCharacter.convertNumberEnToBn(sendDate) + " তারিখ এর " + "\"" + nodeName + "\"" + " " + changeType + " " + actionBn + " অনুরোধ প্রেরিত হয়েছে।";
         String part1 = "কর্মকর্তা/কর্মচারীর নাম: " + nameBn;
         String part2 = " (" + postNameBn + ")";
 
         notificationDTO.setMessage(part0 + part1 + part2);
 
-        notifyForSendWithUrl(notificationDTO, notificationUrlHelperDTO);
+        notifyForSendWithUrl(notificationDTO, urlEndPoint);
 
     }
 

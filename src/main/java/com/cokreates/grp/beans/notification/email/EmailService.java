@@ -93,7 +93,15 @@ public class EmailService {
         return send(dto);
     }
 
-    public void emailToActors(String employeeOid, Object comment, String action, String nodeName) {
+    public void emailToActors(String employeeOid, Object comment, String action, String changeType, String nodeName) {
+
+        if (changeType.startsWith("UPDATE")) {
+            changeType = "হালনাগাদকরণ";
+        } else if (changeType.startsWith("APPEND")) {
+            changeType = "সংযোজন";
+        } else if (changeType.startsWith("REMOVE")) {
+            changeType = "অপসারণ";
+        }
 
         // fetch all employee office of requester employee
 
@@ -184,7 +192,7 @@ public class EmailService {
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-YYYY");
         String sendDate = sf.format(new Date(System.currentTimeMillis()));
 
-        String part0 = "আপনার নিকট " + utilCharacter.convertNumberEnToBn(sendDate) + " তারিখ এর অনুরোধ প্রেরিত হয়েছে।";
+        String part0 = "আপনার নিকট " + utilCharacter.convertNumberEnToBn(sendDate) + " তারিখ এর " + "\"" + nodeName + "\"" + " " + changeType + " " + actionBn + " অনুরোধ প্রেরিত হয়েছে।";
         String part1 = "কর্মকর্তা/কর্মচারীর নাম: " + nameBn;
         String part2 = " (" + postNameBn + ")";
 

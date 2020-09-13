@@ -78,3 +78,5 @@ cmn-service-global:
   url: #CMN-SERVICE-GLOBAL-URL#
 auth-user:
   url: #AUTH-USER-URL#
+pmis-web-home:
+  url: #PMIS-WEB-HOME-URL#
