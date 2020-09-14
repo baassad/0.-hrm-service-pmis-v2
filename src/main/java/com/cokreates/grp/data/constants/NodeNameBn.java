@@ -22,6 +22,7 @@ public interface NodeNameBn {
         put(Arrays.asList("personal", "presentAddress"), "বর্তমান ঠিকানা");
         put(Arrays.asList("personal", "injuriesSickness"), "বিশেষ অসুস্থতা/দুর্ঘটনা-আঘাত বিষয়ক তথ্য");
         put(Arrays.asList("personal", "travel"), "ভ্রমণ বিষয়ক তথ্য");
+        put(Arrays.asList("personal", "mobileBanking"), "মোবাইল ব্যাংকিং বিষয়ক তথ্য");
 
         put(Arrays.asList("professional", "disciplinaryAction"), "শাস্তিমূলক ব্যবস্থা বিষয়ক তথ্য");
         put(Arrays.asList("professional", "serviceHistory"), "সার্ভিস ইতিহাস");
