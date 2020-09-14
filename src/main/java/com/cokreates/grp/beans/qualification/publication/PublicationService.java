@@ -58,6 +58,7 @@ public class PublicationService extends MasterService<PublicationDTO, Publicatio
                 .forEach(singleResultFromPublicationSubModule -> {
                     PublicationDTO publicationDTO = new PublicationDTO();
 
+                    publicationDTO.setOid(singleResultFromPublicationSubModule.getOid());
                     publicationDTO.setPublicationType(singleResultFromPublicationSubModule.getTypeNameBn());
                     publicationDTO.setPublicationName(singleResultFromPublicationSubModule.getTitle());
                     publicationDTO.setDescription(singleResultFromPublicationSubModule.getDescription());

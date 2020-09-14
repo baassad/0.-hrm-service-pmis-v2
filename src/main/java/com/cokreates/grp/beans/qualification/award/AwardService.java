@@ -62,6 +62,7 @@ public class AwardService extends MasterService<AwardDTO, Award> {
                 .forEach(singleResultFromAwardSubModule -> {
                     AwardDTO awardDTO = new AwardDTO();
 
+                    awardDTO.setOid(singleResultFromAwardSubModule.getOid());
                     awardDTO.setTitleOfAward(singleResultFromAwardSubModule.getTitle());
                     awardDTO.setAwardReceivalPlace(singleResultFromAwardSubModule.getGivenBy());
                     awardDTO.setCountry(singleResultFromAwardSubModule.getCountryNameBn());
