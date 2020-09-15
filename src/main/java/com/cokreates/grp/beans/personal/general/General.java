@@ -17,6 +17,7 @@ public class General extends BaseEntity {
     private String bloodGroup;
     private Date dateOfBirth;
     private String gender;
+    private String tinNo;
     private String religion;
     private String nationality;
     private String email;
