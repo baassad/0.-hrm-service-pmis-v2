@@ -336,6 +336,20 @@
 								"default": "",
 								"pattern": "^.*$"
 							},
+							"routingNo": {
+								"$id": "#root/personal/bank/items/routingNo",
+								"title": "RoutingNo",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
+							"swiftCode": {
+								"$id": "#root/personal/bank/items/swiftCode",
+								"title": "SwiftCode",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
 							"rowStatus": {
 								"$id": "#root/personal/bank/items/rowStatus",
 								"title": "Rowstatus",

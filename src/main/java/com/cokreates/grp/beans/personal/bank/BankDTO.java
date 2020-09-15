@@ -15,4 +15,6 @@ public class BankDTO extends MasterDTO {
     private String nameOfAccount;
     private String currentCondition;
     private String bankType;
+    private String routingNo;
+    private String swiftCode;
 }
