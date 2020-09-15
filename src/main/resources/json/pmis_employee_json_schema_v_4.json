@@ -57,6 +57,13 @@
 							"default": "",
 							"pattern": "^.*$"
 						},
+						"tinNo": {
+							"$id": "#root/personal/general/tinNo",
+							"title": "TinNo",
+							"type": "string",
+							"default": "",
+							"pattern": "^.*$"
+						},
 						"religion": {
 							"$id": "#root/personal/general/religion",
 							"title": "Religion",

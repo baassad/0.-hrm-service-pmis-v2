@@ -18,6 +18,7 @@ public class GeneralDTO extends MasterDTO {
     private Date dateOfBirth;
     private String gender;
     private String religion;
+    private String tinNo;
     private String nationality;
     private String email;
     private String isFreedomFighter;
