@@ -122,8 +122,9 @@ public class JsonUtil {
         for (int i = 0; i < nodePathSize-1 ; i++) {
             value = value.getJSONObject(nodePath.getString(i));
         }
-        
+
         return value.get(nodePath.getString(nodePathSize-1));
+
     }
 
     public Object getNodeFromList(String searchKey, String nodeId, JSONObject destinationNode, JSONArray nodePath) {
