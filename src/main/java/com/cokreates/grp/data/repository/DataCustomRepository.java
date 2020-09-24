@@ -486,6 +486,7 @@ public class DataCustomRepository {
                         + "p.oid = '"
                         + queryParams.getString("employeeOid")
                         +"'";
+        System.out.println(query);
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
         return dataUtil.mapToJsonObject(result);
 	}

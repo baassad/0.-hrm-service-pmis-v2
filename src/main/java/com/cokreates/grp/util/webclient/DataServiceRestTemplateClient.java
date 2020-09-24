@@ -2,6 +2,7 @@ package com.cokreates.grp.util.webclient;
 
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -316,6 +317,9 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
         try {
             headers.set(HttpHeaders.AUTHORIZATION, request.getHeader(HttpHeaders.AUTHORIZATION));
             log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
+
+            System.out.println("G Data End Point URL : " + gDataUrl );
+            System.out.println("Request body : " + requestBody);
 
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
