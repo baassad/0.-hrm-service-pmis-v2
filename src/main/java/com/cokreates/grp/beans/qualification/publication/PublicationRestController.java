@@ -26,8 +26,8 @@ public class PublicationRestController extends MasterRestController<PublicationD
         super(serviceInterface);
     }
 
-    @PostMapping(Constant.ENDPOINT_GET_LIST)
+    /*@PostMapping(Constant.ENDPOINT_GET_LIST)
     public ResponseModel<PublicationDTO> getAll(@Valid @RequestBody RequestModel<PublicationDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),publicationService.getPublicationList(requestDTO));
-    }
+    }*/
 }

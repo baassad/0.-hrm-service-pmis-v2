@@ -23,9 +23,9 @@ public class AwardRestController extends MasterRestController<AwardDTO,Award> {
         super(serviceInterface);
     }
 
-    @PostMapping(Constant.ENDPOINT_GET_LIST)
+    /*@PostMapping(Constant.ENDPOINT_GET_LIST)
     public ResponseModel<AwardDTO> getAll(@Valid @RequestBody RequestModel<AwardDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(),awardService.getAwardList(requestDTO));
-    }
+    }*/
 
 }

@@ -65,9 +65,9 @@ public class RestUtil {
                 foundOneRequired = true;
                 String[] splitString = requestObject.get(fieldName).getClass().getName().split("[.]");
                 String foundType = splitString[splitString.length - 1];
-                if (!foundType.equals(fieldType)){
+                /*if (!foundType.equals(fieldType)){
                     throw new Exception("expected TYPE of required field " + fieldName + " is " + fieldType+ " but got type " + foundType);
-                }
+                }*/
                 resultObject.put(fieldName, requestObject.get(fieldName));
             }
         }

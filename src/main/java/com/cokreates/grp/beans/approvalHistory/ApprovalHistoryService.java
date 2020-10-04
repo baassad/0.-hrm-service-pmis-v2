@@ -24,6 +24,7 @@ import com.cokreates.grp.util.request.ApprovalHistoryRequestBodyDTO;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 import com.netflix.discovery.converters.Auto;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.*;
@@ -47,6 +49,9 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     EmailService emailService;
@@ -139,7 +144,13 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
                 node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeOfficeService.getDtoClass());
 
 
+        /*try {
+            System.out.println("Creating JSON file");
+            objectMapper.writeValue(new File("./test.json"), requestEmployeeOffice);
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
         List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployeeOffice, gDataEndPointUrl);
 
 
