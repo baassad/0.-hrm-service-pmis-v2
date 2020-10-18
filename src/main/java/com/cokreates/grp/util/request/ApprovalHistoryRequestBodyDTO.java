@@ -1,6 +1,7 @@
 package com.cokreates.grp.util.request;
 
 import com.cokreates.core.MasterDTO;
+import com.cokreates.grp.beans.approvalHistory.CommentDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,5 +9,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ApprovalHistoryRequestBodyDTO extends MasterDTO {
     private String status;
-    private Object comment;
+    private CommentDTO comment;
 }

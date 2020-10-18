@@ -2,10 +2,7 @@ package com.cokreates.grp.beans.approvalHistory;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.ApproverCommentDTO;
-import com.cokreates.grp.beans.common.Change;
-import com.cokreates.grp.beans.common.RequesterCommentDTO;
-import com.cokreates.grp.beans.common.ReviewerCommentDTO;
+import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
@@ -17,6 +14,7 @@ import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.data.constants.NodeNameBn;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.components.ValidationComponent;
 import com.cokreates.grp.util.dummyService.DummyEmployeeOfficeService;
 import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.ActorRequestBodyDTO;
@@ -29,10 +27,12 @@ import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 import com.netflix.discovery.converters.Auto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.*;
@@ -52,6 +52,9 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    ValidationComponent validationComponent;
 
     @Autowired
     EmailService emailService;
@@ -88,9 +91,43 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO,App
 
     }
 
+
+    public CommentDTO  validateComment(CommentDTO commentDTO){
+
+        Field[] fields = FieldUtils.getAllFields(commentDTO.getClass());
+        String value, fieldName;
+
+        for (Field field : fields) {
+
+            fieldName = field.getName();
+
+            try {
+
+                if (field.getType() == String.class) {
+                    value = (String) FieldUtils.readField(commentDTO, fieldName, true);
+                    if (value != null) {
+                        FieldUtils.writeField(commentDTO, fieldName, validationComponent.validateStringInput(value), true);
+                    }
+
+
+                }
+
+            } catch (Exception e) {
+                throw  new ServiceExceptionHolder.ValidationException("প্রদত্ত ইনপুটগুলি সিস্টেমের বিধি নিষেধের সাথে সঙ্গতিপূর্ণ নয়");
+            }
+
+
+        }
+
+        return commentDTO;
+
+    }
+
     public ApprovalHistory updateApprovalHistory(ApprovalHistoryRequestBodyDTO node) {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_UPDATE+Constant.VERSION_1;
+
+        node.setComment(validateComment(node.getComment()));
 
         DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, node.getOid(), node.getComment(), node.getStatus(),
