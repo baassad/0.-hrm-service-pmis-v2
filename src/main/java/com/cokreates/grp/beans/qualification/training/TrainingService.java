@@ -34,6 +34,8 @@ public class TrainingService extends MasterService<TrainingDTO, Training> {
     @Override
     public TrainingDTO appendApprovedNode(TrainingDTO dto,String employeeOid){
 
+        dto = super.validateTheDto(dto);
+
         String gDataEndPointUrl;
 
         // Creates the json object which will manage the information received

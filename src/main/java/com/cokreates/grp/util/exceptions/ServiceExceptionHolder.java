@@ -14,19 +14,23 @@ public class ServiceExceptionHolder {
 
     public static class ResourceNotFoundException extends ServiceException {
         public ResourceNotFoundException(String message) {
-            super(2000, message);
+            super(400, message);
         }
     }
 
     public static class ResourceNotFoundDuringWriteRequestException extends ServiceException {
         public ResourceNotFoundDuringWriteRequestException(String message) {
-            super(4000, message);
+            super(400, message);
         }
+    }
+
+    public static class ValidationException extends ServiceException{
+        public ValidationException(String message){super(400,message);}
     }
 
     public static class TypeMismatchException extends ServiceException {
         public TypeMismatchException(String message) {
-            super(4000, message);
+            super(400, message);
         }
     }
 

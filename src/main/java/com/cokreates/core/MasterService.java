@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,8 +15,11 @@ import com.cokreates.grp.beans.notification.pushNotification.NotificationService
 import com.cokreates.grp.beans.user.UserService;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.data.constants.NodeNameBn;
+import com.cokreates.grp.util.components.ValidationComponent;
+import com.cokreates.grp.util.exceptions.ServiceExceptionHolder;
 import com.cokreates.grp.util.request.MiscellaneousRequestProperty;
 import com.google.gson.*;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +43,9 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ValidationComponent validationComponent;
 
     @Autowired
     private UserService userService;
@@ -68,6 +75,39 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
         this.dataServiceRestTemplateClient = dataServiceRestTemplateClient;
     }
 
+    public Dto validateTheDto(Dto dto) {
+
+        Field[] fields = FieldUtils.getAllFields(getDtoClass());
+        String value, fieldName;
+
+        for (Field field : fields) {
+
+            fieldName = field.getName();
+
+            try {
+
+                if (field.getType() == String.class) {
+                    value = (String) FieldUtils.readField(dto, fieldName, true);
+                    System.out.println( fieldName + " : " + value);
+                    if (value != null) {
+                        FieldUtils.writeField(dto, fieldName, validationComponent.validateStringInput(value), true);
+
+                    }
+
+
+                }
+
+            } catch (Exception e) {
+                throw  new ServiceExceptionHolder.ValidationException("প্রদত্ত ইনপুটগুলি সিস্টেমের বিধি নিষেধের সাথে সঙ্গতিপূর্ণ নয়");
+            }
+
+
+        }
+
+        return dto;
+    }
+
+
     public Class<Dto> getDtoClass() {
         return (Class<Dto>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
@@ -92,6 +132,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
         return null;
 
     }
+
 
     public Entity postCreate(Entity entity) {
         return null;
@@ -120,6 +161,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
             }
         });
 
+
         Gson gson = builder.create();
         String element = gson.toJson(dto);
         HashMap<String, LinkedTreeMap> gsonMap = gson.fromJson(element, HashMap.class);
@@ -127,9 +169,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
         LinkedTreeMap<String, Object> mainMap = gsonMap.get("node");
 
         String mainString = gson.toJson(mainMap);
+
         Dto updateNode = (Dto) gson.fromJson(mainString, this.getDtoClass());
 
         Dto main = this.parseBeforeUpdate(updateNode);
+
 
         Object comment = userService.getRequesterCommentFromLoginInfo();
 
@@ -141,7 +185,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         String gDataEndPointUrl = gdata + Constant.GDATA_APPEND + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
+        System.out.println("URL " + gDataEndPointUrl);
+
         Dto dtoForAppend = dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl);
+
+        System.out.println(dtoForAppend);
 
         emailService.emailToActors(dto.getOid(), comment, Constant.REVIEW, "APPEND", NodeNameBn.nodeNameToBangla.get(nodePath));
         notificationService.notifyActors(dto.getOid(), comment, Constant.REVIEW, "APPEND", NodeNameBn.nodeNameToBangla.get(nodePath));
@@ -150,9 +198,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     }
 
     @Override
-    public Dto appendApprovedNode(Dto dto,String employeeOid){
+    public Dto appendApprovedNode(Dto dto, String employeeOid) {
 
         // Creates the json object which will manage the information received
+
+
         GsonBuilder builder = new GsonBuilder();
 
         // Register an adapter to manage the date types as long values
@@ -174,8 +224,6 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Dto main = this.parseBeforeUpdate(updateNode);
 
-
-
         DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, main, employeeOid, this.getDtoClass());
         DataServiceRequestBody dataServiceRequestBody = request.getBody();
         request.setBody(dataServiceRequestBody);
@@ -192,7 +240,6 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     public List<Entity> createAll(List<Dto> dtos) {
         return null;
     }
-
 
 
     @Override
@@ -213,7 +260,11 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     @Override
     public Entity update(Dto node, String employeeOid) {
 
+        System.out.println("Input node : " + node);
+
         Entity entity = null;
+
+
 
         Object comment = userService.getRequesterCommentFromLoginInfo();
 
@@ -282,7 +333,7 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
         Object comment = userService.getRequesterCommentFromLoginInfo();
 
-        if(this.getType().equalsIgnoreCase("Node")) {
+        if (this.getType().equalsIgnoreCase("Node")) {
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, null, dto.getOid(),
                     null, null, comment, null,
@@ -293,14 +344,14 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
 
             dtoDeleted = (dataServiceRestTemplateClient.update(nodePath, request, gDataEndPointUrl));
 
-        }else if(this.getType().equalsIgnoreCase("List")){
+        } else if (this.getType().equalsIgnoreCase("List")) {
 
             MasterDTO node = new MasterDTO();
             node.setOid(dto.getNodeOid());
 
             DataServiceRequest<Dto> request = requestBuildingComponent.getRequestForRead(nodePath, (Dto) node, dto.getOid(),
-                    null,null,comment,null,
-                    null,null,null,this.getDtoClass());
+                    null, null, comment, null,
+                    null, null, null, this.getDtoClass());
 
             String gDataEndPointUrl = gdata + Constant.GDATA_REMOVE + Constant.VERSION_1 + Constant.GDATA_LIST_NODE_REQUEST;
 
@@ -405,6 +456,9 @@ public abstract class MasterService<Dto extends MasterDTO, Entity extends BaseEn
     }
 
     public Dto parseBeforeUpdate(Dto dto) {
+
+        dto = validateTheDto(dto);
+
         Gson gson = new Gson();
         String element = gson.toJson(dto);
 
