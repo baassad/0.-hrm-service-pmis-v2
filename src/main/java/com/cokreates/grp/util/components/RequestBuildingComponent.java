@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.cokreates.grp.beans.employee.EmployeeCreationDTO;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cokreates.core.MasterDTO;
@@ -17,7 +19,11 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
+@NoArgsConstructor
 public class RequestBuildingComponent<Dto extends MasterDTO> {
+
+    @Autowired
+    ValidationComponent validationComponent;
 
     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,
                                                      Dto node,
@@ -49,6 +55,9 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
         }
 
         requestBody.setApprovalHistoryOid(approvalHistoryOid);
+
+
+
         requestBody.setComment(comment);
         requestBody.setStatus(status);
 

@@ -10,6 +10,7 @@ import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.JsonValidationUtil;
 
+import com.cokreates.grp.util.components.ValidationComponent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class DataHelper {
 
     @Autowired
     DataCustomRepository repository;
+
+    @Autowired
+    ValidationComponent validationComponent;
 
     private JsonSchemas schemaValues = JsonSchemas.getInstance();
 
