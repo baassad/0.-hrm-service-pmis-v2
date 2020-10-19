@@ -1,1 +1,28 @@
-{"body":{"node":null,"general":null,"employeeOid":null,"reviewerOid":"74f18598-9249-4230-81fb-8b20bda33534","requesterOid":null,"approverOid":null,"approvalHistoryOid":null,"status":null,"comment":null,"nodeOid":null,"nodePath":null,"dtoClass":"com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO","miscellaneousRequestProperty":null}}
+{"body":{"node":null,"general":null,"employeeOid":null,"reviewerOid":"74f18598-9249-4230-81fb-8b20bda33534","requesterOid":null,"approverOid":null,"approvalHistoryOid":null,"status":null,"comment":null, "nodeOid":null,"nodePath":null,"dtoClass":"com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO","miscellaneousRequestProperty":null}}
+curl 'http://staging.grp.gov.bd/global/api/hrm-service-pmis-v2/hrm-service-pmis-v2/approval-history/get-approval-history-by-actor' \
+-H 'Connection: keep-alive' \
+-H 'Accept: application/json' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvZmZpY2VVbml0SWQiOiJhYWQ4M2RkNS01NTg0LTRjYWEtODQyZi0zNzJiZWE5MmUwOTQiLCJ1c2VyT2lkIjoiMDc4ZTk3MjUtOTAzZC00MGRlLWJhNzMtMWMwMGQ2YmU3YjM2Iiwib2ZmaWNlSWQiOiI3MTBjM2Q0Ny02M2E2LTQ2OWQtOTBhNi1mMmMzM2M4MWYwODAiLCJ1c2VyX25hbWUiOiJhc2FkMDAwMiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJvZmZpY2VVbml0UG9zdElkIjoiMTU1NTE2MjMtZGM3Yy00MWRiLWI2YTYtMmVhOTA5MGZkZjUwIiwiZW1wbG95ZWVPZmZpY2VJZCI6IjNiZmIwZmZhLWRiMzYtNGRlMS04YzE2LWY2ZjY5ZTY0YmQzOCIsImVtcGxveWVlSWQiOiI3NGYxODU5OC05MjQ5LTQyMzAtODFmYi04YjIwYmRhMzM1MzQiLCJleHAiOjE2MDI0MDc2ODQsImp0aSI6IjM5MTNhMTBkLWM1NDctNDRlMi04YmZkLWI0YjBhZDc4ODE4NiIsImNsaWVudF9pZCI6ImdycC13ZWItcG9ydGFsIn0.LyBQe1jqZp8T0rSweywRLf65RNNKSDMySWAHpmkySGc' \
+-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36' \
+-H 'Content-Type: application/json' \
+-H 'Origin: http://sqa.grp.gov.bd' \
+-H 'Referer: http://sqa.grp.gov.bd/global/hrm2/hrm/pmis/approval' \
+-H 'Accept-Language: en-US,en;q=0.9' \
+-H 'Cookie: _ga=GA1.3.2058538677.1600455565' \
+--data-binary '{"header":{"requestId":"310e7058-34fe-4a82-aa3a-b0e2380874fc","requestSource":"portal","requestSourceService":"get-approval-history-by-actor","requestClient":"grp","requestType":"http://sqa.grp.gov.bd/global/api/hrm-service-pmis-v2/hrm-service-pmis-v2/approval-history/get-approval-history-by-actor","requestTime":"2020-10-10T09:25:57.175Z","requestVersion":"1.0","requestTimeoutInSeconds":30,"requestRetryCount":3},"meta":{},"body":{"data":[{"approverOid":"74f18598-9249-4230-81fb-8b20bda33534"}]}}' \
+--compressed \
+--insecure
+
+curl 'http://dev-hscm.grp.gov.bd/global/api/hrm-service-pmis-v2/hrm-service-pmis-v2/hrm/pmis/get/v1/office-by-employee' \
+-H 'Connection: keep-alive' \
+-H 'Accept: application/json' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvZmZpY2VVbml0SWQiOiJhYWQ4M2RkNS01NTg0LTRjYWEtODQyZi0zNzJiZWE5MmUwOTQiLCJ1c2VyT2lkIjoiMDc4ZTk3MjUtOTAzZC00MGRlLWJhNzMtMWMwMGQ2YmU3YjM2Iiwib2ZmaWNlSWQiOiI3MTBjM2Q0Ny02M2E2LTQ2OWQtOTBhNi1mMmMzM2M4MWYwODAiLCJ1c2VyX25hbWUiOiJhc2FkMDAwMiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJvZmZpY2VVbml0UG9zdElkIjoiMTU1NTE2MjMtZGM3Yy00MWRiLWI2YTYtMmVhOTA5MGZkZjUwIiwiZW1wbG95ZWVPZmZpY2VJZCI6IjNiZmIwZmZhLWRiMzYtNGRlMS04YzE2LWY2ZjY5ZTY0YmQzOCIsImVtcGxveWVlSWQiOiI3NGYxODU5OC05MjQ5LTQyMzAtODFmYi04YjIwYmRhMzM1MzQiLCJleHAiOjE2MDI0MDc2ODQsImp0aSI6IjM5MTNhMTBkLWM1NDctNDRlMi04YmZkLWI0YjBhZDc4ODE4NiIsImNsaWVudF9pZCI6ImdycC13ZWItcG9ydGFsIn0.LyBQe1jqZp8T0rSweywRLf65RNNKSDMySWAHpmkySGc' \
+-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36' \
+-H 'Content-Type: application/json' \
+-H 'Origin: http://sqa.grp.gov.bd' \
+-H 'Referer: http://sqa.grp.gov.bd/global/hrm2/hrm/pmis/approval' \
+-H 'Accept-Language: en-US,en;q=0.9' \
+-H 'Cookie: _ga=GA1.3.2058538677.1600455565' \
+--data-binary '{"body":{"node":null,"general":null,"employeeOid":null,"reviewerOid":"74f18598-9249-4230-81fb-8b20bda33534","requesterOid":null,"approverOid":null,"approvalHistoryOid":null,"status":null,"comment":null, "nodeOid":null,"nodePath":null,"dtoClass":"com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO","miscellaneousRequestProperty":null}}' \
+--compressed \
+--insecure

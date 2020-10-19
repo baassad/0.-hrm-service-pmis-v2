@@ -16,6 +16,7 @@ public class ValidationComponent {
 
         input = input.replace("--" , "");
 
+
         return input;
     }
 

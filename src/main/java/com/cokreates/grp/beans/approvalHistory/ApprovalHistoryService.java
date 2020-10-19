@@ -56,6 +56,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO, Ap
     @Autowired
     ObjectMapper objectMapper;
 
+
     @Autowired
     EmailService emailService;
 
@@ -92,65 +93,65 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO, Ap
     }
 
 
-
-        public ApprovalHistory updateApprovalHistory (ApprovalHistoryRequestBodyDTO node){
-
-
-            String gDataEndPointUrl = getGData() + Constant.GDATA_UPDATE + Constant.VERSION_1;
+    public ApprovalHistory updateApprovalHistory(ApprovalHistoryRequestBodyDTO node) {
 
 
-            DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
-                    null, node.getOid(), node.getComment(), node.getStatus(),
-                    null, null, null, this.getDtoClass());
+        DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), node.getComment(), node.getStatus(),
+                null, null, null, this.getDtoClass());
 
 
-            ApprovalHistory created = convertToEntity(getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl));
-
-            ApprovalHistoryDTO approvalHistory = getApprovalHistoryByOid(node.getOid()).get(0);
+        String gDataEndPointUrl = getGData() + Constant.GDATA_UPDATE + Constant.VERSION_1;
 
 
-            Change change = approvalHistory.getChange();
-            String employeeOid = approvalHistory.getEmployeeOid();
 
-            if (approvalHistory.getStatus().equals(Constant.APPROVED) || approvalHistory.getStatus().equals(Constant.REJECTED)) {
+        ApprovalHistory created = convertToEntity(getDataServiceRestTemplateClient().updateApprovalHistory(getNodePath(), request, gDataEndPointUrl));
 
-
-                String action = Constant.REVIEW;
+        ApprovalHistoryDTO approvalHistory = getApprovalHistoryByOid(node.getOid()).get(0);
 
 
-                if (approvalHistory.getComment().getApprover() != null && !approvalHistory.getComment().getApprover().equals("")) {
-                    ApproverCommentDTO approverCommentDTO = approvalHistory.getComment().getApprover();
+        Change change = approvalHistory.getChange();
+        String employeeOid = approvalHistory.getEmployeeOid();
 
-                    if (approverCommentDTO.getApproverOid() != null && !approverCommentDTO.getApproverOid().equals("")) {
-                        action = Constant.APPROVE;
-                    }
+        if (approvalHistory.getStatus().equals(Constant.APPROVED) || approvalHistory.getStatus().equals(Constant.REJECTED)) {
+
+
+            String action = Constant.REVIEW;
+
+
+            if (approvalHistory.getComment().getApprover() != null && !approvalHistory.getComment().getApprover().equals("")) {
+                ApproverCommentDTO approverCommentDTO = approvalHistory.getComment().getApprover();
+
+                if (approverCommentDTO.getApproverOid() != null && !approverCommentDTO.getApproverOid().equals("")) {
+                    action = Constant.APPROVE;
                 }
-
-                emailService.emailToRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
-                notificationService.notifyRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
-
-            } else {
-
-                emailService.emailToActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
-                notificationService.notifyActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
-
             }
 
-            return created;
+            emailService.emailToRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            notificationService.notifyRequester(employeeOid, action, approvalHistory.getChangeType(), approvalHistory.getStatus(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+
+        } else {
+
+            emailService.emailToActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
+            notificationService.notifyActors(employeeOid, node.getComment(), Constant.APPROVE, approvalHistory.getChangeType(), NodeNameBn.nodeNameToBangla.get(change.getNodePath()));
 
         }
 
-        public List<ApprovalHistoryDTO> getApprovalHistoryByActor (ActorRequestBodyDTO node){
+        return created;
+
+    }
+
+    public List<ApprovalHistoryDTO> getApprovalHistoryByActor(ActorRequestBodyDTO node) {
 
 
-            // =================   fetch all offices of employee in request body ====================================================
+        // =================   fetch all offices of employee in request body ====================================================
 
-            String gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_OFFICE_BY_EMPLOYEE;
-            ;
+        String gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_OFFICE_BY_EMPLOYEE;
+        ;
 
-            DataServiceRequest<EmployeeOfficeDTO> requestEmployeeOffice = employeeOfficeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
-                    null, node.getOid(), null, null,
-                    node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeOfficeService.getDtoClass());
+        DataServiceRequest<EmployeeOfficeDTO> requestEmployeeOffice = employeeOfficeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), null, null,
+                node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeOfficeService.getDtoClass());
 
 
         /*try {
@@ -160,73 +161,73 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO, Ap
         }catch (Exception e){
             e.printStackTrace();
         }*/
-            List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployeeOffice, gDataEndPointUrl);
+        List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployeeOffice, gDataEndPointUrl);
 
 
-            // =================   accumulates offices only which are permitted for him ====================================================
+        // =================   accumulates offices only which are permitted for him ====================================================
 
 
-            List<String> officeOidList = new ArrayList<>();
+        List<String> officeOidList = new ArrayList<>();
 
-            employeeOfficeDTOList
-                    .forEach(employeeOfficeDTO -> {
-                        if (node.getReviewerOid() != null && employeeOfficeDTO.getIsReviewer().equals("Yes")) {
-                            officeOidList.add(employeeOfficeDTO.getOfficeOid());
-                        } else if (node.getApproverOid() != null && employeeOfficeDTO.getIsApprover().equals("Yes")) {
-                            officeOidList.add(employeeOfficeDTO.getOfficeOid());
-                        }
-                    });
-
-
-            // =================   get all employees' DTOs ( containing only oid in object ) who belong to permitted offices ====================================================
+        employeeOfficeDTOList
+                .forEach(employeeOfficeDTO -> {
+                    if (node.getReviewerOid() != null && employeeOfficeDTO.getIsReviewer().equals("Yes")) {
+                        officeOidList.add(employeeOfficeDTO.getOfficeOid());
+                    } else if (node.getApproverOid() != null && employeeOfficeDTO.getIsApprover().equals("Yes")) {
+                        officeOidList.add(employeeOfficeDTO.getOfficeOid());
+                    }
+                });
 
 
-            MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
-            miscellaneousRequestProperty.setOfficeOidList(officeOidList);
+        // =================   get all employees' DTOs ( containing only oid in object ) who belong to permitted offices ====================================================
 
 
-            gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_BY_OFFICE;
-            ;
-
-            DataServiceRequest<EmployeeDTO> requestEmployee = employeeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
-                    null, node.getOid(), null, null,
-                    node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeService.getDtoClass());
-
-            DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
-            dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
-
-            List<EmployeeDTO> employeeDTOList = employeeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setOfficeOidList(officeOidList);
 
 
-            // =================   preparing list of employee oids from DTOs who are under jurisdiction ====================================================
+        gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_BY_OFFICE;
+        ;
 
-            List<String> employeeOidList = new ArrayList<>();
+        DataServiceRequest<EmployeeDTO> requestEmployee = employeeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), null, null,
+                node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), employeeService.getDtoClass());
 
-            employeeDTOList
-                    .forEach(employeeDTO -> {
-                        employeeOidList.add(employeeDTO.getOid());
-                    });
+        DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        List<EmployeeDTO> employeeDTOList = employeeService.getDataServiceRestTemplateClient().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
 
-            // =================   finally, get all approval/reviewal requests which are under jurisdiction ====================================================
+        // =================   preparing list of employee oids from DTOs who are under jurisdiction ====================================================
+
+        List<String> employeeOidList = new ArrayList<>();
+
+        employeeDTOList
+                .forEach(employeeDTO -> {
+                    employeeOidList.add(employeeDTO.getOid());
+                });
 
 
-            miscellaneousRequestProperty = new MiscellaneousRequestProperty();
-            miscellaneousRequestProperty.setEmployeeOidList(employeeOidList);
+        // =================   finally, get all approval/reviewal requests which are under jurisdiction ====================================================
 
-            gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;
-            ;
 
-            DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
-                    null, node.getOid(), null, null,
-                    node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), this.getDtoClass());
+        miscellaneousRequestProperty = new MiscellaneousRequestProperty();
+        miscellaneousRequestProperty.setEmployeeOidList(employeeOidList);
 
-            dataServiceRequestBody = request.getBody();
-            dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+        gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_APPROVAL_HISTORY_BY_ACTOR;
+        ;
 
-            return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
+        DataServiceRequest<ApprovalHistoryDTO> request = getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+                null, node.getOid(), null, null,
+                node.getRequesterOid(), node.getReviewerOid(), node.getApproverOid(), this.getDtoClass());
 
-        }
+        dataServiceRequestBody = request.getBody();
+        dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
+
+        return getDataServiceRestTemplateClient().getListData(getNodePath(), request, gDataEndPointUrl);
+
+    }
 
 //    public Object getCommentObject(Object comment) {
 //        if (comment.toString().contains("requesterOid")) {
@@ -265,14 +266,14 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO, Ap
 //    }
 
 
-        @Override
-        public Class getDtoClass () {
-            return ApprovalHistoryDTO.class;
-        }
-
-        @Override
-        public Class getEntityClass () {
-            return ApprovalHistory.class;
-        }
-
+    @Override
+    public Class getDtoClass() {
+        return ApprovalHistoryDTO.class;
     }
+
+    @Override
+    public Class getEntityClass() {
+        return ApprovalHistory.class;
+    }
+
+}
