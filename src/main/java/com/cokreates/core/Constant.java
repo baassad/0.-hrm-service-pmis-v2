@@ -21,6 +21,7 @@ public class Constant {
 
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
+    public static final String ENDPOINT_GET_EMPLOYEE_GOVT_ID    = "/get-govt-id-by-employee-oid";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY_BY_ACTOR 	= "/get-approval-history-by-actor";
     public static final String ENDPOINT_UPDATE_APPROVAL_HISTORY = "/update-approval-history";
     public static final String ENDPOINT_UPDATE_ALL = "/update-all";
