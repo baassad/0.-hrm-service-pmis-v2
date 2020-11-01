@@ -785,7 +785,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         }
         p.setPhotoFileDTOs(photos);
         MasterDTO dto = new MasterDTO();
-        dto.setOid(photos.get(0).getFileOid());
+
+        dto.setOid(photos.get(photos.size() - 1).getFileOid());
         try {
              photoFile = webService.postForByteArray(fileServiceUrl+ Constant.ENDPOINT_DOWNLOAD_FILE, dto);
              p.setPhoto(photoFile);
