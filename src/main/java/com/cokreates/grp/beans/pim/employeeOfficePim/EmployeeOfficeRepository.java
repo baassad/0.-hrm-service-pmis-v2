@@ -20,4 +20,7 @@ public interface EmployeeOfficeRepository extends ServiceRepository<EmployeeOffi
     @Query(value = "select employee_oid from hrm.employee_office where office_id in ?1 and status = 'Active' and is_office_admin='Yes' and is_deleted = 'No'",nativeQuery = true)
     Set<String> findEmployeeOidsOfOfficeAdminByOfficeOids(List<String> officeOids);
 
+
+    List<EmployeeOffice> findAllByOidInAndStatus(Set<String> oids, String status);
+
 }
