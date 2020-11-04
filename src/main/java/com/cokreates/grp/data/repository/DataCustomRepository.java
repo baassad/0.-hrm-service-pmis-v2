@@ -254,7 +254,7 @@ public class DataCustomRepository {
                     + " p.change as change, \n"
                     + " p.change_type as changeType, \n"
                     + " p.comment as comment, \n"
-                    + " p.created_by as createdBy, \n"
+                    + " p.created_by as  createdBy, \n"
                     + " p.created_on as createdOn, \n"
                     + " p.updated_by as updatedBy, \n"
                     + " p.updated_on as updatedOn, \n"
