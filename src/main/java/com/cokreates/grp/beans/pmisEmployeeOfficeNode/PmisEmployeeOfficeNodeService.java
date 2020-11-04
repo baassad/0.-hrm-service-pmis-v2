@@ -2,7 +2,6 @@ package com.cokreates.grp.beans.pmisEmployeeOfficeNode;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.EmployeeDetailsDTO;
 import com.cokreates.grp.beans.employeeimport.EmployeeImportService;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
@@ -29,6 +28,9 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
         super(requestBuildingComponent, dataServiceRestTemplateClient);
     }
 
+    public List<PmisEmployeeOfficeNode> create(List<PmisEmployeeOfficeNode> nodes) {
+        return repository.saveAll(nodes);
+    }
 
     public List<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(String pmisOid) {
 

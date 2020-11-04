@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class PmisEmployeeOfficeNodeDTO extends MasterDTO {
+    private String pmisOid;
+    private String employeeOfficeOid;
     private String responsibilityType;
     private String officeUnitOid;
     private String officeUnitPostOid;
