@@ -272,7 +272,11 @@ public class DataCustomRepository {
 
         query += ") and p.is_deleted = 'No'\n";
 
+        System.out.println("Query : " + query);
+
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        System.out.println("Result is : " + resultList);
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 

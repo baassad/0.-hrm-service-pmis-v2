@@ -319,7 +319,7 @@ public class DataServiceRestTemplateClient<D extends MasterDTO, E extends BaseEn
             log.debug("==== gDataEndPointUrl ==== " + gDataUrl);
 
             System.out.println("G Data End Point URL : " + gDataUrl );
-            System.out.println("Request body : " + requestBody);
+            System.out.println("Request body : " + objectMapper.writeValueAsString(requestBody));
 
             ResponseEntity<String> response = restTemplate.exchange(gDataUrl, HttpMethod.POST, new HttpEntity(requestBody, headers), String.class);
 
