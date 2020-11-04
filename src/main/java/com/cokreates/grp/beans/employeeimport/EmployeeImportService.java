@@ -1,5 +1,6 @@
 package com.cokreates.grp.beans.employeeimport;
 
+import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.common.EmployeeDetailsMasterDTO;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
@@ -148,4 +149,12 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         return importEmployees(employeeImportRequestDTO);
 
     }
+
+
+    public List<EmployeeOffice> getEmployeeOfficeListByEmployeeOfficeOidSet(Set<String> oidSet){
+        return employeeOfficeRepository.findAllByOidInAndStatus(oidSet, Constant.STATUS_ACTIVE);
+    }
+
+
+
 }
