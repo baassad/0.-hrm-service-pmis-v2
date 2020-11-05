@@ -140,7 +140,8 @@ public class SearchService {
 
             List<String> gradeNameList = grades.stream().map(o-> o.getNameBn()).collect(Collectors.toList());
 
-            Page<String> finalEmployeeOidPage = pmisRepository.findByGradeAndEmployeeOidSet(employeeOids,gradeNameList,pageAble);
+
+            Page<String> finalEmployeeOidPage = pmisRepository.findByGradeAndEmployeeOidSet(employeeOids,Collections.singletonList(gradeOidMap.get(request.getListOfGradeOid().get(0)).getNameBn()),pageAble);
 
             List<String> finalEmployeeOids = finalEmployeeOidPage.getContent();
 
