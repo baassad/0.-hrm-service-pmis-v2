@@ -1,10 +1,11 @@
 package com.cokreates.grp.beans.pim.pmis;
 
 import com.cokreates.grp.beans.employee.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,9 @@ public interface PmisRepository extends JpaRepository<Pmis,String > {
     Set<String> getTrainingOids(String oid);
 
     @Query(value = "select oid from hrm.pmis where employee_main->'professional'->'professionalGeneral'->>'grade' in :grades and oid in :oids",nativeQuery = true)
-    Set<String> findByGradeAndEmployeeOidSet(@Param("oids") Set<String> oids,@Param("grades")Set<String> grades);
+    Page<String> findByGradeAndEmployeeOidSet(@Param("oids") List<String> oids, @Param("grades")List<String> grades, Pageable pageable);
+
+    @Query(value = "select oid,employee_main->'professional'->'professionalGeneral'->>'grade' as grade from hrm.pmis where oid in :oids",nativeQuery = true)
+    Page<EmployeeGrade> findGradeByEmployeeOids(@Param("oids") List<String> oids,Pageable pageable);
 
 }

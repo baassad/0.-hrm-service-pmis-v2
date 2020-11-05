@@ -4,18 +4,25 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.common.*;
+import com.cokreates.grp.beans.employee.Employee;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
+import com.cokreates.grp.beans.pim.pmis.EmployeeGrade;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.OrganogramClient;
 import com.cokreates.grp.util.webservice.WebService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,8 +34,12 @@ public class SearchService {
     @Value("${cmn-service-organogram.url}")
     String cmnOrganogramUrl;
 
+    @Value("${hrm-service.url}")
+    String hrmServicePimUrl;
+
     @Autowired
     EmployeeDetailsRenderComponent employeeDetailsRenderComponent;
+
 
     @Autowired
     EmployeeOfficeRepository employeeOfficeRepository;
@@ -69,6 +80,9 @@ public class SearchService {
         searchDTO.setLimit(request.getLimit());
         searchDTO.setOffset(request.getOffset());
 
+
+        Pageable pageAble = PageRequest.of(request.getOffset(),request.getLimit());
+
         String filterCriterion  = "";
         Set<String> intendedOids = new HashSet<>();
 
@@ -96,14 +110,74 @@ public class SearchService {
 
         List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList,filterCriterion,intendedOids);
 
-        List<String> employeeOids = employeeInformationDTOS.stream().map(o -> o.getOid()).collect(Collectors.toList());
+        GetListByOidSetRequestBodyDTO requestBodyDTO = new GetListByOidSetRequestBodyDTO();
+        requestBodyDTO.setOids(request.getListOfGradeOid());
+        requestBodyDTO.setStrict("No");
 
-        if(request.getListOfGradeOid().size() > 0){
-             List<GradeDTO> gradeDTOList = webService.postForList(,GradeDTO.class,requestBuildingComponent.get)
+        List<GradeDTO> grades = new ArrayList<>();
+
+        try {
+            grades = webService.postForList(hrmServicePimUrl + "/grade/v1/get-list", GradeDTO.class, requestBuildingComponent.getTheServiceRequestDTO(requestDTO.getHeader(), requestBodyDTO));
+        }catch (RuntimeException e){
+
+        }
+
+        Map<String,GradeDTO> gradeMap = new HashMap<>();
+
+        for(GradeDTO gradeDTO:grades){
+            gradeMap.put(gradeDTO.getNameBn(),gradeDTO);
         }
 
 
-        return employeeInformationDTOS;
+        List<String> employeeOids = employeeInformationDTOS.stream().map(o -> o.getOid()).collect(Collectors.toList());
+
+        List<EmployeeInformationIncludedGradeDTO> employeeGradeInfos = new ArrayList<>();
+
+
+        if(request.getListOfGradeOid().size() > 0 && grades.size() > 0){
+
+            List<String> gradeNameList = grades.stream().map(o-> o.getNameBn()).collect(Collectors.toList());
+
+            Page<String> finalEmployeeOidPage = pmisRepository.findByGradeAndEmployeeOidSet(employeeOids,gradeNameList,pageAble);
+
+            List<String> finalEmployeeOids = finalEmployeeOidPage.getContent();
+
+            for(EmployeeInformationDTO employeeInformationDTO:employeeInformationDTOS){
+
+                if(finalEmployeeOids.contains(employeeInformationDTO.getOid())){
+                    EmployeeInformationIncludedGradeDTO employeeGradeDTO = new EmployeeInformationIncludedGradeDTO();
+                    BeanUtils.copyProperties(employeeInformationDTO,employeeGradeDTO);
+                    employeeGradeDTO.setGrade(gradeMap.get(gradeNameList.get(0)));
+                    employeeGradeInfos.add(employeeGradeDTO);
+                }
+            }
+        }else if(grades.size() > 0 && employeeInformationDTOS.size() > 0){
+
+
+            Page<EmployeeGrade> employeeGradePage = pmisRepository.findGradeByEmployeeOids(employeeOids,pageAble);
+
+            List<EmployeeGrade> employeeGrades = employeeGradePage.getContent();
+
+
+            Map<String,String> employeeGradeMap = new HashMap<>();
+
+            for(EmployeeGrade employeeGrade:employeeGrades){
+                if(employeeGrade.getGrade() != null &&  !employeeGrade.getGrade().equalsIgnoreCase("")) {
+                    employeeGradeMap.put(employeeGrade.getOid(), employeeGrade.getGrade());
+                }
+            }
+
+            for(EmployeeInformationDTO employeeInformationDTO:employeeInformationDTOS){
+
+                EmployeeInformationIncludedGradeDTO employeeInformationIncludedGradeDTO = new EmployeeInformationIncludedGradeDTO();
+                BeanUtils.copyProperties(employeeInformationDTO,employeeInformationIncludedGradeDTO);
+                employeeInformationIncludedGradeDTO.setGrade(gradeMap.get(employeeGradeMap.get(employeeInformationDTO.getOid())));
+                employeeGradeInfos.add(employeeInformationIncludedGradeDTO);
+
+            }
+        }
+
+        return employeeGradeInfos;
 
     }
 

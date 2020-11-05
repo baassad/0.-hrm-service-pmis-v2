@@ -31,8 +31,8 @@ public class SearchController {
       }
 
       @PostMapping(Constant.ENDPOINT_SEARCH_EMPLOYEES_BY_GRADE)
-      ResponseModel<EmployeeInformationIncludedGradeDTO> getTheSearchedEmployeesWithGrade(@Valid @RequestBody ServiceRequestDTO<> requestDTO){
-            return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),);
+      ResponseModel<EmployeeInformationIncludedGradeDTO> getTheSearchedEmployeesWithGrade(@Valid @RequestBody ServiceRequestDTO<OfficeWithGradeRequestBodyDTO> requestDTO){
+            return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),service.getTheEmployeesWithGrade(requestDTO));
       }
 
 
