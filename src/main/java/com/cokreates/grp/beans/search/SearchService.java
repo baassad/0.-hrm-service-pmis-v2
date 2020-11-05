@@ -123,9 +123,11 @@ public class SearchService {
         }
 
         Map<String,GradeDTO> gradeMap = new HashMap<>();
+        Map<String,GradeDTO> gradeOidMap = new HashMap<>();
 
         for(GradeDTO gradeDTO:grades){
             gradeMap.put(gradeDTO.getNameBn(),gradeDTO);
+            gradeOidMap.put(gradeDTO.getOid(),gradeDTO);
         }
 
 
@@ -147,7 +149,7 @@ public class SearchService {
                 if(finalEmployeeOids.contains(employeeInformationDTO.getOid())){
                     EmployeeInformationIncludedGradeDTO employeeGradeDTO = new EmployeeInformationIncludedGradeDTO();
                     BeanUtils.copyProperties(employeeInformationDTO,employeeGradeDTO);
-                    employeeGradeDTO.setGrade(gradeMap.get(gradeNameList.get(0)));
+                    employeeGradeDTO.setGrade(gradeOidMap.get(request.getListOfGradeOid().get(0)));
                     employeeGradeInfos.add(employeeGradeDTO);
                 }
             }
