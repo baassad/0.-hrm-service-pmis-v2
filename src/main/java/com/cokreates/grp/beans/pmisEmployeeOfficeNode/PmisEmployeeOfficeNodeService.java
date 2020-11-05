@@ -34,17 +34,15 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 
     public List<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(String pmisOid) {
 
-        // get pmis and employee-office mapped date
         List<PmisEmployeeOfficeNode> nodeList = repository.findAllByPmisOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
 
-        // prepare employee-office oid set
         Set<String> employeeOfficeOidSet = new HashSet<>();
-        if (!nodeList.isEmpty()) nodeList.stream().map(node -> node.getEmployeeOfficeOid()).collect(Collectors.toSet());
+        if (!nodeList.isEmpty())
+        	employeeOfficeOidSet = nodeList.stream().map(node -> node.getEmployeeOfficeOid()).collect(Collectors.toSet());
 
-        // get employee-office details by employee-office oid set
         List<EmployeeOffice> employeeOfficeList = new ArrayList<>();
         if (employeeOfficeOidSet.size() > 0)
-            employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
+        	employeeOfficeList = employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
 
         List<PmisEmployeeOfficeNodeDTO> result = new ArrayList<>();
         if (!employeeOfficeList.isEmpty())

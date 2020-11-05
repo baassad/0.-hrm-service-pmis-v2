@@ -1,17 +1,17 @@
 package com.cokreates.grp.beans.employeeimport;
 
-import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.EmployeeDetailsMasterDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.employee.Employee;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfoRepository;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNode;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.request.EmployeeImportRequestDTO;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -37,6 +38,12 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
 
     @Autowired
     DataEmployeeService dataEmployeeService;
+    
+    @Autowired
+    PmisEmployeeOfficeNodeService pmisEmployeeOfficeNodeService;
+    
+    @Autowired
+    EmployeeOfficeService employeeOfficeService;
 
     JSONArray path =  new JSONArray("[\"personal\", \"general\"]");
 
@@ -119,18 +126,38 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         }
 
         List<String> importedEmployeeOids = new ArrayList<>();
-
         String insertedOid;
-
         for(String oid:employeeMasterInfoMap.keySet()){
-            insertedOid = dataEmployeeService.importEmployees(path,employeeMasterInfoMap.get(oid),employeePersonalInfoMap.get(oid),employeeOfficeMap.get(oid));
+            insertedOid = dataEmployeeService.importEmployees(path,employeeMasterInfoMap.get(oid),employeePersonalInfoMap.get(oid), new ArrayList<>());
             importedEmployeeOids.add(insertedOid);
+            if (employeeOfficeMap.get(oid).size() > 0) {
+            	createPmisEmployeeOfficeMapping(employeeMasterInfoMap.get(oid).getOid(), employeeOfficeMap.get(oid));
+			}
         }
-
 
         return importedEmployeeOids;
 
     }
+    
+    public void createPmisEmployeeOfficeMapping(String employeeOid, List<EmployeeOffice> employeeOffices) {
+    	List<PmisEmployeeOfficeNode> nodes = new ArrayList<PmisEmployeeOfficeNode>();
+    	for (EmployeeOffice employeeOffice : employeeOffices) {
+    		PmisEmployeeOfficeNode node = new PmisEmployeeOfficeNode();
+    		node.setPmisOid(employeeOid);
+    		node.setEmployeeOfficeOid(employeeOffice.getOid());
+    		
+    		//TODO: Set loggedIn user id in created_by
+    		node.setCreatedBy("System");
+    		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    		nodes.add(node);
+    		
+//    		EmployeeOfficeDTO dto = new EmployeeOfficeDTO();
+//        	employeeOfficeService.updateEmployeeOffice(dto, employeeOid);
+		}
+    	
+    	pmisEmployeeOfficeNodeService.create(nodes);
+    }
+    
 
     public List<String> importOfficeAdmin(List<String> officeOids){
 
@@ -152,9 +179,9 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
 
 
     public List<EmployeeOffice> getEmployeeOfficeListByEmployeeOfficeOidSet(Set<String> oidSet){
-        return employeeOfficeRepository.findAllByOidInAndStatus(oidSet, Constant.STATUS_ACTIVE);
+        return employeeOfficeRepository.findAllByOidInAndStatus(oidSet, "Active");
     }
 
-
-
 }
+
+
