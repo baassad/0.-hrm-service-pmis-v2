@@ -5,6 +5,7 @@ import com.cokreates.core.MasterDTO;
 import com.cokreates.core.ResponseBodyModel;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationIncludedGradeDTO;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.pim.pmis.EmployeeGovtId;
@@ -62,6 +63,22 @@ public class ResultBuildingComponent<Dto extends MasterDTO> {
         responseModel.setMeta(new HashMap<>());
 
         ResponseBodyModel<EmployeeInformationDTO> responseBodyModel = new ResponseBodyModel<>();
+        responseBodyModel.setData(dtos);
+        responseModel.setBody(responseBodyModel);
+
+        return responseModel;
+
+    }
+
+    public ResponseModel<EmployeeInformationIncludedGradeDTO> retrieveResultForEmployeeInformationWithGrade(DataRequestHeaderModel requestHeaderModel, List<EmployeeInformationIncludedGradeDTO> dtos
+    ){
+
+        ResponseModel<EmployeeInformationIncludedGradeDTO> responseModel = new ResponseModel<>();
+
+        responseModel.setHeader(headerUtilComponent.getResponseHeaderDTO(requestHeaderModel));
+        responseModel.setMeta(new HashMap<>());
+
+        ResponseBodyModel<EmployeeInformationIncludedGradeDTO> responseBodyModel = new ResponseBodyModel<>();
         responseBodyModel.setData(dtos);
         responseModel.setBody(responseBodyModel);
 

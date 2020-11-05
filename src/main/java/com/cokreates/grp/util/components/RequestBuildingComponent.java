@@ -2,8 +2,11 @@ package com.cokreates.grp.util.components;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import com.cokreates.core.DataRequestHeaderModel;
+import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.employee.EmployeeCreationDTO;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,18 @@ public class RequestBuildingComponent<Dto extends MasterDTO> {
 
     @Autowired
     ValidationComponent validationComponent;
+
+
+    public<T> ServiceRequestDTO<T> getTheServiceRequestDTO(DataRequestHeaderModel headerModel,T requestBody){
+
+        ServiceRequestDTO<T> requestDTO = new ServiceRequestDTO<>();
+        requestDTO.setHeader(headerModel);
+        requestDTO.setMeta(new HashMap<>());
+        requestDTO.setBody(requestBody);
+
+        return requestDTO;
+    }
+
 
     public DataServiceRequest<Dto> getRequestForRead(List<String> nodePath,
                                                      Dto node,

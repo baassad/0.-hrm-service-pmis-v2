@@ -4,6 +4,7 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationIncludedGradeDTO;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class SearchController {
             return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(),service.getTheEmployees(requestDTO));
 
       }
+
+      @PostMapping(Constant.ENDPOINT_SEARCH_EMPLOYEES_BY_GRADE)
+      ResponseModel<EmployeeInformationIncludedGradeDTO> getTheSearchedEmployeesWithGrade(@Valid @RequestBody ServiceRequestDTO<> requestDTO){
+            return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),);
+      }
+
 
       @PostMapping(Constant.ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED)
       ResponseModel<EmployeeInformationDTO> getTheSearchedEmployeesNotImported(@Valid @RequestBody ServiceRequestDTO<NamedEmployeeRequestBodyDTO> requestDTO){

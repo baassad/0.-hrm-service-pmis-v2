@@ -42,6 +42,7 @@ public class Constant {
     public static final String ENDPOINT_EMPLOYEE_OFFICE = "/get-employee-office";
     public static final String ENDPOINT_GET_PROFILE = "/get-profile";
     public static final String ENDPOINT_SEARCH_EMPLOYEES = "/search-employees";
+    public static final String ENDPOINT_SEARCH_EMPLOYEES_BY_GRADE = "/search-employees-by-grade";
     public static final String ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED = "/search-employees-not-imported";
     public static final String ENDPOINT_GET_BY_EMPLOYEE_OID = "/get-by-employee-oid";
 

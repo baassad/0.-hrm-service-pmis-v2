@@ -3,15 +3,14 @@ package com.cokreates.grp.beans.search;
 import com.cokreates.core.Constant;
 import com.cokreates.core.ResponseModel;
 import com.cokreates.core.ServiceRequestDTO;
-import com.cokreates.grp.beans.common.EmployeeInformationDTO;
-import com.cokreates.grp.beans.common.OfficeUnitAndPostOidHolderRequestBodyDTO;
-import com.cokreates.grp.beans.common.OfficeUnitPostDTO;
+import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
+import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.webclient.DataServiceClient;
 import com.cokreates.grp.util.webclient.OrganogramClient;
 import com.cokreates.grp.util.webservice.WebService;
@@ -44,6 +43,9 @@ public class SearchService {
     OrganogramClient organogramClient;
 
     @Autowired
+    RequestBuildingComponent requestBuildingComponent;
+
+    @Autowired
     WebService webService;
 
     public DataServiceEmployeeSearchDTO getEmployeeSearchDTO(DataServiceEmployeeSearchDTO searchDTO, Set<String> oidList, String category, String name){
@@ -53,6 +55,58 @@ public class SearchService {
 
         return searchDTO;
     }
+
+
+
+    public List<EmployeeInformationIncludedGradeDTO> getTheEmployeesWithGrade(ServiceRequestDTO<OfficeWithGradeRequestBodyDTO> requestDTO){
+
+        List<EmployeeInformationDTO> employeeInformationDTOList = new ArrayList<>();
+
+        OfficeWithGradeRequestBodyDTO request = requestDTO.getBody();
+
+        DataServiceEmployeeSearchDTO searchDTO = new DataServiceEmployeeSearchDTO();
+
+        searchDTO.setLimit(request.getLimit());
+        searchDTO.setOffset(request.getOffset());
+
+        String filterCriterion  = "";
+        Set<String> intendedOids = new HashSet<>();
+
+        if(request.getListOfOfficeUnitPostOid().size() > 0){
+            searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitPostOid(), Constant.OFFICE_UNIT_POST,"");
+            filterCriterion = Constant.OFFICE_UNIT_POST;
+            intendedOids = request.getListOfOfficeUnitPostOid();
+        }else if (request.getListOfOfficeUnitOid().size() > 0){
+            searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeUnitOid(),Constant.OFFICE_UNIT,"");
+            filterCriterion = Constant.OFFICE_UNIT;
+            intendedOids = request.getListOfOfficeUnitOid();
+        }else if (request.getListOfOfficeOid().size() > 0){
+            searchDTO = getEmployeeSearchDTO(searchDTO,request.getListOfOfficeOid(),Constant.OFFICE,"");
+            filterCriterion = Constant.OFFICE;
+            intendedOids = request.getListOfOfficeOid();
+        }
+
+        HashMap<String,Object> map = new HashMap<>();
+        //map.put(Constant.COUNT, employeeOffices.getTotalElements());
+        ServiceRequestDTO<DataServiceEmployeeSearchDTO> dataServiceRequest = new ServiceRequestDTO<>();
+        dataServiceRequest.setBody(searchDTO);
+        ResponseModel<EmployeeDetails> response = dataServiceClient.getEmployees(dataServiceRequest);
+
+        List<EmployeeDetails> employeeDetailsList = response.getBody().getData();
+
+        List<EmployeeInformationDTO> employeeInformationDTOS = convertEmployeeDetailsToEmployeeInformationDTO(employeeDetailsList,filterCriterion,intendedOids);
+
+        List<String> employeeOids = employeeInformationDTOS.stream().map(o -> o.getOid()).collect(Collectors.toList());
+
+        if(request.getListOfGradeOid().size() > 0){
+             List<GradeDTO> gradeDTOList = webService.postForList(,GradeDTO.class,requestBuildingComponent.get)
+        }
+
+
+        return employeeInformationDTOS;
+
+    }
+
 
 
     public List<EmployeeInformationDTO> getTheEmployees(ServiceRequestDTO<NamedEmployeeRequestBodyDTO> requestDTO){
