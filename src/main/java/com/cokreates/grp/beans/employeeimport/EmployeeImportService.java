@@ -3,6 +3,7 @@ package com.cokreates.grp.beans.employeeimport;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employee.Employee;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
@@ -151,8 +152,32 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     		nodes.add(node);
     		
-//    		EmployeeOfficeDTO dto = new EmployeeOfficeDTO();
-//        	employeeOfficeService.updateEmployeeOffice(dto, employeeOid);
+    		EmployeeOfficeDTO dto = new EmployeeOfficeDTO();
+    		dto.setOid(employeeOffice.getOid());
+    		dto.setEmploymentTypeOid(employeeOffice.getEmploymentType().getOid());
+    	    dto.setInchargeLabelBn(employeeOffice.getInchargeLabelBn());
+    	    dto.setInchargeLabelEn(employeeOffice.getInchargeLabelEn());
+    	    dto.setIsOfficeAdmin(employeeOffice.getIsOfficeAdmin());
+    	    dto.setIsOfficeHead(employeeOffice.getIsOfficeHead());
+    	    dto.setJoiningDate(String.valueOf(employeeOffice.getJoiningDate().getTime()));
+    	    dto.setLastOfficeDate(employeeOffice.getLastOfficeDate()==null?null:String.valueOf(employeeOffice.getLastOfficeDate().getTime()));
+    	    dto.setOfficeOid(employeeOffice.getOfficeOid());
+    	    dto.setOfficeUnitOid(employeeOffice.getOfficeUnitOid());
+    	    dto.setOfficeUnitPostOid(employeeOffice.getOfficeUnitPostOid());
+    	    dto.setStatusChangeDate(employeeOffice.getStatusChangeDate()==null?null:String.valueOf(employeeOffice.getStatusChangeDate().getTime()));
+    	    dto.setIsDefaultProfile(employeeOffice.getIsDefaultProfile());
+    	    dto.setResponsibilityType(employeeOffice.getResponsibilityType());
+    	    
+    	    dto.setIsOfficeUnitHead("No");
+    	    dto.setIsAttendanceDataEntryOperator("No");
+    	    dto.setIsAttendanceAdmin("No");
+    	    dto.setIsApprover("No");
+    	    dto.setIsReviewer("No");
+    	    dto.setStatus("Active");
+    	    dto.setConfig("");
+    	    dto.setDataStatus("Active");
+    		
+        	employeeOfficeService.updateEmployeeOffice(dto, employeeOid);
 		}
     	
     	pmisEmployeeOfficeNodeService.create(nodes);
