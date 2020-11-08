@@ -156,7 +156,7 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     	    dto.setInchargeLabelEn(employeeOffice.getInchargeLabelEn());
     	    dto.setIsOfficeAdmin(employeeOffice.getIsOfficeAdmin());
     	    dto.setIsOfficeHead(employeeOffice.getIsOfficeHead());
-    	    dto.setJoiningDate(String.valueOf(employeeOffice.getJoiningDate().getTime()));
+    	    dto.setJoiningDate(employeeOffice.getJoiningDate()==null?null:String.valueOf(employeeOffice.getJoiningDate().getTime()));
     	    dto.setLastOfficeDate(employeeOffice.getLastOfficeDate()==null?null:String.valueOf(employeeOffice.getLastOfficeDate().getTime()));
     	    dto.setOfficeOid(employeeOffice.getOfficeOid());
     	    dto.setOfficeUnitOid(employeeOffice.getOfficeUnitOid());

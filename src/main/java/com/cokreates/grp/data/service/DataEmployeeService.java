@@ -6,6 +6,7 @@ import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
@@ -49,6 +50,8 @@ public class DataEmployeeService {
     @Autowired
     MasterDataComponent masterDataComponent;
 
+    @Autowired
+    PmisEmployeeOfficeNodeService pmisEmployeeOfficeNodeService;
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
         String employeeOid = UUID.randomUUID().toString();
@@ -1320,7 +1323,7 @@ public class DataEmployeeService {
         
         JSONObject employeeOfficeDoc = null;
         try {
-            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+            //employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -1345,6 +1348,9 @@ public class DataEmployeeService {
             String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
+        //pmisEmployeeOfficeNodeService.parseJsonAndUpdateEmployeeOffice(inputNode);
+        
         JSONObject responseBody = new JSONObject();
         responseBody.put("oid", requestParams.get("employeeOid"));
 
@@ -1360,7 +1366,7 @@ public class DataEmployeeService {
 
         JSONObject employeeOfficeDoc = null;
         try {
-            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+            //employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
