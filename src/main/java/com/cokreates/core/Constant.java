@@ -2,8 +2,12 @@ package com.cokreates.core;
 
 public class Constant {
 
+    public static final String VERSION = "/v1";
+
+
 	public static final String PREFIX_AWARD = "/award";
 	public static final String PREFIX_PUBLICATION = "/publication";
+
 
 	public static final String STATUS_ACTIVE = "active";
     public static final String STATUS_DELETE = "delete";
@@ -19,6 +23,8 @@ public class Constant {
     public static final String ENDPOINT_OFFICE_V1_GET_BY_OID = "/office/v1/get-by-oid";
     public static final String ENDPOINT_OFFICE_UNIT_V1_GET_BY_OID = "/office-unit/v1/get-by-oid";
 
+
+
     public static final String ENDPOINT_UPDATE = "/update";
     public static final String ENDPOINT_GET_APPROVAL_HISTORY 	= "/get-approval-history";
     public static final String ENDPOINT_GET_EMPLOYEE_GOVT_ID    = "/get-govt-id-by-employee-oid";
@@ -29,6 +35,7 @@ public class Constant {
     public static final String ENDPOINT_GET_FROM_LIST = "/get-from-list";
     public static final String ENDPOINT_GET_LIST = "/get-list";
     public static final String ENDPOINT_GET_LIST_BY_OID_SET = "/get-list-by-oid-set";
+    public static final String ENDPOINT_GET_LIST_BY_EMPLOYEE_OFFICE_OID_SET = "/get-list-by-employee-office-oid-set";
     public static final String ENDPOINT_DELETE = "/delete";
     public static final String ENDPOINT_DELETE_ALL = "/delete-all";
     public static final String ENDPOINT_EMPLOYEE = "emp";
