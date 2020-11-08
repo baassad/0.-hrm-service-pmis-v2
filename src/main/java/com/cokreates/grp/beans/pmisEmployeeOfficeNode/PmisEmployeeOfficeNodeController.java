@@ -25,9 +25,20 @@ public class PmisEmployeeOfficeNodeController extends MasterRestController<PmisE
         super(service);
     }
 
+    @Override
+    @PostMapping(Constant.ENDPOINT_CREATE_ALL)
+    public ResponseModel<PmisEmployeeOfficeNodeDTO> createAll(@Valid @RequestBody RequestModel<PmisEmployeeOfficeNodeDTO> requestDTO){
+    	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.create(requestDTO.getBody().getData()));
+    }
+    
+    @Override
+    @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
+    public ResponseModel<PmisEmployeeOfficeNodeDTO> updateAll(@Valid @RequestBody RequestModel<PmisEmployeeOfficeNodeDTO> requestDTO){
+    	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.updateAll(requestDTO.getBody().getEmployeeOid(), requestDTO.getBody().getData()));
+    }
+
     @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_NODE_LIST)
     public ResponseModel<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.getPmisEmployeeOfficeNodes(requestDTO.getBody().getEmployeeOid()));
     }
-
 }

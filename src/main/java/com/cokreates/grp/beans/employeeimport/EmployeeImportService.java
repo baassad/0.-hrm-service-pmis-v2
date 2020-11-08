@@ -12,6 +12,7 @@ import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfoRepository;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNode;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
 import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
@@ -141,15 +142,11 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     }
     
     public void createPmisEmployeeOfficeMapping(String employeeOid, List<EmployeeOffice> employeeOffices) {
-    	List<PmisEmployeeOfficeNode> nodes = new ArrayList<PmisEmployeeOfficeNode>();
+    	List<PmisEmployeeOfficeNodeDTO> nodes = new ArrayList<PmisEmployeeOfficeNodeDTO>();
     	for (EmployeeOffice employeeOffice : employeeOffices) {
-    		PmisEmployeeOfficeNode node = new PmisEmployeeOfficeNode();
+    		PmisEmployeeOfficeNodeDTO node = new PmisEmployeeOfficeNodeDTO();
     		node.setPmisOid(employeeOid);
     		node.setEmployeeOfficeOid(employeeOffice.getOid());
-    		
-    		//TODO: Set loggedIn user id in created_by
-    		node.setCreatedBy("System");
-    		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     		nodes.add(node);
     		
     		EmployeeOfficeDTO dto = new EmployeeOfficeDTO();
