@@ -41,6 +41,12 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
         super(requestBuildingComponent, dataServiceRestTemplateClient);
     }
 
+    public PmisEmployeeOfficeNode update(PmisEmployeeOfficeNodeDTO node) {
+    	PmisEmployeeOfficeNode requestedNode = convertDTOtoEntity(node);
+    	PmisEmployeeOfficeNode createdItem = repository.save(requestedNode);
+        return createdItem;
+    }
+    
     public List<PmisEmployeeOfficeNodeDTO> create(List<PmisEmployeeOfficeNodeDTO> nodes) {
     	List<PmisEmployeeOfficeNode> requestedNodes = new ArrayList<PmisEmployeeOfficeNode>();
     	nodes.stream().forEach(dto -> requestedNodes.add(convertDTOtoEntity(dto)));
@@ -99,6 +105,9 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 					pmisEmployeeOfficeNodeDTO.setIsAwardAdmin(node.getIsAwardAdmin());
 					pmisEmployeeOfficeNodeDTO.setIsAttendanceAdmin(node.getIsAttendanceAdmin());
 					pmisEmployeeOfficeNodeDTO.setIsAttendanceDataEntryOperator(node.getIsAttendanceDataEntryOperator());
+					pmisEmployeeOfficeNodeDTO.setPmisOid(node.getPmisOid());
+					pmisEmployeeOfficeNodeDTO.setEmployeeOfficeOid(node.getEmployeeOfficeOid());
+					pmisEmployeeOfficeNodeDTO.setOid(node.getOid());
 				}
 			}
 		}

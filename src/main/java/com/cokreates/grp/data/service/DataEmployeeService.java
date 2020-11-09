@@ -3,9 +3,11 @@ package com.cokreates.grp.data.service;
 
 import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
 import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.helper.DataHelper;
@@ -14,7 +16,9 @@ import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.RestUtil;
 
 import com.cokreates.grp.util.components.MasterDataComponent;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,6 +28,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -670,7 +676,11 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("main", employeeDoc.get("nodes"));
+        if (employeeDoc == null || employeeDoc.length() == 0) {
+        	responseBody.put("main", convertPmisEmployeeOfficeListToEmployeeOfficeList(pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes(requestParams.getString("employeeOid"))));
+		} else {
+	        responseBody.put("main", employeeDoc.get("nodes"));
+		}
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
@@ -678,6 +688,44 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
     
+	public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<PmisEmployeeOfficeNodeDTO> dtoList) {
+		List<EmployeeOfficeDTO> resultList = new ArrayList<EmployeeOfficeDTO>();
+		for (PmisEmployeeOfficeNodeDTO nodeDTO : dtoList) {
+        	EmployeeOfficeDTO officeDTO = new EmployeeOfficeDTO();
+        	officeDTO.setOid(nodeDTO.getEmployeeOfficeOid());
+        	officeDTO.setEmploymentTypeOid(nodeDTO.getEmploymentTypeOid());
+        	officeDTO.setIsApprover(nodeDTO.getIsApprover());
+        	officeDTO.setIsOfficeAdmin(nodeDTO.getIsOfficeAdmin());
+        	officeDTO.setIsOfficeHead(nodeDTO.getIsOfficeHead());
+        	officeDTO.setIsReviewer(nodeDTO.getIsReviewer());
+            officeDTO.setJoiningDate(nodeDTO.getJoiningDate());
+            officeDTO.setOfficeOid(nodeDTO.getOfficeOid());
+            officeDTO.setOfficeUnitOid(nodeDTO.getOfficeUnitOid());
+            officeDTO.setOfficeUnitPostOid(nodeDTO.getOfficeUnitPostOid());
+            officeDTO.setStatus(nodeDTO.getStatus());
+            officeDTO.setIsOfficeUnitHead(nodeDTO.getIsOfficeUnitHead());
+            officeDTO.setResponsibilityType(nodeDTO.getResponsibilityType());
+            officeDTO.setIsAttendanceDataEntryOperator(nodeDTO.getIsAttendanceDataEntryOperator());
+            officeDTO.setIsAttendanceAdmin(nodeDTO.getIsAttendanceAdmin());
+            officeDTO.setIsAwardAdmin(nodeDTO.getIsAwardAdmin());
+            officeDTO.setNodeOid(nodeDTO.getNodeOid());
+            officeDTO.setConfig(nodeDTO.getConfig());
+            officeDTO.setMain(nodeDTO.getMain());
+            officeDTO.setTemp(nodeDTO.getTemp());
+            officeDTO.setNode(nodeDTO.getNode());
+            officeDTO.setDataStatus(nodeDTO.getDataStatus());
+            officeDTO.setRowStatus(nodeDTO.getRowStatus());
+            officeDTO.setCreatedBy(nodeDTO.getCreatedBy());
+            officeDTO.setUpdatedBy(nodeDTO.getUpdatedBy());
+            //officeDTO.setCreatedOn(new Timestamp(nodeDTO.getCreatedOn().getTime()));
+           //officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
+        	
+            resultList.add(officeDTO);
+		}
+		
+		return resultList;
+	}
+	
     public ResponseEntity<?> readEmployeeByOffice(JSONObject requestParams) {
         
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
