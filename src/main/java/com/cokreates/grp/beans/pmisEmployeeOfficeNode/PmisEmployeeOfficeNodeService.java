@@ -69,24 +69,41 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 		}
     }
 
-    public List<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(String pmisOid) {
+	public List<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(String pmisOid) {
 
-        List<PmisEmployeeOfficeNode> nodeList = repository.findAllByPmisOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
+		List<PmisEmployeeOfficeNode> nodeList = repository.findAllByPmisOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
 
-        Set<String> employeeOfficeOidSet = new HashSet<>();
-        if (!nodeList.isEmpty())
-        	employeeOfficeOidSet = nodeList.stream().map(node -> node.getEmployeeOfficeOid()).collect(Collectors.toSet());
+		Set<String> employeeOfficeOidSet = new HashSet<>();
+		if (!nodeList.isEmpty())
+			employeeOfficeOidSet = nodeList.stream().map(node -> node.getEmployeeOfficeOid()).collect(Collectors.toSet());
 
-        List<EmployeeOffice> employeeOfficeList = new ArrayList<>();
-        if (employeeOfficeOidSet.size() > 0)
-        	employeeOfficeList = employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
+		List<EmployeeOffice> employeeOfficeList = new ArrayList<>();
+		if (employeeOfficeOidSet.size() > 0)
+			employeeOfficeList = employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
 
-        List<PmisEmployeeOfficeNodeDTO> result = new ArrayList<>();
-        if (!employeeOfficeList.isEmpty())
-            result = employeeOfficeList.stream().map(employeeOffice -> getModelMapper().map(employeeOffice, PmisEmployeeOfficeNodeDTO.class)).collect(Collectors.toList());
+		List<PmisEmployeeOfficeNodeDTO> result = new ArrayList<>();
+		if (!employeeOfficeList.isEmpty())
+			result = employeeOfficeList.stream().map(employeeOffice -> getModelMapper().map(employeeOffice, PmisEmployeeOfficeNodeDTO.class)).collect(Collectors.toList());
 
-        return result;
-    }
+
+		for (PmisEmployeeOfficeNodeDTO pmisEmployeeOfficeNodeDTO : result) {
+			String employeeOfficeOid = pmisEmployeeOfficeNodeDTO.getOid();
+			for (PmisEmployeeOfficeNode node : nodeList) {
+				String employeeOfficeOidFromNode = node.getEmployeeOfficeOid();
+				if (null != employeeOfficeOid && !employeeOfficeOid.isEmpty()
+						&& null != employeeOfficeOidFromNode && !employeeOfficeOidFromNode.isEmpty()
+						&& employeeOfficeOid.equals(employeeOfficeOidFromNode)) {
+					pmisEmployeeOfficeNodeDTO.setIsApprover(node.getIsApprover());
+					pmisEmployeeOfficeNodeDTO.setIsReviewer(node.getIsReviewer());
+					pmisEmployeeOfficeNodeDTO.setIsOfficeAdmin(node.getIsOfficeAdmin());
+					pmisEmployeeOfficeNodeDTO.setIsAwardAdmin(node.getIsAwardAdmin());
+					pmisEmployeeOfficeNodeDTO.setIsAttendanceAdmin(node.getIsAttendanceAdmin());
+					pmisEmployeeOfficeNodeDTO.setIsAttendanceDataEntryOperator(node.getIsAttendanceDataEntryOperator());
+				}
+			}
+		}
+		return result;
+	}
     
     public void parseJsonAndUpdateEmployeeOffice (JSONObject nodeObject) {
     	JSONArray nodes = nodeObject.getJSONArray("nodes");

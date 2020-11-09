@@ -20,6 +20,7 @@ public class PmisEmployeeOfficeNode extends BaseEntity {
 
     private String isApprover = Constant.NO;
     private String isReviewer = Constant.NO;
+    private String isOfficeAdmin = Constant.NO;
     private String isAttendanceAdmin = Constant.NO;
     private String isAttendanceDataEntryOperator = Constant.NO;
     private String isAwardAdmin = Constant.NO;
