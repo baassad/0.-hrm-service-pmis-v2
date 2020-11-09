@@ -118,6 +118,10 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 		return result;
 	}
     
+	public PmisEmployeeOfficeNode findByPmisOidAndEmployeeOfficeOidAndRowStatus(String pmisOid, String employeeOfficeOid) {
+		return repository.findByPmisOidAndEmployeeOfficeOidAndRowStatus(pmisOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
+	}
+	
     public void parseJsonAndUpdateEmployeeOffice (JSONObject nodeObject) {
     	JSONArray nodes = nodeObject.getJSONArray("nodes");
     	for (int i = 0; i < nodes.length(); i++) {
@@ -137,7 +141,7 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 			node.setPmisOid(dto.getPmisOid());
 			node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
 			
-			node.setCreatedBy(getUserService().loggedInEmployee.getOid());
+			node.setCreatedBy("System");
     		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		} else {
 			node = existingNodeList.stream()
@@ -172,7 +176,7 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 		node.setIsOfficeAdmin(!utilCharacter.noData(dto.getIsOfficeAdmin())?dto.getIsOfficeAdmin():Constant.NO);
 		node.setConfig(dto.getConfig());
 		node.setDataStatus(dto.getDataStatus());
-		node.setCreatedBy(getUserService().loggedInEmployee.getOid());
+		node.setCreatedBy("System");
 		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		return node;
     }

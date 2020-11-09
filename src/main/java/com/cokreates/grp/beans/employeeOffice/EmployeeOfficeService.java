@@ -5,6 +5,9 @@ import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNode;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
@@ -30,6 +33,9 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
 
     @Autowired
     DataServiceClient dataServiceClient;
+    
+    @Autowired
+    PmisEmployeeOfficeNodeService employeeOfficeNodeService;
 
     public EmployeeOfficeService(RequestBuildingComponent<EmployeeOfficeDTO> requestBuildingComponent,
                                  DataServiceRestTemplateClient< EmployeeOfficeDTO, EmployeeOffice> dataServiceRestTemplateClient){
@@ -48,6 +54,26 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
     public EmployeeOfficeDTO updateEmployeeOffice(EmployeeOfficeDTO dto,String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
 
+        PmisEmployeeOfficeNode node = employeeOfficeNodeService.findByPmisOidAndEmployeeOfficeOidAndRowStatus(employeeOid, dto.getOid());
+        if (node == null) {
+			node = new PmisEmployeeOfficeNode();
+		}
+        
+        node.setPmisOid(employeeOid);
+        node.setEmployeeOfficeOid(dto.getOid());
+        node.setIsApprover(dto.getIsApprover());
+        node.setIsReviewer(dto.getIsReviewer());
+        node.setIsOfficeAdmin(dto.getIsOfficeAdmin());
+        node.setIsAttendanceAdmin(dto.getIsAttendanceAdmin());
+        node.setIsAttendanceDataEntryOperator(dto.getIsAttendanceDataEntryOperator());
+        node.setIsAwardAdmin(dto.getIsAwardAdmin());
+        
+        PmisEmployeeOfficeNodeDTO nodeDTO = getModelMapper().map(node, PmisEmployeeOfficeNodeDTO.class);
+        List<PmisEmployeeOfficeNodeDTO> nodes = new ArrayList<PmisEmployeeOfficeNodeDTO>();
+        nodes.add(nodeDTO);
+        
+        employeeOfficeNodeService.create(nodes);
+        
         DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
 
         return response.getBody().getMain();

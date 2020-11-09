@@ -13,6 +13,6 @@ public interface PmisEmployeeOfficeNodeRepository extends
 
 
     List<PmisEmployeeOfficeNode> findAllByPmisOidAndRowStatus(String pmisOid, String rowStatus);
-
+    PmisEmployeeOfficeNode findByPmisOidAndEmployeeOfficeOidAndRowStatus(String pmisOid, String employeeOfficeOid, String rowStatus);
 
 }
