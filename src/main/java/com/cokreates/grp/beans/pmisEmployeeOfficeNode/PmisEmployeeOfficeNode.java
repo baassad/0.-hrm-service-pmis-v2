@@ -15,4 +15,12 @@ import javax.persistence.Entity;
 public class PmisEmployeeOfficeNode extends BaseEntity {
     private String pmisOid;
     private String employeeOfficeOid;
+
+    private String isApprover;
+    private String isReviewer;
+    private String isAttendanceAdmin;
+    private String isAttendanceDataEntryOperator;
+
+
+
 }
