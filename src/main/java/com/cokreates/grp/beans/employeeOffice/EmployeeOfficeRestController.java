@@ -5,7 +5,10 @@ import com.cokreates.grp.beans.common.EmployeeInformationDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee-office")
 public class EmployeeOfficeRestController extends MasterRestController<EmployeeOfficeDTO,EmployeeOffice> {
+
+    @Autowired
+    PmisRepository pmisRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     protected EmployeeOfficeService employeeOfficeService;
@@ -36,7 +46,7 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),Collections.singletonList(employeeOfficeService.updateEmployeeOffice(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
     }
 
-    @PostMapping(Constant.VERSION + Constant.ENDPOINT_GET_LIST_BY_OID_SET)
+    /*@PostMapping(Constant.VERSION + Constant.ENDPOINT_GET_LIST_BY_OID_SET)
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByOidSet(ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
 
 
@@ -46,6 +56,29 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
     public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByEmployeeOfficeOidSet(ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
 
 
+    }*/
+
+    @PostMapping("/test")
+    public ResponseModel<EmployeeOfficeDTO> test(@RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
+
+        String employeeOfficeDTOList = pmisRepository.getEmployeeOffices();
+
+        System.out.println("Json is : " + employeeOfficeDTOList);
+
+        try {
+
+            List<EmployeeOfficeDTO> list = objectMapper.readValue(employeeOfficeDTOList, new TypeReference<List<EmployeeOfficeDTO>>(){});
+            System.out.println(list.size());
+
+            for (EmployeeOfficeDTO dto:list){
+                System.out.println("Printing : " + dto.getOfficeOid());
+            }
+
+        }catch (Exception e){
+            System.out.println("exception");
+        }
+
+        return null;//resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),employeeOfficeDTOList);
     }
 
 

@@ -3,33 +3,38 @@
 # =============================================================================================
 spring:
   application:
-    name: #APPLICATION-NAME#
-    gdata_end_point_url: #GDATA-END-POINT#
+    name: hrm-service-pmis-v2
+    gdata_end_point_url: http://localhost:9002/hrm/
   main:
-    allow-bean-definition-overriding: #BEAN-DEFINITION-OVERRIDING#
+    allow-bean-definition-overriding: TRUE
   mvc:
-    throw-exception-if-no-handler-found: #THROW-EXCEPTION-IF-NO-HANDLER#
+    throw-exception-if-no-handler-found: TRUE
   resources:
-    add-mappings: #RESOURCES-ADD-MAPPINGS#
-  banner.location: classpath:#BANNER-CLASSPATH#
+    add-mappings: FALSE
+  banner.location: classpath:banner.txt
   jpa:
-    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     properties:
       hibernate:
         jdbc:
           lob:
-            non_contextual_creation: #NON-CONTEXTUAL-CREATION#
-        default_schema: #DEFAULT-SCHEMA#
+            non_contextual_creation: true
+        default_schema: hrm
   datasource:
-    url: #DATASOURCE-URL#
-    username: #DATASOURCE-USERNAME#
-    password: #DATASOURCE-PASSWORD#
+    url: jdbc:postgresql://localhost:5432/hscm_grp
+    username: postgres
+    password: postgres
 
-  zipkin:
-    base-url: #ZIPKIN-BASE-URL#
-  sleuth:
-    sampler:
-      probability: #SLEUTH-SAMPLER-PROBABILITY#
+
+#  zipkin:
+#    base-url: http://43.224.110.36:8080/cmn-service-zipkin/
+#  sleuth:
+#    sampler:
+#      probability: 1
+
+
+
 
 
 # =============================================================================================
@@ -37,46 +42,42 @@ spring:
 # =============================================================================================
 service:
   properties:
-    short-code: #SHORT-CODE#
-    version: #VERSION#
+    short-code: hrm-service-pmis-v2
+    version: v1.0
 server:
-  port : #SERVICE-PORT#
-  servlet:
-    context-path: /#APPLICATION-NAME#
+  port : 9002
+#  servlet:
+#    context-path:
 
 
 # =============================================================================================
 # = EUREKA
 # =============================================================================================
 eureka:
-  instance:
-    prefer-ip-address: #EUREKA-PREFER-IP#
-    ipAddress: #EUREKA-IPADDRESS#
-    appname: #EUREKA-APPNAME#
-    leaseExpirationDurationInSeconds: #EUREKA-LEASEEXPIRATION#
-    leaseRenewalIntervalInSeconds: #EUREKA-LEASERENEWALINTERVAL#
+  #  instance:
+  #    prefer-ip-address: TRUE
+  #    ipAddress: pmis-v2-hrm.global.data.grp.gov.bd
+  #    appname: hrm-service-pmis-v2
+  #    leaseExpirationDurationInSeconds: 2
+  #    leaseRenewalIntervalInSeconds: 1
   client:
-    enabled: #CLIENTENABLED#
-    registerWithEureka: #REGISTERWITHEUREKA#
-    fetchRegistry: #FETCHREGISTRY#
-    serviceUrl:
-      defaultZone: #SERVICEURL-DEFAULTZONE#
+    enabled: FALSE
 
 cmn-service-file-management:
-  url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
 cmn-service-organogram:
-  url: #CMN-SERVICE-ORGANOGRAM-URL#
-hrm-service:
-  url: #HRM-SERVICE-PIM-V1-URL#
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
 notification-service-ictd:
-  url: #NOTIFICATION-SERVICE-ICTD-URL#
+  url: http://dev-hscm.grp.gov.bd/ictd/api/cmn-service-notification/cmn-service-notification
 email-service-ictd:
-  url: #EMAIL-SERVICE-ICTD-URL#
+  url: http://dev-hscm.grp.gov.bd/ictd/api/cmn-service-notification/cmn-service-notification
 hrm-service-award-publication:
-  url: #HRM-SERVICE-AWARD-PUBLICATION-URL#
+  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-award-publication/hrm-service-award-publication
+hrm-service:
+  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
 cmn-service-global:
-  url: #CMN-SERVICE-GLOBAL-URL#
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
 auth-user:
-  url: #AUTH-USER-URL#
+  url: http://dev-hscm.grp.gov.bd/global/api/auth-service/auth-service/sec/master
 pmis-web-home:
-  url: #PMIS-WEB-HOME-URL#
+  url: http://dev-hscm.grp.gov.bd/global/hrm2/hrm/pmis
