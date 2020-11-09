@@ -170,6 +170,7 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     	    dto.setIsAttendanceAdmin("No");
     	    dto.setIsApprover("No");
     	    dto.setIsReviewer("No");
+    	    dto.setIsAwardAdmin("No");
     	    dto.setStatus("Active");
     	    dto.setConfig("");
     	    dto.setDataStatus("Active");
