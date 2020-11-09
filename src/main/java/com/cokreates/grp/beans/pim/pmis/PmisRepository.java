@@ -27,6 +27,9 @@ public interface PmisRepository extends JpaRepository<Pmis,String > {
     @Query(value = "select oid,employee_main->'professional'->'professionalGeneral'->>'grade' as grade from hrm.pmis where oid in :oids",nativeQuery = true)
     Page<EmployeeGrade> findGradeByEmployeeOids(@Param("oids") List<String> oids,Pageable pageable);
 
+    @Query(value = "select oid,employee_main->'professional'->'professionalGeneral'->>'grade' as grade from hrm.pmis where oid = :oid",nativeQuery = true)
+    List<EmployeeGrade> findGradeByEmployeeOid(@Param("oid") String oid);
+
     @Query(value = "select oid,employee_office ->> 'nodes' as nodes  from hrm.pmis where oid in ?1",nativeQuery = true)
     List<EmployeeOfficeDetails> getEmployeeOffices(List<String> oids);
 

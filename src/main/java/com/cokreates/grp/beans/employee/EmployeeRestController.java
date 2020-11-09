@@ -6,6 +6,7 @@ import java.util.TimeZone;
 import javax.validation.Valid;
 
 import com.cokreates.core.*;
+import com.cokreates.grp.beans.common.EmployeeInformationIncludedGradeDTO;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
 import com.cokreates.grp.util.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,11 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
         }else {
             return  null;
         }
+    }
+
+    @PostMapping(Constant.ENDPOINT_GET_PROFILE_WITH_GRADE)
+    public ResponseModel<EmployeeInformationIncludedGradeDTO> getEmployeeWithGrade(@RequestBody RequestModel<MasterDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),employeeService.getProfileInfoWithGrade(requestDTO.getBody().getData().get(0).getOid()));
     }
 
     @PostMapping(Constant.ENDPOINT_GET_PROFILE)

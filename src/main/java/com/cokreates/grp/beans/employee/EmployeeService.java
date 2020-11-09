@@ -12,6 +12,10 @@ import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import com.cokreates.grp.beans.personal.general.GeneralService;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
+import com.cokreates.grp.beans.pim.grade.Grade;
+import com.cokreates.grp.beans.pim.grade.GradeRepository;
+import com.cokreates.grp.beans.pim.pmis.EmployeeGrade;
+import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
@@ -49,10 +53,16 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     EmployeeDetailsRenderComponent employeeComponent;
 
     @Autowired
+    PmisRepository pmisRepository;
+
+    @Autowired
     HrmPimClient hrmPimClient;
 
     @Autowired
     DataServiceClient dataServiceClient;
+
+    @Autowired
+    GradeRepository gradeRepository;
 
     @Autowired
     EmployeeOfficeRepository employeeOfficeRepository;
@@ -746,6 +756,37 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     }
 
+    public List<EmployeeInformationIncludedGradeDTO> getProfileInfoWithGrade(String employeeOid) {
+        List<EmployeeInformationIncludedGradeDTO> profilesWithGrades;
+        List<EmployeeInformationDTO> profiles;
+        GetListByOidSetRequestBodyDTO dto = new GetListByOidSetRequestBodyDTO();
+        dto.setOids(Arrays.asList(employeeOid));
+        List<EmployeeGrade> employeeGradeList = pmisRepository.findGradeByEmployeeOid(employeeOid);
+
+        profiles = getEmployeeInformationDTO(dto);
+        if(profiles!=null && profiles.isEmpty()==false) {
+            setMissingData(profiles);
+            EmployeeInformationDTO empDTO = profiles.get(0);
+            setProfilePhotoInfos(empDTO);
+            for(EmployeeInformationDTO p : profiles) {
+                p.setPhoto(empDTO.getPhoto());
+                p.setPhotoFileDTOs(empDTO.getPhotoFileDTOs());
+            }
+
+        }
+
+        EmployeeInformationIncludedGradeDTO employeeInformationIncludedGradeDTO = new EmployeeInformationIncludedGradeDTO();
+        BeanUtils.copyProperties(profiles.get(0),employeeInformationIncludedGradeDTO);
+        List<Grade> grades = gradeRepository.findByNameBnAndIsDeleted(employeeGradeList.get(0).getGrade(),"No");
+        GradeDTO gradeDTO = new GradeDTO();
+        if(grades.size() > 0){
+            BeanUtils.copyProperties(grades.get(0),gradeDTO);
+            employeeInformationIncludedGradeDTO.setGrade(gradeDTO);
+        }
+
+
+        return Arrays.asList(employeeInformationIncludedGradeDTO);
+    }
 
 
     public List<EmployeeInformationDTO> getProfileInfo(String employeeOid) {
