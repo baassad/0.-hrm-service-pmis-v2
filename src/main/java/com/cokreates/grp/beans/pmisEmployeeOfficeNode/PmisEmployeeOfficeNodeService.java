@@ -166,6 +166,9 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
     
     public PmisEmployeeOfficeNode convertDTOtoEntity(PmisEmployeeOfficeNodeDTO dto) {
     	PmisEmployeeOfficeNode node = new PmisEmployeeOfficeNode();
+    	if (dto.getOid()!=null) {
+    		node.setOid(dto.getOid());
+		}
     	node.setPmisOid(dto.getPmisOid());
     	node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
     	node.setIsAttendanceDataEntryOperator(!utilCharacter.noData(dto.getIsAttendanceDataEntryOperator())?dto.getIsAttendanceDataEntryOperator():Constant.NO);
