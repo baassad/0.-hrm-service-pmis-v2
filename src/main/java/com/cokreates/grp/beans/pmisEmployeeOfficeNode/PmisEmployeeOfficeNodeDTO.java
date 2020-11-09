@@ -21,4 +21,5 @@ public class PmisEmployeeOfficeNodeDTO extends MasterDTO {
     private String isAttendanceDataEntryOperator;
     private String status;
     private String officeOid;
+    private String isAwardAdmin;
 }
