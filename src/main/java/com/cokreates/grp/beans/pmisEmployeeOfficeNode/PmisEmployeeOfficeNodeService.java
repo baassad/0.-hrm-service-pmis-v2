@@ -128,7 +128,7 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 			node.setPmisOid(dto.getPmisOid());
 			node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
 			
-			node.setCreatedBy("System");
+			node.setCreatedBy(getUserService().loggedInEmployee.getOid());
     		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		} else {
 			node = existingNodeList.stream()
@@ -167,5 +167,10 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		return node;
     }
+
+
+
+
+
 
 }
