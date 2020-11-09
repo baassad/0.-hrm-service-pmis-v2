@@ -2,9 +2,11 @@ package com.cokreates.grp.beans.employeeOffice;
 
 import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.EmployeeInformationDTO;
+import com.cokreates.grp.beans.common.EmployeeInformationIncludedGradeDTO;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.beans.pim.pmis.EmployeeOfficeDetails;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.util.request.GetListByOidSetRequestBodyDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -46,24 +48,24 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),Collections.singletonList(employeeOfficeService.updateEmployeeOffice(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
     }
 
-    /*@PostMapping(Constant.VERSION + Constant.ENDPOINT_GET_LIST_BY_OID_SET)
-    public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByOidSet(ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
-
-
+    @PostMapping(Constant.VERSION + Constant.ENDPOINT_GET_LIST_BY_OID_SET)
+    public ResponseModel<EmployeeInformationIncludedGradeDTO> getEmployeeInformationByOidSet(@Valid @RequestBody ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),employeeOfficeService.getEmployeesByOidSet(requestDTO));
     }
 
     @PostMapping(Constant.VERSION + Constant.ENDPOINT_GET_LIST_BY_EMPLOYEE_OFFICE_OID_SET)
-    public ResponseModel<EmployeeInformationDTO> getEmployeeInformationByEmployeeOfficeOidSet(ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
+    public ResponseModel<EmployeeInformationIncludedGradeDTO> getEmployeeInformationByEmployeeOfficeOidSet(@Valid @RequestBody ServiceRequestDTO<GetListByOidSetRequestBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResultForEmployeeInformationWithGrade(requestDTO.getHeader(),employeeOfficeService.getEmployeesByEmployeeOfficeOidSet(requestDTO));
+    }
 
-
-    }*/
-
-    @PostMapping("/test")
+    /*@PostMapping("/test")
     public ResponseModel<EmployeeOfficeDTO> test(@RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
 
-        String employeeOfficeDTOList = pmisRepository.getEmployeeOffices();
+        List<EmployeeOfficeDetails> employeeOfficeDetailsList = pmisRepository.getEmployeeOffices(requestDTO.getBody());
 
-        System.out.println("Json is : " + employeeOfficeDTOList);
+        List<EmployeeOfficeDetails> employeeOfficeDetailsList =
+
+        /*System.out.println("Json is : " + employeeOfficeDTOList);
 
         try {
 
@@ -79,7 +81,7 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
         }
 
         return null;//resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),employeeOfficeDTOList);
-    }
+    }*/
 
 
     @PostMapping(Constant.ENDPOINT_EMPLOYEE_OFFICE)

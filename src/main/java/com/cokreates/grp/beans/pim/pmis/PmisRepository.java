@@ -27,8 +27,19 @@ public interface PmisRepository extends JpaRepository<Pmis,String > {
     @Query(value = "select oid,employee_main->'professional'->'professionalGeneral'->>'grade' as grade from hrm.pmis where oid in :oids",nativeQuery = true)
     Page<EmployeeGrade> findGradeByEmployeeOids(@Param("oids") List<String> oids,Pageable pageable);
 
-    @Query(value = "select employee_office ->> 'nodes' as nodes  from hrm.pmis where oid = '3ea13d31-bb57-4375-b79e-a04525337422'",nativeQuery = true)
-    String getEmployeeOffices();
+    @Query(value = "select oid,employee_office ->> 'nodes' as nodes  from hrm.pmis where oid in ?1",nativeQuery = true)
+    List<EmployeeOfficeDetails> getEmployeeOffices(List<String> oids);
+
+    @Query(value = "select oid , employee_office ->> 'nodes' as nodes from hrm.pmis where employee_office ->> 'nodes' similar to ?1",nativeQuery = true)
+    List<EmployeeOfficeDetails> getEmployeeOfficeDetails(String oidList);
+
+    @Query(value = "select oid,employee_main -> 'personal' -> 'general' ->> 'nameEn' as \"nameEn\"," +
+            " employee_main -> 'personal' -> 'general' ->> 'nameBn' as \"nameBn\"," +
+            " employee_main -> 'personal' -> 'general' ->> 'email' as \"email\",\n" +
+            "employee_main -> 'personal' -> 'general' ->> 'phone' as \"mobileNo\" , employee_main -> 'professional' -> 'professionalGeneral' ->> 'grade' as \"grade\"" +
+            " from hrm.pmis " +
+            "where oid in :oids",nativeQuery = true)
+    List<EmployeePersonalDetails> getEmployeePersonalInfoDetails(@Param("oids") List<String> oids);
 
 
 }
