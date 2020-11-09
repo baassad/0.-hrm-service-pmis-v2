@@ -138,6 +138,10 @@ public class Constant {
     public static final String OFFICE_UNIT = "OFFICE_UNIT";
     public static final String OFFICE_UNIT_POST = "OFFICE_UNIT_POST";
     public static final String COUNT = "COUNT";
+
+    public static final String YES = "Yes";
+    public static final String NO = "No";
+
     //http://localhost:5000/hrm/create/v1/emp
     
     //http://localhost:5000/hrm/get/v1/node-in-emp-doc

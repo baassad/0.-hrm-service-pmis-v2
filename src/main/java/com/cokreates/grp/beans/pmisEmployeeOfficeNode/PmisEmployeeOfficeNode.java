@@ -1,6 +1,7 @@
 package com.cokreates.grp.beans.pmisEmployeeOfficeNode;
 
 import com.cokreates.core.BaseEntity;
+import com.cokreates.core.Constant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -17,20 +18,11 @@ public class PmisEmployeeOfficeNode extends BaseEntity {
     private String pmisOid;
     private String employeeOfficeOid;
 
-    @Column(columnDefinition = "varchar(255) default 'No'")
-    private String isApprover;
-
-    @Column(columnDefinition = "varchar(255) default 'No'")
-    private String isReviewer;
-
-    @Column(columnDefinition = "varchar(255) default 'No'")
-    private String isAttendanceAdmin;
-
-    @Column(columnDefinition = "varchar(255) default 'No'")
-    private String isAttendanceDataEntryOperator;
-
-    @Column(columnDefinition = "varchar(255) default 'No'")
-    private String isAwardAdmin;
+    private String isApprover = Constant.NO;
+    private String isReviewer = Constant.NO;
+    private String isAttendanceAdmin = Constant.NO;
+    private String isAttendanceDataEntryOperator = Constant.NO;
+    private String isAwardAdmin = Constant.NO;
 
 
 
