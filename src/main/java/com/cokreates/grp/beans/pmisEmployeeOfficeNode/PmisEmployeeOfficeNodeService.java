@@ -7,6 +7,7 @@ import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.employeeimport.EmployeeImportService;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
+import com.cokreates.grp.util.components.UtilCharacter;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,6 +34,9 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
     
     @Autowired
     EmployeeOfficeService employeeOfficeService;
+
+	@Autowired
+	UtilCharacter utilCharacter;
     
     @Autowired
     ObjectMapper objectMapper;
@@ -133,7 +137,7 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 			node.setPmisOid(dto.getPmisOid());
 			node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
 			
-			node.setCreatedBy("System");
+			node.setCreatedBy(getUserService().loggedInEmployee.getOid());
     		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		} else {
 			node = existingNodeList.stream()
@@ -160,17 +164,22 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
     	PmisEmployeeOfficeNode node = new PmisEmployeeOfficeNode();
     	node.setPmisOid(dto.getPmisOid());
     	node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
-    	node.setIsAttendanceDataEntryOperator("No");
-		node.setIsAttendanceAdmin("No");
-		node.setIsApprover("No");
-		node.setIsReviewer("No");
-		node.setIsAwardAdmin("No");
-		node.setConfig("");
-		node.setDataStatus("Active");
-    	//TODO: Set loggedIn user id in created_by
-		node.setCreatedBy("System");
+    	node.setIsAttendanceDataEntryOperator(!utilCharacter.noData(dto.getIsAttendanceDataEntryOperator())?dto.getIsAttendanceDataEntryOperator():Constant.NO);
+		node.setIsAttendanceAdmin(!utilCharacter.noData(dto.getIsAttendanceAdmin())?dto.getIsAttendanceAdmin():Constant.NO);
+		node.setIsApprover(!utilCharacter.noData(dto.getIsApprover())?dto.getIsApprover():Constant.NO);
+		node.setIsReviewer(!utilCharacter.noData(dto.getIsReviewer())?dto.getIsReviewer():Constant.NO);
+		node.setIsAwardAdmin(!utilCharacter.noData(dto.getIsAwardAdmin())?dto.getIsAwardAdmin():Constant.NO);
+		node.setIsOfficeAdmin(!utilCharacter.noData(dto.getIsOfficeAdmin())?dto.getIsOfficeAdmin():Constant.NO);
+		node.setConfig(dto.getConfig());
+		node.setDataStatus(dto.getDataStatus());
+		node.setCreatedBy(getUserService().loggedInEmployee.getOid());
 		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		return node;
     }
+
+
+
+
+
 
 }
