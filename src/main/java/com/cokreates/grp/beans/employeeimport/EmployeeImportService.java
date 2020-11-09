@@ -147,14 +147,6 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     		PmisEmployeeOfficeNodeDTO node = new PmisEmployeeOfficeNodeDTO();
     		node.setPmisOid(employeeOid);
     		node.setEmployeeOfficeOid(employeeOffice.getOid());
-    		node.setIsAttendanceDataEntryOperator("No");
-    		node.setIsAttendanceAdmin("No");
-    		node.setIsApprover("No");
-    		node.setIsReviewer("No");
-    		node.setIsAwardAdmin("No");
-    		node.setStatus("Active");
-    		node.setConfig("");
-    		node.setDataStatus("Active");
     		nodes.add(node);
 		}
     	

@@ -134,6 +134,13 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
     	PmisEmployeeOfficeNode node = new PmisEmployeeOfficeNode();
     	node.setPmisOid(dto.getPmisOid());
     	node.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
+    	node.setIsAttendanceDataEntryOperator("No");
+		node.setIsAttendanceAdmin("No");
+		node.setIsApprover("No");
+		node.setIsReviewer("No");
+		node.setIsAwardAdmin("No");
+		node.setConfig("");
+		node.setDataStatus("Active");
     	//TODO: Set loggedIn user id in created_by
 		node.setCreatedBy("System");
 		node.setCreatedOn(new Timestamp(System.currentTimeMillis()));
