@@ -92,10 +92,14 @@ public class PmisEmployeeOfficeNodeService extends MasterService<PmisEmployeeOff
 			employeeOfficeList = employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
 
 		List<PmisEmployeeOfficeNodeDTO> result = new ArrayList<>();
-		if (!employeeOfficeList.isEmpty())
-			result = employeeOfficeList.stream().map(employeeOffice -> getModelMapper().map(employeeOffice, PmisEmployeeOfficeNodeDTO.class)).collect(Collectors.toList());
-
-
+		if (!employeeOfficeList.isEmpty()) {
+			result = employeeOfficeList.stream().map(employeeOffice -> {
+				PmisEmployeeOfficeNodeDTO nodeDTO = getModelMapper().map(employeeOffice, PmisEmployeeOfficeNodeDTO.class);
+				nodeDTO.setEmploymentTypeOid(employeeOffice.getEmploymentType().getOid());
+				return nodeDTO;
+			}).collect(Collectors.toList());
+		}
+		
 		for (PmisEmployeeOfficeNodeDTO pmisEmployeeOfficeNodeDTO : result) {
 			String employeeOfficeOid = pmisEmployeeOfficeNodeDTO.getOid();
 			for (PmisEmployeeOfficeNode node : nodeList) {

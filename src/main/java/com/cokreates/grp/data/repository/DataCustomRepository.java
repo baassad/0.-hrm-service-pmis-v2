@@ -1,5 +1,7 @@
 package com.cokreates.grp.data.repository;
 
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
+import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.util.DataUtil;
 import com.cokreates.grp.data.util.JsonUtil;
 
@@ -31,6 +33,9 @@ public class DataCustomRepository {
 
     @Autowired
     JsonUtil jsonUtil;
+    
+    @Autowired
+    PmisEmployeeOfficeNodeService pmisEmployeeOfficeNodeService;
 
 
     @Transactional
@@ -501,8 +506,54 @@ public class DataCustomRepository {
                      + queryParams.getString("officeOidList")
                      + ")%%'";
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        
+        addNewImportedData(queryParams, result);
         return dataUtil.listToJsonArray(result);
     }
+	
+	public void addNewImportedData(JSONObject queryParams, List<Map <String, Object>> result) {
+		String query2 = "SELECT  hrm.pmis.oid as oid, "
+                + "hrm.pmis.employee_main->'personal'->'general' as general, "
+                + "hrm.pmis.employee_office as employeeoffice "
+                + "FROM hrm.pmis "   
+                + "WHERE "  
+                + "hrm.pmis.employee_office = 'null' ";
+		List<Map <String, Object>> subResult = jdbcTemplate.queryForList(query2);
+        for (Map<String, Object> map : subResult) {
+        	List<JSONObject> subList = new ArrayList<JSONObject>();
+        	List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes((String) map.get("oid"));
+        	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
+        		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
+        			JSONObject node = new JSONObject();
+            		node.put("oid", nodeDTO.getEmployeeOfficeOid());
+            		node.put("createdBy", nodeDTO.getCreatedBy());
+            		node.put("createdOn", nodeDTO.getCreatedOn()==null?null:nodeDTO.getCreatedOn().getTime());
+            		node.put("updatedBy", nodeDTO.getUpdatedBy());
+            		node.put("updatedOn", nodeDTO.getUpdatedOn()==null?null:nodeDTO.getUpdatedOn().getTime());
+            		node.put("config", nodeDTO.getConfig());
+            		node.put("status", nodeDTO.getStatus());
+            		node.put("dataStatus", nodeDTO.getDataStatus());
+            		node.put("rowStatus", nodeDTO.getRowStatus());
+            		node.put("officeOid", nodeDTO.getOfficeOid());
+            		node.put("officeUnitOid", nodeDTO.getOfficeUnitOid());
+            		node.put("officeUnitPostOid", nodeDTO.getOfficeUnitPostOid());
+            		node.put("employmentTypeOid", nodeDTO.getEmploymentTypeOid());
+            		node.put("isOfficeHead", nodeDTO.getIsOfficeHead());
+            		node.put("isOfficeAdmin", nodeDTO.getIsOfficeAdmin());
+            		node.put("isApprover", nodeDTO.getIsApprover());
+            		node.put("isReviewer", nodeDTO.getIsReviewer());
+            		node.put("isAwardAdmin", nodeDTO.getIsAwardAdmin());
+            		node.put("isAttendanceAdmin", nodeDTO.getIsAttendanceAdmin());
+            		node.put("isAttendanceDataEntryOperator", nodeDTO.getIsAttendanceDataEntryOperator());
+            		node.put("responsibilityType", nodeDTO.getResponsibilityType());
+            		subList.add(node);
+				}
+			}
+        	map.put("employeeoffice", subList);
+		}
+        
+        result.addAll(subResult);
+	}
 
     public JSONArray readEmployeeOfficeByEmployee(JSONObject queryParams) {
         String query = "SELECT  hrm.pmis.oid as oid, "
