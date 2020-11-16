@@ -118,7 +118,10 @@ public class DataCustomRepository {
                         queryParam.getString("employeeOid") +
                     "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
-
+        if (result.get("nodes") == null) {
+			result.put("nodes", getEmployeeOfficeAndConvertToJSON(queryParam.getString("employeeOid")));
+		}
+        
         return dataUtil.mapToJsonObject(result);
     }
 
@@ -277,7 +280,11 @@ public class DataCustomRepository {
 
         query += ") and p.is_deleted = 'No'\n";
 
+        System.out.println("Query : " + query);
+
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query);
+
+        System.out.println("Result is : " + resultList);
         
         JSONArray resultArray = dataUtil.listToJsonArray(resultList);
 
@@ -522,33 +529,7 @@ public class DataCustomRepository {
         for (Map<String, Object> map : subResult) {
         	List<JSONObject> subList = new ArrayList<JSONObject>();
         	List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes((String) map.get("oid"));
-        	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
-        		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
-        			JSONObject node = new JSONObject();
-            		node.put("oid", nodeDTO.getEmployeeOfficeOid());
-            		node.put("createdBy", nodeDTO.getCreatedBy());
-            		node.put("createdOn", nodeDTO.getCreatedOn()==null?null:nodeDTO.getCreatedOn().getTime());
-            		node.put("updatedBy", nodeDTO.getUpdatedBy());
-            		node.put("updatedOn", nodeDTO.getUpdatedOn()==null?null:nodeDTO.getUpdatedOn().getTime());
-            		node.put("config", nodeDTO.getConfig());
-            		node.put("status", nodeDTO.getStatus());
-            		node.put("dataStatus", nodeDTO.getDataStatus());
-            		node.put("rowStatus", nodeDTO.getRowStatus());
-            		node.put("officeOid", nodeDTO.getOfficeOid());
-            		node.put("officeUnitOid", nodeDTO.getOfficeUnitOid());
-            		node.put("officeUnitPostOid", nodeDTO.getOfficeUnitPostOid());
-            		node.put("employmentTypeOid", nodeDTO.getEmploymentTypeOid());
-            		node.put("isOfficeHead", nodeDTO.getIsOfficeHead());
-            		node.put("isOfficeAdmin", nodeDTO.getIsOfficeAdmin());
-            		node.put("isApprover", nodeDTO.getIsApprover());
-            		node.put("isReviewer", nodeDTO.getIsReviewer());
-            		node.put("isAwardAdmin", nodeDTO.getIsAwardAdmin());
-            		node.put("isAttendanceAdmin", nodeDTO.getIsAttendanceAdmin());
-            		node.put("isAttendanceDataEntryOperator", nodeDTO.getIsAttendanceDataEntryOperator());
-            		node.put("responsibilityType", nodeDTO.getResponsibilityType());
-            		subList.add(node);
-				}
-			}
+        	convertPmisEmployeeOfficeListToJSON(subList, pmisOfficeList);
         	map.put("employeeoffice", subList);
 		}
         
@@ -677,5 +658,41 @@ public class DataCustomRepository {
                 "p.oid = '" + queryParams.getString("employee_oid") + "'";
 
         return query;
+    }
+    
+    public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
+		List<JSONObject> subList = new ArrayList<JSONObject>();
+		List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes(employeeOid);
+		convertPmisEmployeeOfficeListToJSON(subList, pmisOfficeList);
+    	return subList;
+	}
+    
+    public List<JSONObject> convertPmisEmployeeOfficeListToJSON(List<JSONObject> subList, List<PmisEmployeeOfficeNodeDTO> pmisOfficeList) {
+    	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
+    		JSONObject node = new JSONObject();
+    		node.put("oid", nodeDTO.getEmployeeOfficeOid());
+    		node.put("createdBy", nodeDTO.getCreatedBy());
+    		node.put("createdOn", nodeDTO.getCreatedOn()==null?null:nodeDTO.getCreatedOn().getTime());
+    		node.put("updatedBy", nodeDTO.getUpdatedBy());
+    		node.put("updatedOn", nodeDTO.getUpdatedOn()==null?null:nodeDTO.getUpdatedOn().getTime());
+    		node.put("config", nodeDTO.getConfig());
+    		node.put("status", nodeDTO.getStatus());
+    		node.put("dataStatus", nodeDTO.getDataStatus());
+    		node.put("rowStatus", nodeDTO.getRowStatus());
+    		node.put("officeOid", nodeDTO.getOfficeOid());
+    		node.put("officeUnitOid", nodeDTO.getOfficeUnitOid());
+    		node.put("officeUnitPostOid", nodeDTO.getOfficeUnitPostOid());
+    		node.put("employmentTypeOid", nodeDTO.getEmploymentTypeOid());
+    		node.put("isOfficeHead", nodeDTO.getIsOfficeHead());
+    		node.put("isOfficeAdmin", nodeDTO.getIsOfficeAdmin());
+    		node.put("isApprover", nodeDTO.getIsApprover());
+    		node.put("isReviewer", nodeDTO.getIsReviewer());
+    		node.put("isAwardAdmin", nodeDTO.getIsAwardAdmin());
+    		node.put("isAttendanceAdmin", nodeDTO.getIsAttendanceAdmin());
+    		node.put("isAttendanceDataEntryOperator", nodeDTO.getIsAttendanceDataEntryOperator());
+    		node.put("responsibilityType", nodeDTO.getResponsibilityType());
+    		subList.add(node);
+		}
+    	return subList;
     }
 }
