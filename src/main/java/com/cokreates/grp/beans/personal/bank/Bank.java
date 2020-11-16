@@ -17,4 +17,5 @@ public class Bank extends BaseEntity {
     private String bankType;
     private String routingNo;
     private String swiftCode;
+    private String bankOid;
 }
