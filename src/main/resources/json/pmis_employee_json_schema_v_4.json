@@ -203,6 +203,13 @@
 								"default": "",
 								"pattern": "^.*$"
 							},
+							"bankOid": {
+								"$id": "#root/personal/bank/items/bankOid",
+								"title": "BankOid",
+								"type": "string",
+								"default": "",
+								"pattern": "^.*$"
+							},
 							"bankType": {
 								"$id": "#root/personal/bank/items/bankType",
 								"title": "BankType",
