@@ -529,7 +529,33 @@ public class DataCustomRepository {
         for (Map<String, Object> map : subResult) {
         	List<JSONObject> subList = new ArrayList<JSONObject>();
         	List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes((String) map.get("oid"));
-        	convertPmisEmployeeOfficeListToJSON(subList, pmisOfficeList);
+        	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
+        		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
+        			JSONObject node = new JSONObject();
+            		node.put("oid", nodeDTO.getEmployeeOfficeOid());
+            		node.put("createdBy", nodeDTO.getCreatedBy());
+            		node.put("createdOn", nodeDTO.getCreatedOn()==null?null:nodeDTO.getCreatedOn().getTime());
+            		node.put("updatedBy", nodeDTO.getUpdatedBy());
+            		node.put("updatedOn", nodeDTO.getUpdatedOn()==null?null:nodeDTO.getUpdatedOn().getTime());
+            		node.put("config", nodeDTO.getConfig());
+            		node.put("status", nodeDTO.getStatus());
+            		node.put("dataStatus", nodeDTO.getDataStatus());
+            		node.put("rowStatus", nodeDTO.getRowStatus());
+            		node.put("officeOid", nodeDTO.getOfficeOid());
+            		node.put("officeUnitOid", nodeDTO.getOfficeUnitOid());
+            		node.put("officeUnitPostOid", nodeDTO.getOfficeUnitPostOid());
+            		node.put("employmentTypeOid", nodeDTO.getEmploymentTypeOid());
+            		node.put("isOfficeHead", nodeDTO.getIsOfficeHead());
+            		node.put("isOfficeAdmin", nodeDTO.getIsOfficeAdmin());
+            		node.put("isApprover", nodeDTO.getIsApprover());
+            		node.put("isReviewer", nodeDTO.getIsReviewer());
+            		node.put("isAwardAdmin", nodeDTO.getIsAwardAdmin());
+            		node.put("isAttendanceAdmin", nodeDTO.getIsAttendanceAdmin());
+            		node.put("isAttendanceDataEntryOperator", nodeDTO.getIsAttendanceDataEntryOperator());
+            		node.put("responsibilityType", nodeDTO.getResponsibilityType());
+            		subList.add(node);
+				}
+			}
         	map.put("employeeoffice", subList);
 		}
         
@@ -663,11 +689,11 @@ public class DataCustomRepository {
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
 		List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes(employeeOid);
-		convertPmisEmployeeOfficeListToJSON(subList, pmisOfficeList);
+		convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
     	return subList;
 	}
     
-    public List<JSONObject> convertPmisEmployeeOfficeListToJSON(List<JSONObject> subList, List<PmisEmployeeOfficeNodeDTO> pmisOfficeList) {
+    public List<JSONObject> convertPmisEmployeeOfficeListToJsonList(List<JSONObject> subList, List<PmisEmployeeOfficeNodeDTO> pmisOfficeList) {
     	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
     		JSONObject node = new JSONObject();
     		node.put("oid", nodeDTO.getEmployeeOfficeOid());
