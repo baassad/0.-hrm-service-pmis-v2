@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeOfficeV2DTO extends MasterDTO {
-    private String pmisOid;
+    private String employeeOid;
     private String employeeOfficeOid;
     private String responsibilityType;
     private String officeUnitOid;
@@ -22,4 +22,7 @@ public class EmployeeOfficeV2DTO extends MasterDTO {
     private String status;
     private String officeOid;
     private String isAwardAdmin;
+    private String inchargeLabelBn;
+    private String inchargeLabelEn;
+    private String lastOfficeDate;
 }

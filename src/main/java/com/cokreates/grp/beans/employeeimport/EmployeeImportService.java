@@ -143,7 +143,7 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     	List<EmployeeOfficeV2DTO> dtos = new ArrayList<EmployeeOfficeV2DTO>();
     	for (EmployeeOffice employeeOffice : employeeOffices) {
     		EmployeeOfficeV2DTO dto = new EmployeeOfficeV2DTO();
-    		dto.setPmisOid(employeeOid);
+    		dto.setEmployeeOid(employeeOid);
     		dto.setEmployeeOfficeOid(employeeOffice.getOid());
     		dtos.add(dto);
 		}

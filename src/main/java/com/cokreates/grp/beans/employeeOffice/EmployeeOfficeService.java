@@ -57,7 +57,7 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
 			node = new EmployeeOfficeV2();
 		}
         
-        node.setPmisOid(employeeOid);
+        node.setEmployeeOid(employeeOid);
         node.setEmployeeOfficeOid(dto.getOid());
         node.setIsApprover(dto.getIsApprover());
         node.setIsReviewer(dto.getIsReviewer());

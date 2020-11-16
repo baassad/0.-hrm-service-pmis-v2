@@ -12,7 +12,7 @@ public interface EmployeeOfficeV2Repository extends
         JpaSpecificationExecutor<EmployeeOfficeV2> {
 
 
-    List<EmployeeOfficeV2> findAllByPmisOidAndRowStatus(String pmisOid, String rowStatus);
-    EmployeeOfficeV2 findByPmisOidAndEmployeeOfficeOidAndRowStatus(String pmisOid, String employeeOfficeOid, String rowStatus);
+    List<EmployeeOfficeV2> findAllByEmployeeOidAndRowStatus(String pmisOid, String rowStatus);
+    EmployeeOfficeV2 findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(String pmisOid, String employeeOfficeOid, String rowStatus);
 
 }

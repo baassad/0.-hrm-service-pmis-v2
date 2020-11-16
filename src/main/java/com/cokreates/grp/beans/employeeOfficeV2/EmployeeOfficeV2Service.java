@@ -61,7 +61,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     }
     
     public List<EmployeeOfficeV2DTO> updateAll(String pmisOid, List<EmployeeOfficeV2DTO> inputDTOs) {
-    	List<EmployeeOfficeV2> existingOfficeList = repository.findAllByPmisOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
+    	List<EmployeeOfficeV2> existingOfficeList = repository.findAllByEmployeeOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
     	List<EmployeeOfficeV2> requestedOffices = new ArrayList<EmployeeOfficeV2>();
     	try {
     		inputDTOs.stream().forEach(dto -> requestedOffices.add(convertRequestedDTOtoEntity(dto, existingOfficeList)));
@@ -81,7 +81,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 
 	public List<EmployeeOfficeV2DTO> getPmisEmployeeOfficeNodes(String pmisOid) {
 
-		List<EmployeeOfficeV2> officeList = repository.findAllByPmisOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
+		List<EmployeeOfficeV2> officeList = repository.findAllByEmployeeOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
 
 		Set<String> employeeOfficeOidSet = new HashSet<>();
 		if (!officeList.isEmpty())
@@ -113,7 +113,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 					pmisEmployeeOfficeNodeDTO.setIsAwardAdmin(office.getIsAwardAdmin());
 					pmisEmployeeOfficeNodeDTO.setIsAttendanceAdmin(office.getIsAttendanceAdmin());
 					pmisEmployeeOfficeNodeDTO.setIsAttendanceDataEntryOperator(office.getIsAttendanceDataEntryOperator());
-					pmisEmployeeOfficeNodeDTO.setPmisOid(office.getPmisOid());
+					pmisEmployeeOfficeNodeDTO.setEmployeeOid(office.getEmployeeOid());
 					pmisEmployeeOfficeNodeDTO.setEmployeeOfficeOid(office.getEmployeeOfficeOid());
 					pmisEmployeeOfficeNodeDTO.setOid(office.getOid());
 				}
@@ -122,8 +122,8 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return result;
 	}
     
-	public EmployeeOfficeV2 findByPmisOidAndEmployeeOfficeOidAndRowStatus(String pmisOid, String employeeOfficeOid) {
-		return repository.findByPmisOidAndEmployeeOfficeOidAndRowStatus(pmisOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
+	public EmployeeOfficeV2 findByPmisOidAndEmployeeOfficeOidAndRowStatus(String employeeOid, String employeeOfficeOid) {
+		return repository.findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(employeeOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
 	}
 	
     public void parseJsonAndUpdateEmployeeOffice (JSONObject nodeObject) {
@@ -142,7 +142,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     public EmployeeOfficeV2 convertRequestedDTOtoEntity(EmployeeOfficeV2DTO dto, List<EmployeeOfficeV2> existingOfficeList) {
     	EmployeeOfficeV2 office = new EmployeeOfficeV2();
 		if (dto.getOid() == null) {
-			office.setPmisOid(dto.getPmisOid());
+			office.setEmployeeOid(dto.getEmployeeOid());
 			office.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
 			
 			office.setCreatedBy("System");
@@ -160,7 +160,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     public EmployeeOfficeV2DTO convertEntityToDTO(EmployeeOfficeV2 office) {
     	EmployeeOfficeV2DTO dto = new EmployeeOfficeV2DTO();
     	dto.setOid(office.getOid());
-    	dto.setPmisOid(office.getPmisOid());
+    	dto.setEmployeeOid(office.getEmployeeOid());
     	dto.setEmployeeOfficeOid(office.getEmployeeOfficeOid());
     	dto.setCreatedBy(office.getCreatedBy());
 		dto.setCreatedOn(new Timestamp(office.getCreatedOn().getTime()));
@@ -173,7 +173,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     	if (dto.getOid()!=null) {
     		office.setOid(dto.getOid());
 		}
-    	office.setPmisOid(dto.getPmisOid());
+    	office.setEmployeeOid(dto.getEmployeeOid());
     	office.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
     	office.setIsAttendanceDataEntryOperator(!utilCharacter.noData(dto.getIsAttendanceDataEntryOperator())?dto.getIsAttendanceDataEntryOperator():Constant.NO);
 		office.setIsAttendanceAdmin(!utilCharacter.noData(dto.getIsAttendanceAdmin())?dto.getIsAttendanceAdmin():Constant.NO);
