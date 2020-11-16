@@ -89,15 +89,15 @@ public class DataHelper {
         pmis.put("employee_main", employeeDocSkeleton);
         pmis.put("employee_temp", employeeBlankSkeleton);
 
-//        JSONArray jsonArray = new JSONArray();
-//        for(JSONObject employeeOfficeNode:employeeOfficeNodes){
-//            jsonArray.put(employeeOfficeNode);
-//        }
+        JSONArray jsonArray = new JSONArray();
+        for(JSONObject employeeOfficeNode:employeeOfficeNodes){
+            jsonArray.put(employeeOfficeNode);
+        }
 
-//        JSONObject employeeOffice = new JSONObject();
-//        employeeOffice.put("nodes", jsonArray);
+        JSONObject employeeOffice = new JSONObject();
+        employeeOffice.put("nodes", jsonArray);
 
-        String query = repository.getQueryImportPmis(pmis, new JSONObject());
+        String query = repository.getQueryImportPmis(pmis, employeeOffice);
 
         return query;
     }

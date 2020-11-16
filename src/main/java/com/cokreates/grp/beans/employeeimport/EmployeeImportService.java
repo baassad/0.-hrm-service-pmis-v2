@@ -1,5 +1,6 @@
 package com.cokreates.grp.beans.employeeimport;
 
+import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employee.Employee;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
@@ -128,7 +129,7 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         List<String> importedEmployeeOids = new ArrayList<>();
         String insertedOid;
         for(String oid:employeeMasterInfoMap.keySet()){
-            insertedOid = dataEmployeeService.importEmployees(path,employeeMasterInfoMap.get(oid),employeePersonalInfoMap.get(oid), new ArrayList<>());
+            insertedOid = dataEmployeeService.importEmployees(path,employeeMasterInfoMap.get(oid),employeePersonalInfoMap.get(oid),employeeOfficeMap.get(oid));
             importedEmployeeOids.add(insertedOid);
             if (employeeOfficeMap.get(oid).size() > 0) {
             	createPmisEmployeeOfficeMapping(employeeMasterInfoMap.get(oid).getOid(), employeeOfficeMap.get(oid));
@@ -145,6 +146,18 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
     		EmployeeOfficeV2DTO dto = new EmployeeOfficeV2DTO();
     		dto.setEmployeeOid(employeeOid);
     		dto.setEmployeeOfficeOid(employeeOffice.getOid());
+    	    dto.setOfficeOid(employeeOffice.getOfficeOid());
+    	    dto.setOfficeUnitOid(employeeOffice.getOfficeUnitOid());
+    	    dto.setOfficeUnitPostOid(employeeOffice.getOfficeUnitPostOid());
+    	    dto.setEmploymentTypeOid(employeeOffice.getEmploymentType()==null?null:employeeOffice.getEmploymentType().getOid());
+    	    dto.setInchargeLabelBn(employeeOffice.getInchargeLabelBn());
+    	    dto.setInchargeLabelEn(employeeOffice.getInchargeLabelEn());
+    	    dto.setJoiningDate(employeeOffice.getJoiningDate()==null?null:String.valueOf(employeeOffice.getJoiningDate().getTime()));
+    	    dto.setLastOfficeDate(employeeOffice.getLastOfficeDate()==null?null:String.valueOf(employeeOffice.getLastOfficeDate()));
+    	    dto.setStatus(employeeOffice.getStatus());
+    	    dto.setResponsibilityType(employeeOffice.getResponsibilityType());
+    	    dto.setIsOfficeAdmin(employeeOffice.getIsOfficeAdmin());
+    	    dto.setIsOfficeHead(employeeOffice.getIsOfficeHead());
     		dtos.add(dto);
 		}
     	

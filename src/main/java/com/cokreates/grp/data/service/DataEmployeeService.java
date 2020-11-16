@@ -127,7 +127,6 @@ public class DataEmployeeService {
 
         List<JSONObject> jsonObjectList = new ArrayList<>();
 
-        /*
         for(EmployeeOffice employeeOffice:employeeOffices){
             JSONObject employeeOfficeNode = new JSONObject();
 
@@ -186,7 +185,6 @@ public class DataEmployeeService {
             jsonObjectList.add(employeeOfficeNode);
 
         }
-		*/
 
         String pmisImportQuery = dataHelper.pmisBulkImport(nodePath, employeeMasterInfo.getOid(), generalNode, jsonObjectList);
 

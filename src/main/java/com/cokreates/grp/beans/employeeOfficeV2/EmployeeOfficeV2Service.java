@@ -165,6 +165,24 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     	dto.setCreatedBy(office.getCreatedBy());
 		dto.setCreatedOn(new Timestamp(office.getCreatedOn().getTime()));
 		dto.setRowStatus(office.getRowStatus());
+		dto.setOfficeOid(office.getOfficeOid());
+    	dto.setOfficeUnitOid(office.getOfficeUnitOid());
+    	dto.setOfficeUnitPostOid(office.getOfficeUnitPostOid());
+    	dto.setEmploymentTypeOid(office.getEmploymentTypeOid());
+	    dto.setInchargeLabelBn(office.getInchargeLabelBn());
+	    dto.setInchargeLabelEn(office.getInchargeLabelEn());
+	    dto.setJoiningDate(office.getJoiningDate());
+	    dto.setLastOfficeDate(office.getLastOfficeDate());
+	    dto.setStatus(office.getStatus());
+	    dto.setResponsibilityType(office.getResponsibilityType());
+		dto.setIsApprover(office.getIsApprover());
+		dto.setIsReviewer(office.getIsReviewer());
+		dto.setIsAwardAdmin(office.getIsAwardAdmin());
+		dto.setIsOfficeAdmin(office.getIsOfficeAdmin());
+		dto.setIsAttendanceAdmin(office.getIsAttendanceAdmin());
+		dto.setIsAttendanceDataEntryOperator(office.getIsAttendanceDataEntryOperator());
+		dto.setIsOfficeHead(office.getIsOfficeHead());
+		dto.setIsOfficeUnitHead(office.getIsOfficeUnitHead());
 		return dto;
     }
     
@@ -175,12 +193,24 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		}
     	office.setEmployeeOid(dto.getEmployeeOid());
     	office.setEmployeeOfficeOid(dto.getEmployeeOfficeOid());
-    	office.setIsAttendanceDataEntryOperator(!utilCharacter.noData(dto.getIsAttendanceDataEntryOperator())?dto.getIsAttendanceDataEntryOperator():Constant.NO);
-		office.setIsAttendanceAdmin(!utilCharacter.noData(dto.getIsAttendanceAdmin())?dto.getIsAttendanceAdmin():Constant.NO);
+    	office.setOfficeOid(dto.getOfficeOid());
+    	office.setOfficeUnitOid(dto.getOfficeUnitOid());
+    	office.setOfficeUnitPostOid(dto.getOfficeUnitPostOid());
+    	office.setEmploymentTypeOid(dto.getEmploymentTypeOid());
+	    office.setInchargeLabelBn(dto.getInchargeLabelBn());
+	    office.setInchargeLabelEn(dto.getInchargeLabelEn());
+	    office.setJoiningDate(dto.getJoiningDate());
+	    office.setLastOfficeDate(dto.getLastOfficeDate());
+	    office.setStatus(dto.getStatus());
+	    office.setResponsibilityType(dto.getResponsibilityType());
 		office.setIsApprover(!utilCharacter.noData(dto.getIsApprover())?dto.getIsApprover():Constant.NO);
 		office.setIsReviewer(!utilCharacter.noData(dto.getIsReviewer())?dto.getIsReviewer():Constant.NO);
 		office.setIsAwardAdmin(!utilCharacter.noData(dto.getIsAwardAdmin())?dto.getIsAwardAdmin():Constant.NO);
 		office.setIsOfficeAdmin(!utilCharacter.noData(dto.getIsOfficeAdmin())?dto.getIsOfficeAdmin():Constant.NO);
+		office.setIsAttendanceAdmin(!utilCharacter.noData(dto.getIsAttendanceAdmin())?dto.getIsAttendanceAdmin():Constant.NO);
+		office.setIsAttendanceDataEntryOperator(!utilCharacter.noData(dto.getIsAttendanceDataEntryOperator())?dto.getIsAttendanceDataEntryOperator():Constant.NO);
+		office.setIsOfficeHead(!utilCharacter.noData(dto.getIsOfficeHead())?dto.getIsOfficeHead():Constant.NO);
+		office.setIsOfficeUnitHead(!utilCharacter.noData(dto.getIsOfficeUnitHead())?dto.getIsOfficeUnitHead():Constant.NO);
 		office.setConfig(dto.getConfig());
 		office.setDataStatus(dto.getDataStatus());
 		office.setCreatedBy("System");
@@ -188,9 +218,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return office;
     }
 
-
-
-
-
-
 }
+
+
+

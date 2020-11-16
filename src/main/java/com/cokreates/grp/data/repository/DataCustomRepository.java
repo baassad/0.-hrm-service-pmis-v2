@@ -79,7 +79,7 @@ public class DataCustomRepository {
                      + " '"+ queryParams1.getString("oid") +"', \n" 
                      + " '"+ queryParams1.getJSONObject("employee_main").toString() +"', \n" 
                      + " '"+ queryParams1.getJSONObject("employee_temp").toString() +"', \n" 
-                     + " '"+ null +"') \n" ;
+                     + " '"+ queryParams2.toString() +"') \n" ;
 
         return query;
     }
