@@ -4,11 +4,11 @@ package com.cokreates.grp.data.service;
 import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
 import com.cokreates.grp.data.constants.Api;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
@@ -57,7 +57,7 @@ public class DataEmployeeService {
     MasterDataComponent masterDataComponent;
 
     @Autowired
-    PmisEmployeeOfficeNodeService pmisEmployeeOfficeNodeService;
+    EmployeeOfficeV2Service pmisEmployeeOfficeNodeService;
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
         String employeeOid = UUID.randomUUID().toString();
@@ -688,9 +688,9 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
     
-	public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<PmisEmployeeOfficeNodeDTO> dtoList) {
+	public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<EmployeeOfficeV2DTO> dtoList) {
 		List<EmployeeOfficeDTO> resultList = new ArrayList<EmployeeOfficeDTO>();
-		for (PmisEmployeeOfficeNodeDTO nodeDTO : dtoList) {
+		for (EmployeeOfficeV2DTO nodeDTO : dtoList) {
         	EmployeeOfficeDTO officeDTO = new EmployeeOfficeDTO();
         	officeDTO.setOid(nodeDTO.getEmployeeOfficeOid());
         	officeDTO.setEmploymentTypeOid(nodeDTO.getEmploymentTypeOid());

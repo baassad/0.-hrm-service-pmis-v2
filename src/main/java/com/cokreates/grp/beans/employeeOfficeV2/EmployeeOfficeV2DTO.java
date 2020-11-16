@@ -1,10 +1,10 @@
-package com.cokreates.grp.beans.pmisEmployeeOfficeNode;
+package com.cokreates.grp.beans.employeeOfficeV2;
 
 import com.cokreates.core.MasterDTO;
 import lombok.Data;
 
 @Data
-public class PmisEmployeeOfficeNodeDTO extends MasterDTO {
+public class EmployeeOfficeV2DTO extends MasterDTO {
     private String pmisOid;
     private String employeeOfficeOid;
     private String responsibilityType;

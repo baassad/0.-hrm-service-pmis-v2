@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.pmisEmployeeOfficeNode;
+package com.cokreates.grp.beans.employeeOfficeV2;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterRestController;
@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(Constant.PMIS_EMPLOYEE_OFFICE_NODE)
-public class PmisEmployeeOfficeNodeController extends MasterRestController<PmisEmployeeOfficeNodeDTO, PmisEmployeeOfficeNode> {
+@RequestMapping(Constant.EMPLOYEE_OFFICE_V2)
+public class EmployeeOfficeV2Controller extends MasterRestController<EmployeeOfficeV2DTO, EmployeeOfficeV2> {
 
     @Autowired
-    PmisEmployeeOfficeNodeService service;
+    EmployeeOfficeV2Service service;
 
-    public PmisEmployeeOfficeNodeController(PmisEmployeeOfficeNodeService service) {
+    public EmployeeOfficeV2Controller(EmployeeOfficeV2Service service) {
         super(service);
     }
 
     @Override
     @PostMapping(Constant.ENDPOINT_CREATE_ALL)
-    public ResponseModel<PmisEmployeeOfficeNodeDTO> createAll(@Valid @RequestBody RequestModel<PmisEmployeeOfficeNodeDTO> requestDTO){
+    public ResponseModel<EmployeeOfficeV2DTO> createAll(@Valid @RequestBody RequestModel<EmployeeOfficeV2DTO> requestDTO){
     	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.create(requestDTO.getBody().getData()));
     }
     
     @Override
     @PostMapping(Constant.ENDPOINT_UPDATE_ALL)
-    public ResponseModel<PmisEmployeeOfficeNodeDTO> updateAll(@Valid @RequestBody RequestModel<PmisEmployeeOfficeNodeDTO> requestDTO){
+    public ResponseModel<EmployeeOfficeV2DTO> updateAll(@Valid @RequestBody RequestModel<EmployeeOfficeV2DTO> requestDTO){
     	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.updateAll(requestDTO.getBody().getEmployeeOid(), requestDTO.getBody().getData()));
     }
 
-    @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_NODE_LIST)
-    public ResponseModel<PmisEmployeeOfficeNodeDTO> getPmisEmployeeOfficeNodes(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
+    @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_V2_LIST)
+    public ResponseModel<EmployeeOfficeV2DTO> getPmisEmployeeOfficeNodes(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.getPmisEmployeeOfficeNodes(requestDTO.getBody().getEmployeeOid()));
     }
 }

@@ -1,4 +1,4 @@
-package com.cokreates.grp.beans.pmisEmployeeOfficeNode;
+package com.cokreates.grp.beans.employeeOfficeV2;
 
 import com.cokreates.core.BaseEntity;
 import com.cokreates.core.Constant;
@@ -8,13 +8,15 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 @Entity
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PmisEmployeeOfficeNode extends BaseEntity {
+@Table(name = "employee_office_v2")
+public class EmployeeOfficeV2 extends BaseEntity {
     private String pmisOid;
     private String employeeOfficeOid;
 

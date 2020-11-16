@@ -1,13 +1,11 @@
 package com.cokreates.grp.beans.employeeOffice;
 
-import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
-import com.cokreates.grp.beans.personal.general.GeneralDTO;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNode;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
@@ -35,7 +33,7 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
     DataServiceClient dataServiceClient;
     
     @Autowired
-    PmisEmployeeOfficeNodeService employeeOfficeNodeService;
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
     public EmployeeOfficeService(RequestBuildingComponent<EmployeeOfficeDTO> requestBuildingComponent,
                                  DataServiceRestTemplateClient< EmployeeOfficeDTO, EmployeeOffice> dataServiceRestTemplateClient){
@@ -54,9 +52,9 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
     public EmployeeOfficeDTO updateEmployeeOffice(EmployeeOfficeDTO dto,String employeeOid){
         DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
 
-        PmisEmployeeOfficeNode node = employeeOfficeNodeService.findByPmisOidAndEmployeeOfficeOidAndRowStatus(employeeOid, dto.getOid());
+        EmployeeOfficeV2 node = employeeOfficeV2Service.findByPmisOidAndEmployeeOfficeOidAndRowStatus(employeeOid, dto.getOid());
         if (node == null) {
-			node = new PmisEmployeeOfficeNode();
+			node = new EmployeeOfficeV2();
 		}
         
         node.setPmisOid(employeeOid);
@@ -68,11 +66,11 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
         node.setIsAttendanceDataEntryOperator(dto.getIsAttendanceDataEntryOperator());
         node.setIsAwardAdmin(dto.getIsAwardAdmin());
         
-        PmisEmployeeOfficeNodeDTO nodeDTO = getModelMapper().map(node, PmisEmployeeOfficeNodeDTO.class);
-        List<PmisEmployeeOfficeNodeDTO> nodes = new ArrayList<PmisEmployeeOfficeNodeDTO>();
+        EmployeeOfficeV2DTO nodeDTO = getModelMapper().map(node, EmployeeOfficeV2DTO.class);
+        List<EmployeeOfficeV2DTO> nodes = new ArrayList<EmployeeOfficeV2DTO>();
         nodes.add(nodeDTO);
         
-        employeeOfficeNodeService.create(nodes);
+        employeeOfficeV2Service.create(nodes);
         
         DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
 

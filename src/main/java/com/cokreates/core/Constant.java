@@ -44,8 +44,8 @@ public class Constant {
     public static final String ENDPOINT_SEARCH_EMPLOYEES = "/search-employees";
     public static final String ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED = "/search-employees-not-imported";
     public static final String ENDPOINT_GET_BY_EMPLOYEE_OID = "/get-by-employee-oid";
-    public static final String PMIS_EMPLOYEE_OFFICE_NODE = "/pmis-employee-office-node";
-    public static final String ENDPOINT_GET_EMPLOYEE_OFFICE_NODE_LIST = "/get-employee-office-node-list";
+    public static final String EMPLOYEE_OFFICE_V2 = "/employee-office-v2";
+    public static final String ENDPOINT_GET_EMPLOYEE_OFFICE_V2_LIST = "/get-employee-office-v2-list";
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";

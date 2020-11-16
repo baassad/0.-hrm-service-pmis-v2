@@ -1,7 +1,7 @@
 package com.cokreates.grp.data.repository;
 
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeDTO;
-import com.cokreates.grp.beans.pmisEmployeeOfficeNode.PmisEmployeeOfficeNodeService;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.data.util.DataUtil;
 import com.cokreates.grp.data.util.JsonUtil;
 
@@ -35,7 +35,7 @@ public class DataCustomRepository {
     JsonUtil jsonUtil;
     
     @Autowired
-    PmisEmployeeOfficeNodeService pmisEmployeeOfficeNodeService;
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
 
     @Transactional
@@ -528,8 +528,8 @@ public class DataCustomRepository {
 		List<Map <String, Object>> subResult = jdbcTemplate.queryForList(query2);
         for (Map<String, Object> map : subResult) {
         	List<JSONObject> subList = new ArrayList<JSONObject>();
-        	List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes((String) map.get("oid"));
-        	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
+        	List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getPmisEmployeeOfficeNodes((String) map.get("oid"));
+        	for (EmployeeOfficeV2DTO nodeDTO : officeList) {
         		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
         			JSONObject node = new JSONObject();
             		node.put("oid", nodeDTO.getEmployeeOfficeOid());
@@ -688,13 +688,13 @@ public class DataCustomRepository {
     
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
-		List<PmisEmployeeOfficeNodeDTO> pmisOfficeList = pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes(employeeOid);
+		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getPmisEmployeeOfficeNodes(employeeOid);
 		convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
     	return subList;
 	}
     
-    public List<JSONObject> convertPmisEmployeeOfficeListToJsonList(List<JSONObject> subList, List<PmisEmployeeOfficeNodeDTO> pmisOfficeList) {
-    	for (PmisEmployeeOfficeNodeDTO nodeDTO : pmisOfficeList) {
+    public List<JSONObject> convertPmisEmployeeOfficeListToJsonList(List<JSONObject> subList, List<EmployeeOfficeV2DTO> pmisOfficeList) {
+    	for (EmployeeOfficeV2DTO nodeDTO : pmisOfficeList) {
     		JSONObject node = new JSONObject();
     		node.put("oid", nodeDTO.getEmployeeOfficeOid());
     		node.put("createdBy", nodeDTO.getCreatedBy());
