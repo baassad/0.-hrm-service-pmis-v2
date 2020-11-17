@@ -528,7 +528,7 @@ public class DataCustomRepository {
 		List<Map <String, Object>> subResult = jdbcTemplate.queryForList(query2);
         for (Map<String, Object> map : subResult) {
         	List<JSONObject> subList = new ArrayList<JSONObject>();
-        	List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getPmisEmployeeOfficeNodes((String) map.get("oid"));
+        	List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid((String) map.get("oid"));
         	for (EmployeeOfficeV2DTO nodeDTO : officeList) {
         		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
         			JSONObject node = new JSONObject();
@@ -688,7 +688,7 @@ public class DataCustomRepository {
     
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
-		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getPmisEmployeeOfficeNodes(employeeOid);
+		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(employeeOid);
 		convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
     	return subList;
 	}

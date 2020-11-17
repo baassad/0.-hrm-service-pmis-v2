@@ -79,46 +79,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		}
     }
 
-	public List<EmployeeOfficeV2DTO> getPmisEmployeeOfficeNodes(String pmisOid) {
-
-		List<EmployeeOfficeV2> officeList = repository.findAllByEmployeeOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
-
-		Set<String> employeeOfficeOidSet = new HashSet<>();
-		if (!officeList.isEmpty())
-			employeeOfficeOidSet = officeList.stream().map(node -> node.getEmployeeOfficeOid()).collect(Collectors.toSet());
-
-		List<EmployeeOffice> employeeOfficeList = new ArrayList<>();
-		if (employeeOfficeOidSet.size() > 0)
-			employeeOfficeList = employeeImportService.getEmployeeOfficeListByEmployeeOfficeOidSet(employeeOfficeOidSet);
-
+	public List<EmployeeOfficeV2DTO> getEmployeeOfficeByEmployeeOid(String employeeOid) {
 		List<EmployeeOfficeV2DTO> result = new ArrayList<>();
-		if (!employeeOfficeList.isEmpty()) {
-			result = employeeOfficeList.stream().map(employeeOffice -> {
-				EmployeeOfficeV2DTO nodeDTO = getModelMapper().map(employeeOffice, EmployeeOfficeV2DTO.class);
-				nodeDTO.setEmploymentTypeOid(employeeOffice.getEmploymentType().getOid());
-				return nodeDTO;
-			}).collect(Collectors.toList());
-		}
-		
-		for (EmployeeOfficeV2DTO pmisEmployeeOfficeNodeDTO : result) {
-			String employeeOfficeOid = pmisEmployeeOfficeNodeDTO.getOid();
-			for (EmployeeOfficeV2 office : officeList) {
-				String employeeOfficeOidFromNode = office.getEmployeeOfficeOid();
-				if (null != employeeOfficeOid && !employeeOfficeOid.isEmpty()
-						&& null != employeeOfficeOidFromNode && !employeeOfficeOidFromNode.isEmpty()
-						&& employeeOfficeOid.equals(employeeOfficeOidFromNode)) {
-					pmisEmployeeOfficeNodeDTO.setIsApprover(office.getIsApprover());
-					pmisEmployeeOfficeNodeDTO.setIsReviewer(office.getIsReviewer());
-					pmisEmployeeOfficeNodeDTO.setIsOfficeAdmin(office.getIsOfficeAdmin());
-					pmisEmployeeOfficeNodeDTO.setIsAwardAdmin(office.getIsAwardAdmin());
-					pmisEmployeeOfficeNodeDTO.setIsAttendanceAdmin(office.getIsAttendanceAdmin());
-					pmisEmployeeOfficeNodeDTO.setIsAttendanceDataEntryOperator(office.getIsAttendanceDataEntryOperator());
-					pmisEmployeeOfficeNodeDTO.setEmployeeOid(office.getEmployeeOid());
-					pmisEmployeeOfficeNodeDTO.setEmployeeOfficeOid(office.getEmployeeOfficeOid());
-					pmisEmployeeOfficeNodeDTO.setOid(office.getOid());
-				}
-			}
-		}
+		List<EmployeeOfficeV2> officeList = repository.findAllByEmployeeOidAndRowStatus(employeeOid, Constant.STATUS_ACTIVE);
+		officeList.stream().forEach(createdItem -> result.add(convertEntityToDTO(createdItem)));
 		return result;
 	}
     

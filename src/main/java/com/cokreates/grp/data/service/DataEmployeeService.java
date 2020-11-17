@@ -57,7 +57,7 @@ public class DataEmployeeService {
     MasterDataComponent masterDataComponent;
 
     @Autowired
-    EmployeeOfficeV2Service pmisEmployeeOfficeNodeService;
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
         String employeeOid = UUID.randomUUID().toString();
@@ -674,8 +674,9 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        if (employeeDoc == null || employeeDoc.length() == 0) {
-        	responseBody.put("main", convertPmisEmployeeOfficeListToEmployeeOfficeList(pmisEmployeeOfficeNodeService.getPmisEmployeeOfficeNodes(requestParams.getString("employeeOid"))));
+        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(requestParams.getString("employeeOid"));
+        if (officeList.size() > 0) {
+        	responseBody.put("main", convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList));
 		} else {
 	        responseBody.put("main", employeeDoc.get("nodes"));
 		}
@@ -707,17 +708,15 @@ public class DataEmployeeService {
             officeDTO.setIsAttendanceAdmin(nodeDTO.getIsAttendanceAdmin());
             officeDTO.setIsAwardAdmin(nodeDTO.getIsAwardAdmin());
             officeDTO.setNodeOid(nodeDTO.getNodeOid());
-            officeDTO.setConfig(nodeDTO.getConfig());
-            officeDTO.setMain(nodeDTO.getMain());
-            officeDTO.setTemp(nodeDTO.getTemp());
-            officeDTO.setNode(nodeDTO.getNode());
             officeDTO.setDataStatus(nodeDTO.getDataStatus());
             officeDTO.setRowStatus(nodeDTO.getRowStatus());
             officeDTO.setCreatedBy(nodeDTO.getCreatedBy());
             officeDTO.setUpdatedBy(nodeDTO.getUpdatedBy());
-            //officeDTO.setCreatedOn(new Timestamp(nodeDTO.getCreatedOn().getTime()));
-           //officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
-        	
+            officeDTO.setCreatedOn(nodeDTO.getCreatedOn()==null?null:new Timestamp(nodeDTO.getCreatedOn().getTime()));
+            officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
+            officeDTO.setInchargeLabelBn(nodeDTO.getInchargeLabelBn());
+            officeDTO.setInchargeLabelEn(nodeDTO.getInchargeLabelEn());
+            officeDTO.setLastOfficeDate(nodeDTO.getLastOfficeDate());
             resultList.add(officeDTO);
 		}
 		
