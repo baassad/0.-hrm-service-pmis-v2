@@ -686,6 +686,16 @@ public class DataCustomRepository {
         return query;
     }
     
+   
+    public JSONArray getAllEmployeeList() {
+        String query = "SELECT hrm.pmis.oid as oid, "
+                     + "hrm.pmis.employee_main->'personal'->'general' as general, "
+                     + "hrm.pmis.employee_office -> 'nodes' as employeeoffice "
+                     + "FROM hrm.pmis ";
+        List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
+        return dataUtil.listToJsonArray(result);
+    }
+    
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
 		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(employeeOid);

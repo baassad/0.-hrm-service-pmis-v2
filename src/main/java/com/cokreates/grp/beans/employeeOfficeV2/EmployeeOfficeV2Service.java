@@ -2,10 +2,9 @@ package com.cokreates.grp.beans.employeeOfficeV2;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.employeeimport.EmployeeImportService;
-import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
+import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.util.components.RequestBuildingComponent;
 import com.cokreates.grp.util.components.UtilCharacter;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
@@ -17,11 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, EmployeeOfficeV2> {
@@ -40,7 +39,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     
     @Autowired
     ObjectMapper objectMapper;
-
+    
+    @Autowired
+    DataEmployeeService dataEmployeeService;
+    
     public EmployeeOfficeV2Service(RequestBuildingComponent<EmployeeOfficeV2DTO> requestBuildingComponent, DataServiceRestTemplateClient<EmployeeOfficeV2DTO, EmployeeOfficeV2> dataServiceRestTemplateClient) {
         super(requestBuildingComponent, dataServiceRestTemplateClient);
     }
@@ -90,15 +92,69 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return repository.findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(employeeOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
 	}
 	
-    public void parseJsonAndUpdateEmployeeOffice (JSONObject nodeObject) {
-    	JSONArray nodes = nodeObject.getJSONArray("nodes");
-    	for (int i = 0; i < nodes.length(); i++) {
-    		JSONObject node = nodes.getJSONObject(i);
-    		try {
-    			EmployeeOfficeDTO dto = objectMapper.readValue(node.toString().getBytes(), EmployeeOfficeDTO.class);
-    			employeeOfficeService.updateEmployeeOffice(dto, dto.getOid());
+    public List<EmployeeOfficeV2DTO> syncEmployeeOffice() {
+    	List<EmployeeOfficeV2> officeDtoList = new ArrayList<EmployeeOfficeV2>();
+    	JSONArray employeeList = dataEmployeeService.getAllEmployeeList();
+    	for (int i = 0; i < employeeList.length(); i++) {
+    		JSONObject employee = employeeList.getJSONObject(i);
+    		String employeeOid = employee.getString("oid");
+			JSONArray employeeOffices = employee.getJSONArray("employeeoffice");
+			for (int j = 0; j < employeeOffices.length(); j++) {
+				JSONObject employeeOffice = employeeOffices.getJSONObject(j);
+				EmployeeOfficeV2 office = new EmployeeOfficeV2();
+		    	office.setEmployeeOid(employeeOid);
+		    	office.setEmployeeOfficeOid(employeeOffice.getString("oid"));
+		    	office.setOfficeOid(employeeOffice.getString("officeOid"));
+		    	office.setOfficeUnitOid(employeeOffice.getString("officeUnitOid"));
+		    	office.setOfficeUnitPostOid(employeeOffice.getString("officeUnitPostOid"));
+		    	office.setEmploymentTypeOid(employeeOffice.getString("employmentTypeOid"));
+			    office.setJoiningDate(getDateString(employeeOffice, "joiningDate"));
+			    office.setLastOfficeDate(getDateString(employeeOffice, "lastOfficeDate"));
+			    office.setStatus(isNull(employeeOffice, "status")?null:employeeOffice.getString("status"));
+			    office.setInchargeLabelBn(isNull(employeeOffice, "inchargeLabelBn")?null:employeeOffice.getString("inchargeLabelBn"));
+			    office.setInchargeLabelEn(isNull(employeeOffice, "inchargeLabelEn")?null:employeeOffice.getString("inchargeLabelEn"));
+			    office.setResponsibilityType(isNull(employeeOffice, "responsibilityType")?null:employeeOffice.getString("responsibilityType"));
+				office.setIsApprover(isNull(employeeOffice, "isApprover")?Constant.NO:employeeOffice.getString("isApprover"));
+				office.setIsReviewer(isNull(employeeOffice, "isReviewer")?Constant.NO:employeeOffice.getString("isReviewer"));
+				office.setIsAwardAdmin(isNull(employeeOffice, "isAwardAdmin")?Constant.NO:employeeOffice.getString("isAwardAdmin"));
+				office.setIsOfficeAdmin(isNull(employeeOffice, "isOfficeAdmin")?Constant.NO:employeeOffice.getString("isOfficeAdmin"));
+				office.setIsAttendanceAdmin(isNull(employeeOffice, "isAttendanceAdmin")?Constant.NO:employeeOffice.getString("isAttendanceAdmin"));
+				office.setIsAttendanceDataEntryOperator(isNull(employeeOffice, "isAttendanceDataEntryOperator")?Constant.NO:employeeOffice.getString("isAttendanceDataEntryOperator"));
+				office.setIsOfficeHead(isNull(employeeOffice, "isOfficeHead")?Constant.NO:employeeOffice.getString("isOfficeHead"));
+				office.setIsOfficeUnitHead(isNull(employeeOffice, "isOfficeUnitHead")?Constant.NO:employeeOffice.getString("isOfficeUnitHead"));
+				office.setDataStatus(isNull(employeeOffice, "dataStatus")?null:employeeOffice.getString("dataStatus"));
+				office.setCreatedBy("System");
+				office.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+				officeDtoList.add(office);
+			}
+		}
+    	
+    	List<EmployeeOfficeV2> createdItems = repository.saveAll(officeDtoList);
+    	List<EmployeeOfficeV2DTO> createdItemsDTO =new ArrayList<EmployeeOfficeV2DTO>();
+    	createdItems.stream().forEach(createdItem -> createdItemsDTO.add(convertEntityToDTO(createdItem)));
+        return createdItemsDTO;
+    }
+    
+    public boolean isNull(JSONObject object, String key) {
+    	if ((object.has(key) && !object.isNull(key))) {
+			return false;
+		}
+    	return true;
+    }
+    
+    public String getDateString(JSONObject object, String key) {
+    	if (object.isNull(key) || object.get(key)==null || object.get(key)=="null") {
+		    return null;
+		} else {
+			try {
+				SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+				Date date = inputFormat.parse(object.getString(key));
+				return String.valueOf(date.getTime());
+			} catch (ParseException e) {
+				long date = object.getLong(key);
+				return String.valueOf(date);
 			} catch (Exception e) {
-				e.printStackTrace();
+				return null;
 			}
 		}
     }

@@ -1,9 +1,11 @@
 package com.cokreates.grp.beans.employeeOfficeV2;
 
+import com.cokreates.core.BlankRequestModel;
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterRestController;
 import com.cokreates.core.RequestModel;
 import com.cokreates.core.ResponseModel;
+import com.cokreates.grp.util.request.EmptyBodyDTO;
 import com.cokreates.grp.util.request.OidRequestBodyDTO;
 
 import javax.validation.Valid;
@@ -40,5 +42,10 @@ public class EmployeeOfficeV2Controller extends MasterRestController<EmployeeOff
     @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_V2_LIST)
     public ResponseModel<EmployeeOfficeV2DTO> getEmployeeOfficeByEmployeeOid(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.getEmployeeOfficeByEmployeeOid(requestDTO.getBody().getEmployeeOid()));
+    }
+    
+    @PostMapping(Constant.ENDPOINT_SYNC_EMPLOYEE_OFFICE)
+    public ResponseModel<EmployeeOfficeV2DTO> syncEmployeeOffice(@Valid @RequestBody BlankRequestModel<EmptyBodyDTO> requestDTO){
+        return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.syncEmployeeOffice());
     }
 }

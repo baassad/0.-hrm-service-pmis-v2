@@ -16,9 +16,7 @@ import com.cokreates.grp.data.util.JsonUtil;
 import com.cokreates.grp.data.util.RestUtil;
 
 import com.cokreates.grp.util.components.MasterDataComponent;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,7 +26,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -1673,5 +1670,9 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+    
+    public JSONArray getAllEmployeeList() {
+    	return repository.getAllEmployeeList();
     }
 }
