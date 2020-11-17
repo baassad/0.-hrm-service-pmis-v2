@@ -2,6 +2,7 @@ package com.cokreates.grp.beans.employeeOfficeV2;
 
 import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
 import com.cokreates.grp.beans.employeeimport.EmployeeImportService;
 import com.cokreates.grp.data.service.DataEmployeeService;
@@ -62,6 +63,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
         return createdItemsDTO;
     }
     
+    public EmployeeOfficeV2 createEmployeeOffice(EmployeeOfficeV2 requestedDTO) {
+        return repository.save(requestedDTO);
+    }
+    
     public List<EmployeeOfficeV2DTO> updateAll(String pmisOid, List<EmployeeOfficeV2DTO> inputDTOs) {
     	List<EmployeeOfficeV2> existingOfficeList = repository.findAllByEmployeeOidAndRowStatus(pmisOid, Constant.STATUS_ACTIVE);
     	List<EmployeeOfficeV2> requestedOffices = new ArrayList<EmployeeOfficeV2>();
@@ -95,7 +100,7 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return result;
 	}
 	
-	public EmployeeOfficeV2 findByPmisOidAndEmployeeOfficeOidAndRowStatus(String employeeOid, String employeeOfficeOid) {
+	public EmployeeOfficeV2 findByEmployeeOidAndEmployeeOfficeOid(String employeeOid, String employeeOfficeOid) {
 		return repository.findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(employeeOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
 	}
 	
@@ -245,6 +250,47 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return office;
     }
 
+    public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<EmployeeOfficeV2DTO> dtoList) {
+		List<EmployeeOfficeDTO> resultList = new ArrayList<EmployeeOfficeDTO>();
+		for (EmployeeOfficeV2DTO nodeDTO : dtoList) {
+			EmployeeOfficeDTO officeDTO = convertPmisEmployeeOfficeToEmployeeOffice(nodeDTO);
+            resultList.add(officeDTO);
+		}
+		
+		return resultList;
+	}
+    
+    public EmployeeOfficeDTO convertPmisEmployeeOfficeToEmployeeOffice(EmployeeOfficeV2DTO nodeDTO) {
+    	EmployeeOfficeDTO officeDTO = new EmployeeOfficeDTO();
+    	officeDTO.setOid(nodeDTO.getEmployeeOfficeOid());
+    	officeDTO.setEmploymentTypeOid(nodeDTO.getEmploymentTypeOid());
+    	officeDTO.setIsApprover(nodeDTO.getIsApprover());
+    	officeDTO.setIsOfficeAdmin(nodeDTO.getIsOfficeAdmin());
+    	officeDTO.setIsOfficeHead(nodeDTO.getIsOfficeHead());
+    	officeDTO.setIsReviewer(nodeDTO.getIsReviewer());
+        officeDTO.setJoiningDate(nodeDTO.getJoiningDate());
+        officeDTO.setOfficeOid(nodeDTO.getOfficeOid());
+        officeDTO.setOfficeUnitOid(nodeDTO.getOfficeUnitOid());
+        officeDTO.setOfficeUnitPostOid(nodeDTO.getOfficeUnitPostOid());
+        officeDTO.setStatus(nodeDTO.getStatus());
+        officeDTO.setIsOfficeUnitHead(nodeDTO.getIsOfficeUnitHead());
+        officeDTO.setResponsibilityType(nodeDTO.getResponsibilityType());
+        officeDTO.setIsAttendanceDataEntryOperator(nodeDTO.getIsAttendanceDataEntryOperator());
+        officeDTO.setIsAttendanceAdmin(nodeDTO.getIsAttendanceAdmin());
+        officeDTO.setIsAwardAdmin(nodeDTO.getIsAwardAdmin());
+        officeDTO.setNodeOid(nodeDTO.getNodeOid());
+        officeDTO.setDataStatus(nodeDTO.getDataStatus());
+        officeDTO.setRowStatus(nodeDTO.getRowStatus());
+        officeDTO.setCreatedBy(nodeDTO.getCreatedBy());
+        officeDTO.setUpdatedBy(nodeDTO.getUpdatedBy());
+        officeDTO.setCreatedOn(nodeDTO.getCreatedOn()==null?null:new Timestamp(nodeDTO.getCreatedOn().getTime()));
+        officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
+        officeDTO.setInchargeLabelBn(nodeDTO.getInchargeLabelBn());
+        officeDTO.setInchargeLabelEn(nodeDTO.getInchargeLabelEn());
+        officeDTO.setLastOfficeDate(nodeDTO.getLastOfficeDate());
+		
+		return officeDTO;
+	}
 }
 
 

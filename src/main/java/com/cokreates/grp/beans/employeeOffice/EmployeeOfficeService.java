@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +51,8 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
     }
 
     public EmployeeOfficeDTO updateEmployeeOffice(EmployeeOfficeDTO dto,String employeeOid){
-        DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
-
-        EmployeeOfficeV2 node = employeeOfficeV2Service.findByPmisOidAndEmployeeOfficeOidAndRowStatus(employeeOid, dto.getOid());
-        if (node == null) {
-			node = new EmployeeOfficeV2();
-		}
+        //DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
+        EmployeeOfficeV2 node = employeeOfficeV2Service.findByEmployeeOidAndEmployeeOfficeOid(employeeOid, dto.getOid());
         
         node.setEmployeeOid(employeeOid);
         node.setEmployeeOfficeOid(dto.getOid());
@@ -65,17 +62,17 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
         node.setIsAttendanceAdmin(dto.getIsAttendanceAdmin());
         node.setIsAttendanceDataEntryOperator(dto.getIsAttendanceDataEntryOperator());
         node.setIsAwardAdmin(dto.getIsAwardAdmin());
+        node.setUpdatedBy("System");
+        node.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
         
-        EmployeeOfficeV2DTO nodeDTO = getModelMapper().map(node, EmployeeOfficeV2DTO.class);
-        List<EmployeeOfficeV2DTO> nodes = new ArrayList<EmployeeOfficeV2DTO>();
-        nodes.add(nodeDTO);
-        
-        employeeOfficeV2Service.create(nodes);
-        
-        DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
+        EmployeeOfficeV2 createdItem = employeeOfficeV2Service.createEmployeeOffice(node);
+        EmployeeOfficeV2DTO createdItemsDTO = employeeOfficeV2Service.convertEntityToDTO(createdItem);
+        EmployeeOfficeDTO result = employeeOfficeV2Service.convertPmisEmployeeOfficeToEmployeeOffice(createdItemsDTO);
 
-        return response.getBody().getMain();
-
+        //DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
+      	//return response.getBody().getMain();
+        
+        return result;
     }
 
     public List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid, String officeUnitPostOid){
