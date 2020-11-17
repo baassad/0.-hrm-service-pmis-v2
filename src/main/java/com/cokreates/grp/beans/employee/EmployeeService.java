@@ -15,7 +15,6 @@ import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
-import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
@@ -33,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -91,9 +91,6 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Autowired
     SwitchService switchService;
-    
-    @Autowired
-    DataEmployeeService dataEmployeeService;
     
     @Autowired
     EmployeeOfficeV2Service employeeOfficeV2Service;
@@ -170,19 +167,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     */
 
     public  List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid,String officeUnitPostOid){
-    	List<EmployeeOfficeDTO> finalEmployeeOfficeDTOList = new ArrayList<>();
-        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(employeeOid);
-        List<EmployeeOfficeDTO> employeeOfficeDTOList = dataEmployeeService.convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList);
-
-        for(EmployeeOfficeDTO employeeOfficeDTO : employeeOfficeDTOList){
-            if(employeeOfficeDTO.getOfficeUnitPostOid() != null && employeeOfficeDTO.getStatus().equalsIgnoreCase("Active")
-                    && employeeOfficeDTO.getOfficeUnitPostOid().equalsIgnoreCase(officeUnitPostOid)){
-                finalEmployeeOfficeDTOList.add(employeeOfficeDTO);
-            }
-
-        }
-
-        return finalEmployeeOfficeDTOList;
+        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOidAndOfficeUnitPostOid(employeeOid, officeUnitPostOid);
+        List<EmployeeOfficeDTO> employeeOfficeDTOList = convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList);
+        return employeeOfficeDTOList;
     }
     
     
@@ -886,4 +873,40 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     @Override
     public Class getEntityClass() {return Employee.class;}
 
+    public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<EmployeeOfficeV2DTO> dtoList) {
+		List<EmployeeOfficeDTO> resultList = new ArrayList<EmployeeOfficeDTO>();
+		for (EmployeeOfficeV2DTO nodeDTO : dtoList) {
+        	EmployeeOfficeDTO officeDTO = new EmployeeOfficeDTO();
+        	officeDTO.setOid(nodeDTO.getEmployeeOfficeOid());
+        	officeDTO.setEmploymentTypeOid(nodeDTO.getEmploymentTypeOid());
+        	officeDTO.setIsApprover(nodeDTO.getIsApprover());
+        	officeDTO.setIsOfficeAdmin(nodeDTO.getIsOfficeAdmin());
+        	officeDTO.setIsOfficeHead(nodeDTO.getIsOfficeHead());
+        	officeDTO.setIsReviewer(nodeDTO.getIsReviewer());
+            officeDTO.setJoiningDate(nodeDTO.getJoiningDate());
+            officeDTO.setOfficeOid(nodeDTO.getOfficeOid());
+            officeDTO.setOfficeUnitOid(nodeDTO.getOfficeUnitOid());
+            officeDTO.setOfficeUnitPostOid(nodeDTO.getOfficeUnitPostOid());
+            officeDTO.setStatus(nodeDTO.getStatus());
+            officeDTO.setIsOfficeUnitHead(nodeDTO.getIsOfficeUnitHead());
+            officeDTO.setResponsibilityType(nodeDTO.getResponsibilityType());
+            officeDTO.setIsAttendanceDataEntryOperator(nodeDTO.getIsAttendanceDataEntryOperator());
+            officeDTO.setIsAttendanceAdmin(nodeDTO.getIsAttendanceAdmin());
+            officeDTO.setIsAwardAdmin(nodeDTO.getIsAwardAdmin());
+            officeDTO.setNodeOid(nodeDTO.getNodeOid());
+            officeDTO.setDataStatus(nodeDTO.getDataStatus());
+            officeDTO.setRowStatus(nodeDTO.getRowStatus());
+            officeDTO.setCreatedBy(nodeDTO.getCreatedBy());
+            officeDTO.setUpdatedBy(nodeDTO.getUpdatedBy());
+            officeDTO.setCreatedOn(nodeDTO.getCreatedOn()==null?null:new Timestamp(nodeDTO.getCreatedOn().getTime()));
+            officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
+            officeDTO.setInchargeLabelBn(nodeDTO.getInchargeLabelBn());
+            officeDTO.setInchargeLabelEn(nodeDTO.getInchargeLabelEn());
+            officeDTO.setLastOfficeDate(nodeDTO.getLastOfficeDate());
+            resultList.add(officeDTO);
+		}
+		
+		return resultList;
+	}
+    
 }

@@ -39,7 +39,7 @@ public class EmployeeOfficeV2Controller extends MasterRestController<EmployeeOff
     	return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.updateAll(requestDTO.getBody().getEmployeeOid(), requestDTO.getBody().getData()));
     }
 
-    @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_V2_LIST)
+    @PostMapping(Constant.ENDPOINT_GET_EMPLOYEE_OFFICE_LIST_EMPLOYEE_OID)
     public ResponseModel<EmployeeOfficeV2DTO> getEmployeeOfficeByEmployeeOid(@Valid @RequestBody RequestModel<OidRequestBodyDTO> requestDTO){
         return resultBuildingComponent.retrieveResult(requestDTO.getHeader(), service.getEmployeeOfficeByEmployeeOid(requestDTO.getBody().getEmployeeOid()));
     }
