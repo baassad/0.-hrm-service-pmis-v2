@@ -652,7 +652,7 @@ public class DataCustomRepository {
         String query = "update hrm.pmis p "
                 + "set "
                 + "employee_office = '"
-                + null
+                + queryParams.getJSONObject("employee_office").toString()
                 + "'::jsonb WHERE "
                 + "p.oid = '"
                 + queryParams.getString("employee_oid")

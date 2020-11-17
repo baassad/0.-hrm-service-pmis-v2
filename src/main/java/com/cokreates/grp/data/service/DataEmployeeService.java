@@ -1367,7 +1367,7 @@ public class DataEmployeeService {
         
         JSONObject employeeOfficeDoc = null;
         try {
-            //employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -1392,9 +1392,6 @@ public class DataEmployeeService {
             String errorMessage = restUtil.getErrorMessage(Api.UPDATE_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
-        //pmisEmployeeOfficeNodeService.parseJsonAndUpdateEmployeeOffice(inputNode);
-        
         JSONObject responseBody = new JSONObject();
         responseBody.put("oid", requestParams.get("employeeOid"));
 
@@ -1410,7 +1407,7 @@ public class DataEmployeeService {
 
         JSONObject employeeOfficeDoc = null;
         try {
-            //employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
+            employeeOfficeDoc = repository.getEmployeeOfficeDetails(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.APPEND_NODE_EMPLOYEE_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
