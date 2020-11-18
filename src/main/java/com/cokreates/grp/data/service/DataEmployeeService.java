@@ -384,7 +384,7 @@ public class DataEmployeeService {
 
         JSONArray employeeDoc = null;
         try {
-            employeeDoc = repository.readMainEmployeeByOfficeOfficeUnit(requestParam);
+            employeeDoc = repository.readMainEmployeeByOfficeOfficeUnitV2(requestParam);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
@@ -407,7 +407,7 @@ public class DataEmployeeService {
 
         JSONArray employeeDoc = null;
         try {
-            employeeDoc = repository.readMainEmployeeByOffice(requestParam);
+            employeeDoc = repository.readMainEmployeeByOfficeV2(requestParam);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";

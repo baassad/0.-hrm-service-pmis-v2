@@ -101,6 +101,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return repository.findAllByEmployeeOidAndOfficeOidAndRowStatus(employeeOid, officeOid, Constant.STATUS_ACTIVE);
 	}
 	
+	public List<EmployeeOfficeV2> getEmployeeOfficeByOfficeOidAndOfficeUnitOid(String officeOid, String officeUnitOid) {
+		return repository.findAllByOfficeOidAndOfficeUnitOidAndRowStatus(officeOid, officeUnitOid, Constant.STATUS_ACTIVE);
+	}
+	
 	public List<EmployeeOfficeV2> getEmployeeOfficeByOfficeOid(String officeOid) {
 		return repository.findAllByOfficeOidAndRowStatus(officeOid, Constant.STATUS_ACTIVE);
 	}

@@ -181,7 +181,66 @@ public class DataCustomRepository {
 
         return dataUtil.listToJsonArray(result);
     }
+    
+    
+    public JSONArray readMainEmployeeByOfficeV2(JSONObject queryParam) throws Exception {
+    	JSONArray finalResult = new JSONArray();
+        JSONArray officeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        String officeOid = officeOidList.getString(0);
 
+        List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeOid(officeOid);
+        for (EmployeeOfficeV2 office : officeList) {
+			JSONArray employeeOfficeList = new JSONArray();
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(office);
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("oid", office.getEmployeeOfficeOid());
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
+    		
+    		JSONObject object = new JSONObject();
+    		object.put("oid", office.getEmployeeOid());
+    		object.put("general", getPimsByOid(office.getEmployeeOid()).get("general"));
+    		object.put("nodes", employeeOfficeList);
+    		
+    		finalResult.put(object);
+		}
+		
+        return finalResult;
+    }
+
+    public JSONArray readMainEmployeeByOfficeOfficeUnitV2(JSONObject queryParam) throws Exception {
+    	JSONArray finalResult = new JSONArray();
+        JSONArray officeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        String officeOid = officeOidList.getString(0);
+
+        JSONArray officeUnitOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeUnitOidList");
+        String officeUnitOid = officeUnitOidList.getString(0);
+        
+        List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeOidAndOfficeUnitOid(officeOid, officeUnitOid);
+		for (EmployeeOfficeV2 office : officeList) {
+			JSONArray employeeOfficeList = new JSONArray();
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(office);
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("oid", office.getEmployeeOfficeOid());
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
+    		
+    		JSONObject object = new JSONObject();
+    		object.put("oid", office.getEmployeeOid());
+    		object.put("general", getPimsByOid(office.getEmployeeOid()).get("general"));
+    		object.put("nodes", employeeOfficeList);
+    		
+    		finalResult.put(object);
+		}
+		
+        return finalResult;
+    }
+    
+    
     public JSONArray readMainEmployeeByOidSet(JSONObject queryParam) throws Exception {
 
         JSONArray employeeOidList = queryParam.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
