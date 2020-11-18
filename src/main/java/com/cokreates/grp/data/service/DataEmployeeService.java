@@ -844,6 +844,51 @@ public class DataEmployeeService {
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 	}
+	
+	public ResponseEntity<?> readEmployeeOfficeV2ByOffice(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        requestParams.put("officeOid", officeOidList.get(0));
+
+        JSONArray employeeOfficeList = null;
+        try {
+        	employeeOfficeList = repository.readEmployeeOfficeV2ByOffice(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int j = 0; j < employeeOfficeList.length(); j++){
+            JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+            
+            employeeOffice.put("oid", employeeOffice.getString("employeeOid"));
+            employeeOffice.put("employeeOfficeOid", employeeOffice.getString("employeeOfficeOid"));
+            JSONObject pimsObject = repository.getPimsByOid(employeeOffice.getString("employeeOid"));
+            if (pimsObject.get("general") != null){
+                if(pimsObject.getJSONObject("general").has("nameEn")){
+                    employeeOffice.put("nameEn", pimsObject.getJSONObject("general").get("nameEn"));
+                }
+                if(pimsObject.getJSONObject("general").has("nameBn")){
+                    employeeOffice.put("nameBn", pimsObject.getJSONObject("general").get("nameBn"));
+                }
+                if(pimsObject.getJSONObject("general").has("phone")){
+                    employeeOffice.put("phone", pimsObject.getJSONObject("general").get("phone"));
+                }
+                if(pimsObject.getJSONObject("general").has("email")){
+                    employeeOffice.put("email", pimsObject.getJSONObject("general").get("email"));
+                }
+            }
+            
+            resultData.put(employeeOffice);
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
 
     public ResponseEntity<?> readEmployeeByOfficeAndEmployeeType(JSONObject requestParams, String employeeType) {
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");

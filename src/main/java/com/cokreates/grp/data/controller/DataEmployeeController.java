@@ -305,7 +305,8 @@ public class DataEmployeeController {
             String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
-        return dataEmployeeService.readEmployeeOfficeByOffice(jsonBody);
+        //return dataEmployeeService.readEmployeeOfficeByOffice(jsonBody);
+        return dataEmployeeService.readEmployeeOfficeV2ByOffice(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_ADMIN_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })

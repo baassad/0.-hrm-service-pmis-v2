@@ -1,9 +1,12 @@
 package com.cokreates.grp.data.repository;
 
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2;
 import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
 import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.data.util.DataUtil;
 import com.cokreates.grp.data.util.JsonUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -513,55 +516,36 @@ public class DataCustomRepository {
                      + queryParams.getString("officeOidList")
                      + ")%%'";
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
-        
-        addNewImportedData(queryParams, result);
         return dataUtil.listToJsonArray(result);
     }
 	
-	public void addNewImportedData(JSONObject queryParams, List<Map <String, Object>> result) {
-		String query2 = "SELECT  hrm.pmis.oid as oid, "
-                + "hrm.pmis.employee_main->'personal'->'general' as general, "
-                + "hrm.pmis.employee_office as employeeoffice "
-                + "FROM hrm.pmis "   
-                + "WHERE "  
-                + "hrm.pmis.employee_office = 'null' ";
-		List<Map <String, Object>> subResult = jdbcTemplate.queryForList(query2);
-        for (Map<String, Object> map : subResult) {
-        	List<JSONObject> subList = new ArrayList<JSONObject>();
-        	List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid((String) map.get("oid"));
-        	for (EmployeeOfficeV2DTO nodeDTO : officeList) {
-        		if (queryParams.getString("officeOidList").contains(nodeDTO.getOfficeOid())) {
-        			JSONObject node = new JSONObject();
-            		node.put("oid", nodeDTO.getEmployeeOfficeOid());
-            		node.put("createdBy", nodeDTO.getCreatedBy());
-            		node.put("createdOn", nodeDTO.getCreatedOn()==null?null:nodeDTO.getCreatedOn().getTime());
-            		node.put("updatedBy", nodeDTO.getUpdatedBy());
-            		node.put("updatedOn", nodeDTO.getUpdatedOn()==null?null:nodeDTO.getUpdatedOn().getTime());
-            		node.put("config", nodeDTO.getConfig());
-            		node.put("status", nodeDTO.getStatus());
-            		node.put("dataStatus", nodeDTO.getDataStatus());
-            		node.put("rowStatus", nodeDTO.getRowStatus());
-            		node.put("officeOid", nodeDTO.getOfficeOid());
-            		node.put("officeUnitOid", nodeDTO.getOfficeUnitOid());
-            		node.put("officeUnitPostOid", nodeDTO.getOfficeUnitPostOid());
-            		node.put("employmentTypeOid", nodeDTO.getEmploymentTypeOid());
-            		node.put("isOfficeHead", nodeDTO.getIsOfficeHead());
-            		node.put("isOfficeAdmin", nodeDTO.getIsOfficeAdmin());
-            		node.put("isApprover", nodeDTO.getIsApprover());
-            		node.put("isReviewer", nodeDTO.getIsReviewer());
-            		node.put("isAwardAdmin", nodeDTO.getIsAwardAdmin());
-            		node.put("isAttendanceAdmin", nodeDTO.getIsAttendanceAdmin());
-            		node.put("isAttendanceDataEntryOperator", nodeDTO.getIsAttendanceDataEntryOperator());
-            		node.put("responsibilityType", nodeDTO.getResponsibilityType());
-            		subList.add(node);
-				}
-			}
-        	map.put("employeeoffice", subList);
+	public JSONArray readEmployeeOfficeV2ByOffice(JSONObject queryParams) {
+		JSONArray employeeOfficeList = new JSONArray();
+		List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeOid(queryParams.getString("officeOid"));
+		for (EmployeeOfficeV2 office : officeList) {
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(office);
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("oid", office.getEmployeeOfficeOid());
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
 		}
-        
-        result.addAll(subResult);
+        return employeeOfficeList;
 	}
-
+	
+	public JSONObject getPimsByOid(String oid) {
+        String query = "SELECT  hrm.pmis.oid as oid, "
+                     + "hrm.pmis.employee_main->'personal'->'general' as general "
+                     + "FROM hrm.pmis "   
+                     + "WHERE "  
+                     + "hrm.pmis.oid = '"
+                     + oid
+                     +"'";
+        Map<String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
+    }
+	
     public JSONArray readEmployeeOfficeByEmployee(JSONObject queryParams) {
         String query = "SELECT  hrm.pmis.oid as oid, "
                 + "hrm.pmis.employee_main->'personal'->'general' as general, "
