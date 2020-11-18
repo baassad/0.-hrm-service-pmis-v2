@@ -86,11 +86,15 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		}
     }
 
-	public List<EmployeeOfficeV2DTO> getEmployeeOfficeByEmployeeOid(String employeeOid) {
+	public List<EmployeeOfficeV2DTO> getEmployeeOfficeListByEmployeeOid(String employeeOid) {
 		List<EmployeeOfficeV2DTO> result = new ArrayList<>();
-		List<EmployeeOfficeV2> officeList = repository.findAllByEmployeeOidAndRowStatus(employeeOid, Constant.STATUS_ACTIVE);
+		List<EmployeeOfficeV2> officeList = getEmployeeOfficeByEmployeeOid(employeeOid);
 		officeList.stream().forEach(createdItem -> result.add(convertEntityToDTO(createdItem)));
 		return result;
+	}
+	
+	public List<EmployeeOfficeV2> getEmployeeOfficeByEmployeeOid(String employeeOid) {
+		return repository.findAllByEmployeeOidAndRowStatus(employeeOid, Constant.STATUS_ACTIVE);
 	}
 	
 	public List<EmployeeOfficeV2> getEmployeeOfficeByEmployeeOidAndOfficeOid(String employeeOid, String officeOid) {

@@ -671,7 +671,7 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(requestParams.getString("employeeOid"));
+        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeListByEmployeeOid(requestParams.getString("employeeOid"));
         if (officeList.size() > 0) {
         	responseBody.put("main", convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList));
 		} else {

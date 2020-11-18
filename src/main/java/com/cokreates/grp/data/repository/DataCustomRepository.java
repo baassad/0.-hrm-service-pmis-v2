@@ -682,7 +682,7 @@ public class DataCustomRepository {
     
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
-		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(employeeOid);
+		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeListByEmployeeOid(employeeOid);
 		convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
     	return subList;
 	}
