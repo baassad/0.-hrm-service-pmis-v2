@@ -194,15 +194,18 @@ public class DataCustomRepository {
         String query =
                 "SELECT " +
                     "p.oid as oid, " +
-                    "p.employee_main->'personal'->'general' as general, " +
-                    "p.employee_office  -> 'nodes' as nodes " +
+                    "p.employee_main->'personal'->'general' as general " +
+                    //"p.employee_office  -> 'nodes' as nodes " +
                 "FROM " +
                     "hrm.pmis p " +
                 "WHERE " +
                     "p.oid in (" + employeeOidListString + ")";
 
         List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
-
+        for (Map<String, Object> map : result) {
+        	map.put("nodes", getEmployeeOfficeAndConvertToJSON((String) map.get("oid")));
+		}
+        
         return dataUtil.listToJsonArray(result);
     }
 
