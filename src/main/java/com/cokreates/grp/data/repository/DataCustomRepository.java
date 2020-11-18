@@ -112,8 +112,8 @@ public class DataCustomRepository {
     public JSONObject readEmployeeDetails(JSONObject queryParam) throws Exception {
         String query =
                 "SELECT " +
-                    "p.employee_main->'personal'->'general' as general, " +
-                    "p.employee_office->'nodes' as nodes " +
+                    "p.employee_main->'personal'->'general' as general " +
+                    //"p.employee_office->'nodes' as nodes " +
                 "FROM " +
                     "hrm.pmis p " +
                 "WHERE " +
@@ -121,10 +121,7 @@ public class DataCustomRepository {
                         queryParam.getString("employeeOid") +
                     "'";
         Map<String, Object> result = jdbcTemplate.queryForMap(query);
-        if (result.get("nodes") == null) {
-			result.put("nodes", getEmployeeOfficeAndConvertToJSON(queryParam.getString("employeeOid")));
-		}
-        
+        result.put("nodes", getEmployeeOfficeAndConvertToJSON(queryParam.getString("employeeOid")));
         return dataUtil.mapToJsonObject(result);
     }
 
@@ -682,13 +679,12 @@ public class DataCustomRepository {
     
     public List<JSONObject> getEmployeeOfficeAndConvertToJSON(String employeeOid) {
 		List<JSONObject> subList = new ArrayList<JSONObject>();
-		List<EmployeeOfficeV2DTO> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeListByEmployeeOid(employeeOid);
-		convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
-    	return subList;
+		List<EmployeeOfficeV2> pmisOfficeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(employeeOid);
+		return convertPmisEmployeeOfficeListToJsonList(subList, pmisOfficeList);
 	}
     
-    public List<JSONObject> convertPmisEmployeeOfficeListToJsonList(List<JSONObject> subList, List<EmployeeOfficeV2DTO> pmisOfficeList) {
-    	for (EmployeeOfficeV2DTO nodeDTO : pmisOfficeList) {
+    public List<JSONObject> convertPmisEmployeeOfficeListToJsonList(List<JSONObject> subList, List<EmployeeOfficeV2> pmisOfficeList) {
+    	for (EmployeeOfficeV2 nodeDTO : pmisOfficeList) {
     		JSONObject node = new JSONObject();
     		node.put("oid", nodeDTO.getEmployeeOfficeOid());
     		node.put("createdBy", nodeDTO.getCreatedBy());
