@@ -617,6 +617,28 @@ public class DataCustomRepository {
         List<Map <String, Object>> result = jdbcTemplate.queryForList(query);
         return dataUtil.listToJsonArray(result);
     }
+    
+    public JSONArray readImproperResponsibilityTypeByEmployee(JSONObject queryParams) {
+    	List<String> employeeOids = new ArrayList<>();
+    	JSONArray employeeOidList = queryParams.getJSONArray("employeeOidList");
+    	for (int i = 0; i < employeeOidList.length(); i++) {
+        	employeeOids.add(employeeOidList.getString(i));
+        }
+		JSONArray employeeOfficeList = new JSONArray();
+		List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getByEmployeeOidAndResponsibilityType(employeeOids);
+		for (EmployeeOfficeV2 office : officeList) {
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(office);
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("employeeOfficeOid", office.getEmployeeOfficeOid());
+			dtoJsonObj.put("responsibilityType", "No main responsibility");
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
+		}
+        return employeeOfficeList;
+	}
+    
 
     public String queryUpdateEmployeeTempInPmis(JSONObject employeeTemp, String employeeOid){
         String query = " UPDATE \n"

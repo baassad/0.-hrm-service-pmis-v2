@@ -386,7 +386,8 @@ public class DataEmployeeController {
             String errorMessage = restUtil.getErrorMessage(Api.READ_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
-        return dataEmployeeService.readImproperResponsibilityTypeByEmployee(jsonBody);
+        //return dataEmployeeService.readImproperResponsibilityTypeByEmployee(jsonBody);
+        return dataEmployeeService.readImproperResponsibilityTypeByEmployeeV2(jsonBody);
     }
 
     @RequestMapping(value = Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, 

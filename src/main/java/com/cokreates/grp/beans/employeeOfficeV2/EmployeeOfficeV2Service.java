@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -118,6 +119,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 	
 	public EmployeeOfficeV2 findByEmployeeOidAndEmployeeOfficeOid(String employeeOid, String employeeOfficeOid) {
 		return repository.findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(employeeOid, employeeOfficeOid, Constant.STATUS_ACTIVE);
+	}
+	
+	public List<EmployeeOfficeV2> getByEmployeeOidAndResponsibilityType(List<String> oidList) {
+		return repository.findAllByEmployeeOidInAndResponsibilityTypeInAndRowStatus(oidList, Arrays.asList("", null), Constant.STATUS_ACTIVE);
 	}
 	
     public List<EmployeeOfficeV2DTO> syncEmployeeOffice() {
