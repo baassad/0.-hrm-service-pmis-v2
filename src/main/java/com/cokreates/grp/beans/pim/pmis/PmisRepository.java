@@ -44,5 +44,11 @@ public interface PmisRepository extends JpaRepository<Pmis,String > {
             "where oid in :oids",nativeQuery = true)
     List<EmployeePersonalDetails> getEmployeePersonalInfoDetails(@Param("oids") List<String> oids);
 
+    @Query(value = "select oid,employee_main -> 'personal' -> 'general' ->> 'tinNo' as tinNo," +
+            " employee_main -> 'personal' -> 'general' ->> 'nid' as nid," +
+            "employee_main -> 'professional' -> 'professionalGeneral' ->> 'govtId' as govtId" +
+            " from hrm.pmis where oid in :oids")
+    List<EmployeePayBillDetails> getEmployeeDetails(@Param("oids")List<String> oids);
+
 
 }
