@@ -8,6 +8,7 @@ import com.cokreates.grp.data.util.JsonUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -562,6 +563,23 @@ public class DataCustomRepository {
                         +"'";
         System.out.println(query);
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
+        return dataUtil.mapToJsonObject(result);
+	}
+	
+	public JSONObject readOfficeByEmployeeV2(JSONObject queryParams, String permissionType) {
+        JSONArray employeeOfficeList = new JSONArray();
+        List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOid(queryParams.getString("employeeOid"));
+        if (officeList.size() > 0) {
+        	Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(officeList.get(0));
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("oid", officeList.get(0).getEmployeeOfficeOid());
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
+		}
+        Map <String, Object> result = new HashedMap();
+        result.put("office", employeeOfficeList);
         return dataUtil.mapToJsonObject(result);
 	}
 

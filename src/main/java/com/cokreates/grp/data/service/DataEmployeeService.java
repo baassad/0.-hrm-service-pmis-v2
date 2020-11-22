@@ -770,7 +770,7 @@ public class DataEmployeeService {
         
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
+            employeeDoc = repository.readOfficeByEmployeeV2(requestParamsOid, permissionType);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
