@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.cokreates.core.*;
 import com.cokreates.grp.beans.common.EmployeeInformationIncludedGradeDTO;
+import com.cokreates.grp.beans.pim.pmis.EmployeePayBillDetails;
 import com.cokreates.grp.util.components.ResultBuildingComponent;
 import com.cokreates.grp.util.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,11 @@ public class EmployeeRestController extends MasterRestController<EmployeeDTO, Em
     @PostMapping(Constant.ENDPOINT_GET_PROFILE)
     public ResponseModel<EmployeeInformationDTO> getEmployeeProfile(@RequestBody RequestModel<MasterDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeInformation(requestDTO.getHeader(), employeeService.getProfileInfo(requestDTO.getBody().getData().get(0).getOid()));
+    }
+
+    @PostMapping(Constant.ENDPOINT_GET_PAY_BILL_DETAILS)
+    public ResponseModel<EmployeePayBillDetails> getEmployeePaybillDetails(@RequestBody RequestModel<String> requestDTO){
+        return resultBuildingComponent.getResponse(requestDTO.getHeader(),employeeService.getEmployeePaybillDetails(requestDTO.getBody().getData()));
     }
 
 

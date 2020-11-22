@@ -15,6 +15,7 @@ import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
 import com.cokreates.grp.beans.pim.grade.Grade;
 import com.cokreates.grp.beans.pim.grade.GradeRepository;
 import com.cokreates.grp.beans.pim.pmis.EmployeeGrade;
+import com.cokreates.grp.beans.pim.pmis.EmployeePayBillDetails;
 import com.cokreates.grp.beans.pim.pmis.PmisRepository;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -167,6 +169,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         }
 
         return finalEmployeeOfficeDTOList;
+
+    }
+
+    public List<EmployeePayBillDetails> getEmployeePaybillDetails(@NotBlank List<String> oids){
+
+        List<EmployeePayBillDetails> payBillDetailsList = pmisRepository.getEmployeeDetails(oids);
+
+        return payBillDetailsList;
 
     }
 

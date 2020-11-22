@@ -63,20 +63,20 @@ eureka:
     enabled: FALSE
 
 cmn-service-file-management:
-  url: http://sqa.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
 cmn-service-organogram:
-  url: http://sqa.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
 notification-service-ictd:
   url: http://dev-hscm.grp.gov.bd/ictd/api/cmn-service-notification/cmn-service-notification
 email-service-ictd:
   url: http://dev-hscm.grp.gov.bd/ictd/api/cmn-service-notification/cmn-service-notification
 hrm-service-award-publication:
-  url: http://sqa.grp.gov.bd/global/api/hrm-service-award-publication/hrm-service-award-publication
+  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-award-publication/hrm-service-award-publication
 hrm-service:
-  url: http://sqa.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+  url: http://dev-hscm.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
 cmn-service-global:
-  url: http://sqa.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
+  url: http://dev-hscm.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
 auth-user:
-  url: http://sqa.grp.gov.bd/global/api/auth-service/auth-service/sec/master
+  url: http://dev-hscm.grp.gov.bd/global/api/auth-service/auth-service/sec/master
 pmis-web-home:
   url: http://dev-hscm.grp.gov.bd/global/hrm2/hrm/pmis
