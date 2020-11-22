@@ -553,6 +553,22 @@ public class DataCustomRepository {
         
         return dataUtil.listToJsonArray(result); 
     }
+    
+    public JSONArray readEmployeeByOfficeV2(JSONObject queryParams) {
+    	List<Map <String, Object>> result = new ArrayList<>();
+    	List<String> employeeOids = new ArrayList<>();
+    	JSONArray employeeOidList = queryParams.getJSONArray("officeOidList");
+    	for (int i = 0; i < employeeOidList.length(); i++) {
+        	employeeOids.add(employeeOidList.getString(i));
+        }
+    	List<EmployeeOfficeV2> officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeOidList(employeeOids);
+        for (EmployeeOfficeV2 employeeOfficeV2 : officeList) {
+			Map<String, Object> map = new HashedMap();
+			map.put("oid", employeeOfficeV2.getEmployeeOid());
+			result.add(map);
+		}
+        return dataUtil.listToJsonArray(result); 
+    }
 
 	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
         String query = "SELECT  p.employee_office -> 'nodes' as office "

@@ -13,6 +13,7 @@ public interface EmployeeOfficeV2Repository extends
 
 
 	List<EmployeeOfficeV2> findAllByOfficeOidAndRowStatus(String officeOid, String rowStatus);
+	List<EmployeeOfficeV2> findAllByOfficeOidInAndRowStatus(List<String> officeOidList, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndRowStatus(String employeeOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndOfficeOidAndRowStatus(String employeeOid, String officeOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByOfficeOidAndOfficeUnitOidAndRowStatus(String officeOid, String officeUnitOid, String rowStatus);

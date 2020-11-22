@@ -110,6 +110,10 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 		return repository.findAllByOfficeOidAndRowStatus(officeOid, Constant.STATUS_ACTIVE);
 	}
 	
+	public List<EmployeeOfficeV2> getEmployeeOfficeByOfficeOidList(List<String> officeOidList) {
+		return repository.findAllByOfficeOidInAndRowStatus(officeOidList, Constant.STATUS_ACTIVE);
+	}
+	
 	public List<EmployeeOfficeV2DTO> getEmployeeOfficeByEmployeeOidAndOfficeUnitPostOid(String employeeOid, String officeUnitPostOid) {
 		List<EmployeeOfficeV2DTO> result = new ArrayList<>();
 		List<EmployeeOfficeV2> officeList = repository.findAllByEmployeeOidAndOfficeUnitPostOidAndRowStatusAndStatus(employeeOid, officeUnitPostOid, Constant.STATUS_ACTIVE, "Active");

@@ -724,21 +724,27 @@ public class DataEmployeeService {
         
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
         requestParams.remove("miscellaneousRequestProperty");
-        String officeOidListFormatted = "";
-        for(int i =0; i< officeOidList.length() ; i++){
-            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
-        }
-        if (officeOidListFormatted.length() > 0){
-            officeOidListFormatted = officeOidListFormatted.substring(1);
-        }
-        else{
-            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
-        }
-        requestParams.put("officeOidList", officeOidListFormatted);
+        requestParams.put("officeOidList", officeOidList);
+        
+        if (officeOidList.length() == 0) {
+        	return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+		}
+//        String officeOidListFormatted = "";
+//        for(int i =0; i< officeOidList.length() ; i++){
+//            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + "710c3d47-63a6-469d-90a6-f2c33c81f080" + "\"";
+//        }
+//        
+//        if (officeOidListFormatted.length() > 0){
+//            officeOidListFormatted = officeOidListFormatted.substring(1);
+//        }
+//        else{
+//            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+//        }
+//        requestParams.put("officeOidList", officeOidListFormatted);
 
 		JSONArray oidList = null;
         try {
-            oidList = repository.readEmployeeByOffice(requestParams);
+            oidList = repository.readEmployeeByOfficeV2(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
