@@ -13,8 +13,10 @@ public interface EmployeeOfficeV2Repository extends
 
 
 	List<EmployeeOfficeV2> findAllByOfficeOidAndRowStatus(String officeOid, String rowStatus);
-	List<EmployeeOfficeV2> findAllByOfficeOidInAndRowStatus(List<String> officeOidList, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndRowStatus(String employeeOid, String rowStatus);
+    List<EmployeeOfficeV2> findAllByOfficeOidInAndRowStatus(List<String> officeOidList, String rowStatus);
+	List<EmployeeOfficeV2> findAllByOfficeUnitOidInAndRowStatus(List<String> officeUnitOidList, String rowStatus);
+	List<EmployeeOfficeV2> findAllByOfficeUnitPostOidInAndRowStatus(List<String> officeUnitPostOidList, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndOfficeOidAndRowStatus(String employeeOid, String officeOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByOfficeOidAndOfficeUnitOidAndRowStatus(String officeOid, String officeUnitOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidInAndResponsibilityTypeInAndRowStatus(List<String> employeeOidList, List<String> resList, String rowStatus);

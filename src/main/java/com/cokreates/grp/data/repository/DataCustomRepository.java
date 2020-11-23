@@ -517,8 +517,48 @@ public class DataCustomRepository {
 
         return resultArray;
     }
+    
+    public JSONArray getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPostV2(JSONObject queryParameters, String category) throws Exception {
+        JSONArray listOfOid = queryParameters.getJSONArray("listOfOid");
+        JSONArray finalResult = new JSONArray();
+    	List<String> oidList = new ArrayList<>();
+    	for (int i = 0; i < listOfOid.length(); i++) {
+    		oidList.add(listOfOid.getString(i));
+        }
+        
+    	List<EmployeeOfficeV2> officeList = new ArrayList<>();
+        if (category.equals("OFFICE")){
+        	officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeOidList(oidList);
+        }
+        else if (category.equals("OFFICE_UNIT")){
+        	officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeUnitOidList(oidList);
+        }
+        else if (category.equals("OFFICE_UNIT_POST")){
+        	officeList = employeeOfficeV2Service.getEmployeeOfficeByOfficeUnitPostOidList(oidList);
+        }
 
+        for (EmployeeOfficeV2 office : officeList) {
+        	JSONArray employeeOfficeList = new JSONArray();
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(office);
+			JSONObject dtoJsonObj = new JSONObject(json);
+			dtoJsonObj.put("oid", office.getEmployeeOfficeOid());
+			dtoJsonObj.remove("createdOn");
+			dtoJsonObj.remove("updatedOn");
+    		employeeOfficeList.put(dtoJsonObj);
+    		
+    		JSONObject object = new JSONObject();
+    		object.put("oid", office.getEmployeeOid());
+    		object.put("personal_general", getPimsByOid(office.getEmployeeOid()).get("general"));
+    		JSONObject employeeOffice = new JSONObject();
+    		employeeOffice.put("nodes", employeeOfficeList);
+    		object.put("employee_office", employeeOffice);
+    		finalResult.put(object);
+		}
 
+        return finalResult;
+    }
+    
     
 	public JSONObject getEmployeeOffice(JSONObject queryParams) {
         String query = "SELECT p.employee_office->'nodes' as nodes "

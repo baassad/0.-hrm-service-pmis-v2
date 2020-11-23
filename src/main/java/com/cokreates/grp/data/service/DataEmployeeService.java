@@ -623,7 +623,8 @@ public class DataEmployeeService {
         try {
             if((category.equals("OFFICE") || category.equals("OFFICE_UNIT") || category.equals("OFFICE_UNIT_POST")) 
                 && totalNumberOfOids > 0){
-                response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPost(requestParameters, category);
+                //response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPost(requestParameters, category);
+                response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPostV2(requestParameters, category);
             }        
         } catch (Exception ex) {
             String errorMessage;
