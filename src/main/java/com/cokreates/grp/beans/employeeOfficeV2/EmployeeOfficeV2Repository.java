@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmployeeOfficeV2Repository extends
-        JpaRepository<EmployeeOfficeV2, String>,
-        JpaSpecificationExecutor<EmployeeOfficeV2> {
+public interface EmployeeOfficeV2Repository extends JpaRepository<EmployeeOfficeV2, String>, JpaSpecificationExecutor<EmployeeOfficeV2> {
 
-
+	List<EmployeeOfficeV2> findAllByEmployeeOid(String employeeOid);
 	List<EmployeeOfficeV2> findAllByOfficeOidAndRowStatus(String officeOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndRowStatus(String employeeOid, String rowStatus);
     List<EmployeeOfficeV2> findAllByOfficeOidInAndRowStatus(List<String> officeOidList, String rowStatus);
@@ -22,5 +20,4 @@ public interface EmployeeOfficeV2Repository extends
     List<EmployeeOfficeV2> findAllByEmployeeOidInAndResponsibilityTypeInAndRowStatus(List<String> employeeOidList, List<String> resList, String rowStatus);
     List<EmployeeOfficeV2> findAllByEmployeeOidAndOfficeUnitPostOidAndRowStatusAndStatus(String employeeOid, String officeUnitPostOid, String rowStatus, String status);
     EmployeeOfficeV2 findByEmployeeOidAndEmployeeOfficeOidAndRowStatus(String employeeOid, String employeeOfficeOid, String rowStatus);
-
 }
