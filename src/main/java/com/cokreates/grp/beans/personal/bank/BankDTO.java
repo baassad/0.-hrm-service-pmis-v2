@@ -1,11 +1,13 @@
 package com.cokreates.grp.beans.personal.bank;
 
 import com.cokreates.core.MasterDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BankDTO extends MasterDTO {
 
     private String nameBn;

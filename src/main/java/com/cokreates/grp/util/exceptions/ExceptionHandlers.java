@@ -36,11 +36,12 @@ public class ExceptionHandlers {
     private final ServiceConfiguration serviceConfiguration;
     private final HeaderUtilComponent headerUtilComponent;
 
-    @ResponseStatus(HttpStatus.OK)
+    /*@ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ServiceExceptionHolder.ResourceNotFoundException.class)
     public ResponseModel handleResourceNotFoundException(final ServiceExceptionHolder.ResourceNotFoundException ex) {
         return getProcessedApiErrorResponse(new ApiErrorResponse(ex.getMessage(), ex));
     }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServiceExceptionHolder.ResourceNotFoundDuringWriteRequestException.class)
@@ -91,7 +92,7 @@ public class ExceptionHandlers {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseModel handleNoHandlerFoundError(final NoHandlerFoundException e) {
         return getProcessedApiErrorResponse(new ApiErrorResponse("Invalid URL"));
-    }
+    }*/
 
     private ResponseModel<String> getProcessedApiErrorResponse(ApiErrorResponse apiErrorResponse) {
         log.error(apiErrorResponse.toString());
