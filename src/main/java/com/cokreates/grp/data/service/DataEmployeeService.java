@@ -3,6 +3,9 @@ package com.cokreates.grp.data.service;
 
 import com.cokreates.core.Constant;
 import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
@@ -23,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +53,8 @@ public class DataEmployeeService {
     @Autowired
     MasterDataComponent masterDataComponent;
 
+    @Autowired
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
     public ResponseEntity<?> createEmployee(JSONObject inputNode, JSONArray nodePath, JSONObject requestParameters) {
         String employeeOid = UUID.randomUUID().toString();
@@ -378,7 +384,7 @@ public class DataEmployeeService {
 
         JSONArray employeeDoc = null;
         try {
-            employeeDoc = repository.readMainEmployeeByOfficeOfficeUnit(requestParam);
+            employeeDoc = repository.readMainEmployeeByOfficeOfficeUnitV2(requestParam);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
@@ -401,7 +407,7 @@ public class DataEmployeeService {
 
         JSONArray employeeDoc = null;
         try {
-            employeeDoc = repository.readMainEmployeeByOffice(requestParam);
+            employeeDoc = repository.readMainEmployeeByOfficeV2(requestParam);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = "EXPECTED EXACTLY ONE, FOUND ZERO OR MULTIPLE RESULT FROM DATABASE";
@@ -617,7 +623,8 @@ public class DataEmployeeService {
         try {
             if((category.equals("OFFICE") || category.equals("OFFICE_UNIT") || category.equals("OFFICE_UNIT_POST")) 
                 && totalNumberOfOids > 0){
-                response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPost(requestParameters, category);
+                //response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPost(requestParameters, category);
+                response = repository.getQuerySearchByOfficeOrOfficeUnitOrOfficeUnitPostV2(requestParameters, category);
             }        
         } catch (Exception ex) {
             String errorMessage;
@@ -665,7 +672,12 @@ public class DataEmployeeService {
         }
 
         JSONObject responseBody = new JSONObject();
-        responseBody.put("main", employeeDoc.get("nodes"));
+        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeListByEmployeeOid(requestParams.getString("employeeOid"));
+        if (officeList.size() > 0) {
+        	responseBody.put("main", convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList));
+		} else {
+	        responseBody.put("main", employeeDoc.get("nodes"));
+		}
 
         JSONObject resultObject = new JSONObject();
         resultObject.put("body", responseBody);
@@ -673,25 +685,67 @@ public class DataEmployeeService {
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
     
+	public List<EmployeeOfficeDTO> convertPmisEmployeeOfficeListToEmployeeOfficeList(List<EmployeeOfficeV2DTO> dtoList) {
+		List<EmployeeOfficeDTO> resultList = new ArrayList<EmployeeOfficeDTO>();
+		for (EmployeeOfficeV2DTO nodeDTO : dtoList) {
+        	EmployeeOfficeDTO officeDTO = new EmployeeOfficeDTO();
+        	officeDTO.setOid(nodeDTO.getEmployeeOfficeOid());
+        	officeDTO.setEmploymentTypeOid(nodeDTO.getEmploymentTypeOid());
+        	officeDTO.setIsApprover(nodeDTO.getIsApprover());
+        	officeDTO.setIsOfficeAdmin(nodeDTO.getIsOfficeAdmin());
+        	officeDTO.setIsOfficeHead(nodeDTO.getIsOfficeHead());
+        	officeDTO.setIsReviewer(nodeDTO.getIsReviewer());
+            officeDTO.setJoiningDate(nodeDTO.getJoiningDate());
+            officeDTO.setOfficeOid(nodeDTO.getOfficeOid());
+            officeDTO.setOfficeUnitOid(nodeDTO.getOfficeUnitOid());
+            officeDTO.setOfficeUnitPostOid(nodeDTO.getOfficeUnitPostOid());
+            officeDTO.setStatus(nodeDTO.getStatus());
+            officeDTO.setIsOfficeUnitHead(nodeDTO.getIsOfficeUnitHead());
+            officeDTO.setResponsibilityType(nodeDTO.getResponsibilityType());
+            officeDTO.setIsAttendanceDataEntryOperator(nodeDTO.getIsAttendanceDataEntryOperator());
+            officeDTO.setIsAttendanceAdmin(nodeDTO.getIsAttendanceAdmin());
+            officeDTO.setIsAwardAdmin(nodeDTO.getIsAwardAdmin());
+            officeDTO.setNodeOid(nodeDTO.getNodeOid());
+            officeDTO.setDataStatus(nodeDTO.getDataStatus());
+            officeDTO.setRowStatus(nodeDTO.getRowStatus());
+            officeDTO.setCreatedBy(nodeDTO.getCreatedBy());
+            officeDTO.setUpdatedBy(nodeDTO.getUpdatedBy());
+            officeDTO.setCreatedOn(nodeDTO.getCreatedOn()==null?null:new Timestamp(nodeDTO.getCreatedOn().getTime()));
+            officeDTO.setUpdatedOn(nodeDTO.getUpdatedOn()==null?null:new Timestamp(nodeDTO.getUpdatedOn().getTime()));
+            officeDTO.setInchargeLabelBn(nodeDTO.getInchargeLabelBn());
+            officeDTO.setInchargeLabelEn(nodeDTO.getInchargeLabelEn());
+            officeDTO.setLastOfficeDate(nodeDTO.getLastOfficeDate());
+            resultList.add(officeDTO);
+		}
+		
+		return resultList;
+	}
+	
     public ResponseEntity<?> readEmployeeByOffice(JSONObject requestParams) {
         
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
         requestParams.remove("miscellaneousRequestProperty");
-        String officeOidListFormatted = "";
-        for(int i =0; i< officeOidList.length() ; i++){
-            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + officeOidList.getString(i) + "\"";
-        }
-        if (officeOidListFormatted.length() > 0){
-            officeOidListFormatted = officeOidListFormatted.substring(1);
-        }
-        else{
-            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
-        }
-        requestParams.put("officeOidList", officeOidListFormatted);
+        requestParams.put("officeOidList", officeOidList);
+        
+        if (officeOidList.length() == 0) {
+        	return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+		}
+//        String officeOidListFormatted = "";
+//        for(int i =0; i< officeOidList.length() ; i++){
+//            officeOidListFormatted = officeOidListFormatted + "|" + "\"" + "710c3d47-63a6-469d-90a6-f2c33c81f080" + "\"";
+//        }
+//        
+//        if (officeOidListFormatted.length() > 0){
+//            officeOidListFormatted = officeOidListFormatted.substring(1);
+//        }
+//        else{
+//            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
+//        }
+//        requestParams.put("officeOidList", officeOidListFormatted);
 
 		JSONArray oidList = null;
         try {
-            oidList = repository.readEmployeeByOffice(requestParams);
+            oidList = repository.readEmployeeByOfficeV2(requestParams);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_BY_OFFICE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -723,7 +777,7 @@ public class DataEmployeeService {
         
         JSONObject employeeDoc = null;
         try {
-            employeeDoc = repository.readOfficeByEmployee(requestParamsOid, permissionType);
+            employeeDoc = repository.readOfficeByEmployeeV2(requestParamsOid, permissionType);
         } catch (Exception ex) {
             String errorMessage = restUtil.getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -788,6 +842,51 @@ public class DataEmployeeService {
                     resultData.put(employeeOffice);
                 }
             }
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> readEmployeeOfficeV2ByOffice(JSONObject requestParams) {
+        JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        requestParams.put("officeOid", officeOidList.get(0));
+
+        JSONArray employeeOfficeList = null;
+        try {
+        	employeeOfficeList = repository.readEmployeeOfficeV2ByOffice(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int j = 0; j < employeeOfficeList.length(); j++){
+            JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+            
+            employeeOffice.put("oid", employeeOffice.getString("employeeOid"));
+            employeeOffice.put("employeeOfficeOid", employeeOffice.getString("employeeOfficeOid"));
+            JSONObject pimsObject = repository.getPimsByOid(employeeOffice.getString("employeeOid"));
+            if (pimsObject.get("general") != null){
+                if(pimsObject.getJSONObject("general").has("nameEn")){
+                    employeeOffice.put("nameEn", pimsObject.getJSONObject("general").get("nameEn"));
+                }
+                if(pimsObject.getJSONObject("general").has("nameBn")){
+                    employeeOffice.put("nameBn", pimsObject.getJSONObject("general").get("nameBn"));
+                }
+                if(pimsObject.getJSONObject("general").has("phone")){
+                    employeeOffice.put("phone", pimsObject.getJSONObject("general").get("phone"));
+                }
+                if(pimsObject.getJSONObject("general").has("email")){
+                    employeeOffice.put("email", pimsObject.getJSONObject("general").get("email"));
+                }
+            }
+            
+            resultData.put(employeeOffice);
         }
         JSONObject responseBody = new JSONObject();
         responseBody.put("data", resultData);
@@ -1056,6 +1155,52 @@ public class DataEmployeeService {
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
+    
+    public ResponseEntity<?> readImproperResponsibilityTypeByEmployeeV2(JSONObject requestParams) {
+    	JSONArray employeeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
+        requestParams.remove("miscellaneousRequestProperty");
+        requestParams.put("employeeOidList", employeeOidList);
+
+        JSONArray employeeOfficeList = null;
+        try {
+        	employeeOfficeList = repository.readImproperResponsibilityTypeByEmployee(requestParams);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        JSONArray resultData = new JSONArray();
+        for(int j = 0; j < employeeOfficeList.length(); j++){
+            JSONObject employeeOffice = employeeOfficeList.getJSONObject(j);
+            
+            employeeOffice.put("oid", employeeOffice.getString("employeeOid"));
+            employeeOffice.put("employeeOfficeOid", employeeOffice.getString("employeeOfficeOid"));
+            JSONObject pimsObject = repository.getPimsByOid(employeeOffice.getString("employeeOid"));
+            if (pimsObject.get("general") != null){
+                if(pimsObject.getJSONObject("general").has("nameEn")){
+                    employeeOffice.put("nameEn", pimsObject.getJSONObject("general").get("nameEn"));
+                }
+                if(pimsObject.getJSONObject("general").has("nameBn")){
+                    employeeOffice.put("nameBn", pimsObject.getJSONObject("general").get("nameBn"));
+                }
+                if(pimsObject.getJSONObject("general").has("phone")){
+                    employeeOffice.put("phone", pimsObject.getJSONObject("general").get("phone"));
+                }
+                if(pimsObject.getJSONObject("general").has("email")){
+                    employeeOffice.put("email", pimsObject.getJSONObject("general").get("email"));
+                }
+            }
+            
+            resultData.put(employeeOffice);
+        }
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", resultData);
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+	}
+    
 
     public ResponseEntity<?> updateNodeInDocumentForRequest(JSONObject requestParameters){
         JSONObject inputNode        = requestParameters.getJSONObject("node");
@@ -1620,5 +1765,9 @@ public class DataEmployeeService {
         resultObject.put("body", responseBody);
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+    }
+    
+    public JSONArray getAllEmployeeList() {
+    	return repository.getAllEmployeeList();
     }
 }

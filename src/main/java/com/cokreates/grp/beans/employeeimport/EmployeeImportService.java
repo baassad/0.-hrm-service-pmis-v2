@@ -1,10 +1,12 @@
 package com.cokreates.grp.beans.employeeimport;
 
+import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
-import com.cokreates.grp.beans.common.EmployeeDetailsMasterDTO;
-import com.cokreates.grp.beans.common.EmployeeOfficeMasterDTO;
 import com.cokreates.grp.beans.employee.Employee;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
+import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -36,6 +39,12 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
 
     @Autowired
     DataEmployeeService dataEmployeeService;
+    
+    @Autowired
+    EmployeeOfficeV2Service employeeOfficeV2Service;
+    
+    @Autowired
+    EmployeeOfficeService employeeOfficeService;
 
     JSONArray path =  new JSONArray("[\"personal\", \"general\"]");
 
@@ -118,18 +127,43 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         }
 
         List<String> importedEmployeeOids = new ArrayList<>();
-
         String insertedOid;
-
         for(String oid:employeeMasterInfoMap.keySet()){
             insertedOid = dataEmployeeService.importEmployees(path,employeeMasterInfoMap.get(oid),employeePersonalInfoMap.get(oid),employeeOfficeMap.get(oid));
             importedEmployeeOids.add(insertedOid);
+            if (employeeOfficeMap.get(oid).size() > 0) {
+            	createPmisEmployeeOfficeMapping(employeeMasterInfoMap.get(oid).getOid(), employeeOfficeMap.get(oid));
+			}
         }
-
 
         return importedEmployeeOids;
 
     }
+    
+    public void createPmisEmployeeOfficeMapping(String employeeOid, List<EmployeeOffice> employeeOffices) {
+    	List<EmployeeOfficeV2DTO> dtos = new ArrayList<EmployeeOfficeV2DTO>();
+    	for (EmployeeOffice employeeOffice : employeeOffices) {
+    		EmployeeOfficeV2DTO dto = new EmployeeOfficeV2DTO();
+    		dto.setEmployeeOid(employeeOid);
+    		dto.setEmployeeOfficeOid(employeeOffice.getOid());
+    	    dto.setOfficeOid(employeeOffice.getOfficeOid());
+    	    dto.setOfficeUnitOid(employeeOffice.getOfficeUnitOid());
+    	    dto.setOfficeUnitPostOid(employeeOffice.getOfficeUnitPostOid());
+    	    dto.setEmploymentTypeOid(employeeOffice.getEmploymentType()==null?null:employeeOffice.getEmploymentType().getOid());
+    	    dto.setInchargeLabelBn(employeeOffice.getInchargeLabelBn());
+    	    dto.setInchargeLabelEn(employeeOffice.getInchargeLabelEn());
+    	    dto.setJoiningDate(employeeOffice.getJoiningDate()==null?null:String.valueOf(employeeOffice.getJoiningDate().getTime()));
+    	    dto.setLastOfficeDate(employeeOffice.getLastOfficeDate()==null?null:String.valueOf(employeeOffice.getLastOfficeDate()));
+    	    dto.setStatus(employeeOffice.getStatus());
+    	    dto.setResponsibilityType(employeeOffice.getResponsibilityType());
+    	    dto.setIsOfficeAdmin(employeeOffice.getIsOfficeAdmin());
+    	    dto.setIsOfficeHead(employeeOffice.getIsOfficeHead());
+    		dtos.add(dto);
+		}
+    	
+    	employeeOfficeV2Service.create(dtos);
+    }
+    
 
     public List<String> importOfficeAdmin(List<String> officeOids){
 
@@ -148,4 +182,12 @@ public class EmployeeImportService extends MasterService<EmployeeDTO, Employee> 
         return importEmployees(employeeImportRequestDTO);
 
     }
+
+
+    public List<EmployeeOffice> getEmployeeOfficeListByEmployeeOfficeOidSet(Set<String> oidSet){
+        return employeeOfficeRepository.findAllByOidInAndStatus(oidSet, "Active");
+    }
+
 }
+
+

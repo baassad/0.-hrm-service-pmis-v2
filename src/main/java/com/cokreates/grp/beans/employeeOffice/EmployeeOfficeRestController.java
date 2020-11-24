@@ -4,15 +4,13 @@ import com.cokreates.core.Constant;
 import com.cokreates.core.MasterRestController;
 import com.cokreates.core.RequestModel;
 import com.cokreates.core.ResponseModel;
-import com.cokreates.grp.beans.employee.EmployeeDTO;
-import com.cokreates.grp.beans.employee.EmployeeService;
-import com.cokreates.grp.beans.personal.general.GeneralDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Collections;
 
@@ -32,6 +30,7 @@ public class EmployeeOfficeRestController extends MasterRestController<EmployeeO
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(), Collections.singletonList(employeeOfficeService.create(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));
     }
 
+    @Transactional
     @PostMapping(Constant.ENDPOINT_UPDATE_EMPLOYEE_OFFICE)
     public ResponseModel<EmployeeOfficeDTO> updateEmployeeOffice(@Valid @RequestBody RequestModel<EmployeeOfficeDTO> requestDTO){
         return resultBuildingComponent.retrieveResultForEmployeeOffice(requestDTO.getHeader(),Collections.singletonList(employeeOfficeService.updateEmployeeOffice(requestDTO.getBody().getData().get(0),requestDTO.getBody().getEmployeeOid())));

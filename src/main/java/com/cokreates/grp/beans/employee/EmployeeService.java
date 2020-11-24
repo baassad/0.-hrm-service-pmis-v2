@@ -5,8 +5,8 @@ import com.cokreates.grp.beans.common.*;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOffice;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeDTO;
 import com.cokreates.grp.beans.employeeOffice.EmployeeOfficeService;
-import com.cokreates.grp.beans.organogramDTO.OfficeDTO;
-import com.cokreates.grp.beans.organogramDTO.OfficeUnitDTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.beans.personal.file.FileDTO;
 import com.cokreates.grp.beans.personal.file.FileService;
 import com.cokreates.grp.beans.personal.general.GeneralDTO;
@@ -15,7 +15,6 @@ import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOfficeRepository;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceRequestBody;
 import com.cokreates.grp.daas.DataServiceResponse;
-import com.cokreates.grp.daas.DataServiceResponseForList;
 import com.cokreates.grp.util.components.ClassConversionComponent;
 import com.cokreates.grp.util.components.EmployeeDetailsRenderComponent;
 import com.cokreates.grp.util.components.HeaderUtilComponent;
@@ -27,11 +26,13 @@ import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.cokreates.grp.util.webclient.HrmPimClient;
 import com.cokreates.grp.util.webservice.WebService;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -90,6 +91,9 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
     @Autowired
     SwitchService switchService;
+    
+    @Autowired
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
     public EmployeeService(RequestBuildingComponent<EmployeeDTO> requestBuildingComponent,
                            DataServiceRestTemplateClient<EmployeeDTO, Employee> dataServiceRestTemplateClient){
@@ -135,7 +139,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         return getDataServiceRestTemplateClient().getRestTemplateResponseForEmployee(request, gDataEndPointUrl);
 
     }
-
+    
+    /*
     public  List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid,String officeUnitPostOid){
 
         DataServiceRequest<EmployeeDTO> request = getRequestBuildingComponent().getRequestForRead(null,null, employeeOid,
@@ -159,7 +164,15 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         return finalEmployeeOfficeDTOList;
 
     }
+    */
 
+    public  List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid,String officeUnitPostOid){
+        List<EmployeeOfficeV2DTO> officeList = employeeOfficeV2Service.getEmployeeOfficeByEmployeeOidAndOfficeUnitPostOid(employeeOid, officeUnitPostOid);
+        List<EmployeeOfficeDTO> employeeOfficeDTOList = employeeOfficeV2Service.convertPmisEmployeeOfficeListToEmployeeOfficeList(officeList);
+        return employeeOfficeDTOList;
+    }
+    
+    
     public List<EmployeeInformationDTO> getEmployeeInformationDTO(GetListByOidSetRequestBodyDTO requestDTO){
 
         String employeeOid = requestDTO.getOids().get(0);

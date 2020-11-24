@@ -44,6 +44,9 @@ public class Constant {
     public static final String ENDPOINT_SEARCH_EMPLOYEES = "/search-employees";
     public static final String ENDPOINT_SEARCH_EMPLOYEES_NOT_IMPORTED = "/search-employees-not-imported";
     public static final String ENDPOINT_GET_BY_EMPLOYEE_OID = "/get-by-employee-oid";
+    public static final String EMPLOYEE_OFFICE_V2 = "/employee-office-v2";
+    public static final String ENDPOINT_GET_EMPLOYEE_OFFICE_LIST_EMPLOYEE_OID = "/get-employee-office-list-by-employee-oid";
+    public static final String ENDPOINT_SYNC_EMPLOYEE_OFFICE = "/sync-employee-office";
 
     public static final String ENDPOINT_DOWNLOAD_FILE = "/api/v1/downloadFile";
     public static final String ENDPOINT_GET_EMPLOYEE_PROFILE_INFO = "/search/v1/get-list-by-oid-set-pmis-new";
@@ -136,6 +139,10 @@ public class Constant {
     public static final String OFFICE_UNIT = "OFFICE_UNIT";
     public static final String OFFICE_UNIT_POST = "OFFICE_UNIT_POST";
     public static final String COUNT = "COUNT";
+
+    public static final String YES = "Yes";
+    public static final String NO = "No";
+
     //http://localhost:5000/hrm/create/v1/emp
     
     //http://localhost:5000/hrm/get/v1/node-in-emp-doc

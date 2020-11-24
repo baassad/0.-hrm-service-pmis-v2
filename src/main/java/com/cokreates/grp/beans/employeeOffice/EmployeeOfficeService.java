@@ -1,10 +1,11 @@
 package com.cokreates.grp.beans.employeeOffice;
 
-import com.cokreates.core.Constant;
 import com.cokreates.core.MasterService;
 import com.cokreates.grp.beans.employee.EmployeeDTO;
 import com.cokreates.grp.beans.employee.EmployeeService;
-import com.cokreates.grp.beans.personal.general.GeneralDTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2DTO;
+import com.cokreates.grp.beans.employeeOfficeV2.EmployeeOfficeV2Service;
 import com.cokreates.grp.daas.DataServiceRequest;
 import com.cokreates.grp.daas.DataServiceResponse;
 import com.cokreates.grp.daas.DataServiceResponseForList;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
 
     @Autowired
     DataServiceClient dataServiceClient;
+    
+    @Autowired
+    EmployeeOfficeV2Service employeeOfficeV2Service;
 
     public EmployeeOfficeService(RequestBuildingComponent<EmployeeOfficeDTO> requestBuildingComponent,
                                  DataServiceRestTemplateClient< EmployeeOfficeDTO, EmployeeOffice> dataServiceRestTemplateClient){
@@ -46,12 +51,28 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
     }
 
     public EmployeeOfficeDTO updateEmployeeOffice(EmployeeOfficeDTO dto,String employeeOid){
-        DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
+        //DataServiceRequest<EmployeeOfficeDTO> request = getRequestBuildingComponent().getRequestForEmployeeOfficeForUpdate(dto,employeeOid);
+        EmployeeOfficeV2 node = employeeOfficeV2Service.findByEmployeeOidAndEmployeeOfficeOid(employeeOid, dto.getOid());
+        
+        node.setEmployeeOid(employeeOid);
+        node.setEmployeeOfficeOid(dto.getOid());
+        node.setIsApprover(dto.getIsApprover());
+        node.setIsReviewer(dto.getIsReviewer());
+        node.setIsOfficeAdmin(dto.getIsOfficeAdmin());
+        node.setIsAttendanceAdmin(dto.getIsAttendanceAdmin());
+        node.setIsAttendanceDataEntryOperator(dto.getIsAttendanceDataEntryOperator());
+        node.setIsAwardAdmin(dto.getIsAwardAdmin());
+        node.setUpdatedBy("System");
+        node.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+        
+        EmployeeOfficeV2 createdItem = employeeOfficeV2Service.createEmployeeOffice(node);
+        EmployeeOfficeV2DTO createdItemsDTO = employeeOfficeV2Service.convertEntityToDTO(createdItem);
+        EmployeeOfficeDTO result = employeeOfficeV2Service.convertPmisEmployeeOfficeToEmployeeOffice(createdItemsDTO);
 
-        DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
-
-        return response.getBody().getMain();
-
+        //DataServiceResponse<EmployeeOfficeDTO> response = dataServiceClient.updateEmployeeOffice(request);
+      	//return response.getBody().getMain();
+        
+        return result;
     }
 
     public List<EmployeeOfficeDTO> getEmployeeOfficeList(String employeeOid, String officeUnitPostOid){
