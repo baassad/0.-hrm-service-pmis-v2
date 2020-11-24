@@ -143,34 +143,37 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
     	for (int i = 0; i < employeeList.length(); i++) {
     		JSONObject employee = employeeList.getJSONObject(i);
     		String employeeOid = employee.getString("oid");
-			JSONArray employeeOffices = employee.getJSONArray("employeeoffice");
-			for (int j = 0; j < employeeOffices.length(); j++) {
-				JSONObject employeeOffice = employeeOffices.getJSONObject(j);
-				EmployeeOfficeV2 office = new EmployeeOfficeV2();
-		    	office.setEmployeeOid(employeeOid);
-		    	office.setEmployeeOfficeOid(employeeOffice.getString("oid"));
-		    	office.setOfficeOid(employeeOffice.getString("officeOid"));
-		    	office.setOfficeUnitOid(employeeOffice.getString("officeUnitOid"));
-		    	office.setOfficeUnitPostOid(employeeOffice.getString("officeUnitPostOid"));
-		    	office.setEmploymentTypeOid(employeeOffice.getString("employmentTypeOid"));
-			    office.setJoiningDate(getDateString(employeeOffice, "joiningDate"));
-			    office.setLastOfficeDate(getDateString(employeeOffice, "lastOfficeDate"));
-			    office.setStatus(isNull(employeeOffice, "status")?null:employeeOffice.getString("status"));
-			    office.setInchargeLabelBn(isNull(employeeOffice, "inchargeLabelBn")?null:employeeOffice.getString("inchargeLabelBn"));
-			    office.setInchargeLabelEn(isNull(employeeOffice, "inchargeLabelEn")?null:employeeOffice.getString("inchargeLabelEn"));
-			    office.setResponsibilityType(isNull(employeeOffice, "responsibilityType")?null:employeeOffice.getString("responsibilityType"));
-				office.setIsApprover(isNull(employeeOffice, "isApprover")?Constant.NO:employeeOffice.getString("isApprover"));
-				office.setIsReviewer(isNull(employeeOffice, "isReviewer")?Constant.NO:employeeOffice.getString("isReviewer"));
-				office.setIsAwardAdmin(isNull(employeeOffice, "isAwardAdmin")?Constant.NO:employeeOffice.getString("isAwardAdmin"));
-				office.setIsOfficeAdmin(isNull(employeeOffice, "isOfficeAdmin")?Constant.NO:employeeOffice.getString("isOfficeAdmin"));
-				office.setIsAttendanceAdmin(isNull(employeeOffice, "isAttendanceAdmin")?Constant.NO:employeeOffice.getString("isAttendanceAdmin"));
-				office.setIsAttendanceDataEntryOperator(isNull(employeeOffice, "isAttendanceDataEntryOperator")?Constant.NO:employeeOffice.getString("isAttendanceDataEntryOperator"));
-				office.setIsOfficeHead(isNull(employeeOffice, "isOfficeHead")?Constant.NO:employeeOffice.getString("isOfficeHead"));
-				office.setIsOfficeUnitHead(isNull(employeeOffice, "isOfficeUnitHead")?Constant.NO:employeeOffice.getString("isOfficeUnitHead"));
-				office.setDataStatus(isNull(employeeOffice, "dataStatus")?null:employeeOffice.getString("dataStatus"));
-				office.setCreatedBy("System");
-				office.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-				officeDtoList.add(office);
+    		List<EmployeeOfficeV2> existingEmployee = repository.findAllByEmployeeOid(employeeOid);
+    		if (existingEmployee.size() == 0) {
+    			JSONArray employeeOffices = employee.getJSONArray("employeeoffice");
+    			for (int j = 0; j < employeeOffices.length(); j++) {
+    				JSONObject employeeOffice = employeeOffices.getJSONObject(j);
+    				EmployeeOfficeV2 office = new EmployeeOfficeV2();
+    		    	office.setEmployeeOid(employeeOid);
+    		    	office.setEmployeeOfficeOid(employeeOffice.getString("oid"));
+    		    	office.setOfficeOid(employeeOffice.getString("officeOid"));
+    		    	office.setOfficeUnitOid(employeeOffice.getString("officeUnitOid"));
+    		    	office.setOfficeUnitPostOid(employeeOffice.getString("officeUnitPostOid"));
+    		    	office.setEmploymentTypeOid(employeeOffice.getString("employmentTypeOid"));
+    			    office.setJoiningDate(getDateString(employeeOffice, "joiningDate"));
+    			    office.setLastOfficeDate(getDateString(employeeOffice, "lastOfficeDate"));
+    			    office.setStatus(isNull(employeeOffice, "status")?null:employeeOffice.getString("status"));
+    			    office.setInchargeLabelBn(isNull(employeeOffice, "inchargeLabelBn")?null:employeeOffice.getString("inchargeLabelBn"));
+    			    office.setInchargeLabelEn(isNull(employeeOffice, "inchargeLabelEn")?null:employeeOffice.getString("inchargeLabelEn"));
+    			    office.setResponsibilityType(isNull(employeeOffice, "responsibilityType")?null:employeeOffice.getString("responsibilityType"));
+    				office.setIsApprover(isNull(employeeOffice, "isApprover")?Constant.NO:employeeOffice.getString("isApprover"));
+    				office.setIsReviewer(isNull(employeeOffice, "isReviewer")?Constant.NO:employeeOffice.getString("isReviewer"));
+    				office.setIsAwardAdmin(isNull(employeeOffice, "isAwardAdmin")?Constant.NO:employeeOffice.getString("isAwardAdmin"));
+    				office.setIsOfficeAdmin(isNull(employeeOffice, "isOfficeAdmin")?Constant.NO:employeeOffice.getString("isOfficeAdmin"));
+    				office.setIsAttendanceAdmin(isNull(employeeOffice, "isAttendanceAdmin")?Constant.NO:employeeOffice.getString("isAttendanceAdmin"));
+    				office.setIsAttendanceDataEntryOperator(isNull(employeeOffice, "isAttendanceDataEntryOperator")?Constant.NO:employeeOffice.getString("isAttendanceDataEntryOperator"));
+    				office.setIsOfficeHead(isNull(employeeOffice, "isOfficeHead")?Constant.NO:employeeOffice.getString("isOfficeHead"));
+    				office.setIsOfficeUnitHead(isNull(employeeOffice, "isOfficeUnitHead")?Constant.NO:employeeOffice.getString("isOfficeUnitHead"));
+    				office.setDataStatus(isNull(employeeOffice, "dataStatus")?null:employeeOffice.getString("dataStatus"));
+    				office.setCreatedBy("System");
+    				office.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    				officeDtoList.add(office);
+    			}
 			}
 		}
     	
