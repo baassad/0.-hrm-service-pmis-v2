@@ -181,7 +181,7 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
 
         String concatenatedString = "\"" + oids.get(0) + "\"";
         for (int i = 1; i < oids.size(); i++) {
-            concatenatedString += " | \"" + oids.get(i) + "\"";
+            concatenatedString += "|\"" + oids.get(i) + "\"";
         }
 
         String end = ")%%";
@@ -193,6 +193,8 @@ public class EmployeeOfficeService extends MasterService<EmployeeOfficeDTO,Emplo
 
         GetListByOidSetRequestBodyDTO requestBody = requestDTO.getBody();
         String concatenatedString = formatOidSetForQuery(requestBody.getOids());
+
+        System.out.println("Concatenated String " + concatenatedString);
 
         List<EmployeeOfficeDetails> employeeOfficeDetailsList = pmisRepository.getEmployeeOfficeDetails(concatenatedString);
 
