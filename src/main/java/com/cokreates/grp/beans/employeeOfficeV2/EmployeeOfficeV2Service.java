@@ -11,6 +11,7 @@ import com.cokreates.grp.util.components.UtilCharacter;
 import com.cokreates.grp.util.webclient.DataServiceRestTemplateClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, EmployeeOfficeV2> {
 
     @Autowired
@@ -136,50 +138,77 @@ public class EmployeeOfficeV2Service extends MasterService<EmployeeOfficeV2DTO, 
 	public List<EmployeeOfficeV2> getByEmployeeOidAndResponsibilityType(List<String> oidList) {
 		return repository.findAllByEmployeeOidInAndResponsibilityTypeInAndRowStatus(oidList, Arrays.asList("", null), Constant.STATUS_ACTIVE);
 	}
+
+	private void prepareEmployeeOfficeV2Data(List<EmployeeOfficeV2> result, JSONObject employee) {
+		String employeeOid = employee.getString("oid");
+		log.info(">>> Preparing data for employee :: " + employeeOid);
+		List<EmployeeOfficeV2> existingEmployee = repository.findAllByEmployeeOid(employeeOid);
+		if (existingEmployee.size() == 0) {
+			if (employee.has("employeeoffice")) {
+				JSONArray employeeOffices = employee.getJSONArray("employeeoffice");
+				if (null != employeeOffices && employeeOffices.length() > 0) {
+					log.info(employeeOffices.length() + " Employee office found.");
+					for (int j = 0; j < employeeOffices.length(); j++) {
+						JSONObject employeeOffice = employeeOffices.getJSONObject(j);
+
+						String employeeOfficeOid = (!isNull(employeeOffice, "oid"))?employeeOffice.getString("oid"):null;
+						if(null == employeeOfficeOid) continue;
+						String officeOid = !isNull(employeeOffice, "officeOid")?employeeOffice.getString("officeOid"):null;
+						String officeUnitOid = !isNull(employeeOffice, "officeUnitOid")?employeeOffice.getString("officeUnitOid"):null;
+						String officeUnitPostOid = !isNull(employeeOffice, "officeUnitPostOid")?employeeOffice.getString("officeUnitPostOid"):null;
+
+						EmployeeOfficeV2 office = new EmployeeOfficeV2();
+						office.setEmployeeOid(employeeOid);
+						office.setEmployeeOfficeOid(employeeOfficeOid);
+						office.setOfficeOid(officeOid);
+						office.setOfficeUnitOid(officeUnitOid);
+						office.setOfficeUnitPostOid(officeUnitPostOid);
+						office.setEmploymentTypeOid(employeeOffice.getString("employmentTypeOid"));
+						office.setJoiningDate(getDateString(employeeOffice, "joiningDate"));
+						office.setLastOfficeDate(getDateString(employeeOffice, "lastOfficeDate"));
+						office.setStatus(isNull(employeeOffice, "status") ? null : employeeOffice.getString("status"));
+						office.setInchargeLabelBn(isNull(employeeOffice, "inchargeLabelBn") ? null : employeeOffice.getString("inchargeLabelBn"));
+						office.setInchargeLabelEn(isNull(employeeOffice, "inchargeLabelEn") ? null : employeeOffice.getString("inchargeLabelEn"));
+						office.setResponsibilityType(isNull(employeeOffice, "responsibilityType") ? null : employeeOffice.getString("responsibilityType"));
+						office.setIsApprover(isNull(employeeOffice, "isApprover") ? Constant.NO : employeeOffice.getString("isApprover"));
+						office.setIsReviewer(isNull(employeeOffice, "isReviewer") ? Constant.NO : employeeOffice.getString("isReviewer"));
+						office.setIsAwardAdmin(isNull(employeeOffice, "isAwardAdmin") ? Constant.NO : employeeOffice.getString("isAwardAdmin"));
+						office.setIsOfficeAdmin(isNull(employeeOffice, "isOfficeAdmin") ? Constant.NO : employeeOffice.getString("isOfficeAdmin"));
+						office.setIsAttendanceAdmin(isNull(employeeOffice, "isAttendanceAdmin") ? Constant.NO : employeeOffice.getString("isAttendanceAdmin"));
+						office.setIsAttendanceDataEntryOperator(isNull(employeeOffice, "isAttendanceDataEntryOperator") ? Constant.NO : employeeOffice.getString("isAttendanceDataEntryOperator"));
+						office.setIsOfficeHead(isNull(employeeOffice, "isOfficeHead") ? Constant.NO : employeeOffice.getString("isOfficeHead"));
+						office.setIsOfficeUnitHead(isNull(employeeOffice, "isOfficeUnitHead") ? Constant.NO : employeeOffice.getString("isOfficeUnitHead"));
+						office.setDataStatus(isNull(employeeOffice, "dataStatus") ? null : employeeOffice.getString("dataStatus"));
+						office.setCreatedBy("System");
+						office.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+						result.add(office);
+						log.info("Preparing data for employee-office :: " + employeeOfficeOid);
+					}
+				} else log.info("No office found for this employee. So, skip and go to next ...");
+			} else log.info("No office found for this employee. So, skip and go to next ...");
+		} else log.info("Already imported. Go to next ...");
+	}
+
 	
     public List<EmployeeOfficeV2DTO> syncEmployeeOffice() {
-    	List<EmployeeOfficeV2> officeDtoList = new ArrayList<EmployeeOfficeV2>();
+
+		List<EmployeeOfficeV2DTO> createdItemsDTO =new ArrayList<>();
+    	List<EmployeeOfficeV2> officeDtoList = new ArrayList<>();
+
     	JSONArray employeeList = dataEmployeeService.getAllEmployeeList();
     	for (int i = 0; i < employeeList.length(); i++) {
     		JSONObject employee = employeeList.getJSONObject(i);
-    		String employeeOid = employee.getString("oid");
-    		List<EmployeeOfficeV2> existingEmployee = repository.findAllByEmployeeOid(employeeOid);
-    		if (existingEmployee.size() == 0) {
-    			JSONArray employeeOffices = employee.getJSONArray("employeeoffice");
-    			for (int j = 0; j < employeeOffices.length(); j++) {
-    				JSONObject employeeOffice = employeeOffices.getJSONObject(j);
-    				EmployeeOfficeV2 office = new EmployeeOfficeV2();
-    		    	office.setEmployeeOid(employeeOid);
-    		    	office.setEmployeeOfficeOid(employeeOffice.getString("oid"));
-    		    	office.setOfficeOid(employeeOffice.getString("officeOid"));
-    		    	office.setOfficeUnitOid(employeeOffice.getString("officeUnitOid"));
-    		    	office.setOfficeUnitPostOid(employeeOffice.getString("officeUnitPostOid"));
-    		    	office.setEmploymentTypeOid(employeeOffice.getString("employmentTypeOid"));
-    			    office.setJoiningDate(getDateString(employeeOffice, "joiningDate"));
-    			    office.setLastOfficeDate(getDateString(employeeOffice, "lastOfficeDate"));
-    			    office.setStatus(isNull(employeeOffice, "status")?null:employeeOffice.getString("status"));
-    			    office.setInchargeLabelBn(isNull(employeeOffice, "inchargeLabelBn")?null:employeeOffice.getString("inchargeLabelBn"));
-    			    office.setInchargeLabelEn(isNull(employeeOffice, "inchargeLabelEn")?null:employeeOffice.getString("inchargeLabelEn"));
-    			    office.setResponsibilityType(isNull(employeeOffice, "responsibilityType")?null:employeeOffice.getString("responsibilityType"));
-    				office.setIsApprover(isNull(employeeOffice, "isApprover")?Constant.NO:employeeOffice.getString("isApprover"));
-    				office.setIsReviewer(isNull(employeeOffice, "isReviewer")?Constant.NO:employeeOffice.getString("isReviewer"));
-    				office.setIsAwardAdmin(isNull(employeeOffice, "isAwardAdmin")?Constant.NO:employeeOffice.getString("isAwardAdmin"));
-    				office.setIsOfficeAdmin(isNull(employeeOffice, "isOfficeAdmin")?Constant.NO:employeeOffice.getString("isOfficeAdmin"));
-    				office.setIsAttendanceAdmin(isNull(employeeOffice, "isAttendanceAdmin")?Constant.NO:employeeOffice.getString("isAttendanceAdmin"));
-    				office.setIsAttendanceDataEntryOperator(isNull(employeeOffice, "isAttendanceDataEntryOperator")?Constant.NO:employeeOffice.getString("isAttendanceDataEntryOperator"));
-    				office.setIsOfficeHead(isNull(employeeOffice, "isOfficeHead")?Constant.NO:employeeOffice.getString("isOfficeHead"));
-    				office.setIsOfficeUnitHead(isNull(employeeOffice, "isOfficeUnitHead")?Constant.NO:employeeOffice.getString("isOfficeUnitHead"));
-    				office.setDataStatus(isNull(employeeOffice, "dataStatus")?null:employeeOffice.getString("dataStatus"));
-    				office.setCreatedBy("System");
-    				office.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    				officeDtoList.add(office);
-    			}
-			}
+			prepareEmployeeOfficeV2Data(officeDtoList, employee);
 		}
+
+    	if(!officeDtoList.isEmpty()){
+			List<EmployeeOfficeV2> createdItems = repository.saveAll(officeDtoList);
+			if(!createdItems.isEmpty()) {
+				createdItems.stream().forEach(createdItem -> createdItemsDTO.add(convertEntityToDTO(createdItem)));
+				log.info("Import done !!");
+			} else log.info("No new employee office has imported.");
+		} else log.info("No employee office found to be imported.");
     	
-    	List<EmployeeOfficeV2> createdItems = repository.saveAll(officeDtoList);
-    	List<EmployeeOfficeV2DTO> createdItemsDTO =new ArrayList<EmployeeOfficeV2DTO>();
-    	createdItems.stream().forEach(createdItem -> createdItemsDTO.add(convertEntityToDTO(createdItem)));
         return createdItemsDTO;
     }
     
