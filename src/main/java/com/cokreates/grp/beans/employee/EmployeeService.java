@@ -78,9 +78,6 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
     GeneralService generalService;
 
     @Autowired
-    EmployeeService employeeService;
-
-    @Autowired
     EmployeeOfficeService employeeOfficeService;
 
     @Autowired
@@ -204,14 +201,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_MAIN_EMPLOYEE_BY_OID_SET;;
 
-        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = employeeService.getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeDetailsMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
 
@@ -245,14 +242,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + endPoint;
 
-        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = employeeService.getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeDetailsMasterDTO> requestEmployee = getEmployeeDetailsMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeDetailsMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        List<EmployeeDetailsMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeeDetailsMasterDTO().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         List<EmployeeInformationDTO> employeeInformationDTOS = new ArrayList<>();
 
@@ -389,17 +386,15 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         MiscellaneousRequestProperty miscellaneousRequestProperty = new MiscellaneousRequestProperty();
         miscellaneousRequestProperty.setOfficeOidList(requestDTO.getOids());
 
-
-        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_OFFICE_BY_OFFICE;;
-
-        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeOfficeMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_EMPLOYEE_OFFICE_BY_OFFICE;
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         // ========= get name from cmn service organogram =========================
 
@@ -474,14 +469,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + gDataUrlSuffix;;
 
-        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeOfficeMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         // ========= get name from cmn service organogram =========================
 
@@ -546,14 +541,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_IMPROPER_RESPONSIBILITY_TYPE;;
 
-        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeOfficeMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         // ========= get name from cmn service organogram =========================
 
@@ -618,14 +613,14 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
 
         String gDataEndPointUrl = getGData()+Constant.GDATA_GET+Constant.VERSION_1 + Constant.GDATA_IMPROPER_RESPONSIBILITY_TYPE_BY_EMPLOYEE;;
 
-        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = employeeService.getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
+        DataServiceRequest<EmployeeOfficeMasterDTO> requestEmployee = getEmployeeOfficeMasterDTORequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, null, null, null,
                 null, null, null, EmployeeOfficeMasterDTO.class);
 
         DataServiceRequestBody dataServiceRequestBody = requestEmployee.getBody();
         dataServiceRequestBody.setMiscellaneousRequestProperty(miscellaneousRequestProperty);
 
-        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = employeeService.getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
+        List<EmployeeOfficeMasterDTO> employeeOfficeMasterDTOList = getRestTemplateEmployeedetailsMasterInfo().getListData(getNodePath(), requestEmployee, gDataEndPointUrl);
 
         // ========= get name from cmn service organogram =========================
 
