@@ -13,7 +13,6 @@ import java.sql.Date;
 @ToString
 @Data
 @Entity
-//@Table(name = "approval_History")
 public class EmployeeOffice extends BaseEntity {
 
     @Column(columnDefinition="varchar(50)")
