@@ -3,6 +3,16 @@ package com.cokreates.core;
 public class Constant {
 
 	public static final String STATUS_ACTIVE = "active";
+    public static final String STATUS_INACTIVE = "inactive";
+    public static final String STATUS_MAIN = "main";
+    public static final String STATUS_DRAFT = "draft";
+    public static final String STATUS_PENDING = "pending";
+
+    public static final String YES = "Yes";
+    public static final String NO = "No";
+    public static final String SORT_ASC = "asc";
+    public static final String SORT_DSC = "dsc";
+
     public static final String STATUS_DELETE = "delete";
     public static final String ENDPOINT_CREATE = "/create";
     public static final String ENDPOINT_CREATE_EMPLOYEE_OFFICE = "/create-employee-office";
