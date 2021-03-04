@@ -147,7 +147,7 @@ public class ApprovalHistoryService extends MasterService<ApprovalHistoryDTO, Ap
         // =================   fetch all offices of employee in request body ====================================================
 
         String gDataEndPointUrl = getGData() + Constant.GDATA_GET + Constant.VERSION_1 + Constant.GDATA_OFFICE_BY_EMPLOYEE;
-        ;
+
 
         DataServiceRequest<EmployeeOfficeDTO> requestEmployeeOffice = employeeOfficeService.getRequestBuildingComponent().getRequestForRead(getNodePath(), null, null,
                 null, node.getOid(), null, null,

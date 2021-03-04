@@ -3,37 +3,33 @@
 # =============================================================================================
 spring:
   application:
-    name: hrm-service-pmis-v2
-    gdata_end_point_url: http://43.224.110.20:4000/hrm/
+    name: #APPLICATION-NAME#
+    gdata_end_point_url: #GDATA-END-POINT#
   main:
-    allow-bean-definition-overriding: TRUE
+    allow-bean-definition-overriding: #BEAN-DEFINITION-OVERRIDING#
   mvc:
-    throw-exception-if-no-handler-found: TRUE
+    throw-exception-if-no-handler-found: #THROW-EXCEPTION-IF-NO-HANDLER#
   resources:
-    add-mappings: FALSE
-  banner.location: classpath:banner.txt
+    add-mappings: #RESOURCES-ADD-MAPPINGS#
+  banner.location: classpath:#BANNER-CLASSPATH#
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: #HIBERNATE-DDL-AUTO#
     properties:
       hibernate:
         jdbc:
           lob:
-            non_contextual_creation: true
-        default_schema: hrm
+            non_contextual_creation: #NON-CONTEXTUAL-CREATION#
+        default_schema: #DEFAULT-SCHEMA#
   datasource:
-    url: jdbc:postgresql://43.224.110.36:5432/grp
-    username: hrm
-    password: vJXK2QnBXM5DSLydEPmuaKaKW
-
+    url: #DATASOURCE-URL#
+    username: #DATASOURCE-USERNAME#
+    password: #DATASOURCE-PASSWORD#
 
   zipkin:
-    base-url: http://43.224.110.36:8080/cmn-service-zipkin/
+    base-url: #ZIPKIN-BASE-URL#
   sleuth:
     sampler:
-      probability: 1
-
-
-
+      probability: #SLEUTH-SAMPLER-PROBABILITY#
 
 
 # =============================================================================================
@@ -41,12 +37,12 @@ spring:
 # =============================================================================================
 service:
   properties:
-    short-code: hrm-service-pmis-v2
-    version: v1.0
+    short-code: #SHORT-CODE#
+    version: #VERSION#
 server:
-  port : 8080
+  port : #SERVICE-PORT#
   servlet:
-    context-path: /hrm-service-pmis-v2
+    context-path: /#APPLICATION-NAME#
 
 
 # =============================================================================================
@@ -54,23 +50,33 @@ server:
 # =============================================================================================
 eureka:
   instance:
-    prefer-ip-address: TRUE
-    ipAddress: pmis-v2-hrm.global.data.grp.gov.bd
-    appname: hrm-service-pmis-v2
-    leaseExpirationDurationInSeconds: 2
-    leaseRenewalIntervalInSeconds: 1
+    prefer-ip-address: #EUREKA-PREFER-IP#
+    ipAddress: #EUREKA-IPADDRESS#
+    appname: #EUREKA-APPNAME#
+    leaseExpirationDurationInSeconds: #EUREKA-LEASEEXPIRATION#
+    leaseRenewalIntervalInSeconds: #EUREKA-LEASERENEWALINTERVAL#
   client:
-    enabled: TRUE
-    registerWithEureka: TRUE
-    fetchRegistry: TRUE
+    enabled: #CLIENTENABLED#
+    registerWithEureka: #REGISTERWITHEUREKA#
+    fetchRegistry: #FETCHREGISTRY#
     serviceUrl:
-      defaultZone: http://43.224.110.36:8080/eureka/eureka/
+      defaultZone: #SERVICEURL-DEFAULTZONE#
 
 cmn-service-file-management:
-  url: http://data.grp.gov.bd/global/api/cmn-service-file-management/cmn-service-file-management
+  url: #CMN-SERVICE-FILE-MANAGEMENT-URL#
 cmn-service-organogram:
-  url: http://data.grp.gov.bd/global/api/cmn-service-organogram/cmn-service-organogram
+  url: #CMN-SERVICE-ORGANOGRAM-URL#
 hrm-service:
-  url: http://data.grp.gov.bd/global/api/hrm-service-pim/hrm-service-pim
+  url: #HRM-SERVICE-PIM-V1-URL#
+notification-service-ictd:
+  url: #NOTIFICATION-SERVICE-ICTD-URL#
+email-service-ictd:
+  url: #EMAIL-SERVICE-ICTD-URL#
+hrm-service-award-publication:
+  url: #HRM-SERVICE-AWARD-PUBLICATION-URL#
 cmn-service-global:
-  url: http://data.grp.gov.bd/global/api/cmn-service-global/cmn-service-global
+  url: #CMN-SERVICE-GLOBAL-URL#
+auth-user:
+  url: #AUTH-USER-URL#
+pmis-web-home:
+  url: #PMIS-WEB-HOME-URL#

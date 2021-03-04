@@ -484,6 +484,9 @@ public class DataCustomRepository {
     }
 
 	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
+
+        System.out.println("Employee oid : " + queryParams.getString("employeeOid"));
+
         String query = "SELECT  p.employee_office -> 'nodes' as office "
                         + "FROM hrm.pmis p "
                         + "WHERE "  
