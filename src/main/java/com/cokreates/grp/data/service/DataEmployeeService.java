@@ -709,16 +709,17 @@ public class DataEmployeeService {
 	public ResponseEntity<?> readOfficeByEmployee(JSONObject requestParams) {
         JSONObject requestParamsOid = new JSONObject();
         String permissionType = null;
-        if (requestParams.has("reviewerOid")){
-            System.out.println(" Reviewer Oid : " + requestParams.get("reviewerOid"));
-            requestParamsOid.put("employeeOid", requestParams.get("reviewerOid"));
-            permissionType = "reviewerOfOffice";
-        }
-        else if (requestParams.has("approverOid")){
+
+        if(requestParams.has("approverOid")){
             System.out.println(" Approver Oid : " + requestParams.get("approverOid"));
             requestParamsOid.put("employeeOid", requestParams.get("approverOid"));
             permissionType = "approverOfOffice";
+        }else if (requestParams.has("reviewerOid")){
+            System.out.println("Reviewer Oid : " + requestParams.get("reviewerOid"));
+            requestParamsOid.put("employeeOid", requestParams.get("reviewerOid"));
+            permissionType = "reviewerOfOffice";
         }
+
         else{
             return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
         }
