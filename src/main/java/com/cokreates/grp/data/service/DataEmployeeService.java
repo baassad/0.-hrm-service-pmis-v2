@@ -710,18 +710,15 @@ public class DataEmployeeService {
         JSONObject requestParamsOid = new JSONObject();
         String permissionType = null;
 
-        if(requestParams.has("approverOid")){
+        if(requestParams.has("approverOid") && !(((String)requestParams.get("approverOid")).equalsIgnoreCase("null"))){
             System.out.println(" Approver Oid : " + requestParams.get("approverOid"));
             requestParamsOid.put("employeeOid", requestParams.get("approverOid"));
             permissionType = "approverOfOffice";
-        }else if (requestParams.has("reviewerOid")){
+        }
+        if (requestParams.has("reviewerOid") && !(((String)requestParams.get("reviewerOid")).equalsIgnoreCase("null"))){
             System.out.println("Reviewer Oid : " + requestParams.get("reviewerOid"));
             requestParamsOid.put("employeeOid", requestParams.get("reviewerOid"));
             permissionType = "reviewerOfOffice";
-        }
-
-        else{
-            return new ResponseEntity<>("{\"body\":{\"data\": []}}", HttpStatus.OK);
         }
         
         JSONObject employeeDoc = null;
