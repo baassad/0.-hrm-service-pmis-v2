@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.cokreates.core.Constant;
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.ApproverReviewerRequest;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.data.util.RestUtil;
 
@@ -276,22 +277,22 @@ public class DataEmployeeController {
     }
 
     @RequestMapping(value = Api.READ_OFFICE_BY_EMPLOYEE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> readOfficeByEmployee(@RequestBody Map<String, Object> requestBody) {
-        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+    public ResponseEntity<?> readOfficeByEmployee(@RequestBody ApproverReviewerRequest requestBody) {
+        /*JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
         List<List<String>> requiredFields = new ArrayList<List<String>>();
         List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
 
         System.out.println("Running");
         requiredFields.add(Arrays.asList("reviewerOid", "String"));
         requiredFields.add(Arrays.asList("approverOid", "String"));
-        JSONObject jsonBody = null;
+        JSONObject jsonBody = null;*/
         /*try{
             jsonBody = restUtil.requestParsingFilterCheckOr(requestObject, requiredFields, nonRequiredFields);
         }catch(Exception ex){
             String errorMessage = restUtil.getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }*/
-        return dataEmployeeService.readOfficeByEmployee(requestObject);
+        return dataEmployeeService.readOfficeByEmployee(requestBody.getBody());
     }
 
     @RequestMapping(value = Api.READ_EMPLOYEE_OFFICE_BY_OFFICE, method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })

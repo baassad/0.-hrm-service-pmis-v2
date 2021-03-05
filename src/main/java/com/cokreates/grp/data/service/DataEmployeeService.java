@@ -7,6 +7,7 @@ import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.ApproverOrReviewerRequestBody;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
 import com.cokreates.grp.data.util.JsonUtil;
@@ -705,8 +706,41 @@ public class DataEmployeeService {
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
     }
+
+    public ResponseEntity<?> readOfficeByEmployee(ApproverOrReviewerRequestBody body) {
+        String employeeOid = "";
+        String permissionType = null;
+
+        if(body.getApproverOid() != null && !body.getApproverOid().equalsIgnoreCase("null")){
+            System.out.println("Approver Oid : " + body.getApproverOid());
+            employeeOid = body.getApproverOid();
+            permissionType = "approverOfOffice";
+        }
+        if (body.getReviewerOid() != null && !body.getReviewerOid().equalsIgnoreCase("null")){
+            System.out.println("Reviewer Oid : " + body.getReviewerOid());
+            employeeOid = body.getReviewerOid();
+            permissionType = "reviewerOfOffice";
+        }
+
+        JSONObject employeeDoc = null;
+        try {
+            employeeDoc = repository.readOfficeByEmployee(employeeOid, permissionType);
+        } catch (Exception ex) {
+            String errorMessage = restUtil.getErrorMessage(Api.READ_OFFICE_BY_EMPLOYEE, ex);
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("data", employeeDoc.get("office"));
+
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("body", responseBody);
+
+        return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
+
+    }
     
-	public ResponseEntity<?> readOfficeByEmployee(JSONObject requestParams) {
+	/*public ResponseEntity<?> readOfficeByEmployee(JSONObject requestParams) {
         JSONObject requestParamsOid = new JSONObject();
         String permissionType = null;
 
@@ -737,7 +771,7 @@ public class DataEmployeeService {
 
         return new ResponseEntity<>(resultObject.toString(), HttpStatus.OK);
 
-    }
+    }*/
 
 	public ResponseEntity<?> readEmployeeOfficeByOffice(JSONObject requestParams) {
         JSONArray officeOidList = requestParams.getJSONObject("miscellaneousRequestProperty").getJSONArray("officeOidList");

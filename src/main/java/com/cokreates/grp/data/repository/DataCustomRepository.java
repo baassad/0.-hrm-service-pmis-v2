@@ -483,15 +483,15 @@ public class DataCustomRepository {
         return dataUtil.listToJsonArray(result); 
     }
 
-	public JSONObject readOfficeByEmployee(JSONObject queryParams, String permissionType) {
+	public JSONObject readOfficeByEmployee(String employeeOid, String permissionType) {
 
-        System.out.println("Employee oid : " + queryParams.getString("employeeOid"));
+        System.out.println("Employee oid : " + employeeOid);
 
         String query = "SELECT  p.employee_office -> 'nodes' as office "
                         + "FROM hrm.pmis p "
                         + "WHERE "  
                         + "p.oid = '"
-                        + queryParams.getString("employeeOid")
+                        + employeeOid
                         +"'";
         System.out.println(query);
         Map <String, Object> result = jdbcTemplate.queryForMap(query);
