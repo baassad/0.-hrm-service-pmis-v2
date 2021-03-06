@@ -244,7 +244,7 @@ public class DataCustomRepository {
         return dataUtil.mapToJsonObject(result);        
     }
 
-    public JSONArray readFromApprovalHistoryByActor(JSONObject queryParameters, String actor, String checkingStatus,
+    public JSONArray readFromApprovalHistoryByActor(String approverString, String actor, String checkingStatus,
             String employeeOids) throws Exception {
 
         String query = "SELECT \n"
@@ -262,7 +262,7 @@ public class DataCustomRepository {
                     + " FROM \n"
                     + " hrm.pmis_approval_history p \n"
                     + " WHERE \n"
-                    + " (p.comment -> '" + actor + "' @> '"+ queryParameters.toString() +"'::jsonb \n";
+                    + " (p.comment -> '" + actor + "' @> '"+ approverString +"'::jsonb \n";
 
         if (!employeeOids.equals("()") && !checkingStatus.equals("NOT ANY")){
             query += " or (p.employee_oid in \n" 

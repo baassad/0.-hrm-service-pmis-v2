@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.cokreates.core.Constant;
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.ActorRequest;
 import com.cokreates.grp.data.helper.ApproverReviewerRequest;
 import com.cokreates.grp.data.service.DataEmployeeService;
 import com.cokreates.grp.data.util.RestUtil;
@@ -395,8 +396,8 @@ public class DataEmployeeController {
                     method = RequestMethod.POST, 
                     consumes = {MediaType.APPLICATION_JSON_VALUE }, 
                     produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> readFromApprovalHistoryByActor(@RequestBody Map<String, Object> requestBody) {
-        JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
+    public ResponseEntity<?> readFromApprovalHistoryByActor(@RequestBody ActorRequest request) {
+        /*JSONObject requestObject = new JSONObject(requestBody).getJSONObject("body");
         List<List<String>> requiredFields = new ArrayList<List<String>>();
         List<List<String>> nonRequiredFields = new ArrayList<List<String>>();
         requiredFields.add(Arrays.asList("reviewerOid", "String"));
@@ -409,8 +410,8 @@ public class DataEmployeeController {
         }catch(Exception ex){
             String errorMessage = restUtil.getErrorMessage(Api.READ_FROM_APPROVAL_HISTORY_BY_ACTOR, ex);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByActor(jsonBody);
+        }*/
+        ResponseEntity<?> response = dataEmployeeService.readFromApprovalHistoryByActor(request.getBody());
         return response;
     }
 

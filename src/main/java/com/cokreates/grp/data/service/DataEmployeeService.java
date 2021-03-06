@@ -7,6 +7,7 @@ import com.cokreates.grp.beans.pim.employeeMasterInfo.EmployeeMasterInfo;
 import com.cokreates.grp.beans.pim.employeeOfficePim.EmployeeOffice;
 import com.cokreates.grp.beans.pim.employeePersonalInfo.EmployeePersonalInfo;
 import com.cokreates.grp.data.constants.Api;
+import com.cokreates.grp.data.helper.ActorRequestBodyDTO;
 import com.cokreates.grp.data.helper.ApproverOrReviewerRequestBody;
 import com.cokreates.grp.data.helper.DataHelper;
 import com.cokreates.grp.data.repository.DataCustomRepository;
@@ -483,41 +484,45 @@ public class DataEmployeeService {
         return new ResponseEntity<> (resultObject.toString(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> readFromApprovalHistoryByActor(JSONObject requestParameters){
+    public ResponseEntity<?> readFromApprovalHistoryByActor(ActorRequestBodyDTO request){
         String actor = null;
         String checkingStatus = null;
+        String searchString = "";
 
-        if (requestParameters.has("approverOid")){
+        if (request.getApproverOid() != null && !request.getApproverOid().equalsIgnoreCase("null")){
             actor = "approver";
             checkingStatus = "REVIEWED";
+            searchString += "{\"approverOid\":\""+ request.getApproverOid() + "\"}";
         }
-        else if (requestParameters.has("reviewerOid")){
+        else if (request.getReviewerOid() != null && !request.getReviewerOid().equalsIgnoreCase("null")){
             actor = "reviewer";
             checkingStatus = "REQUESTED";
+            searchString += "{\"reviewerOid\":\""+ request.getReviewerOid() + "\"}";
         }
         else{
             actor = "requester";
             checkingStatus = "NOT ANY";
+            searchString += "{\"requesterOid\":\""+ request.getRequesterOid() + "\"}";
         }
 
         JSONArray response = null;
-        JSONArray employeeOidList = requestParameters.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");
-        List employeeOidArrayList = new ArrayList<>();
         String employeeOids = null;
+        /*JSONArray employeeOidList = requestParameters.getJSONObject("miscellaneousRequestProperty").getJSONArray("employeeOidList");*/
+        List employeeOidArrayList = new ArrayList<>();
 
-        for(int i = 0 ; i < employeeOidList.length() ; i++){
-            String employeeOid = "'" + employeeOidList.getString(i) + "'";
+        for(int i = 0 ; i < request.getMiscellaneousRequestProperty().getEmployeeOidList().size() ; i++){
+            String employeeOid = "'" + request.getMiscellaneousRequestProperty().getEmployeeOidList().get(i) + "'";
             employeeOidArrayList.add(employeeOid);
         }
 
         employeeOids = String.join(",", employeeOidArrayList);
         employeeOids = "(" + employeeOids + ")";
 
-        requestParameters.remove("miscellaneousRequestProperty");
+        //requestParameters.remove("miscellaneousRequestProperty");
 
 
         try {
-            response = repository.readFromApprovalHistoryByActor(requestParameters, actor, checkingStatus, employeeOids);
+            response = repository.readFromApprovalHistoryByActor(searchString, actor, checkingStatus, employeeOids);
         } catch (Exception ex) {
             String errorMessage;
             errorMessage = ex.toString();
