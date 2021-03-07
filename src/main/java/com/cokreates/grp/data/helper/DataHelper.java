@@ -105,6 +105,8 @@ public class DataHelper {
 
     public String approvalHistoryInsert(JSONObject inputNode, JSONObject mainNode, 
                             JSONArray nodePath, String employeeOid, String changeType){
+        schemaValues = JsonSchemas.getInstance();
+
         JSONObject commentNodeSkeleton = schemaValues.getApprovalHistoryCommentJsonSkeletonV1();
         JSONObject requesterNode = new JSONObject();
         requesterNode.put("dateAndTime", Instant.now().getEpochSecond());
@@ -208,6 +210,8 @@ public class DataHelper {
 
     public String approvalHistoryInsertWithComment(JSONObject inputNode, JSONObject mainNode, JSONArray nodePath,
                                     String employeeOid, JSONObject requesterComment, String changeType){
+
+        schemaValues = JsonSchemas.getInstance();
 
         JSONObject commentNodeSkeleton = new JSONObject(schemaValues.getApprovalHistoryCommentJsonSkeletonV1().toString());
         JSONObject changeNodeSkeleton = new JSONObject(schemaValues.getApprovalHistoryChangeJsonSkeletonV1().toString());
