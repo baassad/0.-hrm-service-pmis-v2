@@ -773,26 +773,34 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         dto.setOids(Arrays.asList(employeeOid));
         List<EmployeeGrade> employeeGradeList = pmisRepository.findGradeByEmployeeOid(employeeOid);
 
+        EmployeeInformationDTO empDTO = new EmployeeInformationDTO();
         profiles = getEmployeeInformationDTO(dto);
-        if(profiles!=null && profiles.isEmpty()==false) {
+        if(profiles != null && profiles.isEmpty() == false) {
             setMissingData(profiles);
-            EmployeeInformationDTO empDTO = new EmployeeInformationDTO();
+
             for(EmployeeInformationDTO profile : profiles){
+
                 if (profile.getResponsibilityType() != null && profile.getResponsibilityType().equalsIgnoreCase("Main")){
+                    System.out.println(profile.getOfficeOid());
+                    System.out.println(profile.getOfficeUnitNameBn());
                     empDTO = profile;
+                    try {
+                        setProfilePhotoInfos(empDTO);
+                        profile.setPhoto(empDTO.getPhoto());
+                        profile.setPhotoFileDTOs(empDTO.getPhotoFileDTOs());
+                    }catch (Exception e){
+                        System.out.println("Exception Occurred");
+                    }
                     break;
+
                 }
             }
-            setProfilePhotoInfos(empDTO);
-            for(EmployeeInformationDTO p : profiles) {
-                p.setPhoto(empDTO.getPhoto());
-                p.setPhotoFileDTOs(empDTO.getPhotoFileDTOs());
-            }
+
 
         }
 
         EmployeeInformationIncludedGradeDTO employeeInformationIncludedGradeDTO = new EmployeeInformationIncludedGradeDTO();
-        BeanUtils.copyProperties(profiles.get(0),employeeInformationIncludedGradeDTO);
+        BeanUtils.copyProperties(empDTO,employeeInformationIncludedGradeDTO);
         List<Grade> grades = gradeRepository.findByNameBnAndIsDeleted(employeeGradeList.get(0).getGrade(),"No");
         GradeDTO gradeDTO = new GradeDTO();
         if(grades.size() > 0){
