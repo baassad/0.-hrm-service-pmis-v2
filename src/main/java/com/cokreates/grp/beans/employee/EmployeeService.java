@@ -776,7 +776,8 @@ public class EmployeeService extends MasterService<EmployeeDTO, Employee> {
         profiles = getEmployeeInformationDTO(dto);
         if(profiles!=null && profiles.isEmpty()==false) {
             setMissingData(profiles);
-            EmployeeInformationDTO empDTO = profiles.get(0);
+
+            EmployeeInformationDTO empDTO = profiles.stream().filter(p -> null != p.getResponsibilityType() && p.getResponsibilityType().equals("Main")).findAny().get();
             setProfilePhotoInfos(empDTO);
             for(EmployeeInformationDTO p : profiles) {
                 p.setPhoto(empDTO.getPhoto());
