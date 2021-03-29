@@ -39,6 +39,7 @@ public class ClassConversionComponent {
             //employeeInformationDTO.setProfileImageOid(employeeDetailsDTO.getGeneral().getPhoto());
             employeeInformationDTO.setIsAwardAdmin(employeeOfficeDTO.getIsAwardAdmin());
             employeeInformationDTO.setIsOfficeAdmin(employeeOfficeDTO.getIsOfficeAdmin());
+            employeeInformationDTO.setResponsibilityType(employeeOfficeDTO.getResponsibilityType());
 
             employeeInformationDTOS.add(employeeInformationDTO);
         }
